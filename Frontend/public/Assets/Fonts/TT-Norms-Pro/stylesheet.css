@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'TT Norms Pro';
+    src: url('TTNormsPro-Regular.woff2') format('woff2'),
+        url('TTNormsPro-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TT Norms Pro';
+    src: url('TTNormsPro-Medium.woff2') format('woff2'),
+        url('TTNormsPro-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TT Norms Pro';
+    src: url('TTNormsPro-Bold.woff2') format('woff2'),
+        url('TTNormsPro-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TT Norms Pro';
+    src: url('TTNormsPro-Light.woff2') format('woff2'),
+        url('TTNormsPro-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TT Norms Pro';
+    src: url('TTNormsPro-Thin.woff2') format('woff2'),
+        url('TTNormsPro-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TT Norms Pro';
+    src: url('TTNormsPro-Black.woff2') format('woff2'),
+        url('TTNormsPro-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+

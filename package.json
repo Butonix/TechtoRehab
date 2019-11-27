@@ -1,0 +1,33 @@
+{
+  "name": "write-grand-cms",
+  "version": "0.1.1",
+  "description": "Read and Write With Confidence",
+  "main": "./backend/dist/app.js",
+  "scripts": {
+    "test": "echo Testing will begin shortly...",
+    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run dev\"",
+    "start": "concurrently \"cd frontend && npm start\" \"cd backend && npm run dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-write-grand-team/Write-Grand-CMS.git"
+  },
+  "keywords": [
+    "write-grand",
+    "write",
+    "grand",
+    "cms",
+    "write",
+    "with",
+    "confidence",
+    "reading",
+    "reader",
+    "writing"
+  ],
+  "author": "Afzaal Afridi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/the-write-grand-team/Write-Grand-CMS/issues"
+  },
+  "homepage": "https://github.com/the-write-grand-team/Write-Grand-CMS#readme"
+}
