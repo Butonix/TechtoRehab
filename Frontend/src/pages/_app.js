@@ -24,7 +24,7 @@ const AppWrapper = styled.div`
 `
 
 const store = createStore(globalStore);
-class WriteGrand extends App {
+class TechToRehab extends App {
 
   handleScroll = (defaultTop) => {
     /**
@@ -64,4 +64,4 @@ class WriteGrand extends App {
   }
 }
 
-export default withApollo(WriteGrand)
+export default withApollo(TechToRehab)
