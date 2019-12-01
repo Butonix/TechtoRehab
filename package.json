@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo Testing will begin shortly...",
     "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run dev\"",
-    "start": "concurrently \"cd frontend && npm start\" \"cd backend && npm run dev\""
+    "build": "cd frontend && npm run build",
+    "start": "concurrently \"cd frontend && npm start\" \"cd backend && npm start\""
+
   },
   "repository": {
     "type": "git",
@@ -25,7 +27,7 @@
     "writing"
   ],
   "author": "Afzaal Afridi",
-  "license": "MIT",
+  "license": "GNU-GPL v3",
   "bugs": {
     "url": "https://github.com/the-write-grand-team/Write-Grand-CMS/issues"
   },

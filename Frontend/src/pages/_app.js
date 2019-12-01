@@ -18,38 +18,9 @@ const dark = {
   fg: 'white'
 }
 
-const AppWrapper = styled.div`
-
-
-`
 
 const store = createStore(globalStore);
 class TechToRehab extends App {
-
-  handleScroll = (defaultTop) => {
-    /**
-     
-    const el = document.querySelector('.Feedbar');
-    var Top = el.offsetTop;
-    if (Top > defaultTop + 30) {
-      el.style.boxShadow = '0px 0px 3px 3px #cecece';
-      el.style.margin = '5px 0%';
-      el.style.background = 'white';
-    }
-
-    else {
-      el.style.boxShadow = 'none';
-      el.style.margin = '5px 5%';
-      el.style.background = 'none';
-    }
-    */
-  }
-  componentDidMount() {
-    /** 
-    var defaultTop = document.querySelector('.Feedbar').offsetTop;
-    document.addEventListener('scroll', () => this.handleScroll(defaultTop));
-    */
-  }
   render() {
     const { Component, pageProps, apolloClient } = this.props
     return (

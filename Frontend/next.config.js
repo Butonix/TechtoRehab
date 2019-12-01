@@ -7,4 +7,18 @@ const path = require('path');
 const withImages = require('next-images');
 const withFonts = require('next-fonts');
 
-module.exports = withPlugins([withCSS,withFonts]);
+module.exports = withPlugins([withCSS,withFonts,withOffline({
+    workboxOpts: {
+        swDest: 'static/service-worker.js',
+      },
+      experimental: {
+        async rewrites() {
+          return [
+            {
+              source: '/service-worker.js',
+              destination: '/_next/static/service-worker.js',
+            },
+          ]
+        },
+      },
+})]);
