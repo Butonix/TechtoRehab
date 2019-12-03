@@ -40,12 +40,13 @@ display: flex;
 
     @media ${Devices.iPad}
     {
-        width: 300px;
+        max-width: 600px;
+        width: 80%;
     }
 
     @media ${Devices.iPadPro}
     {
-        width: 400px;
+        width: 78%;
     }
   .title 
   {
@@ -67,7 +68,7 @@ display: flex;
 
     @media ${Devices.iPad}
     {
-        font-size: 16px;
+        font-size: 1.7vw;
         width: 100%;
     }
 
@@ -86,6 +87,15 @@ display: flex;
         font-size: 14px;
         margin: 5px 0px;
     }
+
+    @media ${Devices.iPad}
+    {
+        font-size: 1.6vw;
+        width: 90%;
+        margin: 5px 0px;
+
+    }
+
   }
 
   .excerpt 
@@ -102,7 +112,8 @@ display: flex;
 
     @media ${Devices.iPad}
     {
-        width: 100%;
+        font-size: 1.6vw;
+        width: 90%;
     }
   }
 
@@ -119,12 +130,16 @@ display: flex;
         font-size: 14px;
         margin: 5px 0px;
     }
+
+    @media ${Devices.iPad}
+    {
+        font-size: 1.6vw;
+        width: 90%;
+    }
   }
 }
 `
-var words = "You Don’t Need More Motivation — You Need A System";
-var cut = words.trim().split(" ");
-console.log(cut);
+
 
 
 

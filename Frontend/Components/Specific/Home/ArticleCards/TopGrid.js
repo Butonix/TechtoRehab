@@ -74,6 +74,16 @@ padding: 30px;
         line-height: 20px;
         }
 
+        @media ${Devices.iPad}
+        {
+        font-size: 26px;
+        }
+
+        @media ${Devices.iPadPro}
+        {
+        font-size: 30px;
+        }
+
         ::first-line
         {
             background: #21FBA2;
@@ -141,14 +151,14 @@ const topGrid = () => {
         <div className="details">
 
             <p className="title">
-            You Don’t Need More Motivation — You Need a System
+            Listening to DOM changes by Javascript Web API, Mutation Observer (hint: It’s the best practice)
 
             </p>
             <div className="category">
                 Javascript
             </div>
             <div className="excerpt">
-                This is a general excerpt that i think needs your attention so just be careful about this
+            Listening to DOM changes by Javascript Web API, Mutation Observer (hint: It’s the best practice)
             </div>
             <div className="meta">
                 <div className="author">Afzaal Afridi</div>
