@@ -3,7 +3,7 @@ import { Devices } from '../../Global/responsive';
 import { useState,useEffect } from 'react';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import TopGrid from './ArticleCards/TopGrid';
-
+import CenterGrid from './ArticleCards/CenterGrid';
 
 const Container = styled.div`
 display: flex;
@@ -123,8 +123,34 @@ src: local('AvenirNextCyr-Heavy'), url('/Assets/Fonts/Avenir-Next/AvenirNextCyr-
 const TopGridContainer = styled.div`
 display: flex;
 width: 100%;
-justify-content: center;
-margin: 10px 0px;
+margin: 5px 0px;
+
+:first-child
+{
+    margin-left: 10px;
+}
+@media ${Devices.Mobile}
+{
+    display: none;
+}
+
+@media ${Devices.smallMobile}
+{
+    display: none;
+}
+
+@media ${Devices.iPad}
+{
+    justify-content: flex-start;
+    overflow-x: scroll;
+}
+
+@media ${Devices.iPadPro}
+{
+    justify-content: flex-start;
+    overflow-x: scroll;
+
+}
 `
 
 function useWindowSize() {
@@ -168,12 +194,12 @@ margin: 20px auto;
 
 @media ${Devices.iPad}
 {
-    padding: 0px 30px;
+    padding: 0px 0px;
 }
 
 @media ${Devices.iPadPro}
 {
-    padding: 0px 30px;
+    padding: 0px 0px;
 }
 
 .sidebar 
@@ -227,7 +253,9 @@ const Home = () => {
             <TopGrid url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdh-aRTGpAQe5apq1dE9zfOXwYaLqMSwfrozvhwTZvactr0UGL_g&s' />
             <TopGrid url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ2Ywvqsv_wTTq38TeohleRM4hJqRpEroldn2aJJRREIZHoKxX&s' />
 
-            </TopGridContainer>            
+            </TopGridContainer>     
+
+            <CenterGrid />       
             <HomeGrid>
                 <div className="main">
                     
