@@ -3,7 +3,6 @@ import { Devices } from '../../Global/responsive';
 import { useState,useEffect } from 'react';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import TopGrid from './ArticleCards/TopGrid';
-import HomeGridArticle from './ArticleCards/HomeGridArticle';
 
 
 const Container = styled.div`
@@ -11,9 +10,10 @@ display: flex;
 flex-flow:column;
 max-width: 1366px;
 margin: 10px auto;
-border: 1px solid #e0e0e0;
 padding: 5px 0px;
-
+/** 
+border: 1px solid #E0E0E0;
+*/
 @font-face {
 font-family: 'AvenirNext';
 font-style: normal;
@@ -120,7 +120,12 @@ src: local('AvenirNextCyr-Heavy'), url('/Assets/Fonts/Avenir-Next/AvenirNextCyr-
 `
 
 
-
+const TopGridContainer = styled.div`
+display: flex;
+width: 100%;
+justify-content: center;
+margin: 10px 0px;
+`
 
 function useWindowSize() {
   const isClient = typeof window === 'object';
@@ -217,20 +222,15 @@ const Home = () => {
     
     return (
         <Container onClick={() => setSidebar(false)}>
-            
-            <TopGrid />
-            <CategoryWrapper>
-            <div className="icon" >
-            <box-icon name='chevron-left'></box-icon>
-            </div>
-            <div className="icon">
-            <box-icon name='chevron-right'></box-icon>
-            </div>
-        
-            </CategoryWrapper>
+            <TopGridContainer>
+            <TopGrid url='https://miro.medium.com/max/576/1*9yfan4glbJWu2ObxApdhaA.png' />
+            <TopGrid url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdh-aRTGpAQe5apq1dE9zfOXwYaLqMSwfrozvhwTZvactr0UGL_g&s' />
+            <TopGrid url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ2Ywvqsv_wTTq38TeohleRM4hJqRpEroldn2aJJRREIZHoKxX&s' />
+
+            </TopGridContainer>            
             <HomeGrid>
                 <div className="main">
-                    <HomeGridArticle />
+                    
                 </div>
                 <div className="sidebar">
                 sidebar
