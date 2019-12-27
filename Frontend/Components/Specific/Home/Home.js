@@ -176,6 +176,7 @@ margin: 20px auto;
  max-width: 400px;
  width: 100%;
  margin: 0px 7px;
+ 
 
  @media ${Devices.iPad}
  {
@@ -218,6 +219,15 @@ const Home = () => {
         <Container onClick={() => setSidebar(false)}>
             
             <TopGrid />
+            <CategoryWrapper>
+            <div className="icon" >
+            <box-icon name='chevron-left'></box-icon>
+            </div>
+            <div className="icon">
+            <box-icon name='chevron-right'></box-icon>
+            </div>
+        
+            </CategoryWrapper>
             <HomeGrid>
                 <div className="main">
                     <HomeGridArticle />
