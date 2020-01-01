@@ -34,10 +34,10 @@ width: 400px;
         {
             line-height: 1.4;
             margin: 0px 10px;
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             text-transform: capitalize;
-            font-family: 'Source Serif Pro',serif;
+            font-family: 'Roboto',sans-serif;
 
         }
 
@@ -45,7 +45,7 @@ width: 400px;
         {
             font-size: 14px;
             text-transform: capitalize;
-            margin: 8px 11px;
+            margin: 13px 11px;
             font-weight: 600;
         }
     }
@@ -60,7 +60,8 @@ const TopGrid = (props) => {
         <div className="header"  style={{backgroundImage: `url(${props.url})`}}/>
         <div className="body">
             <div className="content">
-                This is absolutely marvelous title for just a small content card Or so i think it
+            How To Optimize React App For Production And Deploy It To Heroku
+
             </div>
             <div className="author">   
                 Afzaal Afridi

@@ -255,19 +255,20 @@ margin: 20px auto;
 
 const CenterGridHolder = styled.div`
 display: flex;
+margin-top: 15px;
 .bigArticleArea
 {
  display: flex;
  flex-flow: column;
- width: 50%;
+ width: 35%;
  align-items: center;
  .cover 
     {
         background-size: cover;
         background-position: center;
-        height: 300px;
+        height: 220px;
         max-width: 100%;
-        width: 700px;
+        width: 600px;
         background-image: url('https://about.easil.com/wp-content/uploads/fredericka_the_great_twitter_image.jpg');
         border-radius: 2px;
     }
@@ -276,7 +277,7 @@ display: flex;
     {
         display: flex;
         flex-flow: column;
-        width: 550px;
+        width: 440px;
         margin: 15px 0px;
         margin-left: auto;
         color: #333333;
@@ -285,15 +286,15 @@ display: flex;
 
         .title 
         {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             text-transform: capitalize;
-            font-family: 'Source Serif Pro',serif;
+            font-family: 'Roboto',sans-serif;
         }
 
         .excerpt 
         {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 400;
             margin: 10px 0px;
         }
@@ -304,11 +305,136 @@ display: flex;
 {
   display: flex;
   flex-flow: column;
-  width: 50%;
-  border: 1px solid #3c3c3c;
+  width: 40%;
+  margin-left: 15px;
     .smallArticle
     {
+        display: flex;
+        margin-bottom: 10px;
+        .cover
+        {
+            background-size: cover;
+            background-position: center;
+            width: 100px;
+            height: 100px;
+            border-radius: 2px;
+            background-image: url('https://i.udemycdn.com/course/750x422/1427466_f4f8.jpg');
+        }
 
+        .body 
+        {
+            display: flex;
+            flex-flow: column;
+            color: #333333;
+            font-family: 'Source Sans Pro',sans-serif;
+            line-height: 1.5;
+            margin-left: 10px;
+            width: 390px;
+            .title 
+            {
+                font-family: 'Roboto',sans-serif;
+                font-size: 16px;
+                font-weight: 700;
+                text-transform: capitalize;
+            }
+
+            .excerpt
+            {
+                font-size: 15px;
+                margin: 10px 0px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
+            .meta
+            {
+                display: flex;
+                font-size: 14px;  
+
+                .date
+                {
+
+                }
+
+                .bookmark 
+                {
+                    margin-left: auto;
+                    box-icon
+                    {
+                        fill: #757575;
+                        height: 24px;
+                    } 
+                }
+            }
+        }
+    }
+}
+
+.lastSection
+{
+    width: 25%;
+    display: flex;
+    flex-flow: column;
+    .mediumArticle
+    {
+        display: flex;
+        flex-flow: column;
+        .cover 
+        {
+            width: 340px;
+            height: 170px;
+            background-size: cover;
+            background-position: center;
+            background-image: url('https://hackr.io/blog/why-should-you-learn-angular-in-2019/thumbnail/large');
+            border-radius: 2px;
+        }
+
+        .body 
+        {
+            display: flex;
+            flex-flow: column;
+            font-family: 'Source Sans Pro',sans-serif;
+            color: #333333;
+            line-height: 1.5;
+            .title 
+            {
+                font-size: 20px;
+                font-weight: 700;
+                font-family: 'Roboto',sans-serif;
+                margin: 15px 0px;
+                text-transform: capitalize;
+            }
+
+            .excerpt 
+            {
+                font-size: 15px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            .meta 
+            {
+                display: flex;
+                margin: 10px 0px;
+                font-size: 14px;
+                .date 
+                {
+        
+                }
+
+                .bookmark
+                {
+                    margin-left: auto;
+                    box-icon 
+                    {
+                        fill: #757575;
+                        height: 24px;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -394,7 +520,7 @@ const Home = () => {
                     <div className="cover" />
                     <div className="body">
                         <div className="title">
-                            This is a handsome title for you to check for very yourself if you must
+                        How To Optimize React App For Production And Deploy It To Heroku
                         </div>
                         <div className="excerpt">
                             So this is just a random excerpt that i think might or would fit in just a single line
@@ -403,7 +529,87 @@ const Home = () => {
                 </div>
 
                 <div className="articleSidebar">
-                    Sidebar
+                    <div className="smallArticle">
+                        <div className="cover" />
+                        <div className="body">
+                            <div className="title">
+                            How To Optimize React App For Production And Deploy It To Heroku
+                            </div>
+                            <div className="excerpt">
+                            So this is just a random excerpt that i think might or would fit in just a single line
+                            </div>
+                            <div className="meta">
+                            <div className="date">
+                                4th Feburary, 20
+                            </div>
+                            <div className="bookmark">
+                            <box-icon type="solid" name='bookmark'></box-icon>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div className="smallArticle">
+                        <div className="cover" />
+                        <div className="body">
+                            <div className="title">
+                            How To Optimize React App For Production And Deploy It To Heroku
+                            </div>
+                            <div className="excerpt">
+                            So this is just a random excerpt that i think might or would fit in just a single line
+                        </div>
+                        <div className="meta">
+                            <div className="date">
+                                4th Feburary, 20
+                            </div>
+                            <div className="bookmark">
+                            <box-icon name='bookmark'></box-icon>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+
+                    <div className="smallArticle">
+                        <div className="cover" />
+                        <div className="body">
+                            <div className="title">
+                            How To Optimize React App For Production And Deploy It To Heroku
+                            </div>
+                            <div className="excerpt">
+                            So this is just a random excerpt that i think might or would fit in just a single line
+                        </div>
+                        <div className="meta">
+                            <div className="date">
+                                4th Feburary, 20
+                            </div>
+                            <div className="bookmark">
+                            <box-icon name='bookmark'></box-icon>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="lastSection">
+                    <div className="mediumArticle">
+                        <div className="cover" />
+                        <div className="body">
+                        <div className="title">
+                        How To Optimize React App For Production And Deploy It To Heroku
+                        </div>
+                        <div className="excerpt">
+                            This is yet another excerpt that i think you should really consider reading
+                        </div>
+                        <div className="meta"> 
+                        <div className="date">  
+                        25 Feburary, 2020
+                        </div>
+                        <div className="bookmark">
+                        <box-icon name='bookmark'></box-icon>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </CenterGridHolder>
             { 
