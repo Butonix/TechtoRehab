@@ -3,7 +3,23 @@ import { Devices } from '../../Global/responsive';
 import { useState,useEffect } from 'react';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import TopGrid from './ArticleCards/TopGrid';
-import CenterGrid from './ArticleCards/CenterGrid';
+
+/**
+ * 
+ * 
+ *   CSS START
+ * 
+ * 
+ */
+
+
+ /** 
+ *   CONTAINER
+ * 
+ * 
+ * 
+ * 
+*/
 
 const Container = styled.div`
 display: flex;
@@ -118,13 +134,18 @@ src: local('AvenirNextCyr-Heavy'), url('/Assets/Fonts/Avenir-Next/AvenirNextCyr-
 }
 
 `
-
+/** 
+ *   TOP GRID
+ * 
+ * 
+ * 
+ * 
+*/
 
 const TopGridContainer = styled.div`
 display: flex;
 width: 100%;
 margin: 5px 0px;
-
 :first-child
 {
     margin-left: 10px;
@@ -152,34 +173,35 @@ margin: 5px 0px;
 
 }
 `
+/** 
+ *   CHOOSE A SIDE
+ * 
+ * 
+ * 
+ * 
+*/
 
-function useWindowSize() {
-  const isClient = typeof window === 'object';
 
-  function getSize() {
-    return {
-      width: isClient ? window.innerWidth : undefined,
-      height: isClient ? window.innerHeight : undefined
-    };
-  }
+const Side = styled.div`
+display: flex;
+flex-flow: row;
+.side
+{
+    display: inline-block;
+    width: 100%;
 
-  const [windowSize, setWindowSize] = useState(getSize);
-
-  useEffect(() => {
-    if (!isClient) {
-      return false;
-    }
-    
-    function handleResize() {
-      setWindowSize(getSize());
-    }
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
-
-  return windowSize;
 }
+
+`
+
+
+/** 
+ *   HOME GRID
+ * 
+ * 
+ * 
+ * 
+*/
 
 const HomeGrid = styled.div`
 display: flex;
@@ -231,6 +253,97 @@ margin: 20px auto;
 
 `
 
+const CenterGridHolder = styled.div`
+display: flex;
+.bigArticleArea
+{
+ display: flex;
+ flex-flow: column;
+ width: 50%;
+ align-items: center;
+ border: 1px solid red;
+ .cover 
+    {
+        background-size: cover;
+        background-position: center;
+        height: 400px;
+        max-width: 100%;
+        width: 700px;
+        background-image: url('https://image.freepik.com/free-vector/background-with-different-abstract-shapes_1128-337.jpg');
+        border-radius: 5px;
+    }
+
+ .body
+    {
+
+    }
+}
+
+.articleSidebar
+{
+  display: flex;
+  flex-flow: column;
+  width: 50%;
+  border: 1px solid #3c3c3c;
+    .smallArticle
+    {
+
+    }
+}
+
+
+`
+
+
+
+/**
+ * 
+ * 
+ *   CSS END
+ * 
+ * 
+ */
+
+
+
+/**
+ * 
+ * 
+ *  JAVASCRIPT START
+ * 
+ * 
+ */
+
+function useWindowSize() {
+  const isClient = typeof window === 'object';
+
+  function getSize() {
+    return {
+      width: isClient ? window.innerWidth : undefined,
+      height: isClient ? window.innerHeight : undefined
+    };
+  }
+
+  const [windowSize, setWindowSize] = useState(getSize);
+
+  useEffect(() => {
+    if (!isClient) {
+      return false;
+    }
+    
+    function handleResize() {
+      setWindowSize(getSize());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Empty array ensures that effect is only run on mount and unmount
+
+  return windowSize;
+}
+
+
+
 
 
 const Home = () => {
@@ -249,13 +362,33 @@ const Home = () => {
     return (
         <Container onClick={() => setSidebar(false)}>
             <TopGridContainer>
-            <TopGrid url='https://miro.medium.com/max/576/1*9yfan4glbJWu2ObxApdhaA.png' />
-            <TopGrid url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdh-aRTGpAQe5apq1dE9zfOXwYaLqMSwfrozvhwTZvactr0UGL_g&s' />
-            <TopGrid url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ2Ywvqsv_wTTq38TeohleRM4hJqRpEroldn2aJJRREIZHoKxX&s' />
+            <TopGrid url='https://img.freepik.com/free-vector/gradient-liquid-shapes-effect-background_23-2148275809.jpg?size=626&ext=jpg' />
+            <TopGrid url='https://static.vecteezy.com/system/resources/previews/000/664/462/non_2x/abstract-shapes-background-vector.jpg' />
+            <TopGrid url='https://cdrai.com/wp-content/uploads/edd/2018/03/Vector-cool-geometric-backgrounds.jpg' />
 
             </TopGridContainer>     
+            
+            <CenterGridHolder>
+                <div className="bigArticleArea">
+                    <div className="cover" />
+                </div>
 
-            <CenterGrid />       
+                <div className="articleSidebar">
+                    Sidebar
+                </div>
+            </CenterGridHolder>
+            { 
+                /** 
+            <Side>
+                <div className="side" style={{background: 'red'}}>
+                Side 1
+                </div>
+                <div className="side" style={{background: 'blue'}}>
+                    Side 2
+                </div>
+            </Side>
+            */
+        }
             <HomeGrid>
                 <div className="main">
                     

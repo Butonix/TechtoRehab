@@ -14,8 +14,8 @@ width: 400px;
     .header
     {
         background-size: cover;
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
         background-position: center;
         border-radius: 5px;
     }
@@ -36,15 +36,15 @@ width: 400px;
             font-size: 14px;
             font-weight: 500;
             text-transform: capitalize;
-            font-family: 'Merriweather',sans-serif;
+            font-family: 'Poppins',sans-serif;
 
         }
 
         .author 
         {
-            font-size: 13px;
+            font-size: 14px;
             text-transform: capitalize;
-            margin: 3px 11px;
+            margin: 4px 11px;
             font-weight:600;
         }
     }
@@ -59,7 +59,7 @@ const TopGrid = (props) => {
         <div className="header"  style={{backgroundImage: `url(${props.url})`}}/>
         <div className="body">
             <div className="content">
-                This is absolutely marvelous title for just a small content card
+                This is absolutely marvelous title for just a small content card Or so i think it
             </div>
             <div className="author">   
                 Afzaal Afridi
