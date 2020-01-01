@@ -6,8 +6,8 @@ import { useStoreState, useStoreActions } from 'easy-peasy';
 const Grid = styled.div`
 display: flex;
 flex-flow: row;
-padding: 10px;
-width: 400px;
+width: 350px;
+margin: 10px 0px;
 .card 
 {
     display: flex;
@@ -26,7 +26,7 @@ width: 400px;
         flex-flow: column;
         font-size: 14px;
         color: #333333;
-        width: 340px;
+        width: 290px;
         font-family: 'Source Sans Pro',sans-serif;
         line-height: 1.5;
 
