@@ -261,16 +261,15 @@ display: flex;
  flex-flow: column;
  width: 50%;
  align-items: center;
- border: 1px solid red;
  .cover 
     {
         background-size: cover;
         background-position: center;
-        height: 400px;
+        height: 300px;
         max-width: 100%;
         width: 700px;
-        background-image: url('https://image.freepik.com/free-vector/background-with-different-abstract-shapes_1128-337.jpg');
-        border-radius: 5px;
+        background-image: url('https://about.easil.com/wp-content/uploads/fredericka_the_great_twitter_image.jpg');
+        border-radius: 2px;
     }
 
  .body
@@ -278,9 +277,11 @@ display: flex;
         display: flex;
         flex-flow: column;
         width: 550px;
-        margin: 15px auto;
+        margin: 15px 0px;
+        margin-left: auto;
         color: #333333;
         font-family: 'Source Sans Pro',sans-serif;
+        line-height: 1.5;
 
         .title 
         {
@@ -393,7 +394,7 @@ const Home = () => {
                     <div className="cover" />
                     <div className="body">
                         <div className="title">
-                            This is a handsome title for you to check for yourself if you must
+                            This is a handsome title for you to check for very yourself if you must
                         </div>
                         <div className="excerpt">
                             So this is just a random excerpt that i think might or would fit in just a single line

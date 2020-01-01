@@ -28,6 +28,7 @@ width: 400px;
         color: #333333;
         width: 340px;
         font-family: 'Source Sans Pro',sans-serif;
+        line-height: 1.5;
 
         .content
         {
