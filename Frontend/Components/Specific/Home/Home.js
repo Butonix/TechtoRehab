@@ -275,7 +275,27 @@ display: flex;
 
  .body
     {
+        display: flex;
+        flex-flow: column;
+        width: 550px;
+        margin: 15px auto;
+        color: #333333;
+        font-family: 'Source Sans Pro',sans-serif;
 
+        .title 
+        {
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: capitalize;
+            font-family: 'Source Serif Pro',serif;
+        }
+
+        .excerpt 
+        {
+            font-size: 18px;
+            font-weight: 400;
+            margin: 10px 0px;
+        }
     }
 }
 
@@ -371,6 +391,14 @@ const Home = () => {
             <CenterGridHolder>
                 <div className="bigArticleArea">
                     <div className="cover" />
+                    <div className="body">
+                        <div className="title">
+                            This is a handsome title for you to check for yourself if you must
+                        </div>
+                        <div className="excerpt">
+                            So this is just a random excerpt that i think might or would fit in just a single line
+                        </div>
+                    </div>
                 </div>
 
                 <div className="articleSidebar">

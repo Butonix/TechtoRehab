@@ -25,7 +25,7 @@ width: 400px;
         display: flex;
         flex-flow: column;
         font-size: 14px;
-        color: #3c3c3c;
+        color: #333333;
         width: 340px;
         font-family: 'Source Sans Pro',sans-serif;
 
@@ -33,10 +33,10 @@ width: 400px;
         {
             line-height: 1.4;
             margin: 0px 10px;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 15px;
+            font-weight: 600;
             text-transform: capitalize;
-            font-family: 'Poppins',sans-serif;
+            font-family: 'Source Serif Pro',serif;
 
         }
 
@@ -44,8 +44,8 @@ width: 400px;
         {
             font-size: 14px;
             text-transform: capitalize;
-            margin: 4px 11px;
-            font-weight:600;
+            margin: 8px 11px;
+            font-weight: 600;
         }
     }
 }
