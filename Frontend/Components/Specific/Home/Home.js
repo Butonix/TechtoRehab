@@ -207,9 +207,9 @@ flex-flow: row;
 
 const HomeGrid = styled.div`
 display: flex;
-max-width: 1100px;
+max-width: 1366px;
 width: 100%;
-margin: 20px auto;
+margin: 20px 0px;
 
 @media ${Devices.Mobile}
 {
@@ -228,10 +228,10 @@ margin: 20px auto;
 
 .sidebar 
 {
- max-width: 400px;
+ max-width: 350px;
  width: 100%;
  margin: 0px 7px;
- 
+ border: 1px solid red;
 
  @media ${Devices.iPad}
  {
@@ -242,9 +242,10 @@ margin: 20px auto;
 
 .main 
 {
-    max-width: 700px;
+    max-width: 666px;
     width: 100%;
     margin: 0px 7px;
+    border: 1px solid blue;
     @media ${Devices.Mobile}
     {
     width: 95%;
@@ -254,9 +255,6 @@ margin: 20px auto;
 }
 
 `
-
-
-
 
 
 /**
@@ -334,6 +332,7 @@ const Home = () => {
             
             <CenterGrid covers={['https://image.freepik.com/free-vector/colourful-abstract-background_23-2147782026.jpg','https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background-design_23-2148237713.jpg','https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background-design_23-2148237711.jpg','https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148250398.jpg','https://i.pinimg.com/originals/09/ef/3a/09ef3afbd82d8b461d6abc6757814b4d.jpg']}/>
            
+          
             { 
                 /** 
             <Side>
@@ -347,8 +346,11 @@ const Home = () => {
             */
         }
             <HomeGrid>
+            <div className="sidebar">
+                sidebar
+                </div>
                 <div className="main">
-                    
+                    Main
                 </div>
                 <div className="sidebar">
                 sidebar

@@ -24,9 +24,9 @@ margin: 10px 0px;
     {
         display: flex;
         flex-flow: column;
-        font-size: 14px;
+        font-size: 13px;
         color: #333333;
-        width: 290px;
+        width: 272px;
         font-family: 'Source Sans Pro',sans-serif;
         line-height: 1.5;
 
@@ -34,18 +34,27 @@ margin: 10px 0px;
         {
             line-height: 1.4;
             margin: 0px 10px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             text-transform: capitalize;
             font-family: 'Roboto',sans-serif;
+            height: 37px;
+        }
+
+        .date 
+        {
+            font-size: 12px;
+            text-transform: capitalize;
+            font-weight: 600;
+            margin: 0px 11px;
 
         }
 
         .author 
         {
-            font-size: 14px;
+            font-size: 12px;
             text-transform: capitalize;
-            margin: 13px 11px;
+            margin: 0px 11px;
             font-weight: 600;
         }
     }
@@ -62,6 +71,9 @@ const TopGrid = (props) => {
             <div className="content">
             How To Optimize React App For Production And Deploy It To Heroku
 
+            </div>
+            <div className="date">
+                20th Feburary, 2019
             </div>
             <div className="author">   
                 Afzaal Afridi

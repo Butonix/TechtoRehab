@@ -105,7 +105,7 @@ margin-top: 5px;
             .title 
             {
                 font-family: 'Roboto',sans-serif;
-                font-size: 16px;
+                font-size: 17px;
                 font-weight: 700;
                 text-transform: capitalize;
             }

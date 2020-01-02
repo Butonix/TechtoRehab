@@ -31,7 +31,7 @@ export default class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900|Roboto:400,500,700|Muli:400,500,600,700,800|Source+Serif+Pro:400,600,700|Merriweather:300,400,700|Roboto:400,700|Source+Sans+Pro:400,600,700,900&display=swap" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900|Roboto:400,500,700,900|Muli:400,500,600,700,800|Source+Serif+Pro:400,600,700|Merriweather:300,400,700|Roboto:400,700|Source+Sans+Pro:400,600,700,900&display=swap" rel="stylesheet" />
                 <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
                 <link href='/static/Assets/style.css' rel='stylesheet'></link>
                 <link rel="manifest" href="/manifest.json" />
