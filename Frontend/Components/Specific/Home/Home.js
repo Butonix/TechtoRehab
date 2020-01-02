@@ -4,7 +4,8 @@ import { useState,useEffect } from 'react';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import TopGrid from './ArticleCards/TopGrid';
 import CenterGrid from './ArticleCards/CenterGrid';
-
+import FeedArticle from './ArticleCards/FeedArticle';
+import FeedWidget from './FeedWidget';
 
 /**
  * 
@@ -231,7 +232,9 @@ margin: 20px 0px;
  max-width: 350px;
  width: 100%;
  margin: 0px 7px;
- border: 1px solid red;
+ position: sticky;
+ height: 100%;
+ top: 10px;
 
  @media ${Devices.iPad}
  {
@@ -245,7 +248,6 @@ margin: 20px 0px;
     max-width: 666px;
     width: 100%;
     margin: 0px 7px;
-    border: 1px solid blue;
     @media ${Devices.Mobile}
     {
     width: 95%;
@@ -255,6 +257,7 @@ margin: 20px 0px;
 }
 
 `
+
 
 
 /**
@@ -347,10 +350,14 @@ const Home = () => {
         }
             <HomeGrid>
             <div className="sidebar">
-                sidebar
+                <FeedWidget type={'list'} data={['React','Vue','Javascript','Musculoskeletal Physical Therapy','Angular','Styled Components','Polymer']} />
                 </div>
                 <div className="main">
-                    Main
+                    <FeedArticle cover='https://i.pinimg.com/originals/37/72/89/377289f5fbed8c284a0a2cb2583eb8de.jpg' />
+                    <FeedArticle cover='https://image.freepik.com/free-vector/abstract-colorful-background_23-2147991872.jpg' />
+                    <FeedArticle cover='https://image.freepik.com/free-vector/abstract-colorful-background_23-2148007339.jpg' />
+                    <FeedArticle cover='https://image.freepik.com/free-vector/abstract-colorful-background-with-frame_23-2147726951.jpg' />
+                    <FeedArticle cover='https://image.freepik.com/free-vector/colorful-background-with-shapes_23-2147874529.jpg' />
                 </div>
                 <div className="sidebar">
                 sidebar
