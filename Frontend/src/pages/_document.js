@@ -34,6 +34,7 @@ export default class MyDocument extends Document {
                 <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900|Roboto:400,500,700,900|Muli:400,500,600,700,800|Source+Serif+Pro:400,600,700|Merriweather:300,400,700|Roboto:400,700|Source+Sans+Pro:400,600,700,900&display=swap" rel="stylesheet" />
                 <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
                 <link href='/static/Assets/style.css' rel='stylesheet'></link>
+                <script src="https://kit.fontawesome.com/9675c239f1.js" crossorigin="anonymous"></script>
                 <link rel="manifest" href="/manifest.json" />
                 </Head>
                 <body style={{ margin: '0',backgroundColor: 'white'}}>

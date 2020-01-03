@@ -236,6 +236,13 @@ margin: 20px 0px;
  height: 100%;
  top: 10px;
 
+    .mainTitle
+    {
+        font-family: 'Roboto',sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        margin: 10px 0px;
+    }
  @media ${Devices.iPad}
  {
      max-width: 300px;
@@ -350,7 +357,10 @@ const Home = () => {
         }
             <HomeGrid>
             <div className="sidebar">
-                <FeedWidget type={'list'} data={['React','Vue','Javascript','Musculoskeletal Physical Therapy','Angular','Styled Components','Polymer']} />
+            <div className="mainTitle"> 
+            Cater Your Experience
+            </div>
+                <FeedWidget type={'list'} data={[{mainCat: 'Programming',subCats: [{subCat: 'React',subSubCats: ['Tutorials','Courses']}]},{mainCat: 'Physical Therapy',subCats: [{subCat: 'Musculoskeletal',subSubCats: ['Research','Tutorials']}]}]} />
                 </div>
                 <div className="main">
                     <FeedArticle cover='https://i.pinimg.com/originals/37/72/89/377289f5fbed8c284a0a2cb2583eb8de.jpg' />
