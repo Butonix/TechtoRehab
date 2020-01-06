@@ -10,15 +10,14 @@ margin-top: 5px;
 {
  display: flex;
  flex-flow: column;
- width: 32%;
- margin-left: 10px;
+ width: 35%;
  .cover 
     {
         background-size: cover;
         background-position: 21%;
         height: 205px;
         max-width: 100%;
-        width: 432px;
+        width: 446px;
         background-image: url('https://about.easil.com/wp-content/uploads/fredericka_the_great_twitter_image.jpg');
         border-radius: 2px;
     }
@@ -39,7 +38,7 @@ margin-top: 5px;
             font-size: 20px;
             font-weight: 700;
             text-transform: capitalize;
-            font-family: 'Roboto',sans-serif;
+            font-family: 'Public Sans',sans-serif;
             margin-bottom: 5px;
         }
 
@@ -77,8 +76,8 @@ margin-top: 5px;
 {
   display: flex;
   flex-flow: column;
-  width: 35%;
-  margin-left: 10px;
+  width: 33%;
+  margin: 0px 15px;
     .smallArticle
     {
         display: flex;
@@ -104,7 +103,7 @@ margin-top: 5px;
             width: 350px;
             .title 
             {
-                font-family: 'Roboto',sans-serif;
+                font-family: 'Public Sans',sans-serif;
                 font-size: 17px;
                 font-weight: 700;
                 text-transform: capitalize;
@@ -175,7 +174,7 @@ margin-top: 5px;
             {
                 font-size: 20px;
                 font-weight: 700;
-                font-family: 'Roboto',sans-serif;
+                font-family: 'Public Sans',sans-serif;
                 margin: 15px 0px;
                 text-transform: capitalize;
             }
@@ -298,6 +297,7 @@ const CenterGrid = (props) => {
                 </div>
             </div>
         </div>
+        
         <div className="lastSection">
             <div className="mediumArticle">
                 <div className="cover" style={{backgroundImage: `url(${props.covers[4]})`}}/>

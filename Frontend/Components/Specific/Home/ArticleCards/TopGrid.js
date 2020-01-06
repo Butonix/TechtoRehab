@@ -7,7 +7,8 @@ const Grid = styled.div`
 display: flex;
 flex-flow: row;
 width: 350px;
-margin: 10px 0px;
+margin: 20px 0px;
+margin-top: 5px;
 .card 
 {
     display: flex;
@@ -17,7 +18,7 @@ margin: 10px 0px;
         width: 70px;
         height: 70px;
         background-position: center;
-        border-radius: 5px;
+        border-radius: 50%;
     }
 
     .body

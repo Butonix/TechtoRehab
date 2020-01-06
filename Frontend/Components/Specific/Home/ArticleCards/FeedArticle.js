@@ -31,7 +31,7 @@ margin: 30px 0px;
     line-height: 1.5;
     .title 
     {
-        font-family: 'Roboto',sans-serif;
+        font-family: 'Public Sans',sans-serif;
         font-size: 18px;
         font-weight: 700;
         text-transform: capitalize;
