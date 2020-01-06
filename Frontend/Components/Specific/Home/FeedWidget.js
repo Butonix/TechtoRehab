@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { Devices } from '../../Global/responsive';
 import { useState,useEffect } from 'react';
 import { useStoreState, useStoreActions } from 'easy-peasy';
-
 const FeedoWidget = styled.div`
 display: flex;
 flex-flow: column;
@@ -82,18 +81,17 @@ margin: 15px 0px;
                         {
                         position: relative;
                         appearance: none;
-                        font-size: inherit;
+                        font-size: 22px !important;
                         width: 1em;
                         margin: 0;
                         color: inherit;
                         outline: none;
-                        font-family: 'Font Awesome 5 Pro';
+                        font-family: 'boxicons';
                         transition: 300ms ease-out;
                         margin-top: 10px;
                         margin-left: 10px;
 
                         &::after {
-                        content: '\f111'; // circle
                         display: inline-block;
                         text-align: center;
                         width: 1em;
@@ -112,7 +110,6 @@ margin: 15px 0px;
                     }
 
                     input[type=checkbox]:checked::after {
-                        content: '\f058'; // check-circle
                         }
                 }
 
@@ -156,18 +153,16 @@ margin: 15px 0px;
                         {
                         position: relative;
                         appearance: none;
-                        font-size: inherit;
+                        font-size: 22px !important;
                         width: 1em;
                         margin: 0;
                         color: inherit;
                         outline: none;
-                        font-family: 'Font Awesome 5 Pro';
                         transition: 300ms ease-out;
                         margin-top: 10px;
                         margin-left: 10px;
 
                         &::after {
-                        content: '\f111';// circle
                         display: inline-block;
                         text-align: center;
                         width: 1em;
@@ -186,7 +181,6 @@ margin: 15px 0px;
                     }
 
                     input[type=checkbox]:checked::after {
-                        content: '\f058'; //check-circle
                         }
                     }
 
@@ -234,7 +228,7 @@ const FeedWidget = (props) => {
                                     <div className="subEntryHolder">
                                     <div className="point" />
                                     <label className="checkbox" onClick={ () => setSub(!sub)}>
-                                    <input type="checkbox" key={`${subCats.subCat}`} checked={sub == true ? true : false}/>
+                                    <input type="checkbox" class={sub ? "bx bxs-check-circle" : "bx bx-circle"} key={`${subCats.subCat}`} checked={sub == true ? true : false}/>
                                     </label>
                                     <div className="subEntry">
                                     { subCats.subCat }
@@ -251,8 +245,8 @@ const FeedWidget = (props) => {
                                         subCats.subSubCats.map(subSubCat => (
                                             <div className="subSubEntryHolder">
                                             <div className="point" />
-                                            <label className="checkbox">
-                                            <input type="checkbox"  checked/>
+                                            <label className="checkbox" >
+                                            <input type="checkbox"  class="bx bxs-check-circle" checked/>
                                             </label>
                                             <div className="subSubEntry">
                                                 { subSubCat }
