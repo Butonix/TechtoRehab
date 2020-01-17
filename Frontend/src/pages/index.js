@@ -2,9 +2,8 @@ import styled from 'styled-components';
 //import gql from 'graphql-tag';
 //import { Query } from 'react-apollo'
 import { useState } from 'react';
-import Nav from '../../Components/Global/Nav';
 import Head from 'next/head';
-import Home from '../../Components/Specific/Home/Home';
+
 
 const Button = styled.button`
 background: ${(props) => props.theme.bg};
@@ -25,8 +24,6 @@ const Index = () => {
             <Head>
                 <title>Hello</title>
             </Head>
-            <Nav />
-            <Home />
         </AppWrapper>
     );
 
