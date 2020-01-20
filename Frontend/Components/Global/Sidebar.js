@@ -9,10 +9,9 @@ const SidebarWrapper = (props) => {
     const setSidebar = useStoreActions(actions => actions.setSidebar) ;
 
     const Sidebar = styled.div`
-background: white;
-
-ul
-{
+    background: white;
+    ul
+    {
     list-style: none;
     padding: 0;
     li
@@ -25,7 +24,6 @@ ul
 
         .icon 
         {
-            margin: ${ sidebar ? 'unset' : '0px auto'};
             box-icon 
         {
             height: 30px;
@@ -68,6 +66,9 @@ ul
 
                 .icon 
                 {
+                    margin: ${ sidebar ? '0px 0px' : '0px auto'};
+                    margin-left: ${ sidebar ? '10px' : 'auto'};
+
                     box-icon 
                     {
                         width: 34px;
@@ -108,9 +109,9 @@ ul
             <div className="icon">
             {
                 !sidebar ?
-            <box-icon name='chevron-right' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} />
+            <box-icon name='right-arrow-alt' type="solid" style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} />
             :             
-            <box-icon name='chevron-left' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} />
+            <box-icon name='left-arrow-alt' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} />
 
             }
             </div>
