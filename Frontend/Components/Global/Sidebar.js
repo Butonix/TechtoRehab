@@ -2,7 +2,13 @@ import styled from 'styled-components';
 import {useState} from 'react';
 import Devices from './responsive';
 import {useStoreActions,useStoreState} from 'easy-peasy';
-const Sidebar = styled.div`
+
+
+const SidebarWrapper = (props) => {
+    var sidebar = useStoreState(states => states.sidebar);
+    const setSidebar = useStoreActions(actions => actions.setSidebar) ;
+
+    const Sidebar = styled.div`
 background: white;
 
 ul
@@ -15,17 +21,11 @@ ul
         font-weight: 600;
         color: #40514e;
         display: flex;
-        padding: 15px;
-
-        box-icon 
-        {
-            height: 35px;
-            width: 35px;
-            fill: #43dde6;
-        }
+        padding: 20px;
 
         .icon 
         {
+            margin: ${ sidebar ? 'unset' : '0px auto'};
             box-icon 
         {
             height: 30px;
@@ -62,6 +62,29 @@ ul
 
             }
 
+            .expand 
+            {
+                padding: 20px 0px;
+
+                .icon 
+                {
+                    box-icon 
+                    {
+                        width: 34px;
+                        height: 34px;
+                    }
+                }
+
+                .text 
+                {
+                    line-height: 1.7;
+                }
+            :hover 
+            {
+                background-color: unset;
+            }
+            }
+
              
         .text 
         {
@@ -78,22 +101,28 @@ ul
     }
 `
 
-
-const SidebarWrapper = (props) => {
-    var sidebar = useStoreState(states => states.sidebar);
-    const setSidebar = useStoreActions(actions => actions.setSidebar) ;
-
     return(
         <Sidebar>
         <ul>
-            <li onClick={() => setSidebar(!sidebar)}>
+            <li className="expand" onClick={() => setSidebar(!sidebar)}>
+            <div className="icon">
             {
                 !sidebar ?
-            <box-icon name='right-arrow-alt' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} />
+            <box-icon name='chevron-right' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} />
             :             
-            <box-icon name='left-arrow-alt' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} />
+            <box-icon name='chevron-left' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} />
 
             }
+            </div>
+            <div className="text">
+            {
+                sidebar ? 
+
+                'Close'
+                : 
+                ''
+            }
+            </div>
             </li>
 
                 <div className="text">

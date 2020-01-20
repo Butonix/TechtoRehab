@@ -9,11 +9,11 @@ align-items: center;
 
 .navLink
 {
-    padding: 15px 10px;
+    padding: 20px 10px;
 
     img 
     {
-        width: 150px;
+        width: 170px;
         max-width: 100%;
     }
 

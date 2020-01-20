@@ -7,13 +7,20 @@ import Head from 'next/head';
 import Sidebar from '../../Components/Global/Sidebar';
 import Nav from '../../Components/Global/Nav';
 import { Devices } from '../../Components/Global/responsive';
-
+import Home from '../../Components/Specific/Home';
 const Button = styled.button`
 background: ${(props) => props.theme.bg};
 color: ${(props) => props.theme.fg};
 padding: 10px;
 margin: 20px 0px;
 `
+
+
+
+
+const Index = () => {
+    var sidebar = useStoreState(state => state.sidebar);
+    var mobileSidebar = useStoreState(states => states.mobileSidebar);
 
 const AppWrapper = styled.div`
 height: 100%;
@@ -42,15 +49,16 @@ div
     {
         display: flex;
         flex-flow: column;
-        width: 300px;
+        width: 110px;
         transition: all 200ms ease 0s;
-;
+        background: white;
 
         @media ${Devices.Mobile}
         {
             z-index: 1;
-            position: relative;
-            display: none;
+            position: absolute;
+            display: ${mobileSidebar ? 'flex' : 'none'};
+            height: 100%;
         }
     }
 
@@ -61,15 +69,16 @@ div
         width: 100%;
         background: #2f89fc1a;
         color: #40514e;
+        padding: 15px;
+
+        @media ${Devices.Mobile}
+        {
+            position: relative;
+            z-index: -1;
+        }
     }
 }
 `
-
-
-const Index = () => {
-    var sidebar = useStoreState(state => state.sidebar);
-    var mobileSidebar = useStoreState(states => states.mobileSidebar);
-
     return (
         <AppWrapper>
             <Head>
@@ -77,11 +86,11 @@ const Index = () => {
             </Head>
             <Nav />
             <div className="contentArea">
-                <div className="sidebarArea" style={{ width: sidebar ? '300px' : '150px', display: !mobileSidebar ? 'none' : 'flex'}}>
+                <div className="sidebarArea" style={{ width: sidebar ? '300px' : '110px'}}>
                     <Sidebar />
                 </div>
                 <div className="content">
-                    Content
+                    <Home />
                 </div>
             </div>
         </AppWrapper>
