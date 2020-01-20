@@ -4,5 +4,7 @@ import { action } from 'easy-peasy';
 
 export const globalStore = {
   sidebar: false,
-  setSidebar: action((state,payload) => state.sidebar = payload)
+  setSidebar: action((state,payload) => state.sidebar = payload),
+  mobileSidebar: false,
+  setMobileSidebar: action((state,payload) => state.mobileSidebar = payload)
 }

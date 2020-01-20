@@ -32,7 +32,9 @@ ul
             width: 30px;
             fill: #40514e;
         }
+
         }
+
 
         .text 
         {
@@ -43,7 +45,34 @@ ul
             text-transform: uppercase;
             overflow: hidden;
             white-space: nowrap;
+            padding: unset;
         }
+
+        :hover 
+            {
+                background-color: #f0f0f0;
+                cursor: pointer;
+            }
+
+        }
+
+        .active
+            {
+                background-color: #f0f0f0;
+
+            }
+
+             
+        .text 
+        {
+            line-height: 1.4;
+            text-transform: uppercase;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #40514e;
 
         }
     }
@@ -53,26 +82,25 @@ ul
 const SidebarWrapper = (props) => {
     var sidebar = useStoreState(states => states.sidebar);
     const setSidebar = useStoreActions(actions => actions.setSidebar) ;
+
     return(
         <Sidebar>
         <ul>
-            <li>
+            <li onClick={() => setSidebar(!sidebar)}>
             {
                 !sidebar ?
-            <box-icon name='right-arrow-alt' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} onClick={() => setSidebar(!sidebar)}/>
+            <box-icon name='right-arrow-alt' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} />
             :             
-            <box-icon name='left-arrow-alt' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} onClick={() => setSidebar(!sidebar)}/>
+            <box-icon name='left-arrow-alt' style={{marginTop: '1rem',fill: '#40514e',margin: 'auto',cursor: 'pointer'}} />
 
             }
             </li>
 
-            <li>
-                <div className="text" style={{margin: !sidebar ? 'auto' : 'unset'}}>
+                <div className="text">
                     SORT BY
                 </div>
-            </li>
 
-            <li>
+            <li className="active">
                 <div className="icon" style={{margin: !sidebar ? 'auto' : 'unset'}}>
                 <box-icon name='heart' type="solid"></box-icon>
                 </div>

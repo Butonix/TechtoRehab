@@ -6,6 +6,7 @@ import {useStoreState,useStoreActions} from 'easy-peasy';
 import Head from 'next/head';
 import Sidebar from '../../Components/Global/Sidebar';
 import Nav from '../../Components/Global/Nav';
+import { Devices } from '../../Components/Global/responsive';
 
 const Button = styled.button`
 background: ${(props) => props.theme.bg};
@@ -42,7 +43,15 @@ div
         display: flex;
         flex-flow: column;
         width: 300px;
-        transition: width 200ms ease 0s;
+        transition: all 200ms ease 0s;
+;
+
+        @media ${Devices.Mobile}
+        {
+            z-index: 1;
+            position: relative;
+            display: none;
+        }
     }
 
     .content 
@@ -59,6 +68,7 @@ div
 
 const Index = () => {
     var sidebar = useStoreState(state => state.sidebar);
+    var mobileSidebar = useStoreState(states => states.mobileSidebar);
 
     return (
         <AppWrapper>
@@ -67,7 +77,7 @@ const Index = () => {
             </Head>
             <Nav />
             <div className="contentArea">
-                <div className="sidebarArea" style={{ width: sidebar ? '300px' : '150px'}}>
+                <div className="sidebarArea" style={{ width: sidebar ? '300px' : '150px', display: !mobileSidebar ? 'none' : 'flex'}}>
                     <Sidebar />
                 </div>
                 <div className="content">
