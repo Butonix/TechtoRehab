@@ -19,7 +19,7 @@ margin: 0px auto;
 }
 
 ::-webkit-scrollbar {
-    height: 7px;
+    height: 10px;
     background-color: #F5F5F5;
     :hover 
     {
@@ -111,9 +111,107 @@ margin: 25px 10px;
 }
 
 `
+
+const HomeContainer = styled.div`
+display: flex;
+margin: 15px auto;
+width: 1300px;
+max-width: 100%;
+
+@media ${Devices.Mobile}
+{
+    flex-flow: column;
+}
+
+.homeSidebar 
+{
+    width: 30%;
+}
+
+.homeFeed 
+{
+    width: 70%;
+    @media ${Devices.Mobile}
+    {
+    width: 100%;
+    }
+}
+
+`
+
+const HomeFeedArticle = styled.div`
+display: flex;
+background-color: white;
+border-radius: 10px;
+margin: 10px 15px;
+@media ${Devices.Mobile}
+    {
+        flex-flow: column-reverse;
+    }
+
+.cover 
+{
+    background-position: center;
+    background-size: cover;
+    width: 180px;
+    height: 180px;
+    background-image: url('https://img.freepik.com/free-vector/hand-drawn-colorful-space-background_52683-12645.jpg?size=626&ext=jpg');
+    margin-left: auto;
+    border-radius:  0px 10px 10px 0px;
+
+    @media ${Devices.Mobile}
+    {
+        margin: none;
+        width: 200px;
+        height: 200px;
+    }
+}
+
+.body
+{
+    display: flex;
+    flex-flow: column;
+    margin-right: 30px;
+    margin-top: 5px;
+    line-height: 1.5;
+    font-size: 1.8vh;
+    width: calc(100% - 177px);
+    padding: 15px;
+
+    @media ${Devices.Mobile}
+    {
+        margin-right: 10px;
+    }
+
+    .title 
+    {
+        font-weight: 700;
+        font-size: 2.2vh;
+        text-transform: capitalize;
+    }
+
+    .excerpt
+    {
+        margin: 20px 0px;
+    }
+
+    .meta
+    {
+        display: flex;
+        .author
+        {
+            text-transform: capitalize;
+        }
+    }
+}
+
+`
+
+
 const HomeComponent = () => {
     
     return(
+        <>
     <TopGridContainer>
         <TopGridArticle>
             <div className="cover" />
@@ -169,9 +267,9 @@ const HomeComponent = () => {
         <TopGridArticle>
             <div className="cover" />
             <div className="body">
-                <div className="title">
+                <h2 className="title">
                     This is just an amazing title for this particular usecase scenario
-                </div>
+                </h2>
                 <div className="excerpt">
                     So, this is just a default palceholder excerpt that would make sense otherwise for this to exist
                 </div>
@@ -183,9 +281,33 @@ const HomeComponent = () => {
             </div>
         </TopGridArticle>
     </TopGridContainer>
+
+       <HomeContainer>
+            <div className="homeFeed">
+            <HomeFeedArticle>
+                <div className="body">
+                    <div className="title">
+                        This is another title that we think should be seen with delicacy
+                    </div>
+                    <div className="excerpt">
+                        This is another healthy excerpt brought to you by your convenient website of knowledge
+                    </div>
+                    <div className="meta">
+                        <div className="author">
+                            Afzaal Afridi
+                        </div>
+                    </div>
+                </div>
+                <div className="cover" />
+
+            </HomeFeedArticle>
+            </div>
+            <div className="homeSidebar">
+                sidebar
+            </div>
+        </HomeContainer>
+        </>
     );
-
-
 }
 
 export default HomeComponent;

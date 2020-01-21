@@ -52,7 +52,7 @@ div
     {
         display: flex;
         flex-flow: column;
-        width: 150px;
+        width: 110px;
         transition: all 200ms ease 0s;
         background: white;
 
@@ -69,13 +69,15 @@ div
     {
         display: flex;
         flex-flow: column;
-        width: 100%;
+        width: calc(100% - 110px);
         background: #2f89fc1a;
         color: #40514e;
+        padding: 15px 0px;
 
         @media ${Devices.Mobile}
         {
-            
+            width: 100%;
+            display: block;
         }
     }
 }
