@@ -21,7 +21,7 @@ margin: 20px 0px;
 const Index = () => {
     var sidebar = useStoreState(state => state.sidebar);
     var mobileSidebar = useStoreState(states => states.mobileSidebar);
-
+    const setSidebar = useStoreActions(actions => actions.setMobileSidebar);
 const AppWrapper = styled.div`
 height: 100%;
 h1,h2,h3,h4,h5,h6
@@ -89,7 +89,7 @@ div
                 <div className="sidebarArea" style={{ width: sidebar ? '300px' : '110px'}}>
                     <Sidebar />
                 </div>
-                <div className="content">
+                <div className="content" onClick={() => setSidebar(false)}>
                     <Home />
                 </div>
             </div>

@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import {useState} from 'react';
-import Devices from './responsive';
+import {Devices} from './responsive';
 import {useStoreActions,useStoreState} from 'easy-peasy';
 
 
 const SidebarWrapper = (props) => {
     var sidebar = useStoreState(states => states.sidebar);
-    const setSidebar = useStoreActions(actions => actions.setSidebar) ;
+    const setSidebar = useStoreActions(actions => actions.setSidebar);
+    const setMobileSidebar = useStoreActions(actions => actions.setMobileSidebar);
 
     const Sidebar = styled.div`
     background: white;
@@ -86,6 +87,32 @@ const SidebarWrapper = (props) => {
             }
             }
 
+            .close 
+            {
+                display: none;
+                padding: 20px 0px;
+                .icon 
+                {
+                    margin: ${ sidebar ? '0px auto' : '0px auto'};
+
+                    box-icon 
+                    {
+                        width: 34px;
+                        height: 34px;
+                    }
+                }
+
+                :hover 
+            {
+                background-color: unset;
+            }
+
+            @media ${Devices.Mobile}
+            {
+                display: flex;
+            }
+            }
+
              
         .text 
         {
@@ -105,6 +132,11 @@ const SidebarWrapper = (props) => {
     return(
         <Sidebar>
         <ul>
+            <li className="close" onClick={() => setMobileSidebar(false)}>
+                <div className="icon">
+                <box-icon name='x'></box-icon>
+                </div>
+            </li>
             <li className="expand" onClick={() => setSidebar(!sidebar)}>
             <div className="icon">
             {

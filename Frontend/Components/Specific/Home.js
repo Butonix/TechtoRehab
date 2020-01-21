@@ -7,7 +7,7 @@ const Home = styled.div`
 
 `
 const HomeComponent = () => {
-
+    
     return(
     <Home>
     Hello
