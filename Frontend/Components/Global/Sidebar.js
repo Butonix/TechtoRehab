@@ -11,6 +11,7 @@ const SidebarWrapper = (props) => {
 
     const Sidebar = styled.div`
     background: white;
+    height: 100%;
     ul
     {
     list-style: none;
@@ -19,7 +20,7 @@ const SidebarWrapper = (props) => {
     @media ${Devices.Mobile}
     {
     overflow-y: scroll;
-    height: 85%;
+    height: 90%;
     }
     li
     {
