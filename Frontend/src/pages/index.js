@@ -52,7 +52,7 @@ div
     {
         display: flex;
         flex-flow: column;
-        width: 110px;
+        width: 150px;
         transition: all 200ms ease 0s;
         background: white;
 
@@ -87,7 +87,7 @@ div
             </Head>
             <Nav />
             <div className="contentArea">
-                <div className="sidebarArea" style={{ width: sidebar ? '300px' : '110px'}}>
+                <div className="sidebarArea" style={{ width: sidebar ? '250px' : '110px'}}>
                     <Sidebar />
                 </div>
                 <div className="content" onClick={() => setSidebar(false)}>

@@ -15,6 +15,12 @@ const SidebarWrapper = (props) => {
     {
     list-style: none;
     padding: 0;
+
+    @media ${Devices.Mobile}
+    {
+    overflow-y: scroll;
+    height: 85%;
+    }
     li
     {
         font-size: 15px;
@@ -113,6 +119,34 @@ const SidebarWrapper = (props) => {
             }
             }
 
+            .break 
+            {
+                .icon 
+                {
+                box-icon 
+                {
+                    width: 45px;
+                    height: 45px;
+                }
+                }
+
+                :hover 
+                {
+                    background: none;
+                    cursor: auto;
+                }
+            }
+
+            .caterHeading 
+            {
+
+                :hover 
+                {
+                    background: none;
+                    cursor: auto;
+                }
+            }
+
              
         .text 
         {
@@ -124,7 +158,6 @@ const SidebarWrapper = (props) => {
             font-size: 20px;
             font-weight: 600;
             color: #40514e;
-
         }
     }
 `
@@ -199,6 +232,38 @@ const SidebarWrapper = (props) => {
 
                 <div className="text" style={{display: sidebar ? 'block' : 'none'}}>
                      MOST COMMENTED
+                </div>
+            </li>
+            <li className="break">
+                <div className="icon" style={{margin: 'auto'}}>
+                <box-icon name='dots-horizontal-rounded'></box-icon>
+                </div>
+            </li>
+            <li className="caterHeading">
+                <div className="icon" style={{margin: !sidebar ? 'auto' : 'unset'}}>
+                <box-icon name='slider-alt'></box-icon>
+                </div>
+                <div className="text" style={{display: sidebar ? 'block' : 'none'}}>
+                Customize
+                </div>
+            </li>
+            <li>
+                <div className="icon" style={{margin: !sidebar ? 'auto' : 'unset'}}>
+                <box-icon name='sun' type='solid' ></box-icon>
+                </div>
+
+                <div className="text" style={{display: sidebar ? 'block' : 'none'}}>
+                    Dark Mode
+                </div>
+            </li>
+
+            <li>
+                <div className="icon" style={{margin: !sidebar ? 'auto' : 'unset'}}>
+                <box-icon name='font-size'></box-icon>
+                </div>
+
+                <div className="text" style={{display: sidebar ? 'block' : 'none'}}>
+                    + Font Size
                 </div>
             </li>
         </ul>
