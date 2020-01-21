@@ -27,17 +27,20 @@ height: 100%;
 h1,h2,h3,h4,h5,h6
 {
 font-family: 'Public Sans',sans-serif;
+color: #40514e;
 }
+
 
 p
 {
     font-family: 'Source Sans Pro',sans-serif;
+    color: #40514e;
 }
 
 div
 {
     font-family: 'Source Sans Pro',sans-serif;
-
+    color: #40514e;
 }
 
 .contentArea
@@ -69,12 +72,10 @@ div
         width: 100%;
         background: #2f89fc1a;
         color: #40514e;
-        padding: 15px;
 
         @media ${Devices.Mobile}
         {
-            position: relative;
-            z-index: -1;
+            
         }
     }
 }
