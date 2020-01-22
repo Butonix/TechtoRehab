@@ -11,6 +11,7 @@ const TopGridContainer = styled.div`
 display: flex;
 overflow-x: auto;
 max-width: 100%;
+width: 1500px;
 margin: 0px auto;
 
 :hover 
@@ -35,7 +36,7 @@ margin: 0px auto;
 ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
-    margin-left: 15px;
+    margin-left: 30px;
 }
 
 @media ${Devices.Mobile}
@@ -53,6 +54,7 @@ margin: 25px 10px;
 
 :first-child
 {
+    margin-left: 25px;
 
     @media ${Devices.Mobile}
     {
@@ -75,7 +77,6 @@ margin: 25px 10px;
     background-size: cover;
     background-position: center;
     background-image: url("https://image.freepik.com/free-vector/flat-design-earth-space_23-2147928242.jpg");
-    border-radius: 5px 5px 0px 0px;
 }
 
 .body 
@@ -84,7 +85,6 @@ margin: 25px 10px;
     padding: 15px 10px;
     font-size: 14px;
     background: white;
-    border-radius: 0px 0px 10px 10px;
 
     .title 
     {
@@ -115,7 +115,7 @@ margin: 25px 10px;
 const HomeContainer = styled.div`
 display: flex;
 margin: 15px auto;
-width: 1300px;
+width: 1000px;
 max-width: 100%;
 
 @media ${Devices.Mobile}
@@ -125,12 +125,15 @@ max-width: 100%;
 
 .homeSidebar 
 {
-    width: 30%;
+    width: 50%;
+    position: sticky;
+    top: 10px;
+    height: 100%;
 }
 
 .homeFeed 
 {
-    width: 70%;
+    width: 50%;
     @media ${Devices.Mobile}
     {
     width: 100%;
@@ -141,9 +144,10 @@ max-width: 100%;
 
 const HomeFeedArticle = styled.div`
 display: flex;
+flex-flow: column;
 background-color: white;
-border-radius: 10px;
-margin: 10px 15px;
+margin: 40px 0px;
+max-width: 400px;
 @media ${Devices.Mobile}
     {
         flex-flow: column-reverse;
@@ -153,11 +157,9 @@ margin: 10px 15px;
 {
     background-position: center;
     background-size: cover;
-    width: 180px;
-    height: 180px;
+    width: calc(100% - 0.1%);
+    height: 250px;
     background-image: url('https://img.freepik.com/free-vector/hand-drawn-colorful-space-background_52683-12645.jpg?size=626&ext=jpg');
-    margin-left: auto;
-    border-radius:  0px 10px 10px 0px;
 
     @media ${Devices.Mobile}
     {
@@ -175,7 +177,6 @@ margin: 10px 15px;
     margin-top: 5px;
     line-height: 1.5;
     font-size: 1.8vh;
-    width: calc(100% - 177px);
     padding: 15px;
 
     @media ${Devices.Mobile}
@@ -186,7 +187,7 @@ margin: 10px 15px;
     .title 
     {
         font-weight: 700;
-        font-size: 2.2vh;
+        font-size: 2.4vh;
         text-transform: capitalize;
     }
 
@@ -285,6 +286,8 @@ const HomeComponent = () => {
        <HomeContainer>
             <div className="homeFeed">
             <HomeFeedArticle>
+            <div className="cover" />
+
                 <div className="body">
                     <div className="title">
                         This is another title that we think should be seen with delicacy
@@ -298,7 +301,45 @@ const HomeComponent = () => {
                         </div>
                     </div>
                 </div>
-                <div className="cover" />
+
+            </HomeFeedArticle>
+
+            <HomeFeedArticle>
+            <div className="cover" />
+
+                <div className="body">
+                    <div className="title">
+                        This is another title that we think should be seen with delicacy
+                    </div>
+                    <div className="excerpt">
+                        This is another healthy excerpt brought to you by your convenient website of knowledge
+                    </div>
+                    <div className="meta">
+                        <div className="author">
+                            Afzaal Afridi
+                        </div>
+                    </div>
+                </div>
+
+            </HomeFeedArticle>
+
+
+            <HomeFeedArticle>
+            <div className="cover" />
+
+                <div className="body">
+                    <div className="title">
+                        This is another title that we think should be seen with delicacy
+                    </div>
+                    <div className="excerpt">
+                        This is another healthy excerpt brought to you by your convenient website of knowledge
+                    </div>
+                    <div className="meta">
+                        <div className="author">
+                            Afzaal Afridi
+                        </div>
+                    </div>
+                </div>
 
             </HomeFeedArticle>
             </div>

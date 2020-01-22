@@ -45,7 +45,7 @@ export default class MyDocument extends Document {
                     `}
                 </style>
                 </Head>
-                <body style={{ margin: '0',backgroundColor: 'white',height: '100%'}}>
+                <body style={{ margin: '0',backgroundColor: 'white'}}>
                     <Main />
                     <NextScript  />
                 </body>

@@ -67,8 +67,6 @@ div
 
     .content 
     {
-        display: flex;
-        flex-flow: column;
         width: calc(100% - 110px);
         background: #2f89fc1a;
         color: #40514e;
