@@ -31,7 +31,7 @@ export default class MyDocument extends Document {
         return (
             <Html style={{height: '100%'}}>
                 <Head>
-                <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800|Noto+Sans:700|Public+Sans:200,300,400,500,600,700,800,900|Raleway:400,500,600,700,800,900|Roboto:400,500,700,900|Muli:400,500,600,700,800|Source+Serif+Pro:400,600,700|Merriweather:300,400,700|Roboto:400,700|Source+Sans+Pro:400,600,700,900&display=swap" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css?family=Public+Sans:200,300,400,500,600,700,800,900|Source+Sans+Pro:400,600,700,900|Poppins:400,500,600,700&display=swap" rel="stylesheet" />
                 <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
                 <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.4/css/boxicons.min.css' rel='stylesheet' />
                 <link href='/static/Assets/style.css' rel='stylesheet'></link>

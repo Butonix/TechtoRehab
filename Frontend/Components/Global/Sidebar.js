@@ -140,6 +140,11 @@ const SidebarWrapper = (props) => {
 
             .caterHeading 
             {
+                .text 
+                {
+                    cursor: normal;
+                    margin-left: 0px;
+                }
 
                 :hover 
                 {
@@ -241,9 +246,6 @@ const SidebarWrapper = (props) => {
                 </div>
             </li>
             <li className="caterHeading">
-                <div className="icon" style={{margin: !sidebar ? 'auto' : 'unset'}}>
-                <box-icon name='slider-alt'></box-icon>
-                </div>
                 <div className="text" style={{display: sidebar ? 'block' : 'none'}}>
                 Customize
                 </div>

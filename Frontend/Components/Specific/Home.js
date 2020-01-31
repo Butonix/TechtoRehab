@@ -2,10 +2,7 @@ import styled from 'styled-components';
 import {useStoreState,useStoreActions} from 'easy-peasy';
 import {Devices} from '../Global/responsive';
 
-const Home = styled.div`
-width: 1500px;
-max-width: 100%;
-`
+
 
 const TopGridContainer = styled.div`
 display: flex;
@@ -51,6 +48,7 @@ const TopGridArticle = styled.div`
 max-width: 100%;
 width: 350px;
 margin: 25px 10px;
+box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75);
 
 :first-child
 {
@@ -98,6 +96,7 @@ margin: 25px 10px;
     .excerpt 
     {
         margin: 15px 0px;
+        font-family: var(--public-sans);
     }
 
     .meta 
@@ -114,8 +113,8 @@ margin: 25px 10px;
 
 const HomeContainer = styled.div`
 display: flex;
-margin: 15px auto;
-width: 1000px;
+margin: 15px 0px;
+width: 1440px;
 max-width: 100%;
 
 @media ${Devices.Mobile}
@@ -125,7 +124,7 @@ max-width: 100%;
 
 .homeSidebar 
 {
-    width: 50%;
+    width: 350px;
     position: sticky;
     top: 10px;
     height: 100%;
@@ -133,7 +132,8 @@ max-width: 100%;
 
 .homeFeed 
 {
-    width: 50%;
+    width: 100%;
+    margin: 0px 25px;
     @media ${Devices.Mobile}
     {
     width: 100%;
@@ -144,64 +144,47 @@ max-width: 100%;
 
 const HomeFeedArticle = styled.div`
 display: flex;
-flex-flow: column;
-background-color: white;
-margin: 40px 0px;
-max-width: 400px;
-@media ${Devices.Mobile}
-    {
-        flex-flow: column-reverse;
-    }
-
+padding: 20px;
+background: white;
+max-width: 700px;
+margin-left: 34px;
+box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 1px 0px;
 .cover 
 {
-    background-position: center;
+    margin-left: auto;
     background-size: cover;
-    width: calc(100% - 0.1%);
-    height: 250px;
-    background-image: url('https://img.freepik.com/free-vector/hand-drawn-colorful-space-background_52683-12645.jpg?size=626&ext=jpg');
-
-    @media ${Devices.Mobile}
-    {
-        margin: none;
-        width: 200px;
-        height: 200px;
-    }
+    background-position: center;
+    height: 150px;
+    width: 150px;
+    background-image: url('https://image.freepik.com/free-vector/hand-drawn-colorful-space-background_52683-12648.jpg');
 }
 
-.body
+.body 
 {
-    display: flex;
-    flex-flow: column;
-    margin-right: 30px;
-    margin-top: 5px;
-    line-height: 1.5;
-    font-size: 1.8vh;
-    padding: 15px;
+    margin-right: 50px;
+    width: 512px;
+    max-width: 100%;
+    font-size: 16px;
 
-    @media ${Devices.Mobile}
+    .title
     {
-        margin-right: 10px;
-    }
-
-    .title 
-    {
+        font-size: 20px;
         font-weight: 700;
-        font-size: 2.4vh;
-        text-transform: capitalize;
     }
 
     .excerpt
     {
-        margin: 20px 0px;
+        overflow: hidden;
+        height: 49x;
     }
 
     .meta
     {
         display: flex;
-        .author
+
+        .author 
         {
-            text-transform: capitalize;
+
         }
     }
 }
@@ -216,13 +199,14 @@ const HomeComponent = () => {
     <TopGridContainer>
         <TopGridArticle>
             <div className="cover" />
+            
             <div className="body">
-                <div className="title">
+                <h2 className="title">
                     This is just an amazing title for this particular usecase scenario
-                </div>
-                <div className="excerpt">
+                </h2>
+                <p className="excerpt">
                     So, this is just a default palceholder excerpt that would make sense otherwise for this to exist
-                </div>
+                </p>
                 <div className="meta">
                     <div className="author">
                         Afzaal Afridi
@@ -234,12 +218,12 @@ const HomeComponent = () => {
         <TopGridArticle>
             <div className="cover" />
             <div className="body">
-                <div className="title">
+                <h2  className="title">
                     This is just an amazing title for this particular usecase scenario
-                </div>
-                <div className="excerpt">
+                </h2 >
+                <p className="excerpt">
                     So, this is just a default palceholder excerpt that would make sense otherwise for this to exist
-                </div>
+                </p>
                 <div className="meta">
                     <div className="author">
                         Afzaal Afridi
@@ -251,12 +235,12 @@ const HomeComponent = () => {
         <TopGridArticle>
             <div className="cover" />
             <div className="body">
-                <div className="title">
+                <h2  className="title">
                     This is just an amazing title for this particular usecase scenario
-                </div>
-                <div className="excerpt">
+                </h2>
+                <p className="excerpt">
                     So, this is just a default palceholder excerpt that would make sense otherwise for this to exist
-                </div>
+                </p>
                 <div className="meta">
                     <div className="author">
                         Afzaal Afridi
@@ -271,9 +255,9 @@ const HomeComponent = () => {
                 <h2 className="title">
                     This is just an amazing title for this particular usecase scenario
                 </h2>
-                <div className="excerpt">
+                <p className="excerpt">
                     So, this is just a default palceholder excerpt that would make sense otherwise for this to exist
-                </div>
+                </p>
                 <div className="meta">
                     <div className="author">
                         Afzaal Afridi
@@ -286,60 +270,25 @@ const HomeComponent = () => {
        <HomeContainer>
             <div className="homeFeed">
             <HomeFeedArticle>
-            <div className="cover" />
+            {
+                /** */
+            }
 
-                <div className="body">
-                    <div className="title">
-                        This is another title that we think should be seen with delicacy
-                    </div>
-                    <div className="excerpt">
-                        This is another healthy excerpt brought to you by your convenient website of knowledge
-                    </div>
-                    <div className="meta">
-                        <div className="author">
-                            Afzaal Afridi
-                        </div>
+            <div className="body">
+                <h2 className="title">
+                The software engineer’s guide to asserting dominance in the workplace
+                </h2>
+
+                <p className="excerpt">
+                As a software engineer, changing jobs is a way of life. Every day, beautiful recruiters from top tech companies reach out to you on
+                </p>
+                <div className="meta">
+                    <div className="author">
+                        Afzaal Afridi
                     </div>
                 </div>
-
-            </HomeFeedArticle>
-
-            <HomeFeedArticle>
+            </div>
             <div className="cover" />
-
-                <div className="body">
-                    <div className="title">
-                        This is another title that we think should be seen with delicacy
-                    </div>
-                    <div className="excerpt">
-                        This is another healthy excerpt brought to you by your convenient website of knowledge
-                    </div>
-                    <div className="meta">
-                        <div className="author">
-                            Afzaal Afridi
-                        </div>
-                    </div>
-                </div>
-
-            </HomeFeedArticle>
-
-
-            <HomeFeedArticle>
-            <div className="cover" />
-
-                <div className="body">
-                    <div className="title">
-                        This is another title that we think should be seen with delicacy
-                    </div>
-                    <div className="excerpt">
-                        This is another healthy excerpt brought to you by your convenient website of knowledge
-                    </div>
-                    <div className="meta">
-                        <div className="author">
-                            Afzaal Afridi
-                        </div>
-                    </div>
-                </div>
 
             </HomeFeedArticle>
             </div>

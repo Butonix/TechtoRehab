@@ -17,6 +17,7 @@
     "apollo-link-context": "^1.0.8",
     "boxicons": "^2.0.4",
     "easy-peasy": "^3.0.1",
+    "framer-motion": "^1.8.2",
     "graphql": "14.0.2",
     "graphql-tag": "^2.10.1",
     "https-proxy-agent": "^2.2.1",
