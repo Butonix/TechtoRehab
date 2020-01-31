@@ -7,8 +7,6 @@ import Head from 'next/head';
 import Sidebar from '../../Components/Global/Sidebar';
 import Nav from '../../Components/Global/Nav';
 import { Devices } from '../../Components/Global/responsive';
-import Home from '../../Components/Specific/Home';
-import { motion } from 'framer-motion';
 
 
 const Button = styled.button`
@@ -75,60 +73,7 @@ div
     color: var(--black);
 }
 
-.contentArea
-{
-    display: flex;
-    flex-flow: row;
-    height: 100%;
-    .sidebarArea
-    {
-        display: flex;
-        flex-flow: column;
-        width: 110px;
-        background: white;
-        transition: width 0.3s ease;
 
-        @media ${Devices.Mobile}
-        {
-            z-index: 1;
-            position: absolute;
-            display: ${mobileSidebar ? 'flex' : 'none'};
-            height: 100%;
-        }
-    }
-
-    .expanded 
-    {
-        width: 250px;
-        @keyframes expand
-        {
-            from
-            {
-                width: 110px;
-            }
-
-            to
-            {
-                width: 250px;
-            }
-        }
-    }
-
-
-    .content 
-    {
-        width: calc(100% - 110px);
-        background: #2f89fc1a;
-        color: #40514e;
-        padding: 15px 0px;
-
-        @media ${Devices.Mobile}
-        {
-            width: 100%;
-            display: block;
-        }
-    }
-}
 `
 const spring = {
     type: "spring",
@@ -141,14 +86,7 @@ const spring = {
                 <title>Hello</title>
             </Head>
             <Nav />
-            <div className="contentArea">
-                <div className={ sidebar ? "sidebarArea" + " expanded" : "sidebarArea"}>
-                    <Sidebar />
-                </div>
-                <div className="content" onClick={() => setSidebar(false)}>
-                    <Home />
-                </div>
-            </div>
+            
         </AppWrapper>
     );
 
