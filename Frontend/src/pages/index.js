@@ -7,7 +7,7 @@ import Head from 'next/head';
 import Sidebar from '../../Components/Global/Sidebar';
 import Nav from '../../Components/Global/Nav';
 import { Devices } from '../../Components/Global/responsive';
-
+import Home from '../../Components/Specific/Home';
 
 const Button = styled.button`
 background: ${(props) => props.theme.bg};
@@ -39,11 +39,11 @@ const AppWrapper = styled.div`
     --black-25: rgb(64, 81, 78,0.25);
     --blue: rgb(47, 137, 252);
     --blue-75: rgb(47, 137, 252,0.75);
-    --blue-50: rgb(47, 137, 252);
+    --blue-50: rgb(47, 137, 252,0.50);
     --blue-25: rgb(47, 137, 252,0.25);
     --green: rgb(48, 227, 202);
     --green-75: rgb(48, 227, 202,0.75);
-    --green-50: rgb(48, 227, 202,0.5);
+    --green-50: rgb(48, 227, 202,0.50);
     --green-25: rgb(48, 227, 202,0.25);
     --font-weight-extra-bold: 800;
     --font-weight-bold: 700;
@@ -60,11 +60,44 @@ font-weight: unset;
 line-height: 1.5;
 }
 
+h1
+{
+    font-size: 26px;
+} 
+
+h2
+{
+    font-size: 24px
+} 
+
+h3
+{
+    font-size: 22px
+} 
+
+h4
+{
+    font-size: 20px
+} 
+
+h5
+{
+    font-size: 18px
+} 
+
+h6
+{
+    font-size: 16px
+} 
+
 
 p
 {
     font-family: var(--source-sans);
     color: var(--black);
+    font-size: max(14px, 12px);
+    margin: 0;
+    padding: 0;
 }
 
 div
@@ -86,7 +119,7 @@ const spring = {
                 <title>Hello</title>
             </Head>
             <Nav />
-            
+            <Home />
         </AppWrapper>
     );
 
