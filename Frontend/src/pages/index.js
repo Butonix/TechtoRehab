@@ -45,6 +45,10 @@ const AppWrapper = styled.div`
     --green-75: rgb(48, 227, 202,0.75);
     --green-50: rgb(48, 227, 202,0.50);
     --green-25: rgb(48, 227, 202,0.25);
+    --white: rgb(245, 245, 245);
+    --white-75: rgb(245, 245, 245,0.75);
+    --white-50: rgb(245, 245, 245,0.50);
+    --white-25: rgb(245, 245, 245,0.25);
     --font-weight-extra-bold: 800;
     --font-weight-bold: 700;
     --font-weight-medium: 600;
@@ -95,7 +99,7 @@ p
 {
     font-family: var(--source-sans);
     color: var(--black);
-    font-size: max(14px, 12px);
+    font-size: 14px;
     margin: 0;
     padding: 0;
 }
@@ -104,6 +108,7 @@ div
 {
     font-family: var(--source-sans);
     color: var(--black);
+    font-size: 14px;
 }
 
 
