@@ -3,31 +3,42 @@ import TruncateMarkup from 'react-truncate-markup';
 
 const HomeContainer = styled.div`
 display: flex;
-max-width: 1250px;
-min-width: 350px;
+max-width: 1240px;
 margin:auto;
+background-color: var(--white-25);
 
 .sidebar 
 {
-    min-width: 200px;
+    width: 310px;
+    background-color: var(--white-50);
+
 }
 
 .feed 
 {
     min-width: 550px;
-    max-width: 100%;
+    max-width: 620px;
+    background-color: var(--white-75);
+
 }
 `
 
 const FeedFeaturedArea = styled.div`
 display: flex;
+margin: 20px 0px;
+`
+
+const Widget = styled.div`
+
 `
 
 const FeedFeatured= styled.div`
 width: 300px;
 margin: 5px;
-box-shadow: 0px 0px 1px 1px var(--black-25);
+box-shadow: 0px 0px 5px 0px var(--black-25);
 height: 350px;
+border-radius: 0px 0px 4px 4px;
+background-color: white;
 .cover 
 {
     width: 100%;
@@ -35,6 +46,7 @@ height: 350px;
     background-size: cover;
     background-position: center;
     background-image: url('https://i.pinimg.com/736x/da/7c/c3/da7cc366c951480eb1db1160d92f1b1b.jpg');
+    border-radius: 4px 4px 0px 0px;
 }
 
 .body 
@@ -64,7 +76,46 @@ height: 350px;
 `
 
 const FeedArticle = styled.div`
+display: flex;
+background-color: white;
+box-shadow: 0px 0px 3px 0px var(--black-25);
+width: 99%;
+margin-right: 10px;
+.cover 
+{
+    background-size: cover;
+    background-position: center;
+    background-image: url('https://image.freepik.com/free-vector/colorful-gradient-space-with-rocket-background_52683-7445.jpg');
+    width:   160px;
+    height:  160px;
 
+}
+
+.body 
+{
+    margin-right: auto;
+    padding: 15px;
+    width: 400px;
+
+    .title 
+    {
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .excerpt 
+    {
+        margin-bottom: 10px;
+    }
+
+    .meta 
+    {
+        .author 
+        {
+
+        }
+    }
+}
 `
 
 const Home = () => {
@@ -79,7 +130,9 @@ const Home = () => {
 
             <HomeContainer>
             <div className="sidebar">
-                Sidebar 1
+                <Widget>
+                    Widget
+                </Widget>
             </div>
             <div className="feed">
                 <FeedFeaturedArea>
@@ -130,10 +183,30 @@ const Home = () => {
                     </FeedFeatured>
                 </FeedFeaturedArea>
 
+                <FeedArticle>
+                    <div className="body">
+                    <TruncateMarkup lines={2}>
+                        <h6 className="title"> How to debug javascript and improve the runtime performance </h6>
+                        </TruncateMarkup>
+                        <TruncateMarkup lines={2}>
+                        <p className="excerpt">
+                            You will learn how to read and debug console logs and improve on performance bit by bit 
+                        </p>
+                        </TruncateMarkup>
+                        <div className="meta">
+                            <p className="author">
+                                This is author
+                            </p>
+                        </div>
+                    </div>
+                    <div className="cover" />
 
+                </FeedArticle>
             </div>
             <div className="sidebar">
-                Sidebar 2
+            <Widget>
+                    Widget
+                </Widget>
             </div>
             </HomeContainer>
         </>
