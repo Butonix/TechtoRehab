@@ -5,9 +5,11 @@ const Nav = styled.div`
 display: flex;
 flex-flow: row;
 align-items: center;
+background-color: var(--white-50);
+box-shadow: 0px 0px 3px 0px var(--black-25);
 .navLink
 {
-    padding: 10px 10px;
+    padding: 15px 10px;
 
     img 
     {

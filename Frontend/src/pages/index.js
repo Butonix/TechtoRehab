@@ -28,6 +28,7 @@ const Index = () => {
 
 const AppWrapper = styled.div`
     height: 100%;
+    background-color: var(--white-25);
     --source-sans: 'Source Sans Pro',sans-serif;
     --public-sans: 'Public Sans', sans-serif;
     --large-font: 24px;
