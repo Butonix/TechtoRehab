@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import TruncateMarkup from 'react-truncate-markup';
+import {Devices} from '../Global/responsive';
 
 const HomeContainer = styled.div`
 display: flex;
@@ -14,18 +15,45 @@ background-color: var(--white-25);
 
 }
 
+.sidebar1 
+{
+    @media ${Devices.Mobile}
+    {
+        display: none;
+    }
+}
+
+.sidebar2 
+{
+     @media ${Devices.Mobile}, ${Devices.iPad}
+     {
+         display: none;
+     }
+}
+
 .feed 
 {
     min-width: 550px;
     max-width: 620px;
     background-color: var(--white-75);
 
+    @media ${Devices.Mobile}
+    {
+        max-width: 100%;
+        min-width: unset;
+    }
+    
 }
 `
 
 const FeedFeaturedArea = styled.div`
 display: flex;
-margin: 20px 0px;
+margin: 10px 0px;
+
+@media ${Devices.Mobile}
+{
+    overflow-x: scroll;
+}
 `
 
 const Widget = styled.div`
@@ -35,10 +63,19 @@ const Widget = styled.div`
 const FeedFeatured= styled.div`
 width: 300px;
 margin: 5px;
-box-shadow: 0px 0px 5px 0px var(--black-25);
+box-shadow: 0px 0px 3px 0px var(--black-25);
 height: 350px;
 border-radius: 0px 0px 4px 4px;
 background-color: white;
+
+@media ${Devices.Mobile}
+    {
+        min-width: 270px;
+        :first-child
+        {
+            margin-left: 10px;
+        }
+    }
 .cover 
 {
     width: 100%;
@@ -56,8 +93,7 @@ background-color: white;
     .title 
     {
         margin-bottom: 15px;
-        font-weight: 700;
-        
+        font-weight: 700;   
     }
 
     .excerpt 
@@ -81,6 +117,12 @@ background-color: white;
 box-shadow: 0px 0px 3px 0px var(--black-25);
 width: 99%;
 margin-right: 10px;
+
+@media ${Devices.Mobile}
+    {
+        margin: auto;
+        max-width: 98%;
+    }
 .cover 
 {
     background-size: cover;
@@ -88,6 +130,12 @@ margin-right: 10px;
     background-image: url('https://image.freepik.com/free-vector/colorful-gradient-space-with-rocket-background_52683-7445.jpg');
     width:   160px;
     height:  160px;
+
+    @media ${Devices.Mobile}
+    {
+        width: 140px;
+        height: 140px;
+    }
 
 }
 
@@ -97,10 +145,21 @@ margin-right: 10px;
     padding: 15px;
     width: 400px;
 
+    @media ${Devices.Mobile}
+    {
+        max-width: 250px;
+        padding: 10px;
+    }
+
     .title 
     {
         font-weight: 700;
         margin-bottom: 15px;
+
+        @media ${Devices.Mobile}
+    {
+        margin-bottom: 10px;
+    }
     }
 
     .excerpt 
@@ -129,7 +188,7 @@ const Home = () => {
             }
 
             <HomeContainer>
-            <div className="sidebar">
+            <div className="sidebar sidebar1">
                 <Widget>
                     Widget
                 </Widget>
@@ -203,7 +262,7 @@ const Home = () => {
 
                 </FeedArticle>
             </div>
-            <div className="sidebar">
+            <div className="sidebar sidebar2">
             <Widget>
                     Widget
                 </Widget>

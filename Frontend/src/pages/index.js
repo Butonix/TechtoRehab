@@ -71,27 +71,32 @@ h1
 
 h2
 {
-    font-size: 24px
+    font-size: 24px;
 } 
 
 h3
 {
-    font-size: 22px
+    font-size: 22px;
 } 
 
 h4
 {
-    font-size: 20px
+    font-size: 20px;
 } 
 
 h5
 {
-    font-size: 18px
+    font-size: 18px;
 } 
 
 h6
 {
-    font-size: 16px
+    font-size: 16px;
+
+    @media ${Devices.Mobile}
+    {
+        font-size: 15px;
+    }
 } 
 
 
@@ -102,6 +107,11 @@ p
     font-size: 14px;
     margin: 0;
     padding: 0;
+
+    @media ${Devices.Mobile}
+    {
+        font-size: 13px;
+    }
 }
 
 div
