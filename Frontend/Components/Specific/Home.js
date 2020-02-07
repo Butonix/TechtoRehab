@@ -107,7 +107,7 @@ const FeedFeatured = styled.div`
       }
       .author {
         margin-left: auto;
-        line-height: 1.5;
+        line-height: 1.3;
 
       }
     }
@@ -142,7 +142,7 @@ const FeedArticle = styled.div`
 
   .body {
     margin-right: auto;
-    padding: 13px;
+    padding: 11px;
     width: 400px;
 
 
