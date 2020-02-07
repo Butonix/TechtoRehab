@@ -54,7 +54,6 @@ const FeedFeatured = styled.div`
   width: 300px;
   margin: 5px;
   box-shadow: 0px 0px 3px 0px var(--black-25);
-  height: 350px;
   border-radius: 0px 0px 4px 4px;
   background-color: white;
 
@@ -78,6 +77,7 @@ const FeedFeatured = styled.div`
 
     .title {
       margin-bottom: 15px;
+      margin-top: 10px;
       font-weight: 700;
     }
 
@@ -86,7 +86,27 @@ const FeedFeatured = styled.div`
     }
 
     .meta {
+      display: flex;
+      font-weight: 600;
+
+      .reads {
+        display: flex;
+
+        .text {
+        }
+
+        .icon {
+          margin-right: 5px;
+          box-icon {
+            margin-top: -2px;
+            height: 22px;
+            width: 22px;
+            fill: var(--blue);
+          }
+        }
+      }
       .author {
+        margin-left: auto;
       }
     }
   }
@@ -110,6 +130,7 @@ const FeedArticle = styled.div`
     background-image: url("https://image.freepik.com/free-vector/colorful-gradient-space-with-rocket-background_52683-7445.jpg");
     width: 160px;
     height: 160px;
+    border-radius: 0px 3px 3px 0px;
 
     @media ${Devices.Mobile} {
       width: 140px;
@@ -141,6 +162,18 @@ const FeedArticle = styled.div`
     }
 
     .meta {
+      display: flex;
+      .reads {
+        display: flex;
+        .text {
+        }
+
+        .icon {
+          margin-left: 10px;
+          box-icon {
+          }
+        }
+      }
       .author {
       }
     }
@@ -176,6 +209,12 @@ const Home = () => {
                   </p>
                 </TruncateMarkup>
                 <div className="meta">
+                  <div className="reads">
+                    <div className="icon">
+                      <box-icon name="glasses"></box-icon>
+                    </div>
+                    <div className="text">20 Reads</div>
+                  </div>
                   <p className="author">Afzaal Afridi</p>
                 </div>
               </div>

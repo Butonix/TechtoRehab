@@ -5,7 +5,7 @@ const Star = styled.div`
   padding: 0;
 
   .featured-holder {
-    position: absolute;
+    position: relative;
     margin-left: 30px;
     margin-top: -26px;
 
@@ -20,8 +20,8 @@ const Star = styled.div`
     background-image: linear-gradient(135deg, #f6d242 10%, #ff52e5 100%);
     width: 24px;
     height: 24px;
-    position: absolute;
-    margin-top: -15px;
+    position: relative;
+    margin-top: -23px;
     margin-left: 33px;
     box-icon {
       fill: white;

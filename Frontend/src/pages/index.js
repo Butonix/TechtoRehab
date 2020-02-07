@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import {useStoreState,useStoreActions} from 'easy-peasy';
 import Head from 'next/head';
-import Sidebar from '../../Components/Global/Sidebar';
 import Nav from '../../Components/Global/Nav';
 import { Devices } from '../../Components/Global/responsive';
 import Home from '../../Components/Specific/Home';
