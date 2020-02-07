@@ -75,7 +75,7 @@ const FeedFeatured = styled.div`
   .featured-holder {
     position: absolute;
     margin-left: 30px;
-    margin-top: -25px;
+    margin-top: -26px;
 
     svg 
     {
