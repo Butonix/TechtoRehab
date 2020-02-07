@@ -107,6 +107,8 @@ const FeedFeatured = styled.div`
       }
       .author {
         margin-left: auto;
+        line-height: 1.5;
+
       }
     }
   }
@@ -140,12 +142,13 @@ const FeedArticle = styled.div`
 
   .body {
     margin-right: auto;
-    padding: 15px;
+    padding: 13px;
     width: 400px;
+
 
     @media ${Devices.Mobile} {
       max-width: 250px;
-      padding: 10px;
+      padding: 8px;
     }
 
     .title {
@@ -158,23 +161,37 @@ const FeedArticle = styled.div`
     }
 
     .excerpt {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+
+      @media ${Devices.Mobile}
+      {
+        margin-bottom: 12px;
+      }
     }
 
     .meta {
       display: flex;
+      font-weight: 600;
+
       .reads {
         display: flex;
+
         .text {
         }
 
         .icon {
-          margin-left: 10px;
+          margin-right: 5px;
           box-icon {
+            margin-top: -2px;
+            height: 22px;
+            width: 22px;
+            fill: var(--blue);
           }
         }
       }
       .author {
+        margin-left: auto;
+        line-height: 1.5;
       }
     }
   }
@@ -238,6 +255,12 @@ const Home = () => {
                 </TruncateMarkup>
 
                 <div className="meta">
+                <div className="reads">
+                    <div className="icon">
+                      <box-icon name="glasses"></box-icon>
+                    </div>
+                    <div className="text">20 Reads</div>
+                  </div>
                   <p className="author">Afzaal Afridi</p>
                 </div>
               </div>
@@ -259,6 +282,39 @@ const Home = () => {
                 </p>
               </TruncateMarkup>
               <div className="meta">
+                  <div className="reads">
+                    <div className="icon">
+                      <box-icon name="glasses"></box-icon>
+                    </div>
+                    <div className="text">20 Reads</div>
+                  </div>
+                  <p className="author">Afzaal Afridi</p>
+              </div>
+            </div>
+            <div className="cover" />
+          </FeedArticle>
+
+          <FeedArticle>
+            <div className="body">
+              <TruncateMarkup lines={2}>
+                <h6 className="title">
+                  {" "}
+                  How to debug javascript and improve the runtime performance{" "}
+                </h6>
+              </TruncateMarkup>
+              <TruncateMarkup lines={2}>
+                <p className="excerpt">
+                  You will learn how to read and debug console logs and improve
+                  on performance bit by bit
+                </p>
+              </TruncateMarkup>
+              <div className="meta">
+              <div className="reads">
+                    <div className="icon">
+                      <box-icon name="glasses"></box-icon>
+                    </div>
+                    <div className="text">20 Reads</div>
+                  </div>
                 <p className="author">This is author</p>
               </div>
             </div>
@@ -280,6 +336,12 @@ const Home = () => {
                 </p>
               </TruncateMarkup>
               <div className="meta">
+              <div className="reads">
+                    <div className="icon">
+                      <box-icon name="glasses"></box-icon>
+                    </div>
+                    <div className="text">20 Reads</div>
+                  </div>
                 <p className="author">This is author</p>
               </div>
             </div>
@@ -301,6 +363,12 @@ const Home = () => {
                 </p>
               </TruncateMarkup>
               <div className="meta">
+              <div className="reads">
+                    <div className="icon">
+                      <box-icon name="glasses"></box-icon>
+                    </div>
+                    <div className="text">20 Reads</div>
+                  </div>
                 <p className="author">This is author</p>
               </div>
             </div>
@@ -322,27 +390,12 @@ const Home = () => {
                 </p>
               </TruncateMarkup>
               <div className="meta">
-                <p className="author">This is author</p>
-              </div>
-            </div>
-            <div className="cover" />
-          </FeedArticle>
-
-          <FeedArticle>
-            <div className="body">
-              <TruncateMarkup lines={2}>
-                <h6 className="title">
-                  {" "}
-                  How to debug javascript and improve the runtime performance{" "}
-                </h6>
-              </TruncateMarkup>
-              <TruncateMarkup lines={2}>
-                <p className="excerpt">
-                  You will learn how to read and debug console logs and improve
-                  on performance bit by bit
-                </p>
-              </TruncateMarkup>
-              <div className="meta">
+              <div className="reads">
+                    <div className="icon">
+                      <box-icon name="glasses"></box-icon>
+                    </div>
+                    <div className="text">20 Reads</div>
+                  </div>
                 <p className="author">This is author</p>
               </div>
             </div>
