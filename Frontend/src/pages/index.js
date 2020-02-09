@@ -62,6 +62,11 @@ color: var(--black);
 margin: 0;
 font-weight: unset;
 line-height: 1.5;
+:first-letter
+{
+    text-transform: capitalize;
+}
+
 }
 
 h1
