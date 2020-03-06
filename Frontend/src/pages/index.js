@@ -1,30 +1,11 @@
 import styled from 'styled-components';
-//import gql from 'graphql-tag';
-//import { Query } from 'react-apollo'
 import { useState } from 'react';
 import {useStoreState,useStoreActions} from 'easy-peasy';
 import Head from 'next/head';
-import Nav from '../../Components/Global/Nav';
 import { Devices } from '../../Components/Global/responsive';
-import Home from '../../Components/Specific/Home';
-
-const Button = styled.button`
-background: ${(props) => props.theme.bg};
-color: ${(props) => props.theme.fg};
-padding: 10px;
-margin: 20px 0px;
-`
-
-
 
 
 const Index = () => {
-    var sidebar = useStoreState(state => state.sidebar);
-    var mobileSidebar = useStoreState(states => states.mobileSidebar);
-    const setSidebar = useStoreActions(actions => actions.setMobileSidebar);
-
-
-
 const AppWrapper = styled.div`
     height: 100%;
     background-color: var(--white-25);
@@ -97,11 +78,6 @@ h5
 h6
 {
     font-size: 16px;
-
-    @media ${Devices.Mobile}
-    {
-        font-size: 15px;
-    }
 } 
 
 
@@ -112,34 +88,20 @@ p
     font-size: 14px;
     margin: 0;
     padding: 0;
-
-    @media ${Devices.Mobile}
-    {
-        font-size: 13px;
-    }
 }
 
 div
 {
     font-family: var(--source-sans);
     color: var(--black);
-    font-size: 14px;
+    font-size: 16px;
 }
-
-
 `
-const spring = {
-    type: "spring",
-    damping: 10,
-    stiffness: 269
-  };
     return (
         <AppWrapper>
             <Head>
                 <title>Hello</title>
             </Head>
-            <Nav />
-            <Home />
         </AppWrapper>
     );
 
