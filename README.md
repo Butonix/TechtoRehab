@@ -1,2 +1,2 @@
 # TechtoRehab
-The Open Source Publishing Platform For Tech and Rehab Enthusiasts
+The Open Source Reading & Publishing Platform For Tech and Rehab Enthusiasts
