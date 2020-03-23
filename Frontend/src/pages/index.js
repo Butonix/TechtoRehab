@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {useStoreState,useStoreActions} from 'easy-peasy';
 import Head from 'next/head';
 import { Devices } from '../../Components/Global/responsive';
-
+import Homepage from '../../Components/home';
 
 const Index = () => {
 const AppWrapper = styled.div`
@@ -95,6 +95,7 @@ div
     font-family: var(--source-sans);
     color: var(--black);
     font-size: 16px;
+    transition: all .3 ease;
 }
 `
     return (
@@ -102,6 +103,7 @@ div
             <Head>
                 <title>Hello</title>
             </Head>
+            <Homepage />
         </AppWrapper>
     );
 
