@@ -32,7 +32,7 @@ export default class MyDocument extends Document {
       <Html style={{ height: "100%" }}>
         <Head>
           <link
-            href="https://fonts.googleapis.com/css?family=Public+Sans:200,300,400,500,600,700,800,900|Source+Sans+Pro:400,600,700,900|Poppins:400,500,600,700&display=swap"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800|Public+Sans:200,300,400,500,600,700,800,900|Source+Sans+Pro:400,600,700,900|Poppins:400,500,600,700&display=swap"
             rel="stylesheet"
           />
           <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>

@@ -38,7 +38,7 @@ const AppWrapper = styled.div`
 
 h1,h2,h3,h4,h5,h6
 {
-font-family: var(--public-sans);
+font-family: 'Open Sans';
 color: var(--black);
 margin: 0;
 font-weight: unset;

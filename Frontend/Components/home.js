@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 130px auto;
+  grid-template-columns: 130px calc(99.8% - 130px);
   grid-column-gap: 2px;
   margin: auto;
   grid-template-areas: "sidebar feed";
@@ -114,16 +114,25 @@ const Carousel = styled.div`
   box-shadow: inset -3px 2px 5px 0px var(--black-25);
   margin: 0px;
   padding: 5px;
+  overflow: hidden;
+
+  :last-child
+    {
+      margin-right: 7px;
+    }
+
   .carousel-item {
     box-shadow: 0px 0px 2px 0px var(--black-25);
-    height: 220px;
-    width: 200px;
+    height: 200px;
+    width: 160px;
     display: flex;
     flex-flow: column;
     background-color: white;
+    margin: 0px 3px;
+
     .cover {
-      width: 200px;
-      height: 150px;
+      width: 160px;
+      height: 220px;
       background-size: cover;
       background-position: center;
       background-image: url('https://img.freepik.com/free-vector/phisiotherapy-situations_23-2147539551.jpg?size=626&ext=jpg');
@@ -133,7 +142,7 @@ const Carousel = styled.div`
       padding: 7px;
         .title
         {
-          font-size: 10px;
+          font-size: 9px;
           font-weight: 700;
           text-transform: capitalize;
           height: 28px;
@@ -142,9 +151,9 @@ const Carousel = styled.div`
 
         .summary 
         {
-          font-size: 8px;
+          font-size: 9px;
           margin: 8px 0px;
-          height: 20px;
+          height: 22px;
           overflow: hidden;
         }
 
@@ -192,11 +201,7 @@ const Carousel = styled.div`
     height: 24px;
     width: 24px;
     margin-right: 10px;
-    box-shadow {
-      height: 20px;
-      width: 20px;
-      fill: var(--black);
-    }
+    box-shadow: 0px 0px 4px 1px var(--black-25);
   }
 `;
 
@@ -288,7 +293,103 @@ const Homepage = () => {
             <div className="cover" />
             <div className="body">
               <h6 className="title">
-                Low back pain ? how to fix low back pain in under 10 days
+                Learn on how to fix low back pain in under 10 days
+              </h6>
+
+              <p className="summary">
+                This is a default summary that must be satisfied unless you think you are better
+              </p>
+
+              <div className="footer">
+                <div className="likes">
+                  <div className="icon">
+                  <box-icon name='like' ></box-icon>
+                  </div>
+                  <p className="text">
+                    20
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="carousel-item">
+            <div className="cover" />
+            <div className="body">
+              <h6 className="title">
+                Learn on how to fix low back pain in under 10 days
+              </h6>
+
+              <p className="summary">
+                This is a default summary that must be satisfied unless you think you are better
+              </p>
+
+              <div className="footer">
+                <div className="likes">
+                  <div className="icon">
+                  <box-icon name='like' ></box-icon>
+                  </div>
+                  <p className="text">
+                    20
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="carousel-item">
+            <div className="cover" />
+            <div className="body">
+              <h6 className="title">
+                Learn on how to fix low back pain in under 10 days
+              </h6>
+
+              <p className="summary">
+                This is a default summary that must be satisfied unless you think you are better
+              </p>
+
+              <div className="footer">
+                <div className="likes">
+                  <div className="icon">
+                  <box-icon name='like' ></box-icon>
+                  </div>
+                  <p className="text">
+                    20
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="carousel-item">
+            <div className="cover" />
+            <div className="body">
+              <h6 className="title">
+                Learn on how to fix low back pain in under 10 days
+              </h6>
+
+              <p className="summary">
+                This is a default summary that must be satisfied unless you think you are better
+              </p>
+
+              <div className="footer">
+                <div className="likes">
+                  <div className="icon">
+                  <box-icon name='like' ></box-icon>
+                  </div>
+                  <p className="text">
+                    20
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="carousel-item">
+            <div className="cover" />
+            <div className="body">
+              <h6 className="title">
+                Learn on how to fix low back pain in under 10 days
               </h6>
 
               <p className="summary">
