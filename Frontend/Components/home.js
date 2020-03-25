@@ -2,11 +2,12 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 130px calc(99.8% - 130px);
+  grid-template-columns: 150px calc(99.8% - 150px);
   grid-column-gap: 2px;
   margin: auto;
   grid-template-areas: "sidebar feed";
 `;
+
 
 const Sidebar = styled.aside`
   grid-area: sidebar;
@@ -15,24 +16,24 @@ const Sidebar = styled.aside`
   .sidebar-entry {
     display: flex;
     flex-flow: column;
-    padding: 10px 25px;
+    padding: 15px 15px;
     .entry-container {
       display: flex;
 
       .icon {
         box-icon {
-          width: 16px;
-          height: 16px;
+          width: 25px;
+          height: 25px;
           fill: var(--white);
         }
       }
 
       .text {
         color: var(--white);
-        font-size: 12px;
         margin-left: 5px;
         font-weight: 600;
-        line-height: 1.4;
+        line-height: 1.8;
+        font-size: 14px;
       }
     }
 
@@ -44,10 +45,11 @@ const Sidebar = styled.aside`
 `;
 
 const LogoContainer = styled.div`
-  margin: 0px auto;
+  margin: 10px auto;
+  margin-bottom: 40px;
   .circle {
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     margin: 10px auto;
     border-radius: 50%;
     background: linear-gradient(269deg, #08aeea, #2af598);
@@ -93,14 +95,15 @@ const LogoContainer = styled.div`
   }
 
   img {
-    position: relative;
+    position: absolute;
     z-index: 2;
-    width: 50px;
+    width: 80px;
     margin: 0px 0px;
-    margin-top: -90px;
-    margin-bottom: 30px;
+    margin-top: 21px;
+    margin-bottom: 90px;
     margin-right: 0px;
-    margin-left: 40px;
+    margin-left: 35px;
+    top: 0;
   }
 `;
 
@@ -111,9 +114,9 @@ const Main = styled.main`
 
 const Carousel = styled.div`
   display: flex;
-  box-shadow: inset -3px 2px 5px 0px var(--black-25);
+  box-shadow: inset -4px 0px 4px 0px var(--black-25);
   margin: 0px;
-  padding: 5px;
+  padding: 4px 5px;
   overflow: hidden;
 
   :last-child
@@ -123,67 +126,98 @@ const Carousel = styled.div`
 
   .carousel-item {
     box-shadow: 0px 0px 2px 0px var(--black-25);
-    height: 200px;
-    width: 160px;
+    height: 300px;
+    width: 250px;
     display: flex;
     flex-flow: column;
     background-color: white;
-    margin: 0px 3px;
+    margin: 0px 10px;
 
     .cover {
-      width: 160px;
-      height: 220px;
+      width: 250px;
+      height: 150px;
       background-size: cover;
       background-position: center;
       background-image: url('https://img.freepik.com/free-vector/phisiotherapy-situations_23-2147539551.jpg?size=626&ext=jpg');
     }
 
     .body {
-      padding: 7px;
+      padding: 10px;
         .title
         {
-          font-size: 9px;
+          font-size: 14px;
           font-weight: 700;
           text-transform: capitalize;
-          height: 28px;
+          height: 40px;
           overflow: hidden;
         }
 
         .summary 
         {
-          font-size: 9px;
-          margin: 8px 0px;
-          height: 22px;
+          font-size: 14px;
+          margin: 12px 0px;
           overflow: hidden;
+          height: 36px;
         }
 
         .footer 
         {
           display: flex;
+          
+          .author 
+          {
+            display: flex;
+            .avatar 
+            {
+              width: 25px;
+              height: 25px;
+              border-radius: 50%;
+              background-size: cover;
+              background-position: center;
+              background-image: url('https://img.freepik.com/free-vector/profile-icon-male-avatar-hipster-man-wear-headphones_48369-8728.jpg?size=338&ext=jpg');
+            }
+
+            .name 
+            {
+              font-size: 14px;
+              margin-left: 10px;
+              line-height: 1.9;
+            }
+          }
+
+
+          .meta 
+          {
+          
+          display: flex;
+          margin-left: auto;
           .likes 
           {
             display: flex;
 
             .icon 
             {
+              margin-top: 2px;
               box-icon 
               {
-                height: 12px;
-                width: 12px;
+                height: 20px;
+                width: 20px;
                 fill: var(--black);
               }
             }
 
             .text 
             {
-              font-size: 10px;
+              font-size: 14px;
               margin-left: 5px;
-              line-height: 2;
+              line-height: 1.8;
             }
           }
 
           .comments 
           {
+
+          }
 
           }
         }
@@ -197,11 +231,17 @@ const Carousel = styled.div`
     position: absolute;
     cursor: pointer;
     right: 0;
-    margin-top: 70px;
-    height: 24px;
-    width: 24px;
-    margin-right: 10px;
+    margin-top: 120px;
+    height: 30px;
+    width: 30px;
+    margin-right: 20px;
     box-shadow: 0px 0px 4px 1px var(--black-25);
+
+    box-icon 
+    {
+      height: 30px;
+      width: 30px;
+    }
   }
 `;
 
@@ -220,7 +260,7 @@ const Homepage = () => {
               <box-icon name="home-smile" type="solid"></box-icon>
             </div>
 
-            <div className="text">Newsfeed</div>
+            <h6 className="text">Newsfeed</h6>
           </div>
         </div>
 
@@ -230,7 +270,7 @@ const Homepage = () => {
               <box-icon type="solid" name="book-content"></box-icon>
             </div>
 
-            <div className="text">Courses</div>
+            <h6 className="text">Courses</h6>
           </div>
         </div>
 
@@ -240,7 +280,7 @@ const Homepage = () => {
               <box-icon type="solid" name="bookmark"></box-icon>
             </div>
 
-            <div className="text">Saved</div>
+            <h6 className="text">Saved</h6>
           </div>
         </div>
 
@@ -250,7 +290,7 @@ const Homepage = () => {
               <box-icon name="star" type="solid"></box-icon>
             </div>
 
-            <div className="text">Featured</div>
+            <h6 className="text">Featured</h6>
           </div>
         </div>
 
@@ -260,7 +300,7 @@ const Homepage = () => {
               <box-icon name="hot" type="solid"></box-icon>
             </div>
 
-            <div className="text">Hot</div>
+            <h6 className="text">Hot</h6>
           </div>
         </div>
 
@@ -270,7 +310,7 @@ const Homepage = () => {
               <box-icon name="moon" type="solid"></box-icon>
             </div>
 
-            <div className="text">Dark Mode</div>
+            <h6 className="text">Dark Mode</h6>
           </div>
         </div>
 
@@ -280,7 +320,7 @@ const Homepage = () => {
               <box-icon name="cog" type="solid"></box-icon>
             </div>
 
-            <div className="text">Settings</div>
+            <h6 className="text">Settings</h6>
           </div>
         </div>
       </Sidebar>
@@ -301,6 +341,13 @@ const Homepage = () => {
               </p>
 
               <div className="footer">
+                <div className="author">
+                  <div className="avatar" />
+                  <p className="name">
+                    Afzaal Afridi
+                  </p>
+                </div>
+                <div className="meta">
                 <div className="likes">
                   <div className="icon">
                   <box-icon name='like' ></box-icon>
@@ -309,9 +356,11 @@ const Homepage = () => {
                     20
                   </p>
                 </div>
+                </div>
               </div>
             </div>
           </div>
+
 
           <div className="carousel-item">
             <div className="cover" />
@@ -325,6 +374,13 @@ const Homepage = () => {
               </p>
 
               <div className="footer">
+                <div className="author">
+                  <div className="avatar" />
+                  <p className="name">
+                    Afzaal Afridi
+                  </p>
+                </div>
+                <div className="meta">
                 <div className="likes">
                   <div className="icon">
                   <box-icon name='like' ></box-icon>
@@ -333,9 +389,11 @@ const Homepage = () => {
                     20
                   </p>
                 </div>
+                </div>
               </div>
             </div>
           </div>
+
 
           <div className="carousel-item">
             <div className="cover" />
@@ -349,6 +407,13 @@ const Homepage = () => {
               </p>
 
               <div className="footer">
+                <div className="author">
+                  <div className="avatar" />
+                  <p className="name">
+                    Afzaal Afridi
+                  </p>
+                </div>
+                <div className="meta">
                 <div className="likes">
                   <div className="icon">
                   <box-icon name='like' ></box-icon>
@@ -357,9 +422,11 @@ const Homepage = () => {
                     20
                   </p>
                 </div>
+                </div>
               </div>
             </div>
           </div>
+
 
           <div className="carousel-item">
             <div className="cover" />
@@ -373,6 +440,13 @@ const Homepage = () => {
               </p>
 
               <div className="footer">
+                <div className="author">
+                  <div className="avatar" />
+                  <p className="name">
+                    Afzaal Afridi
+                  </p>
+                </div>
+                <div className="meta">
                 <div className="likes">
                   <div className="icon">
                   <box-icon name='like' ></box-icon>
@@ -381,9 +455,11 @@ const Homepage = () => {
                     20
                   </p>
                 </div>
+                </div>
               </div>
             </div>
           </div>
+
 
           <div className="carousel-item">
             <div className="cover" />
@@ -397,6 +473,13 @@ const Homepage = () => {
               </p>
 
               <div className="footer">
+                <div className="author">
+                  <div className="avatar" />
+                  <p className="name">
+                    Afzaal Afridi
+                  </p>
+                </div>
+                <div className="meta">
                 <div className="likes">
                   <div className="icon">
                   <box-icon name='like' ></box-icon>
@@ -405,9 +488,11 @@ const Homepage = () => {
                     20
                   </p>
                 </div>
+                </div>
               </div>
             </div>
           </div>
+         
         </Carousel>
       </Main>
     </Container>
