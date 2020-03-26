@@ -7,8 +7,8 @@ import Homepage from '../../Components/home';
 
 const Index = () => {
 const AppWrapper = styled.div`
-    height: 100%;
-    background-color: var(--white-25);
+    height: 100vh;
+    background-color: rgba(136, 179, 251, 0.2);
     --source-sans: 'Source Sans Pro',sans-serif;
     --public-sans: 'Public Sans', sans-serif;
     --large-font: 24px;
