@@ -1,0 +1,33 @@
+{
+  "name": "techtorehab",
+  "version": "1.0.0",
+  "description": "Web app for tech to rehab",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-write-grand-team/TechtoRehab.git"
+  },
+  "keywords": [
+    "tech",
+    "rehab",
+    "web",
+    "app",
+    "pwa",
+    "MIT",
+    "open",
+    "source",
+    "blog"
+  ],
+  "author": "Afzaal Afridi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/the-write-grand-team/TechtoRehab/issues"
+  },
+  "homepage": "https://github.com/the-write-grand-team/TechtoRehab#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
