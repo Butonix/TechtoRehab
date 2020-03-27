@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "node server.js"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "next": "9.3.2",
     "react": "16.13.1",
     "react-dom": "16.13.1"
