@@ -1,11 +1,10 @@
-import { Layout, Menu, Button, Badge } from "antd";
+import { Layout, Menu, Button, Badge, Dropdown } from "antd";
 import {
   UserOutlined,
   LaptopOutlined,
   NotificationOutlined,
   EditOutlined,
-  BellOutlined,
-  MailOutlined,
+  LoginOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
 import { breakPoints } from "../components/global/responsive";
@@ -40,7 +39,7 @@ const HeaderDefault = styled.header`
       display: flex;
       .navItem {
         margin: 0px 15px;
-        height: 44px;
+        height: 38px;
         span {
           span {
             font-size: 20px;
@@ -49,6 +48,18 @@ const HeaderDefault = styled.header`
             }
           }
         }
+
+        ion-icon {
+          font-size: 22px;
+          @media ${breakPoints.mobile} {
+            font-size: 22px;
+            margin: 0px 5px;
+          }
+        }
+        @media ${breakPoints.mobile} {
+          margin: 0px 5px;
+          height: 38px;
+        }
       }
     }
     img {
@@ -56,16 +67,55 @@ const HeaderDefault = styled.header`
       margin: 0px 15px;
 
       @media ${breakPoints.mobile} {
-        width: 140px;
+        width: 130px;
+        margin: 0px 10px;
       }
     }
 
     .compose {
       margin-left: auto;
+      margin-right: 10px;
+      @media ${breakPoints.mobile} {
+        margin-right: 10px;
+      }
+    }
+
+    .userOptions 
+    {
       margin-right: 20px;
+      @media ${breakPoints.mobile} {
+        display: none;
+      }
+    }
+
+    .loginIcon 
+    {
+      display: none;
+      margin: 0px 5px;
+      @media ${breakPoints.mobile} {
+        display: block;
+        font-size: 20px;
+      }
     }
   }
 `;
+
+const menu = (
+  <Menu onClick={() => {}}>
+    <Menu.Item key="1">
+      <UserOutlined />
+      1st menu item
+    </Menu.Item>
+    <Menu.Item key="2">
+      <UserOutlined />
+      2nd menu item
+    </Menu.Item>
+    <Menu.Item key="3">
+      <UserOutlined />
+      3rd item
+    </Menu.Item>
+  </Menu>
+);
 
 export default function Home() {
   return (
@@ -75,19 +125,28 @@ export default function Home() {
           <img src="TECHTOREHAB.svg" />
           <div className="center">
             <div className="navItem">
-              <Badge count={0} showZero>
-                <BellOutlined />
+              <Badge count={1} dot>
+                <ion-icon name="chatbubbles-outline"></ion-icon>
               </Badge>
             </div>
             <div className="navItem">
               <Badge count={0} showZero>
-                <MailOutlined />
+                <ion-icon name="notifications-outline"></ion-icon>
+              </Badge>
+            </div>
+            <div className="navItem">
+              <Badge count={0} showZero>
+                <ion-icon name="bookmark-outline"></ion-icon>
               </Badge>
             </div>
           </div>
           <div className="navItem compose">
-            <Button icon={<EditOutlined />}>Compose</Button>
+            <Button icon={<EditOutlined />}>Write</Button>
           </div>
+          <Dropdown.Button className="userOptions" overlay={menu} icon={<UserOutlined />}>
+            Login
+          </Dropdown.Button>
+          <LoginOutlined className="loginIcon"/>
         </nav>
       </HeaderDefault>
       <Layout>

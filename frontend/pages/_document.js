@@ -34,6 +34,8 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
         <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+        <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+
         </Head>
         <body style={{margin: 0}}>
           <Main />
