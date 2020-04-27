@@ -1,19 +1,31 @@
-import { Layout, Menu, Button, Badge, Dropdown } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Typography,
+  Layout,
+  Menu,
+  Button,
+  Badge,
+  Dropdown,
+  PageHeader,
+} from "antd";
 import {
   UserOutlined,
   LaptopOutlined,
   NotificationOutlined,
   EditOutlined,
-  LoginOutlined,
+  DownOutlined,
+  ArrowRightOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
 import { breakPoints } from "../components/global/responsive";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
+const { Title } = Typography;
 
 const HeaderDefault = styled.header`
-  width: 100vw;
   box-shadow: 0px 0px 3px 0px #f5f5f5;
   height: 50px;
   position: relative;
@@ -73,23 +85,38 @@ const HeaderDefault = styled.header`
     }
 
     .compose {
-      margin-left: auto;
       margin-right: 10px;
       @media ${breakPoints.mobile} {
-        margin-right: 10px;
+        /* margin-right: 10px; */
+        position: fixed;
+        bottom: 20px;
+        right: 40px;
+
+        button {
+          border-radius: 50%;
+          height: 60px;
+          width: 60px;
+          background: #1890ff;
+          color: white;
+          .composeText {
+            display: none;
+          }
+        }
       }
     }
 
-    .userOptions 
-    {
+    .userOptions {
       margin-right: 20px;
       @media ${breakPoints.mobile} {
-        display: none;
+        /* display: none; */
       }
     }
 
-    .loginIcon 
-    {
+    .getStarted {
+      margin-right: 10px;
+    }
+
+    .loginIcon {
       display: none;
       margin: 0px 5px;
       @media ${breakPoints.mobile} {
@@ -119,34 +146,31 @@ const menu = (
 
 export default function Home() {
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout>
       <HeaderDefault>
         <nav>
           <img src="TECHTOREHAB.svg" />
           <div className="center">
-            <div className="navItem">
-              <Badge count={1} dot>
-                <ion-icon name="chatbubbles-outline"></ion-icon>
-              </Badge>
-            </div>
             <div className="navItem">
               <Badge count={0} showZero>
                 <ion-icon name="notifications-outline"></ion-icon>
               </Badge>
             </div>
             <div className="navItem">
-              <Badge count={0} showZero>
-                <ion-icon name="bookmark-outline"></ion-icon>
-              </Badge>
+              <ion-icon name="bookmark-outline"></ion-icon>
             </div>
           </div>
           <div className="navItem compose">
-            <Button icon={<EditOutlined />}>Write</Button>
+            <Button icon={<EditOutlined />}>
+              <span className="composeText">Write</span>
+            </Button>
           </div>
-          <Dropdown.Button className="userOptions" overlay={menu} icon={<UserOutlined />}>
-            Login
-          </Dropdown.Button>
-          <LoginOutlined className="loginIcon"/>
+          <Dropdown className="userOptions" overlay={menu}>
+            <Button>
+              Hello, Afzaal <DownOutlined />
+            </Button>
+          </Dropdown>
+          <Button className="getStarted">Get Started</Button>
         </nav>
       </HeaderDefault>
       <Layout>
@@ -196,17 +220,141 @@ export default function Home() {
             </SubMenu>
           </Menu>
         </Sider>
-        <Layout style={{ padding: "0 24px 24px" }}>
+        <Layout style={{ padding: "0 24px 24px", height: "100%" }}>
           <Content
             className="site-layout-background"
             style={{
               padding: 24,
               marginTop: 10,
-              minHeight: 280,
               background: "white",
             }}
           >
-            Content
+            <PageHeader
+              title="Featured"
+              extra={[
+                <>
+                  See More <ArrowRightOutlined />
+                </>,
+              ]}
+            />
+
+            <Row style={{ height: "100%" }}>
+              <Col xs={23} sm={12} md={12} lg={12} xl={6}>
+                <Card
+                  style={{ margin: "20px" }}
+                  cover={
+                    <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
+                  }
+                >
+                  <Card.Meta
+                    title="Welcome To React JS Lesson"
+                    description="This is a random excerpt of a post you should know"
+                  />
+                  <p style={{ margin: "10px 0px" }}>By Afzaal Afridi</p>
+                </Card>
+              </Col>
+              <Col xs={23} sm={12} md={12} lg={12} xl={6}>
+                <Card
+                  style={{ margin: "20px" }}
+                  cover={
+                    <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
+                  }
+                >
+                  <Card.Meta
+                    title="Welcome To React JS Lesson"
+                    description="This is a random excerpt of a post you should know"
+                  />
+                </Card>
+              </Col>
+              <Col xs={23} sm={12} md={12} lg={12} xl={6}>
+                <Card
+                  style={{ margin: "20px" }}
+                  cover={
+                    <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
+                  }
+                >
+                  <Card.Meta
+                    title="Welcome To React JS Lesson"
+                    description="This is a random excerpt of a post you should know"
+                  />
+                </Card>
+              </Col>
+              <Col xs={23} sm={12} md={12} lg={12} xl={6}>
+                <Card
+                  style={{ margin: "20px" }}
+                  cover={
+                    <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
+                  }
+                >
+                  <Card.Meta
+                    title="Welcome To React JS Lesson"
+                    description="This is a random excerpt of a post you should know"
+                  />
+                </Card>
+              </Col>
+            </Row>
+            <PageHeader
+              title="From Technology"
+              extra={[
+                <>
+                  See More <ArrowRightOutlined />
+                </>,
+              ]}
+            />
+            <Row>
+              <Col xs={23} sm={12} md={12} lg={12} xl={6}>
+                <Card
+                  style={{ margin: "20px" }}
+                  cover={
+                    <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
+                  }
+                >
+                  <Card.Meta
+                    title="Welcome To React JS Lesson"
+                    description="This is a random excerpt of a post you should know"
+                  />
+                </Card>
+              </Col>
+              <Col xs={23} sm={12} md={12} lg={12} xl={6}>
+                <Card
+                  style={{ margin: "20px" }}
+                  cover={
+                    <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
+                  }
+                >
+                  <Card.Meta
+                    title="Welcome To React JS Lesson"
+                    description="This is a random excerpt of a post you should know"
+                  />
+                </Card>
+              </Col>
+              <Col xs={23} sm={12} md={12} lg={12} xl={6}>
+                <Card
+                  style={{ margin: "20px" }}
+                  cover={
+                    <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
+                  }
+                >
+                  <Card.Meta
+                    title="Welcome To React JS Lesson"
+                    description="This is a random excerpt of a post you should know"
+                  />
+                </Card>
+              </Col>
+              <Col xs={23} sm={12} md={12} lg={12} xl={6}>
+                <Card
+                  style={{ margin: "20px" }}
+                  cover={
+                    <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
+                  }
+                >
+                  <Card.Meta
+                    title="Welcome To React JS Lesson"
+                    description="This is a random excerpt of a post you should know"
+                  />
+                </Card>
+              </Col>
+            </Row>
           </Content>
         </Layout>
       </Layout>
