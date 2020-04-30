@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 import {
+  Empty,
+  Skeleton,
   Row,
   Col,
   Card,
@@ -9,21 +13,24 @@ import {
   Badge,
   Dropdown,
   PageHeader,
+  List,
 } from "antd";
 import {
+  ReloadOutlined,
   UserOutlined,
   LaptopOutlined,
   NotificationOutlined,
   EditOutlined,
   DownOutlined,
   ArrowRightOutlined,
+  ClockCircleOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
 import { breakPoints } from "../components/global/responsive";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 const HeaderDefault = styled.header`
   box-shadow: 0px 0px 3px 0px #f5f5f5;
@@ -61,8 +68,9 @@ const HeaderDefault = styled.header`
           }
         }
 
-        ion-icon {
+        i {
           font-size: 22px;
+          line-height:1;
           @media ${breakPoints.mobile} {
             font-size: 22px;
             margin: 0px 5px;
@@ -90,8 +98,7 @@ const HeaderDefault = styled.header`
         /* margin-right: 10px; */
         position: fixed;
         bottom: 20px;
-        right: 40px;
-
+        right: 0px;
         button {
           border-radius: 50%;
           height: 60px;
@@ -145,36 +152,104 @@ const menu = (
 );
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([
+    {
+      href: "http://ant.design",
+      title: `My Experience Of Working In A Government Hospital In Pakistan`,
+      avatar:
+        "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+      description:
+        "Ant Design, a design language for background applications, is refined by Ant UED Team.",
+      content:
+        "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
+      cover:
+        "https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png",
+    },
+  ]);
+  const onLoad = () => {
+    setLoading(true);
+    setData(
+      data.concat([...new Array(1)].map(() => ({ loading: true, name: {} })))
+    );
+    var ampData = {
+      href: "http://ant.design",
+      title: `From Hero To React In Under 30 Days !`,
+      avatar:
+        "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+      description:
+        "Ant Design, a design language for background applications, is refined by Ant UED Team.",
+      content:
+        "(Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
+      cover:
+        "https://static.vecteezy.com/system/resources/previews/000/158/077/non_2x/kerala-sunset-vector-background.jpg",
+    };
+    setTimeout(() => {
+      setData(data.concat(ampData));
+      setLoading(false);
+      window.dispatchEvent(new Event("resize"));
+    }, 5000);
+  };
+
+  const loadMore = !loading ? (
+    <div
+      style={{
+        textAlign: "center",
+        marginTop: 12,
+        height: 32,
+        lineHeight: "32px",
+      }}
+    >
+      <Button type="primary" icon={<ReloadOutlined />} onClick={onLoad}>
+        Load More
+      </Button>
+    </div>
+  ) : null;
+
   return (
     <Layout>
       <HeaderDefault>
         <nav>
-          <img src="TECHTOREHAB.svg" />
+          <img className="logoLight" src="TTR-LIGHT.svg" />
+          <img className="logoDark" src="TTR-DARK.svg" />
           <div className="center">
             <div className="navItem">
               <Badge count={0} showZero>
-                <ion-icon name="notifications-outline"></ion-icon>
+                <Dropdown overlay={menu} trigger={["click"]}>
+                  <a onClick={(e) => e.preventDefault()}>
+                  <i class="ri-notification-3-line"></i>
+                  </a>
+                </Dropdown>
               </Badge>
             </div>
             <div className="navItem">
-              <ion-icon name="bookmark-outline"></ion-icon>
+            <i class="ri-bookmark-line"></i>
             </div>
           </div>
           <div className="navItem compose">
-            <Button icon={<EditOutlined />}>
+            <Button type="primary" icon={<EditOutlined />}>
               <span className="composeText">Write</span>
             </Button>
           </div>
-          <Dropdown className="userOptions" overlay={menu}>
+          {/* <Dropdown className="userOptions" overlay={menu}>
             <Button>
               Hello, Afzaal <DownOutlined />
             </Button>
-          </Dropdown>
-          <Button className="getStarted">Get Started</Button>
+          </Dropdown> */}
+          <Button type="primary" className="getStarted">
+            Get Started
+          </Button>
         </nav>
       </HeaderDefault>
       <Layout>
         <Sider
+          // style={{
+          //   overflow: "auto",
+          //   height: "100vh",
+          //   position: "sticky",
+          //   left: 0,
+          //   top: 0,
+          // }}
           width={200}
           className="site-layout-background"
           breakpoint="lg"
@@ -220,20 +295,19 @@ export default function Home() {
             </SubMenu>
           </Menu>
         </Sider>
-        <Layout style={{ padding: "0 24px 24px", height: "100%" }}>
+        <Layout className="mainLayout">
           <Content
-            className="site-layout-background"
-            style={{
-              padding: 24,
-              marginTop: 10,
-              background: "white",
-            }}
+            className="site-layout"
+            // style={{
+            //   padding: "24px",
+            //   marginTop: 10,
+            // }}
           >
             <PageHeader
               title="Featured"
               extra={[
                 <>
-                  See More <ArrowRightOutlined />
+                  <span>See More</span> <ArrowRightOutlined />
                 </>,
               ]}
             />
@@ -297,7 +371,7 @@ export default function Home() {
               title="From Technology"
               extra={[
                 <>
-                  See More <ArrowRightOutlined />
+                  <span>See More</span> <ArrowRightOutlined />
                 </>,
               ]}
             />
@@ -354,6 +428,61 @@ export default function Home() {
                   />
                 </Card>
               </Col>
+            </Row>
+            <PageHeader
+              title="News Feed"
+              extra={[
+                <>
+                  <span>See More</span> <ArrowRightOutlined />
+                </>,
+              ]}
+            />
+            <Row>
+              <List
+                itemLayout="vertical"
+                dataSource={data}
+                style={{ margin: "0px 20px" }}
+                loadMore={loadMore}
+                renderItem={(item) => (
+                  <List.Item
+                    key={item.title}
+                    actions={[
+                      !item.loading ? (
+                        <>
+                          <UserOutlined />
+                          <span style={{ margin: "0px 8px" }}>Hello</span>
+                        </>
+                      ) : (
+                        <div></div>
+                      ),
+                    ]}
+                    extra={
+                      !item.cover ? (
+                        <div class="ph-item">
+                          <div class="ph-picture"></div>
+                        </div>
+                      ) : (
+                        <img width={272} alt="logo" src={item.cover} />
+                      )
+                    }
+                  >
+                    <Skeleton
+                      className="skeleton"
+                      loading={item.loading}
+                      active
+                    >
+                      <List.Item.Meta
+                        title={<a href={item.href}>{item.title}</a>}
+                        description={
+                          <Paragraph ellipsis={{ rows: 3, expandable: true }}>
+                            {item.content}
+                          </Paragraph>
+                        }
+                      />
+                    </Skeleton>
+                  </List.Item>
+                )}
+              />
             </Row>
           </Content>
         </Layout>

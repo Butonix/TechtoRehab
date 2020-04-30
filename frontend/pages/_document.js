@@ -33,8 +33,8 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-        <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-        <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@2.4.0/fonts/remixicon.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css" />
 
         </Head>
         <body style={{margin: 0}}>

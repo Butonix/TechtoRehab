@@ -1,5 +1,88 @@
-.ant-page-header-heading-extra
-{
-    margin: 0px 0px;
-    margin-top: 11px;
+$mobile-width: 400px;
+$tablet-width: 768px;
+$iPad-Pro-width: 1024px;
+$desktop-width: 1200px;
+$HD-Desktop: 1600px;
+
+@mixin mobile {
+  @media (min-width: #{$mobile-width}) and (max-width: #{$tablet-width - 1px}) {
+    @content;
+  }
 }
+
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) and (max-width: #{$HD-Desktop - 1px}) {
+    @content;
+  }
+}
+
+.ant-page-header-heading-extra {
+  margin: 0px 0px;
+  margin-top: 11px;
+}
+
+.ant-card {
+  margin: 10px 20px !important;
+  @include mobile {
+    margin: 10px 0px !important;
+  }
+}
+
+.mainLayout {
+  padding: 0 24px 24px;
+  height: 100%;
+  @include mobile {
+    padding: 0px;
+  }
+}
+
+.ant-list-item-meta-title {
+  a {
+    color: rgb(38, 38, 38);
+  }
+}
+
+.ant-page-header {
+  @include mobile {
+    padding: 16px 15px;
+  }
+}
+
+.ant-list-vertical .ant-list-item-extra {
+  @include mobile {
+  }
+}
+
+.skeleton {
+  width: 100%;
+}
+
+.ph-item {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  .ph-picture {
+    width: 270px;
+    height: 200px;
+    background: #f2f2f2;
+  }
+}
+
+.ant-page-header-heading-extra {
+  margin: 0px 0 !important;
+  margin-top: 10px !important;
+  white-space: nowrap;
+}
+
+.site-layout
+{
+  padding: 24px;
+  margin-top: 10px;
+}
+
