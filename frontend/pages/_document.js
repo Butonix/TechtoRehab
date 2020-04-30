@@ -1,6 +1,6 @@
 import Document from "next/document";
 import { ServerStyleSheet } from "styled-components";
-import { Html, Head, Main, NextScript } from 'next/document';
+import { Html, Head, Main, NextScript } from "next/document";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -33,11 +33,13 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-        <link href="https://cdn.jsdelivr.net/npm/remixicon@2.4.0/fonts/remixicon.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css" />
-
+          {/* <link href="https://cdn.jsdelivr.net/npm/remixicon@2.4.0/fonts/remixicon.css" rel="stylesheet" /> */}
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css"
+          />
         </Head>
-        <body style={{margin: 0}}>
+        <body style={{ margin: 0 }}>
           <Main />
           <NextScript />
         </body>

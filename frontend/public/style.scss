@@ -43,8 +43,10 @@ $HD-Desktop: 1600px;
 }
 
 .ant-list-item-meta-title {
-  a {
-    color: rgb(38, 38, 38);
+  @media (prefers-color-scheme: light) {
+    a {
+      color: rgb(38, 38, 38) !important;
+    }
   }
 }
 
@@ -67,11 +69,24 @@ $HD-Desktop: 1600px;
   border: 0;
   padding: 0;
   margin: 0;
+  @media (prefers-color-scheme: dark) {
+    background: #141414;
+  }
   .ph-picture {
     width: 270px;
     height: 200px;
-    background: #f2f2f2;
+    @media (prefers-color-scheme: dark) {
+      background: #141414;
+    }
+    @media (prefers-color-scheme: light) {
+      background: #f2f2f2;
+    }
   }
+}
+
+.ri-lg 
+{
+  vertical-align: -0.3em !important;
 }
 
 .ant-page-header-heading-extra {
@@ -80,9 +95,12 @@ $HD-Desktop: 1600px;
   white-space: nowrap;
 }
 
-.site-layout
-{
-  padding: 24px;
+.site-layout {
+  padding: 0px 24px;
+  padding-bottom: 20px;
   margin-top: 10px;
 }
 
+.ant-card-meta-title {
+  white-space: normal !important;
+}

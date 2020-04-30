@@ -1,7 +1,12 @@
 import { useState } from "react";
 
 import {
-  Empty,
+  Tag,
+  Slider,
+  Switch,
+  Tooltip,
+  Avatar,
+  Space,
   Skeleton,
   Row,
   Col,
@@ -30,7 +35,7 @@ import { breakPoints } from "../components/global/responsive";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const HeaderDefault = styled.header`
   box-shadow: 0px 0px 3px 0px #f5f5f5;
@@ -70,7 +75,7 @@ const HeaderDefault = styled.header`
 
         i {
           font-size: 22px;
-          line-height:1;
+          line-height: 1;
           @media ${breakPoints.mobile} {
             font-size: 22px;
             margin: 0px 5px;
@@ -216,14 +221,20 @@ export default function Home() {
             <div className="navItem">
               <Badge count={0} showZero>
                 <Dropdown overlay={menu} trigger={["click"]}>
-                  <a onClick={(e) => e.preventDefault()}>
-                  <i class="ri-notification-3-line"></i>
-                  </a>
+                  <Tooltip title="Notifications">
+                    <a onClick={(e) => e.preventDefault()}>
+                      <i class="ri-notification-3-line"></i>
+                    </a>
+                  </Tooltip>
                 </Dropdown>
               </Badge>
             </div>
             <div className="navItem">
-            <i class="ri-bookmark-line"></i>
+              <Tooltip title="My Bookmarks">
+                <a>
+                  <i class="ri-bookmark-line"></i>
+                </a>
+              </Tooltip>
             </div>
           </div>
           <div className="navItem compose">
@@ -261,38 +272,83 @@ export default function Home() {
             defaultOpenKeys={["sub1"]}
             style={{ height: "100%", borderRight: 0 }}
           >
-            <Menu.Item key="1">option1</Menu.Item>
-            <Menu.Item key="2">option2</Menu.Item>
-            <Menu.Item key="3">option3</Menu.Item>
-            <Menu.Item key="4">option4</Menu.Item>
-            <SubMenu
-              key="sub2"
-              title={
-                <span>
-                  <LaptopOutlined />
-                  subnav 2
-                </span>
-              }
-            >
+            <Title style={{ margin: "20px", fontSize: "16px" }}>
+              Categories
+            </Title>
+
+            <SubMenu key="sub2" title={<Space>Physical Therapy</Space>}>
+              <Menu.Item key="5">MSK/Orthopedic</Menu.Item>
+              <Menu.Item key="6">Neuro</Menu.Item>
+              <Menu.Item key="7">Sports</Menu.Item>
+              <Menu.Item key="8">Cardiopulmonary</Menu.Item>
+            </SubMenu>
+            <SubMenu key="sub4" title={<Space>Programming</Space>}>
+              <Menu.Item key="5">JavaScript</Menu.Item>
+              <Menu.Item key="6">Flutter</Menu.Item>
+              <Menu.Item key="7">PHP</Menu.Item>
+              <Menu.Item key="8">HTML</Menu.Item>
+              <Menu.Item key="9">CSS</Menu.Item>
+              <Menu.Item key="10">SEO</Menu.Item>
+            </SubMenu>
+
+            <SubMenu key="sub5" title={<Space>Short Courses</Space>}>
               <Menu.Item key="5">option5</Menu.Item>
               <Menu.Item key="6">option6</Menu.Item>
               <Menu.Item key="7">option7</Menu.Item>
               <Menu.Item key="8">option8</Menu.Item>
             </SubMenu>
-            <SubMenu
-              key="sub3"
-              title={
-                <span>
-                  <NotificationOutlined />
-                  subnav 3
-                </span>
-              }
-            >
-              <Menu.Item key="9">option9</Menu.Item>
-              <Menu.Item key="10">option10</Menu.Item>
-              <Menu.Item key="11">option11</Menu.Item>
-              <Menu.Item key="12">option12</Menu.Item>
-            </SubMenu>
+            <Title style={{ margin: "20px", fontSize: "16px" }}>
+              Customize Feed
+            </Title>
+            <Title style={{ margin: "10px 20px", fontSize: "14px" }}>
+              Show/Hide
+            </Title>
+            <Space style={{ margin: "10px 20px" }}>
+              <Switch defaultChecked />
+              <Text>Physiotherapy</Text>
+            </Space>
+            <Space style={{ margin: "10px 20px" }}>
+              <Switch />
+              <Text>Medicine</Text>
+            </Space>
+            <Space style={{ margin: "10px 20px" }}>
+              <Switch defaultChecked />
+              <Text>Technology</Text>
+            </Space>
+            <Space style={{ margin: "10px 20px" }}>
+              <Switch />
+              <Text>Courses</Text>
+            </Space>
+            <Space style={{ margin: "10px 20px" }}>
+              <Switch />
+              <Text>TTR-Ai</Text>
+              <Tooltip title="It Suggests Articles Based On Your Reading">
+                <a>
+                  <i class="ri-information-line ri-lg"></i>
+                </a>
+              </Tooltip>
+            </Space>
+            <Title style={{ margin: "10px 20px", fontSize: "14px" }}>
+              Number Of Articles
+            </Title>
+            <Slider
+              marks={{
+                1: "1",
+                2: "2",
+                3: "3",
+                4: "4",
+                5: "5",
+                6: "6",
+                7: "7",
+                8: "8",
+                9: "9",
+                10: "10",
+              }}
+              defaultValue={5}
+              min={1}
+              max={10}
+              style={{ margin: "20px 20px" }}
+            />
           </Menu>
         </Sider>
         <Layout className="mainLayout">
@@ -319,12 +375,30 @@ export default function Home() {
                   cover={
                     <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
                   }
+                  loading={false}
+                  hoverable={true}
+                  actions={[
+                    <Tooltip title="Bookmark This">
+                      <a>
+                        <i class="ri-bookmark-line ri-lg"></i>
+                      </a>
+                    </Tooltip>,
+                    <Dropdown
+                      overlay={menu}
+                      trigger={["click"]}
+                      placement="topRight"
+                    >
+                      <a onClick={(e) => e.preventDefault()}>
+                        <i class="ri-more-2-line ri-lg"></i>
+                      </a>
+                    </Dropdown>,
+                  ]}
                 >
                   <Card.Meta
-                    title="Welcome To React JS Lesson"
+                    title="The Most Comprehensive Lesson On React
+                        Javascript"
                     description="This is a random excerpt of a post you should know"
                   />
-                  <p style={{ margin: "10px 0px" }}>By Afzaal Afridi</p>
                 </Card>
               </Col>
               <Col xs={23} sm={12} md={12} lg={12} xl={6}>
@@ -449,12 +523,30 @@ export default function Home() {
                     actions={[
                       !item.loading ? (
                         <>
-                          <UserOutlined />
-                          <span style={{ margin: "0px 8px" }}>Hello</span>
+                          <Avatar />
+                          <span style={{ margin: "0px 8px" }}>
+                            Afzaal Afridi
+                          </span>
                         </>
                       ) : (
                         <div></div>
                       ),
+                      <Dropdown overlay={menu}>
+                        <a onClick={(e) => e.preventDefault()}>
+                          <i
+                            class="ri-more-2-fill ri-lg"
+                            style={{ margin: "2px 0px" }}
+                          ></i>
+                        </a>
+                      </Dropdown>,
+                      <Tooltip title="Bookmark This">
+                        <a>
+                          <i
+                            class="ri-bookmark-line ri-lg"
+                            onFocus={(e) => e.preventDefault()}
+                          ></i>
+                        </a>
+                      </Tooltip>,
                     ]}
                     extra={
                       !item.cover ? (
@@ -473,12 +565,11 @@ export default function Home() {
                     >
                       <List.Item.Meta
                         title={<a href={item.href}>{item.title}</a>}
-                        description={
-                          <Paragraph ellipsis={{ rows: 3, expandable: true }}>
-                            {item.content}
-                          </Paragraph>
-                        }
+                        description={["From Technology"]}
                       />
+                      <Paragraph ellipsis={{ rows: 3, expandable: true }}>
+                        {item.content}
+                      </Paragraph>
                     </Skeleton>
                   </List.Item>
                 )}

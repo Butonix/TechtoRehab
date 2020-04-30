@@ -3,7 +3,7 @@
 import "../public/style.scss";
 import "../public/light.scss";
 import "../public/dark.scss";
-
+import 'remixicon/fonts/remixicon.css';
 
 export default function MyApp({ Component, pageProps }) {
 

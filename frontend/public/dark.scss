@@ -28017,24 +28017,20 @@ div.ant-typography-edit-content.ant-typography-rtl {
   background: #141414;
 }
 
+header 
+{
+  box-shadow: none !important;
 nav 
 {
   background: #141414 !important;
+  box-shadow: 0px 1px 3px 0px #4c4b4b !important;
+}
 }
 
-
-.ph-item 
-{
-  background: #141414;
-  .ph-picture 
-  {
-    background: #141414;
-  }
-}
 
 i
 {
-  color: white;
+  color: rgba(255, 255, 255, 0.80);
 }
 
 .logoLight 
