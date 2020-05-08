@@ -1,6 +1,9 @@
 import {
   Layout,
+  Comment,
   Row,
+  Form,
+  Input,
   Col,
   Space,
   PageHeader,
@@ -9,12 +12,14 @@ import {
   Typography,
   Divider,
   Anchor,
+  Button,
 } from "antd";
 import { StarFilled, SafetyCertificateFilled } from "@ant-design/icons";
 import Nav from "../components/global/nav.js";
 import Sidebar from "../components/global/sidebar";
 
 const { Content } = Layout;
+const { TextArea } = Input;
 const { Title, Text, Paragraph } = Typography;
 
 const routes = [
@@ -32,6 +37,27 @@ const routes = [
   },
 ];
 
+const ExampleComment = ({ children }) => (
+  <Comment
+    actions={[<span key="comment-nested-reply-to">Reply to</span>]}
+    author={<a>Han Solo</a>}
+    avatar={
+      <Avatar
+        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+        alt="Han Solo"
+      />
+    }
+    content={
+      <p>
+        We supply a series of design principles, practical patterns and high
+        quality design resources (Sketch and Axure).
+      </p>
+    }
+  >
+    {children}
+  </Comment>
+);
+
 const paragraph = `When developing an app with multiple screens, we tend to reuse the same piece of code over many classes: showing error messages, using the same page layout and wiring up some dependencies like for example a Bloc. All this could be solved if were using an abstract base class, however, what if we have a set of features/classes that we want to use on a particular screen but not on others? Since a class can't be a child of more than one class, should we create different base classes, as much as the number of combinations that we have? That's why we have mixins.
 Mixins and Base Classes: An introduction
 Mixins let us add a set of “features” to a class without using parent-child hierarchy, allowing us to have in the same class one parent and multiple mixin components. As such, since it’s not a parent of our class, mixins don't allow any declaration of constructors. You can read more about them in this article by Romain Rastel with the caveat that Dart 2 now has the mixin keyword, as seen in the documentation.
@@ -45,7 +71,7 @@ export default function Article() {
     <Layout>
       <Nav />
       <Layout>
-        <Sidebar />
+        <Sidebar article={true} />
         <Layout className="mainLayout">
           <Content className="site-layout">
             <PageHeader breadcrumb={{ routes }} className="articleHeader" />
@@ -70,7 +96,7 @@ export default function Article() {
                   </Title>
                   <span>
                     <Space style={{ margin: "5px 5px" }}>
-                      <Avatar src="https://s2.best-wallpaper.net/wallpaper/1920x1080/1802/Watchtower-moon-mountains-forest-art-picture_1920x1080.jpg" />
+                      <Avatar src="https://static.vecteezy.com/system/resources/previews/000/241/070/original/flat-boy-with-vintage-glasses-avatar-vector-illustration.jpg" />
                       <Text> Afzaal Afridi</Text>
                     </Space>
                     <Space style={{ margin: "5px 5px" }}>
@@ -87,7 +113,7 @@ export default function Article() {
                       </Tag>
                     </Space>
 
-                    <Space style={{ margin: "5px 5px" }}>
+                    <Space style={{ margin: "8px 10px" }}>
                       <Tag
                         color="#30F579"
                         style={{ color: "#141414", fontWeight: "600" }}
@@ -143,25 +169,7 @@ export default function Article() {
                   <a href="#">
                     <Title level={3}>Introduction</Title>
                   </a>
-                  <Anchor>
-                    <Anchor.Link
-                      href="#components-anchor-demo-basic"
-                      title="Basic demo"
-                    />
-                    <Anchor.Link
-                      href="#components-anchor-demo-static"
-                      title="Static demo"
-                    />
-                    <Anchor.Link
-                      href="#components-anchor-demo-basic"
-                      title="Basic demo with Target"
-                      target="_blank"
-                    />
-                    <Anchor.Link href="#API" title="API">
-                      <Anchor.Link href="#Anchor-Props" title="Anchor Props" />
-                      <Anchor.Link href="#Link-Props" title="Link Props" />
-                    </Anchor.Link>
-                  </Anchor>
+
                   <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
                     <Title level={4}>Level 1</Title>
                     {paragraph.slice(20, 300)}
@@ -184,8 +192,49 @@ export default function Article() {
                       </li>
                     </ol>
                   </Paragraph>
+                  <Title level={3}>Comments</Title>
+                  <Divider />
+                  <div>
+                    <Form.Item>
+                      <span
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-around",
+                        }}
+                      >
+                        <Avatar src="https://png.pngtree.com/element_our/png_detail/20181026/avatar-vector-icon-man-vector-symbol-avatar-icon-png_219941.jpg" />
+                        <TextArea
+                          rows={4}
+                          style={{ marginLeft: "20px" }}
+                          placeholder="Your Comment"
+                        />
+                      </span>
+                    </Form.Item>
+                    <Form.Item>
+                      <Button
+                        className="submitComment"
+                        type="primary"
+                        htmlType="submit"
+                      >
+                        Add Comment
+                      </Button>
+                    </Form.Item>
+                  </div>
+                  <ExampleComment>
+                    <ExampleComment>
+                      <ExampleComment />
+                      <ExampleComment />
+                    </ExampleComment>
+                  </ExampleComment>
+                  <ExampleComment>
+                    <ExampleComment>
+                      <ExampleComment />
+                      <ExampleComment />
+                    </ExampleComment>
+                  </ExampleComment>
                 </Col>
               </Row>
+              <Row justify="center"></Row>
             </Space>
           </Content>
         </Layout>

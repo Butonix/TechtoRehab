@@ -133,7 +133,7 @@ const Feed = () => {
                   </a>
                 </Tooltip>,
                 <Space>
-                  <span>2 Min Read</span>
+                  <span>2 Min</span>
                 </Space>,
               ]}
               extra={

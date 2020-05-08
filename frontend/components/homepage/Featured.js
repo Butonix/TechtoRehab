@@ -33,6 +33,7 @@ const Featured = () => {
   return (
     <>
       <PageHeader
+      title="Featured"
         extra={[
           <>
             <span>See More</span> <ArrowRightOutlined />

@@ -1,10 +1,10 @@
-import { Switch, Tooltip, Space, Typography, Layout, Menu } from "antd";
+import { Switch, Anchor, Tooltip, Space, Typography, Layout, Menu } from "antd";
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 const { Title, Text } = Typography;
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   return (
     <Sider
       // style={{
@@ -48,37 +48,71 @@ const Sidebar = () => {
           <Menu.Item key="7">option7</Menu.Item>
           <Menu.Item key="8">option8</Menu.Item>
         </SubMenu>
-        <Title style={{ margin: "20px", fontSize: "16px" }}>
-          Customize Feed
-        </Title>
-        <Title style={{ margin: "10px 20px", fontSize: "14px" }}>
-          Show/Hide
-        </Title>
-        <Space style={{ margin: "10px 20px" }}>
-          <Switch defaultChecked />
-          <Text>Physiotherapy</Text>
-        </Space>
-        <Space style={{ margin: "10px 20px" }}>
-          <Switch />
-          <Text>Medicine</Text>
-        </Space>
-        <Space style={{ margin: "10px 20px" }}>
-          <Switch defaultChecked />
-          <Text>Technology</Text>
-        </Space>
-        <Space style={{ margin: "10px 20px" }}>
-          <Switch />
-          <Text>Courses</Text>
-        </Space>
-        <Space style={{ margin: "10px 20px" }}>
-          <Switch />
-          <Text>TTR-Ai</Text>
-          <Tooltip title="It Suggests Articles Based On Your Reading">
-            <a>
-              <i class="ri-information-line ri-lg"></i>
-            </a>
-          </Tooltip>
-        </Space>
+        {props.home ? (
+          <>
+            <Title style={{ margin: "20px", fontSize: "16px" }}>
+              Customize Feed
+            </Title>
+            <Title style={{ margin: "10px 20px", fontSize: "14px" }}>
+              Show/Hide
+            </Title>
+            <Space style={{ margin: "10px 20px" }}>
+              <Switch defaultChecked />
+              <Text>Physiotherapy</Text>
+            </Space>
+            <Space style={{ margin: "10px 20px" }}>
+              <Switch />
+              <Text>Medicine</Text>
+            </Space>
+            <Space style={{ margin: "10px 20px" }}>
+              <Switch defaultChecked />
+              <Text>Technology</Text>
+            </Space>
+            <Space style={{ margin: "10px 20px" }}>
+              <Switch />
+              <Text>Courses</Text>
+            </Space>
+            <Space style={{ margin: "10px 20px" }}>
+              <Switch />
+              <Text>TTR-Ai</Text>
+              <Tooltip title="It Suggests Articles Based On Your Reading">
+                <a>
+                  <i class="ri-information-line ri-lg"></i>
+                </a>
+              </Tooltip>
+            </Space>
+          </>
+        ) : (
+          <div />
+        )}
+        {props.article ? (
+          <div>
+            <Title style={{ margin: "20px", fontSize: "16px" }}>
+              Navigate Article
+            </Title>
+            <Anchor style={{margin: '0px 20px'}}>
+              <Anchor.Link
+                href="#components-anchor-demo-basic"
+                title="Introduction"
+              />
+              <Anchor.Link
+                href="#components-anchor-demo-static"
+                title="Heading 1"
+              />
+              <Anchor.Link
+                href="#components-anchor-demo-basic"
+                title="Heading 2"
+                target="_blank"
+              />
+              <Anchor.Link href="#API" title="Important Concepts">
+                <Anchor.Link href="#Anchor-Props" title="Sub Heading 1" />
+                <Anchor.Link href="#Link-Props" title="Sub Heading 2" />
+              </Anchor.Link>
+            </Anchor>
+          </div>
+        ) : (
+          <div />
+        )}
       </Menu>
     </Sider>
   );

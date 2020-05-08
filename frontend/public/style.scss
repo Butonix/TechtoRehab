@@ -167,8 +167,8 @@ $High-Desktop: 2000px;
 }
 
 .tox {
-  .tox-editor-header {
-    @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: dark) {
+    .tox-editor-header {
       background: #141414 !important;
       .tox-menubar {
         background: none !important;
@@ -189,12 +189,25 @@ $High-Desktop: 2000px;
     }
   }
 
-  .tox-statusbar
-  {
+  .tox-statusbar {
     background-color: unset !important;
   }
 }
 
 .ant-page-header-heading-extra {
   white-space: unset !important;
+}
+
+// .submitComment {
+//   @media (prefers-color-scheme: dark) {
+//     background-color: #2ff579 !important;
+//     color: #141414 !important;
+//     outline: none !important;
+//     border: none !important;
+//   }
+// }
+
+.ant-affix 
+{
+  z-index: -1 !important;
 }

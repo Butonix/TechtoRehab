@@ -94,7 +94,7 @@ class Compose extends React.Component {
                 className="composeHeader"
                 extra={
                   <Space>
-                    <span>Article Uri:</span>
+                    <span>Url:</span>
                     <a>
                       {"https://localhost:3000/articleCategories/" +
                         this.state.title}

@@ -16,7 +16,7 @@ export default function Home() {
     <Layout>
       <Nav />
       <Layout>
-        <Sidebar />
+        <Sidebar home={true} />
         <Layout className="mainLayout">
           <Content className="site-layout">
             <Featured />
