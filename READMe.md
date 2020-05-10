@@ -28,23 +28,23 @@ Tech to Rehab uses the following Technologies:
 > Sorry, We have no intentions to build/maintain any iOS/OSX Products. 
 
 #### Planned Features
-- [] Article/Post Collaboration With Request Collaboration Feature 
+- [ ] Article/Post Collaboration With Request Collaboration Feature 
 - [x] Frontend Posting
 - [x] System Based Dark/Light Mode (Website Changed Mode According To System Theme)
 - [x] Full SEO Support
 - [x] Easy Rich Text Editor
-- [] Ai (Basic Algorithm To Recommend Articles Based on Your Interests - NOT related to machine learning)   
+- [ ] Ai (Basic Algorithm To Recommend Articles Based on Your Interests - NOT related to machine learning)   
 - [x] Customize News Feed/Post/Article Feed On Homepage
-- [] User Control Panel
-- [] Fully Featured Admin Panel 
-- [] RSS Feeds
-- [] Sitemap & Crawler Support 
-- [] AMP like Reddit
-- [] Code/Syntax Highlighting
-- [] Dark Mode Toggle (If Ant Design Ever Implemented A Reliable Way For Toggling)
-- [] AMP Stories
-- [] Markdown Editor Support
-- [] Landing Setup Tour To Customize Website Preferences According To User (e.g Markdown Editor for Tech Enthusiast, Rich Text Editor For Doctors/PTs)
+- [ ] User Control Panel
+- [ ] Fully Featured Admin Panel 
+- [ ] RSS Feeds
+- [ ] Sitemap & Crawler Support 
+- [ ] AMP like Reddit
+- [ ] Code/Syntax Highlighting
+- [ ] Dark Mode Toggle (If Ant Design Ever Implemented A Reliable Way For Toggling)
+- [ ] AMP Stories
+- [ ] Markdown Editor Support
+- [ ] Landing Setup Tour To Customize Website Preferences According To User (e.g Markdown Editor for Tech Enthusiast, Rich Text Editor For Doctors/PTs)
 
 #### Cool, Can I install/Use this too ?
 Well, this is an independent CMS, unlike WordPress, this is NOT FOR PERSONAL USE. We are looking forward to extend this project into a full WordPress like CMS, however that is completely depended on funding and contribution from the open source world.It will take time.
