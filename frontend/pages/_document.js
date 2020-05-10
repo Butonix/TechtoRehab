@@ -1,8 +1,12 @@
 import Document from "next/document";
 import { ServerStyleSheet } from "styled-components";
 import { Html, Head, Main, NextScript } from "next/document";
+import { useStoreState } from "easy-peasy";
 
 export default class MyDocument extends Document {
+  state = {
+    darko: false,
+  }
   static async getInitialProps(ctx) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
@@ -28,6 +32,8 @@ export default class MyDocument extends Document {
       sheet.seal();
     }
   }
+
+
 
   render() {
     return (

@@ -14,14 +14,59 @@ import {
   Anchor,
   Button,
 } from "antd";
+import { withApollo } from "../lib/apollo";
+
 import { StarFilled, SafetyCertificateFilled } from "@ant-design/icons";
 import Nav from "../components/global/nav.js";
 import Sidebar from "../components/global/sidebar";
+import { useQuery } from "@apollo/react-hooks";
+import { NetworkStatus } from "apollo-client";
+import gql from "graphql-tag";
 
+const query = gql`
+  query MyQuery {
+    articles(where: { article_id: { _eq: "2" } }) {
+      article_content
+      article_excerpt
+      article_title
+      commentToArticle {
+        comment_author
+        comment_content
+        comment_reply_to
+      }
+      tagToArticle {
+        tag_title
+      }
+      authorToArticle {
+        author_username
+      }
+    }
+  }
+`;
 const { Content } = Layout;
 const { TextArea } = Input;
 const { Title, Text, Paragraph } = Typography;
 
+var comments = [
+  {
+    userId: "1208",
+    commentTo: "",
+    content: "This is not right",
+    children: [
+      {
+        userId: "1900",
+        commentTo: "1208",
+        content: "This is right",
+      },
+    ],
+  },
+
+  {
+    userId: "1200",
+    commentTo: "",
+    content: "Good article",
+  },
+];
 const routes = [
   {
     path: "index",
@@ -37,27 +82,6 @@ const routes = [
   },
 ];
 
-const ExampleComment = ({ children }) => (
-  <Comment
-    actions={[<span key="comment-nested-reply-to">Reply to</span>]}
-    author={<a>Han Solo</a>}
-    avatar={
-      <Avatar
-        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-        alt="Han Solo"
-      />
-    }
-    content={
-      <p>
-        We supply a series of design principles, practical patterns and high
-        quality design resources (Sketch and Axure).
-      </p>
-    }
-  >
-    {children}
-  </Comment>
-);
-
 const paragraph = `When developing an app with multiple screens, we tend to reuse the same piece of code over many classes: showing error messages, using the same page layout and wiring up some dependencies like for example a Bloc. All this could be solved if were using an abstract base class, however, what if we have a set of features/classes that we want to use on a particular screen but not on others? Since a class can't be a child of more than one class, should we create different base classes, as much as the number of combinations that we have? That's why we have mixins.
 Mixins and Base Classes: An introduction
 Mixins let us add a set of “features” to a class without using parent-child hierarchy, allowing us to have in the same class one parent and multiple mixin components. As such, since it’s not a parent of our class, mixins don't allow any declaration of constructors. You can read more about them in this article by Romain Rastel with the caveat that Dart 2 now has the mixin keyword, as seen in the documentation.
@@ -66,7 +90,12 @@ Change our BasePageby changing its constructor with the new bloc parameter.
 ChangeBaseState by adding a new GlobalKey<ScaffoldState>
 Create a new mixin that let us display errors messages sent by the bloc in the page using a Snackbar
 In our BaseBloc we are just exposing a Sink and a Stream in order to relay error messages.`;
-export default function Article() {
+function Article() {
+  const { loading, error, data } = useQuery(query);
+  if (error) return <p>Error Loading</p>;
+  if (loading) return <p>Loading...</p>;
+  const { articles } = data;
+  console.log(articles);
   return (
     <Layout>
       <Nav />
@@ -152,7 +181,16 @@ export default function Article() {
                 >
                   <Title level={1}>Introduction</Title>
                   <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
-                    {paragraph}
+                    {articles.map((mapped) => (
+                      <p>
+                        {console.log(
+                          "mapped is" +
+                            mapped.authorToArticle.map(
+                              (mapped2) => mapped2.author_username
+                            )
+                        )}
+                      </p>
+                    ))}
                   </Paragraph>
                   <Title level={2}>Introduction</Title>
                   <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
@@ -220,18 +258,42 @@ export default function Article() {
                       </Button>
                     </Form.Item>
                   </div>
-                  <ExampleComment>
-                    <ExampleComment>
-                      <ExampleComment />
-                      <ExampleComment />
-                    </ExampleComment>
-                  </ExampleComment>
-                  <ExampleComment>
-                    <ExampleComment>
-                      <ExampleComment />
-                      <ExampleComment />
-                    </ExampleComment>
-                  </ExampleComment>
+                  {comments.map((comment) => (
+                    <Comment
+                      actions={[
+                        <span key="comment-nested-reply-to">Reply to</span>,
+                      ]}
+                      author={<a>Han Solo</a>}
+                      avatar={
+                        <Avatar
+                          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                          alt="Han Solo"
+                        />
+                      }
+                      content={<p>{comment.content}</p>}
+                      children={[
+                        comment.children
+                          ? comment.children.map((child) => (
+                              <Comment
+                                actions={[
+                                  <span key="comment-nested-reply-to">
+                                    Reply to
+                                  </span>,
+                                ]}
+                                author={<a>Han Solo</a>}
+                                avatar={
+                                  <Avatar
+                                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                    alt="Han Solo"
+                                  />
+                                }
+                                content={<p>{child.content}</p>}
+                              />
+                            ))
+                          : null,
+                      ]}
+                    />
+                  ))}
                 </Col>
               </Row>
               <Row justify="center"></Row>
@@ -242,3 +304,5 @@ export default function Article() {
     </Layout>
   );
 }
+
+export default Article;
