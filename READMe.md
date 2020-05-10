@@ -1,4 +1,4 @@
-[Logo-Dark](https://i.ibb.co/VjztJqb/TTR-DARKsvg-1.jpg)
+![Logo-Dark](https://i.ibb.co/VjztJqb/TTR-DARKsvg-1.jpg)
 # TECH TO REHAB
 ### An Open Source Writing & Collaboration Platform For Tech & Rehabilitation Enthusiasts
 
