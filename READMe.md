@@ -19,3 +19,9 @@ Tech to Rehab uses the following Technologies:
     - Next JS ( For Blazing Fast, Hybrid Optimised Web App)
     - Redux ( For State Of The Art Client State Management )
     - Apollo GraphQL ( For Most Efficient Management Of GraphQL Data )
+
+ #### What Else Is There ?
+ Right now, we also have an Android App Based On Flutter In Development.Should Be Released As Soon As TTR Comes Online ;) 
+    **What About IOS SUPPORT ?**
+ Sorry, We have no intentions to build/maintain any iOS Products. 
+
