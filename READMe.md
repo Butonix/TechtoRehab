@@ -1,5 +1,5 @@
 ![Logo-Dark](https://i.ibb.co/VjztJqb/TTR-DARKsvg-1.jpg)
-# TECH TO REHAB
+# TECH TO REHAB :star_struck: :heart:
 ### An Open Source Writing & Collaboration Platform For Tech & Rehabilitation Enthusiasts
 
 ### Introduction
@@ -22,7 +22,7 @@ Tech to Rehab uses the following Technologies:
     - Apollo GraphQL ( For Most Efficient Management Of GraphQL Data )
 
  #### What Else Is There ?
- Right now, we also have an Android App Based On Flutter In Development.Should Be Released As Soon As TTR Comes Online ;) 
+ Right now, we also have an Android App Based On Flutter In Development.Should Be Released As Soon As TTR Comes Online :grinning: :smiley:
 
 > What About IOS SUPPORT ?**
     - Sorry, We have no intentions to build/maintain any iOS/OSX Products. 
