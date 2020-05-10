@@ -45,6 +45,8 @@ Tech to Rehab uses the following Technologies:
 - [ ] AMP Stories
 - [ ] Markdown Editor Support
 - [ ] Landing Setup Tour To Customize Website Preferences According To User (e.g Markdown Editor for Tech Enthusiast, Rich Text Editor For Doctors/PTs)
+- [ ] Support for basic info source/references
+- [ ] Full support for adding Bibitex/RiS/EndNote References with Annotations (Maybe !)
 
 #### Cool, Can I install/Use this too ?
 Well, this is an independent CMS, unlike WordPress, this is NOT FOR PERSONAL USE. We are looking forward to extend this project into a full WordPress like CMS, however that is completely depended on funding and contribution from the open source world.It will take time.
