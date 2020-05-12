@@ -43,6 +43,7 @@ Tech to Rehab uses the following Technologies:
 - [ ] Code/Syntax Highlighting
 - [ ] Dark Mode Toggle (If Ant Design Ever Implemented A Reliable Way For Toggling)
 - [ ] AMP Stories
+- [x] TTR Story Highlights Support On Frontend And On Compose Editor
 - [ ] Markdown Editor Support
 - [ ] Landing Setup Tour To Customize Website Preferences According To User (e.g Markdown Editor for Tech Enthusiast, Rich Text Editor For Doctors/PTs)
 - [ ] Support for basic info source/references
