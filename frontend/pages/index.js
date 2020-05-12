@@ -1,15 +1,22 @@
-import { useState } from "react";
-
-import { Typography, Layout, Menu } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-
+import { useState, useEffect } from "react";
+import { Typography, Layout, Menu, PageHeader } from "antd";
+import { UserOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import Nav from "../components/global/nav.js";
 import Sidebar from "../components/global/sidebar";
 import CatArticles from "../components/homepage/CategoryArticles";
 import Featured from "../components/homepage/Featured";
 import Feed from "../components/homepage/Feed";
+import dynamic from "next/dynamic";
 
 const { Content } = Layout;
+
+const DynamicStories = dynamic(
+  () => import("../components/homepage/Stories.js"),
+  {
+    ssr: false,
+    loading: () => <p>hello</p>,
+  }
+);
 
 export default function Home() {
   return (
@@ -19,7 +26,16 @@ export default function Home() {
         <Sidebar home={true} />
         <Layout className="mainLayout">
           <Content className="site-layout">
-            <Featured />
+            {/* <Featured /> */}
+            <PageHeader
+              title="Highlights"
+              extra={[
+                <>
+                  <span>See More</span> <ArrowRightOutlined />
+                </>,
+              ]}
+            />
+            <DynamicStories />
             <CatArticles />
             <Feed />
           </Content>

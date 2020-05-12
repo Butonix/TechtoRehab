@@ -1,5 +1,3 @@
-var util = require("util");
-var formidable = require("formidable");
 
 export default (req, res) => {
   if (req.method == "POST") {

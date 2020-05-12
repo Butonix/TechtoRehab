@@ -156,11 +156,12 @@ const menu = (
 );
 
 const NavBar = () => {
+  const link = process.env.NEXT_PUBLIC_WEB_ADDRESS;
   return (
     <HeaderDefault>
       <nav>
-        <img className="logoLight" src="TTR-LIGHT.svg" />
-        <img className="logoDark" src="TTR-DARK.svg" />
+        <img className="logoLight" src={`${link}/TTR-LIGHT.svg`} />
+        <img className={`logoDark`} src={`${link}/TTR-DARK.svg`} />
         <div className="center">
           <div className="navItem">
             <Badge count={0} showZero>

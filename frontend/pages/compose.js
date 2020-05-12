@@ -1,15 +1,40 @@
-import { Layout, Space, Spin, Typography, Input, PageHeader } from "antd";
+import {
+  Layout,
+  Space,
+  Spin,
+  Empty,
+  Row,
+  Col,
+  Typography,
+  Input,
+  PageHeader,
+} from "antd";
 import { CheckOutlined, LoadingOutlined } from "@ant-design/icons";
 import Nav from "../components/global/nav.js";
 import Sidebar from "../components/global/sidebar";
 import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import dynamic from "next/dynamic";
 
+var CreateHighlight = dynamic(
+  () => import("../components/compose/createHighlight"),
+  { ssr: false }
+);
 const onChanger = (content, editor) => {
   console.log("Content is" + content);
 };
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
+var highlightData = [
+  {
+    url: "",
+    header: {
+      heading: "",
+      subHeading: "",
+    },
+    content: () => {},
+  },
+];
 class Compose extends React.Component {
   state = {
     dark: false,
@@ -246,6 +271,29 @@ class Compose extends React.Component {
                 onChange={onChanger}
                 onEditorChange={onChanger}
               />
+              <>
+                <Title level={4} style={{ margin: "20px 0px" }}>
+                  Highlights
+                </Title>
+                <Row>
+                  {!highlightData ? (
+                    <Empty />
+                  ) : /* (
+                    <Stories
+                      stories={[highlightData.map((mapped) => mapped)]}
+                      defaultInterval={3000}
+                      width={"100%"}
+                      height={500}
+                      isPaused={false}
+                    />
+                    
+                  ) */ null}
+                </Row>
+                <Title level={4} style={{ margin: "20px 0px" }}>
+                  Create A Highlight
+                </Title>
+                <CreateHighlight />
+              </>
             </Content>
           </Layout>
         </Layout>

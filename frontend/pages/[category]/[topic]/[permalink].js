@@ -14,35 +14,14 @@ import {
   Anchor,
   Button,
 } from "antd";
-import { withApollo } from "../lib/apollo";
-
+import { withApollo } from "../.././../lib/apollo";
 import { StarFilled, SafetyCertificateFilled } from "@ant-design/icons";
-import Nav from "../components/global/nav.js";
-import Sidebar from "../components/global/sidebar";
+import Nav from "../../../components/global/nav";
+import Sidebar from "../../../components/global/sidebar";
 import { useQuery } from "@apollo/react-hooks";
-import { NetworkStatus } from "apollo-client";
 import gql from "graphql-tag";
+import { useRouter } from "next/router";
 
-const query = gql`
-  query MyQuery {
-    articles(where: { article_id: { _eq: "2" } }) {
-      article_content
-      article_excerpt
-      article_title
-      commentToArticle {
-        comment_author
-        comment_content
-        comment_reply_to
-      }
-      tagToArticle {
-        tag_title
-      }
-      authorToArticle {
-        author_username
-      }
-    }
-  }
-`;
 const { Content } = Layout;
 const { TextArea } = Input;
 const { Title, Text, Paragraph } = Typography;
@@ -90,12 +69,33 @@ Change our BasePageby changing its constructor with the new bloc parameter.
 ChangeBaseState by adding a new GlobalKey<ScaffoldState>
 Create a new mixin that let us display errors messages sent by the bloc in the page using a Snackbar
 In our BaseBloc we are just exposing a Sink and a Stream in order to relay error messages.`;
+
+// export async function getServerSideProps(context) {
+//   const { params } = context;
+//   const { permalink } = params;
+//   return { props: { permalink } };
+// }
+var query = gql`
+  query MyQuery($perma: String!) {
+    articles(where: { article_permalink: { _eq: $perma } }) {
+      article_title
+      article_content
+    }
+  }
+`;
 function Article() {
-  const { loading, error, data } = useQuery(query);
-  if (error) return <p>Error Loading</p>;
-  if (loading) return <p>Loading...</p>;
-  const { articles } = data;
-  console.log(articles);
+  const router = useRouter();
+  const { permalink } = router.query;
+  var perma = permalink;
+  console.log(perma);
+  const { loading, error, data } = useQuery(query, {
+    variables: { perma },
+  });
+
+  var article;
+  // data.articles.map((mapped) => {
+  //   article = mapped;
+  // });
   return (
     <Layout>
       <Nav />
@@ -120,8 +120,10 @@ function Article() {
                     className="articleTitle"
                     style={{ fontWeight: "700" }}
                   >
-                    Flutter and Zeplin: Speed up the Development Process from
-                    your Design
+                    {article
+                      ? article.article_title
+                      : `Flutter and Zeplin: Speed up the Development Process from
+                    your Design`}
                   </Title>
                   <span>
                     <Space style={{ margin: "5px 5px" }}>
@@ -181,16 +183,9 @@ function Article() {
                 >
                   <Title level={1}>Introduction</Title>
                   <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
-                    {articles.map((mapped) => (
-                      <p>
-                        {console.log(
-                          "mapped is" +
-                            mapped.authorToArticle.map(
-                              (mapped2) => mapped2.author_username
-                            )
-                        )}
-                      </p>
-                    ))}
+                    {/* {data.articles.map((mapped) => (
+                      <Title level={1}>{mapped.article_title}</Title>
+                    ))} */}
                   </Paragraph>
                   <Title level={2}>Introduction</Title>
                   <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
@@ -204,96 +199,103 @@ function Article() {
                     />
                     {paragraph}
                   </Paragraph>
-                  <a href="#">
-                    <Title level={3}>Introduction</Title>
-                  </a>
+                  {error ? <p>Error Loading</p> : null}
+                  {loading ? (
+                    <p>Loading...</p>
+                  ) : (
+                    <>
+                      <a href="#">
+                        <Title level={3}>Introduction</Title>
+                      </a>
 
-                  <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
-                    <Title level={4}>Level 1</Title>
-                    {paragraph.slice(20, 300)}
-                  </Paragraph>
-                  <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
-                    <Title level={3}>
-                      Level 2 <a href="#">#</a>
-                    </Title>
-                    {paragraph.slice(20, 300)}
-                  </Paragraph>
-                  <Divider orientation="left">References</Divider>
-                  <Paragraph>
-                    <ol>
-                      <li>
-                        <span>
-                          <a>Website.com</a>
-                          For
-                          <a href="#Hello">Hello</a>
-                        </span>
-                      </li>
-                    </ol>
-                  </Paragraph>
-                  <Title level={3}>Comments</Title>
-                  <Divider />
-                  <div>
-                    <Form.Item>
-                      <span
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-around",
-                        }}
-                      >
-                        <Avatar src="https://png.pngtree.com/element_our/png_detail/20181026/avatar-vector-icon-man-vector-symbol-avatar-icon-png_219941.jpg" />
-                        <TextArea
-                          rows={4}
-                          style={{ marginLeft: "20px" }}
-                          placeholder="Your Comment"
-                        />
-                      </span>
-                    </Form.Item>
-                    <Form.Item>
-                      <Button
-                        className="submitComment"
-                        type="primary"
-                        htmlType="submit"
-                      >
-                        Add Comment
-                      </Button>
-                    </Form.Item>
-                  </div>
-                  {comments.map((comment) => (
-                    <Comment
-                      actions={[
-                        <span key="comment-nested-reply-to">Reply to</span>,
-                      ]}
-                      author={<a>Han Solo</a>}
-                      avatar={
-                        <Avatar
-                          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                          alt="Han Solo"
-                        />
-                      }
-                      content={<p>{comment.content}</p>}
-                      children={[
-                        comment.children
-                          ? comment.children.map((child) => (
-                              <Comment
-                                actions={[
-                                  <span key="comment-nested-reply-to">
-                                    Reply to
-                                  </span>,
-                                ]}
-                                author={<a>Han Solo</a>}
-                                avatar={
-                                  <Avatar
-                                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                    alt="Han Solo"
+                      <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
+                        <Title level={4}>Level 1</Title>
+                        {paragraph.slice(20, 300)}
+                      </Paragraph>
+                      <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
+                        <Title level={3}>
+                          Level 2 <a href="#">#</a>
+                        </Title>
+                        {paragraph.slice(20, 300)}
+                      </Paragraph>
+                      <Divider orientation="left">References</Divider>
+                      <Paragraph>
+                        <ol>
+                          <li>
+                            <span>
+                              <a>Website.com</a>
+                              For
+                              <a href="#Hello">Hello</a>
+                            </span>
+                          </li>
+                        </ol>
+                      </Paragraph>
+                      <Title level={3}>Comments</Title>
+                      <Divider />
+                      <div>
+                        <Form.Item>
+                          <span
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-around",
+                            }}
+                          >
+                            <Avatar src="https://png.pngtree.com/element_our/png_detail/20181026/avatar-vector-icon-man-vector-symbol-avatar-icon-png_219941.jpg" />
+                            <TextArea
+                              rows={4}
+                              style={{ marginLeft: "20px" }}
+                              placeholder="Your Comment"
+                            />
+                          </span>
+                        </Form.Item>
+                        <Form.Item>
+                          <Button
+                            className="submitComment"
+                            type="primary"
+                            htmlType="submit"
+                          >
+                            Add Comment
+                          </Button>
+                        </Form.Item>
+                      </div>
+                      {comments.map((comment) => (
+                        <Comment
+                          actions={[
+                            <span key="comment-nested-reply-to">Reply to</span>,
+                          ]}
+                          author={<a>Han Solo</a>}
+                          avatar={
+                            <Avatar
+                              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                              alt="Han Solo"
+                            />
+                          }
+                          content={<p>{comment.content}</p>}
+                          children={[
+                            comment.children
+                              ? comment.children.map((child) => (
+                                  <Comment
+                                    actions={[
+                                      <span key="comment-nested-reply-to">
+                                        Reply to
+                                      </span>,
+                                    ]}
+                                    author={<a>Han Solo</a>}
+                                    avatar={
+                                      <Avatar
+                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                        alt="Han Solo"
+                                      />
+                                    }
+                                    content={<p>{child.content}</p>}
                                   />
-                                }
-                                content={<p>{child.content}</p>}
-                              />
-                            ))
-                          : null,
-                      ]}
-                    />
-                  ))}
+                                ))
+                              : null,
+                          ]}
+                        />
+                      ))}
+                    </>
+                  )}
                 </Col>
               </Row>
               <Row justify="center"></Row>
