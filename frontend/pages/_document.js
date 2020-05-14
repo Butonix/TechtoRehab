@@ -6,7 +6,7 @@ import { useStoreState } from "easy-peasy";
 export default class MyDocument extends Document {
   state = {
     darko: false,
-  }
+  };
   static async getInitialProps(ctx) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
@@ -33,8 +33,6 @@ export default class MyDocument extends Document {
     }
   }
 
-
-
   render() {
     return (
       <Html>
@@ -43,6 +41,24 @@ export default class MyDocument extends Document {
           <link
             rel="stylesheet"
             href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css"
+          />
+          <script
+            async
+            key="amp-story"
+            custom-element="amp-story"
+            src="https://cdn.ampproject.org/v0/amp-story-1.0.js"
+          />
+          <script
+            async
+            key="amp-story"
+            custom-element="amp-story"
+            src="https://cdn.ampproject.org/v0/amp-story-1.0.js"
+          />
+          <script
+            async
+            key="amp-video"
+            custom-element="amp-video"
+            src="https://cdn.ampproject.org/v0/amp-video-0.1.js"
           />
         </Head>
         <body style={{ margin: 0 }}>

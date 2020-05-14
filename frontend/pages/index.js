@@ -7,6 +7,7 @@ import CatArticles from "../components/homepage/CategoryArticles";
 import Featured from "../components/homepage/Featured";
 import Feed from "../components/homepage/Feed";
 import dynamic from "next/dynamic";
+import Amper from "../components/homepage/amper";
 
 const { Content } = Layout;
 
@@ -17,6 +18,11 @@ const DynamicStories = dynamic(
     loading: () => <p>hello</p>,
   }
 );
+
+const DynamoStories = dynamic(() => import("./ampere.js"), {
+  ssr: true,
+  loading: () => <p>hello</p>,
+});
 
 export default function Home() {
   return (
@@ -35,7 +41,8 @@ export default function Home() {
                 </>,
               ]}
             />
-            <DynamicStories />
+            {/* <DynamicStories /> */}
+            {/* <DynamoStories /> */}
             <CatArticles />
             <Feed />
           </Content>

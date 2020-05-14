@@ -12,9 +12,7 @@ const store = createStore(storage);
 function MyApp({ Component, pageProps }) {
   return (
     <StoreProvider store={store}>
-      <Wrapper>
-        <Component {...pageProps} />
-      </Wrapper>
+      <Component {...pageProps} />
     </StoreProvider>
   );
 }

@@ -242,3 +242,24 @@ $High-Desktop: 2000px;
     }
   }
 }
+
+.highlight-decide {
+  display: block;
+  @include mobile {
+    display: none;
+  }
+
+  @include tablet {
+    display: none;
+  }
+}
+.warning-col {
+  display: none;
+  @include mobile {
+    display: block;
+  }
+
+  @include tablet {
+    display: block;
+  }
+}
