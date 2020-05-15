@@ -92,13 +92,14 @@ const Story = styled.div`
 const Creator = () => {
   const [title, setTitle] = useState("Enter Title For Page 1");
   const [summary, setSummary] = useState(`content`);
+  const [category, setCategory] = useState(`content`);
   const [backgrounda, setBackground] = useState(
     "https://c4.wallpaperflare.com/wallpaper/410/867/750/vector-forest-sunset-forest-sunset-forest-wallpaper-preview.jpg"
   );
   const [highlightData, setHighlightData] = useState([
     {
       title: title,
-      category: "",
+      category: category,
       content: summary,
       authors: ["", ""],
       date: "May 14th, 2019",
@@ -116,10 +117,10 @@ const Creator = () => {
     image: backgrounda,
   };
 
-  var addData = () => {
-    Object.assign(highlightData[page], data);
-    setHighlightData([...highlightData]);
-  };
+  // var addData = () => {
+  //   Object.assign(highlightData[page], data);
+  //   setHighlightData([...highlightData]);
+  // };
   var changePage = () => {
     if (page == 3) {
       alert("You can Add at most 4 Status");
@@ -153,11 +154,24 @@ const Creator = () => {
     }
   };
 
-  var onInputter = (e) => {
+  var onTitle = (e) => {
     data.title = e.target.value;
     Object.assign(highlightData[page], data);
     setHighlightData([...highlightData]);
   };
+
+  var onSummary = (e) => {
+    data.content = e.target.value;
+    Object.assign(highlightData[page], data);
+    setHighlightData([...highlightData]);
+  };
+
+  var onCategory = (e) => {
+    data.category = e.target.value;
+    Object.assign(highlightData[page], data);
+    setHighlightData([...highlightData]);
+  };
+
   return (
     <>
       <Row justify="center" className="highlight-row" style={{}}>
@@ -165,14 +179,19 @@ const Creator = () => {
           <Col className="highlight-decide" md={11} xxl={8}>
             <Title
               level={4}
-              style={{ textAlign: "center", margin: "20px 0px" }}
+              style={{
+                textAlign: "center",
+                margin: "20px 0px",
+              }}
             >
               {/* Page {index + 1} */}
             </Title>
             <Story>
               <div
                 className="image"
-                style={{ backgroundImage: `url(${mapped.image})` }}
+                style={{
+                  backgroundImage: `url(${mapped.image})`,
+                }}
               />
               <div className="filter" />
               <div className="content">
@@ -181,6 +200,7 @@ const Creator = () => {
                 </div>
                 <div className="category">{mapped.category}</div>
                 <div className="title">{mapped.title}</div>
+                <div className="summary">{mapped.content}</div>
                 <div className="author">
                   {mapped.authors.length > 1
                     ? mapped.authors.map((mappedAuthor) => mapped.author)
@@ -212,7 +232,10 @@ const Creator = () => {
               </Col>
               <Col>
                 <Select
-                  style={{ width: "100%", marginLeft: "30px" }}
+                  style={{
+                    width: "100%",
+                    marginLeft: "30px",
+                  }}
                   onChange={(value) => setPage(value)}
                   value={page}
                 >
@@ -223,23 +246,43 @@ const Creator = () => {
               </Col>
             </Space>
           </Row>
+          <Row justify="center">
+            <Text strong>
+              *Changes Are Previewed & Automatically Saved While You Type
+            </Text>
+          </Row>
         </Col>
       </Row>
       <Row justify="center" className="highlight-decide">
         <Col xxl={12} xl={12} style={{ margin: "auto" }}>
           <Text style={{ lineHeight: 3 }}>Title</Text>
           <Input
-            placeholder="Basic usage"
+            placeholder="Add A Title"
             onChange={(e) => setTitle(e.target.value)}
             value={highlightData[page].title}
-            onInput={(e) => onInputter(e)}
+            onInput={(e) => onTitle(e)}
             allowClear
           />
-          <Text style={{ lineHeight: 3 }}>Summary</Text>
-          <Input.TextArea
-            placeholder="Basic usage"
-            onChange={(e) => setSummary(e.target.value)}
-          />
+          {page == 0 ? (
+            <>
+              <Text style={{ lineHeight: 3 }}>Category</Text>
+              <Input
+                placeholder="Basic usage"
+                onInput={(e) => onCategory(e)}
+                onChange={(e) => setCategory(e.target.value)}
+              />
+            </>
+          ) : null}
+          {page > 0 ? (
+            <>
+              <Text style={{ lineHeight: 3 }}>Summary</Text>
+              <Input
+                placeholder="Basic usage"
+                onChange={(e) => setSummary(e)}
+                onInput={(e) => onSummary(e)}
+              />
+            </>
+          ) : null}
           <Text style={{ lineHeight: 3 }}>
             Background Image (Must Be Valid URL)
           </Text>
@@ -249,16 +292,19 @@ const Creator = () => {
             defaultValue="https://c4.wallpaperflare.com/wallpaper/410/867/750/vector-forest-sunset-forest-sunset-forest-wallpaper-preview.jpg"
           />
           <Space style={{ margin: "10px 0px" }}>
-            <Button
+            {/* <Button
               onClick={addData}
               type="primary"
               style={{ marginTop: "20px" }}
             >
               Submit
-            </Button>
+            </Button> */}
             <Button
               onClick={changePage}
-              style={{ marginTop: "20px", marginLeft: "15px" }}
+              style={{
+                marginTop: "20px",
+                marginLeft: "15px",
+              }}
               type="primary"
             >
               Add Highlight
