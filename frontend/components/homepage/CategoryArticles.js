@@ -20,6 +20,7 @@ import {
   UserOutlined,
   ArrowRightOutlined,
 } from "@ant-design/icons";
+import Shimmer from "../global/shimmer";
 
 const { Content } = Layout;
 const { Paragraph } = Typography;
@@ -53,7 +54,7 @@ const CatArticles = () => {
       />
       <Row>
         <Col xs={23} sm={12} md={12} lg={12} xl={6}>
-          <Card
+          {/* <Card
             style={{ margin: "20px" }}
             cover={
               <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
@@ -81,10 +82,11 @@ const CatArticles = () => {
               }
             />
             <Space style={{ marginTop: "15px" }}></Space>
-          </Card>
+          </Card> */}
+          <Shimmer card />
         </Col>
         <Col xs={23} sm={12} md={12} lg={12} xl={6}>
-          <Card
+          {/* <Card
             style={{ margin: "20px" }}
             cover={
               <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
@@ -111,10 +113,11 @@ const CatArticles = () => {
               }
             />
             <Space style={{ marginTop: "15px" }}></Space>
-          </Card>
+          </Card> */}
+          <Shimmer card />
         </Col>
         <Col xs={23} sm={12} md={12} lg={12} xl={6}>
-          <Card
+          {/* <Card
             style={{ margin: "20px" }}
             cover={
               <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
@@ -141,10 +144,11 @@ const CatArticles = () => {
               }
             />
             <Space style={{ marginTop: "15px" }}></Space>
-          </Card>
+          </Card> */}
+          <Shimmer card />
         </Col>
         <Col xs={23} sm={12} md={12} lg={12} xl={6}>
-          <Card
+          {/* <Card
             style={{ margin: "20px" }}
             cover={
               <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
@@ -172,7 +176,8 @@ const CatArticles = () => {
               }
             />
             <Space style={{ marginTop: "15px" }}></Space>
-          </Card>
+          </Card> */}
+          <Shimmer card />
         </Col>
       </Row>
     </>

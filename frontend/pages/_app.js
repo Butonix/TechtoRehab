@@ -2,8 +2,7 @@ import { withApollo } from "../lib/apollo";
 import "../public/light.scss";
 import "../public/dark.scss";
 import "../public/style.scss";
-import Wrapper from "../components/global/wrapper";
-import { createStore, StoreProvider } from "easy-peasy";
+import { createStore, StoreProvider, useStoreActions } from "easy-peasy";
 import "remixicon/fonts/remixicon.css";
 import { storage } from "../store/store";
 

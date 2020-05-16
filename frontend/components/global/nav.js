@@ -48,6 +48,7 @@ const HeaderDefault = styled.header`
     z-index: 1;
     background: white;
     align-items: center;
+    height: 50px;
     .navItem {
       margin: 0px 15px;
       line-height: 3;
@@ -140,17 +141,35 @@ const HeaderDefault = styled.header`
 
 const menu = (
   <Menu onClick={() => {}}>
-    <Menu.Item key="1">
-      <UserOutlined />
-      1st menu item
+    <Menu.Item key="1" style={{ height: 50, padding: 15 }}>
+      <span>
+        <i
+          class="ri-article-fill ri-lg"
+          style={{
+            marginRight: 20,
+            marginBottom: -20,
+            fontSize: 25,
+          }}
+        ></i>
+        <Typography.Text strong style={{ fontSize: 16, marginTop: 20 }}>
+          ARTICLE
+        </Typography.Text>
+      </span>
     </Menu.Item>
-    <Menu.Item key="2">
-      <UserOutlined />
-      2nd menu item
-    </Menu.Item>
-    <Menu.Item key="3">
-      <UserOutlined />
-      3rd item
+    <Menu.Item key="2" style={{ height: 50, padding: 15, fontSize: 18 }}>
+      <span>
+        <i
+          class="ri-chat-history-fill ri-lg"
+          style={{
+            marginRight: 20,
+            marginBottom: -20,
+            fontSize: 25,
+          }}
+        ></i>
+        <Typography.Text strong style={{ fontSize: 16, marginTop: 20 }}>
+          HIGHLIGHT
+        </Typography.Text>
+      </span>
     </Menu.Item>
   </Menu>
 );
@@ -181,9 +200,11 @@ const NavBar = () => {
           </div>
         </div>
         <div className="navItem compose">
-          <Button type="primary" icon={<EditOutlined />}>
-            <span className="composeText">Write</span>
-          </Button>
+          <Dropdown overlay={menu}>
+            <Button type="primary" icon={<EditOutlined />}>
+              Compose <DownOutlined />
+            </Button>
+          </Dropdown>
         </div>
         {/* <Dropdown className="userOptions" overlay={menu}>
             <Button>

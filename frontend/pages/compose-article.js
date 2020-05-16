@@ -8,18 +8,21 @@ import {
   Typography,
   Input,
   PageHeader,
+  Skeleton,
 } from "antd";
 import { CheckOutlined, LoadingOutlined } from "@ant-design/icons";
 import Nav from "../components/global/nav.js";
 import Sidebar from "../components/global/sidebar";
 import React from "react";
-import { Editor } from "@tinymce/tinymce-react";
 import dynamic from "next/dynamic";
+import Router from "next/router";
+import Shimmer from "../components/global/shimmer";
 
-var CreateHighlight = dynamic(
-  () => import("../components/compose/createHighlight"),
-  { ssr: false }
+var CreateEditor = dynamic(
+  () => import("@tinymce/tinymce-react").then((editor) => editor.Editor),
+  { ssr: false, loading: () => <Shimmer editor /> }
 );
+
 const onChanger = (content, editor) => {
   console.log("Content is" + content);
 };
@@ -58,21 +61,6 @@ class Compose extends React.Component {
 
     var mql = window.matchMedia("(prefers-color-scheme: dark)");
     mql.addEventListener("change", () => {
-      // if (
-      //   window.matchMedia &&
-      //   window.matchMedia("(prefers-color-scheme: dark)").matches
-      // ) {
-      //   console.log("before update", this.state.dark);
-      //   this.setState({
-      //     dark: true,
-      //   });
-      //   console.log("after update", this.state.dark);
-      // } else {
-      //   this.setState({
-      //     dark: false,
-      //   });
-      // }
-
       location.reload();
     });
   }
@@ -127,6 +115,7 @@ class Compose extends React.Component {
                   </Space>
                 }
                 title="COMPOSE ARTICLE"
+                onBack={() => Router.back()}
               />
 
               <Input
@@ -147,7 +136,7 @@ class Compose extends React.Component {
                 onChange={(e) => this.handleChange(e)}
               />
               <div style={{ margin: "20px 0px" }} />
-              <Editor
+              <CreateEditor
                 apiKey="m2scqo7knj5972vza3c3an2ex1x93cw66e1hlb9vejb61ya1"
                 initialValue="<p>Initial content</p>"
                 init={{
@@ -275,29 +264,6 @@ class Compose extends React.Component {
                 onChange={onChanger}
                 onEditorChange={onChanger}
               />
-              <>
-                <Title level={4} style={{ margin: "20px 0px" }}>
-                  Highlights
-                </Title>
-                <Row>
-                  {!highlightData ? (
-                    <Empty />
-                  ) : /* (
-                    <Stories
-                      stories={[highlightData.map((mapped) => mapped)]}
-                      defaultInterval={3000}
-                      width={"100%"}
-                      height={500}
-                      isPaused={false}
-                    />
-                    
-                  ) */ null}
-                </Row>
-                <Title level={4} style={{ margin: "20px 0px" }}>
-                  Create A Highlight
-                </Title>
-                <CreateHighlight />
-              </>
             </Content>
           </Layout>
         </Layout>

@@ -7,134 +7,74 @@ import {
   Typography,
   Button,
   Space,
+  Modal,
+  Alert,
   Select,
 } from "antd";
+import { UploadOutlined, PlusOutlined, DeleteFilled } from "@ant-design/icons";
 import { useState } from "react";
-import styled from "styled-components";
-import Router from "next/router";
-import { urlObjectKeys } from "next/dist/next-server/lib/utils";
+import Story from "../global/story";
 
 const { Paragraph, Title, Text } = Typography;
 const { Option } = Select;
 
-const Story = styled.div`
-  display: flex;
-  flex-flow: column;
-  height: 615px;
-  width: 369px;
-  font-size: 14px;
-  font-weight: 600;
-  position: relative;
-  margin: 0 20px;
-  :after {
-    position: absolute;
-    z-index: 2;
-  }
-  .image {
-    z-index: 1;
-    background-image: url("https://dynaimage-cdn-cnn-com.cdn.ampproject.org/i/s/dynaimage.cdn.cnn.com/cnn/w_768,h_1024,c_scale/https%3A%2F%2Fdynaimage.cdn.cnn.com%2Fcnn%2Fx_552%2Cy_0%2Cw_798%2Ch_1064%2Cc_crop%2Fhttps%253A%252F%252Fstamp.static.cnn.io%252F5b3f861ad045070021cb6c51%252FAntarctica-cover%252520image.jpg");
-    background-size: cover;
-    background-position: center;
-    height: 615px;
-    width: 369px;
-  }
+const Creator = (props) => {
+  const [title, setTitle] = useState("");
+  const [summary, setSummary] = useState("");
+  const [category, setCategory] = useState("");
+  const [authors, setAuthors] = useState(["watson", "crick"]);
+  const [backgrounda, setBackground] = useState("");
 
-  .filter {
-    z-index: 2;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-image: linear-gradient(
-      180deg,
-      transparent,
-      transparent 50%,
-      rgba(11, 11, 11, 0.8)
-    );
-  }
-  .content {
-    position: absolute;
-    bottom: 0;
-    margin-bottom: 20px;
-    width: 350px;
-    z-index: 3;
-    padding: 32px;
-
-    .logo {
-      margin: 10px 0px;
-      img {
-        height: 40px;
-        width: 40px;
-      }
-    }
-
-    .category {
-      margin: 5px 0px;
-      font-size: 14px;
-    }
-
-    .title {
-      font-size: 20px;
-      line-height: 1.3;
-      font-weight: 700;
-    }
-
-    .author {
-      margin: 5px 0px;
-      font-size: 12px;
-    }
-
-    .date {
-      font-size: 12px;
-    }
-  }
-`;
-
-const Creator = () => {
-  const [title, setTitle] = useState("Enter Title For Page 1");
-  const [summary, setSummary] = useState(`content`);
-  const [category, setCategory] = useState(`content`);
-  const [backgrounda, setBackground] = useState(
-    "https://c4.wallpaperflare.com/wallpaper/410/867/750/vector-forest-sunset-forest-sunset-forest-wallpaper-preview.jpg"
-  );
+  var elem;
   const [highlightData, setHighlightData] = useState([
     {
-      title: title,
-      category: category,
-      content: summary,
-      authors: ["", ""],
-      date: "May 14th, 2019",
-      image: backgrounda,
+      key: page,
+      title: "",
+      category: "",
+      content: "",
+      authors: "",
+      date: new Date().toUTCString(),
+      image: "",
     },
   ]);
   const [page, setPage] = useState(0);
 
   var data = {
+    keya: page,
     title: title,
-    category: "",
+    category: category,
     content: summary,
-    authors: ["", ""],
+    authors: props.authors,
     date: "May 14th, 2019",
     image: backgrounda,
   };
 
-  // var addData = () => {
-  //   Object.assign(highlightData[page], data);
-  //   setHighlightData([...highlightData]);
-  // };
+  var addData = () => {
+    // Object.assign(highlightData[page], data);
+    // setHighlightData([...highlightData]);
+    Modal.success({
+      title: "Success!",
+      content: "Status Successfully Saved",
+    });
+  };
+
   var changePage = () => {
-    if (page == 3) {
-      alert("You can Add at most 4 Status");
+    if (page == 5) {
+      Modal.error({
+        title: "Error Adding Page",
+        content: "Can't Add More Than 6 Pages",
+      });
       return;
     } else {
+      setTitle(null);
+      setSummary(null);
+      setBackground(null);
       setPage(page + 1);
       setHighlightData(
         highlightData.concat({
-          title: "Add Title For Page" + " " + (page + 1 + 1),
-          category: "",
-          content: summary,
-          authors: ["", ""],
-          date: "May 14th, 2019",
-          image: backgrounda,
+          keya: page,
+          title: "Title For Page" + " " + (page + 2),
+          content: "Summary For Page" + " " + (page + 2),
         })
       );
     }
@@ -155,19 +95,32 @@ const Creator = () => {
   };
 
   var onTitle = (e) => {
+    props.setCond("Saving Title....");
     data.title = e.target.value;
     Object.assign(highlightData[page], data);
+    console.log("backgrounda is" + backgrounda);
+    setBackground(null);
+    console.log("now backgrounda is" + backgrounda);
     setHighlightData([...highlightData]);
   };
 
   var onSummary = (e) => {
+    props.setCond("Saving Summary....");
     data.content = e.target.value;
     Object.assign(highlightData[page], data);
     setHighlightData([...highlightData]);
   };
 
   var onCategory = (e) => {
+    props.setCond("Saving Category....");
     data.category = e.target.value;
+    Object.assign(highlightData[page], data);
+    setHighlightData([...highlightData]);
+  };
+
+  var onImage = (e) => {
+    props.setCond("Saving Image....");
+    data.image = e.target.value;
     Object.assign(highlightData[page], data);
     setHighlightData([...highlightData]);
   };
@@ -184,31 +137,17 @@ const Creator = () => {
                 margin: "20px 0px",
               }}
             >
-              {/* Page {index + 1} */}
+              Page {index + 1}
             </Title>
-            <Story>
-              <div
-                className="image"
-                style={{
-                  backgroundImage: `url(${mapped.image})`,
-                }}
-              />
-              <div className="filter" />
-              <div className="content">
-                <div className="logo">
-                  <img src="http://localhost:3000/art.svg" />
-                </div>
-                <div className="category">{mapped.category}</div>
-                <div className="title">{mapped.title}</div>
-                <div className="summary">{mapped.content}</div>
-                <div className="author">
-                  {mapped.authors.length > 1
-                    ? mapped.authors.map((mappedAuthor) => mapped.author)
-                    : mapped.authors[0]}
-                </div>
-                <div className="date">Published {mapped.date}</div>
-              </div>
-            </Story>
+            <Story
+              title={mapped.title}
+              category={index < 1 ? mapped.category : null}
+              content={index >= 1 ? mapped.content : null}
+              authors={index < 1 ? mapped.authors : null}
+              date={index < 1 ? mapped.date : null}
+              image={mapped.image}
+              logo={index < 1 ? true : false}
+            />
           </Col>
         ))}
         <Col className="warning-col">
@@ -247,29 +186,30 @@ const Creator = () => {
             </Space>
           </Row>
           <Row justify="center">
-            <Text strong>
-              *Changes Are Previewed & Automatically Saved While You Type
-            </Text>
+            <Text strong>*Click Update To Preview Changes & Save Page</Text>
           </Row>
         </Col>
       </Row>
-      <Row justify="center" className="highlight-decide">
+      <Row justify="center" className="highlight-decide" id="scroller">
         <Col xxl={12} xl={12} style={{ margin: "auto" }}>
           <Text style={{ lineHeight: 3 }}>Title</Text>
           <Input
             placeholder="Add A Title"
             onChange={(e) => setTitle(e.target.value)}
-            value={highlightData[page].title}
             onInput={(e) => onTitle(e)}
-            allowClear
+            value={highlightData[page].title}
+            onBlur={() => props.setCond("Saved Title")}
           />
           {page == 0 ? (
             <>
               <Text style={{ lineHeight: 3 }}>Category</Text>
               <Input
                 placeholder="Basic usage"
-                onInput={(e) => onCategory(e)}
                 onChange={(e) => setCategory(e.target.value)}
+                defaultValue={data.category}
+                value={highlightData[page].category}
+                onInput={(e) => onCategory(e)}
+                onBlur={() => props.setCond("Saved Category")}
               />
             </>
           ) : null}
@@ -278,8 +218,10 @@ const Creator = () => {
               <Text style={{ lineHeight: 3 }}>Summary</Text>
               <Input
                 placeholder="Basic usage"
-                onChange={(e) => setSummary(e)}
+                onChange={(e) => setSummary(e.target.value)}
                 onInput={(e) => onSummary(e)}
+                onBlur={() => props.setCond("Saved Summary")}
+                value={highlightData[page].content}
               />
             </>
           ) : null}
@@ -289,16 +231,19 @@ const Creator = () => {
           <Input
             placeholder="Basic usage"
             onChange={(e) => setBackground(e.target.value)}
-            defaultValue="https://c4.wallpaperflare.com/wallpaper/410/867/750/vector-forest-sunset-forest-sunset-forest-wallpaper-preview.jpg"
+            onBlur={() => props.setCond("Saved Image")}
+            onInput={(e) => onImage(e)}
+            value={highlightData[page].image}
           />
           <Space style={{ margin: "10px 0px" }}>
-            {/* <Button
+            <Button
               onClick={addData}
               type="primary"
               style={{ marginTop: "20px" }}
+              icon={<UploadOutlined />}
             >
-              Submit
-            </Button> */}
+              Save All
+            </Button>
             <Button
               onClick={changePage}
               style={{
@@ -306,8 +251,9 @@ const Creator = () => {
                 marginLeft: "15px",
               }}
               type="primary"
+              icon={<PlusOutlined />}
             >
-              Add Highlight
+              Add Page
             </Button>
             <Button
               onClick={removePage}
@@ -316,6 +262,7 @@ const Creator = () => {
                 marginLeft: "15px",
                 fontWeight: "bold",
               }}
+              icon={<DeleteFilled />}
               danger
             >
               Remove Page

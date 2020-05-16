@@ -7,24 +7,36 @@ import CatArticles from "../components/homepage/CategoryArticles";
 import Featured from "../components/homepage/Featured";
 import Feed from "../components/homepage/Feed";
 import dynamic from "next/dynamic";
-import Amper from "../components/homepage/amper";
+import Shimmer from "../components/global/shimmer";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 const { Content } = Layout;
 
-const DynamicStories = dynamic(
-  () => import("../components/homepage/Stories.js"),
-  {
-    ssr: false,
-    loading: () => <p>hello</p>,
-  }
-);
-
-const DynamoStories = dynamic(() => import("./ampere.js"), {
-  ssr: true,
-  loading: () => <p>hello</p>,
-});
-
 export default function Home() {
+  var setDark = useStoreActions((actions) => actions.site.setDark);
+  var dark = useStoreState((state) => state.site.dark);
+  useEffect(() => {
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        if (
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+        ) {
+          setDark(true);
+        } else {
+          setDark(false);
+        }
+      });
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      setDark(true);
+    } else {
+      setDark(false);
+    }
+  });
   return (
     <Layout>
       <Nav />
@@ -32,17 +44,7 @@ export default function Home() {
         <Sidebar home={true} />
         <Layout className="mainLayout">
           <Content className="site-layout">
-            {/* <Featured /> */}
-            <PageHeader
-              title="Highlights"
-              extra={[
-                <>
-                  <span>See More</span> <ArrowRightOutlined />
-                </>,
-              ]}
-            />
-            {/* <DynamicStories /> */}
-            {/* <DynamoStories /> */}
+            <Featured />
             <CatArticles />
             <Feed />
           </Content>

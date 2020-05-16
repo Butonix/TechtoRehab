@@ -236,10 +236,6 @@ $High-Desktop: 2000px;
   @include mobile {
     flex-flow: row !important;
     overflow: auto !important;
-
-    :nth-child(2) {
-      padding: 10px 0px !important;
-    }
   }
 }
 
@@ -262,4 +258,27 @@ $High-Desktop: 2000px;
   @include tablet {
     display: block;
   }
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.el {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: #141414;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  background-size: 1000px 104px;
+  height: 338px;
+  position: relative;
+  overflow: hidden;
 }

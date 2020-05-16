@@ -90,7 +90,7 @@ const Sidebar = (props) => {
             <Title style={{ margin: "20px", fontSize: "16px" }}>
               Navigate Article
             </Title>
-            <Anchor style={{margin: '0px 20px'}}>
+            <Anchor style={{ margin: "0px 20px" }}>
               <Anchor.Link
                 href="#components-anchor-demo-basic"
                 title="Introduction"

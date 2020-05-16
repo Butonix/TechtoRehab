@@ -1,39 +1,13 @@
-import {
-  Tooltip,
-  Row,
-  Col,
-  Card,
-  Typography,
-  Layout,
-  Menu,
-  Button,
-  Badge,
-  Dropdown,
-  PageHeader,
-} from "antd";
-import { UserOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { Tooltip, Row, Col, PageHeader } from "antd";
+import { ArrowRightOutlined } from "@ant-design/icons";
+import Shimmer from "../global/shimmer";
+import Story from "../global/story";
 
-const menu = (
-  <Menu onClick={() => {}}>
-    <Menu.Item key="1">
-      <UserOutlined />
-      1st menu item
-    </Menu.Item>
-    <Menu.Item key="2">
-      <UserOutlined />
-      2nd menu item
-    </Menu.Item>
-    <Menu.Item key="3">
-      <UserOutlined />
-      3rd item
-    </Menu.Item>
-  </Menu>
-);
 const Featured = () => {
   return (
     <>
       <PageHeader
-      title="Featured"
+        title="Highlights"
         extra={[
           <>
             <span>See More</span> <ArrowRightOutlined />
@@ -41,8 +15,30 @@ const Featured = () => {
         ]}
       />
 
-      <Row style={{ height: "100%" }}>
-        <Col xs={23} sm={12} md={12} lg={12} xl={6}>
+      <Row className="highlights" style={{ height: "100%" }}>
+        <Col xs={20} sm={12} md={12} lg={12} xl={6}>
+          <Shimmer story />
+        </Col>
+        <Col xs={20} sm={12} md={12} lg={12} xl={6}>
+          <Shimmer story />
+        </Col>
+        <Col xs={20} sm={12} md={12} lg={12} xl={6}>
+          <Shimmer story />
+        </Col>
+        <Col xs={20} sm={12} md={12} lg={12} xl={6}>
+          <Shimmer story />
+        </Col>
+      </Row>
+    </>
+  );
+};
+
+export default Featured;
+
+//Extra Cards
+
+{
+  /* <Col xs={23} sm={12} md={12} lg={12} xl={6}>
           <Card
             style={{ margin: "20px" }}
             cover={
@@ -149,10 +145,5 @@ const Featured = () => {
               description="This is a random excerpt of a post you should know"
             />
           </Card>
-        </Col>
-      </Row>
-    </>
-  );
-};
-
-export default Featured;
+        </Col> */
+}
