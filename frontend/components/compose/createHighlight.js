@@ -8,7 +8,6 @@ import {
   Button,
   Space,
   Modal,
-  Alert,
   Select,
 } from "antd";
 import { UploadOutlined, PlusOutlined, DeleteFilled } from "@ant-design/icons";
@@ -44,8 +43,8 @@ const Creator = (props) => {
     title: title,
     category: category,
     content: summary,
-    authors: props.authors,
-    date: "May 14th, 2019",
+    authors: null,
+    date: new Date().toUTCString(),
     image: backgrounda,
   };
 
@@ -121,6 +120,25 @@ const Creator = (props) => {
   var onImage = (e) => {
     props.setCond("Saving Image....");
     data.image = e.target.value;
+    Object.assign(highlightData[page], data);
+    setHighlightData([...highlightData]);
+  };
+
+  var onAuthors = (val) => {
+    props.setCond("Saving Authors....");
+    val = val.toString();
+    val = " By " + val;
+    var vala;
+    if (val.includes(",")) {
+      val = val.replace(",", " and ");
+      // vala = val.split("and");
+      vala = [val];
+    } else {
+      vala = [val];
+    }
+    // var authoa = [];
+    // authoa.push(vala);
+    data.authors = vala;
     Object.assign(highlightData[page], data);
     setHighlightData([...highlightData]);
   };
@@ -211,6 +229,24 @@ const Creator = (props) => {
                 onInput={(e) => onCategory(e)}
                 onBlur={() => props.setCond("Saved Category")}
               />
+            </>
+          ) : null}
+          {page == 0 ? (
+            <>
+              <Text style={{ lineHeight: 3 }}>Author/Authors</Text>
+              <Select
+                mode="multiple"
+                style={{ width: "100%" }}
+                placeholder="Please Select Author(s)"
+                onChange={(value) => onAuthors(value)}
+              >
+                <Option value="Dukesx" key={1}>
+                  Dukesx
+                </Option>
+                <Option value="Dukea" key={2}>
+                  Dukea
+                </Option>
+              </Select>
             </>
           ) : null}
           {page > 0 ? (

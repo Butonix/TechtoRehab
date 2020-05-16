@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import { Typography, Space } from "antd";
 
+const { Text } = Typography;
 const Story = styled.div`
   display: flex;
   flex-flow: column;
@@ -92,12 +94,22 @@ const Stories = (props) => {
         <div className="title">{props.title}</div>
         <div className="summary">{props.content}</div>
         <div className="author">
-          {props.authors
-            ? props.authors.map((mappedAuthor) => mappedAuthor.author)
-            : null}
+          <Space>
+            {props.authors
+              ? props.authors.map((mappedAuthor) => {
+                  return <Text>{mappedAuthor}</Text>;
+                })
+              : null}
+          </Space>
         </div>
         <div className="date">
-          {props.date ? "Published" + " " + props.date : null}
+          {props.date
+            ? "Published" +
+              " " +
+              new Date(props.date)
+                .toLocaleDateString("en-IN")
+                .replace(" ", ",  ")
+            : null}
         </div>
       </div>
     </Story>
