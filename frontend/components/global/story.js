@@ -11,6 +11,7 @@ const Story = styled.div`
   font-weight: 600;
   position: relative;
   margin: 0 20px;
+  color: white;
   :after {
     position: absolute;
     z-index: 2;
@@ -94,13 +95,23 @@ const Stories = (props) => {
         <div className="title">{props.title}</div>
         <div className="summary">{props.content}</div>
         <div className="author">
-          <Space>
-            {props.authors
-              ? props.authors.map((mappedAuthor) => {
-                  return <Text>{mappedAuthor}</Text>;
-                })
-              : null}
-          </Space>
+          {props.authors
+            ? props.authors.map((mappedAuthor, index) => {
+                return (
+                  <Text style={{ color: "white", textDecoration: "none" }}>
+                    {index == 0 ? "By" + " " : null}
+                    {index < props.authors.length && index != 0
+                      ? " and "
+                      : null}
+                    <a
+                      href={`${process.env.NEXT_PUBLIC_WEB_ADDRESS}/authors/${mappedAuthor}`}
+                    >
+                      {mappedAuthor}
+                    </a>
+                  </Text>
+                );
+              })
+            : null}
         </div>
         <div className="date">
           {props.date

@@ -1,56 +1,26 @@
 import styled from "styled-components";
 import { useStoreState } from "easy-peasy";
 import ContentLoader, { Instagram } from "react-content-loader";
+import Skeleton, { Card, Form } from "@nejcm/react-skeleton";
 
 const Shimmer = (props) => {
   var dark = useStoreState((state) => state.site.dark);
   return props.story ? (
-    <ContentLoader
-      uniqueKey="my-random-valye"
-      animate={true}
-      backgroundColor={dark ? "#272727" : "#F3F3F3"}
-      foregroundColor={dark ? "#111111" : "#ECEBEB"}
-      style={{ height: 500, width: 400 }}
-    >
-      <rect x="23" y="5" rx="0" ry="0" width="70%" height="500" />
-      {/* <rect x="24" y="500" rx="0" ry="0" width="70%" height="11" />
-      <rect x="24" y="480" rx="0" ry="0" width="50%" height="11" />
-      <rect x="24" y="420" rx="0" ry="0" width="55" height="50" /> */}
-    </ContentLoader>
+    <Skeleton darkTheme={dark ? true : false} style={{ padding: 20 }}>
+      <Skeleton.Rectangle height={500} width="300px" />
+    </Skeleton>
   ) : props.editor ? (
-    <ContentLoader
-      uniqueKey="my-random-valye"
-      animate={true}
-      backgroundColor={dark ? "#272727" : "#F3F3F3"}
-      foregroundColor={dark ? "#111111" : "#ECEBEB"}
-      style={{ height: "400px", width: "100%" }}
-    >
-      <rect x="10" y="56" rx="0" ry="0" width="100%" height="500" />
-      <rect x="10" y="19" rx="0" ry="0" width="287" height="22" />
-    </ContentLoader>
+    <Skeleton darkTheme={dark ? true : false} style={{ padding: 20 }}>
+      <Card paragraph header />
+    </Skeleton>
   ) : props.storyEditor ? (
-    <ContentLoader
-      uniqueKey="my-random-valye"
-      animate={true}
-      backgroundColor={dark ? "#272727" : "#F3F3F3"}
-      foregroundColor={dark ? "#111111" : "#ECEBEB"}
-      style={{ height: "400px", width: "100%", margin: "auto" }}
-    >
-      <rect x="116" y="4" rx="0" ry="0" width="200" height="400" />
-    </ContentLoader>
+    <Skeleton darkTheme={dark ? true : false} style={{ padding: 20 }}>
+      <Form label widths={["100%", 150, "20rem", "100px", "50%"]} />
+    </Skeleton>
   ) : props.card ? (
-    <ContentLoader
-      uniqueKey="my-random-valye"
-      animate={true}
-      backgroundColor={dark ? "#272727" : "#F3F3F3"}
-      foregroundColor={dark ? "#111111" : "#ECEBEB"}
-      style={{ height: 300, width: 400 }}
-    >
-      <rect x="23" y="5" rx="0" ry="0" width="100%" height="300" />
-      {/* <rect x="24" y="500" rx="0" ry="0" width="70%" height="11" />
-      <rect x="24" y="480" rx="0" ry="0" width="50%" height="11" />
-      <rect x="24" y="420" rx="0" ry="0" width="55" height="50" /> */}
-    </ContentLoader>
+    <Skeleton darkTheme={dark ? true : false} style={{ padding: 20 }}>
+      <Card image paragraph header />
+    </Skeleton>
   ) : null;
 };
 
