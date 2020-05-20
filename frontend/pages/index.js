@@ -6,8 +6,6 @@ import Sidebar from "../components/global/sidebar";
 import CatArticles from "../components/homepage/CategoryArticles";
 import Featured from "../components/homepage/Featured";
 import Feed from "../components/homepage/Feed";
-import dynamic from "next/dynamic";
-import Shimmer from "../components/global/shimmer";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
 const { Content } = Layout;
