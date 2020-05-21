@@ -1,6 +1,4 @@
-import styled from "styled-components";
 import { useStoreState } from "easy-peasy";
-import ContentLoader, { Instagram } from "react-content-loader";
 import Skeleton, { Card, Form } from "@nejcm/react-skeleton";
 
 const Shimmer = (props) => {

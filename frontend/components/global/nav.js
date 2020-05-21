@@ -42,7 +42,7 @@ const HeaderDefault = styled.header`
   nav {
     display: flex;
     font-size: 16px;
-    width: 100vw;
+    width: 100%;
     justify-content: space-between;
     box-shadow: 0px 1px 3px 0px #dcdcdc;
     z-index: 1;

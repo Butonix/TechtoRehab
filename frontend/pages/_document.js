@@ -61,7 +61,7 @@ export default class MyDocument extends Document {
             src="https://cdn.ampproject.org/v0/amp-video-0.1.js"
           />
         </Head>
-        <body style={{ margin: 0 }}>
+        <body className="light" style={{ margin: 0 }}>
           <Main />
           <NextScript />
         </body>
