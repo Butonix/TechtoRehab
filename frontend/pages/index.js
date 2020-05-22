@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { Typography, Layout, Menu, Button, PageHeader } from "antd";
 import { UserOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import Nav from "../components/global/nav.js";
-import Sidebar from "../components/global/sidebar";
-import CatArticles from "../components/homepage/CategoryArticles";
-import Featured from "../components/homepage/Featured";
-import Feed from "../components/homepage/Feed";
+import Nav from "components/global/nav.js";
+import Sidebar from "components/global/sidebar";
+import CatArticles from "components/homepage/CategoryArticles";
+import Featured from "components/homepage/Featured";
+import Feed from "components/homepage/Feed";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import styled from "styled-components";
-import Head from "next/head";
+import Wrapper from "components/global/wrapper";
 
 const { Content } = Layout;
 
@@ -51,18 +50,20 @@ export default function Home() {
     }
   });
   return (
-    <Layout>
-      <Nav />
+    <Wrapper>
       <Layout>
-        <Sidebar home={true} />
-        <Layout className="mainLayout">
-          <Content className="site-layout">
-            <Featured />
-            <CatArticles />
-            <Feed />
-          </Content>
+        <Nav />
+        <Layout>
+          <Sidebar home={true} />
+          <Layout className="mainLayout">
+            <Content className="site-layout">
+              <Featured />
+              <CatArticles />
+              <Feed />
+            </Content>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    </Wrapper>
   );
 }

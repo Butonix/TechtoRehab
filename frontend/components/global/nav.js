@@ -1,25 +1,6 @@
 import { useState } from "react";
 
-import {
-  Tag,
-  Slider,
-  Switch,
-  Tooltip,
-  Avatar,
-  Space,
-  Skeleton,
-  Row,
-  Col,
-  Card,
-  Typography,
-  Layout,
-  Menu,
-  Button,
-  Badge,
-  Dropdown,
-  PageHeader,
-  List,
-} from "antd";
+import { Tooltip, Typography, Menu, Button, Badge, Dropdown } from "antd";
 import {
   ReloadOutlined,
   UserOutlined,
@@ -185,6 +166,7 @@ const menu = (
 
 const NavBar = () => {
   const link = process.env.NEXT_PUBLIC_WEB_ADDRESS;
+
   return (
     <HeaderDefault>
       <nav>
@@ -210,7 +192,7 @@ const NavBar = () => {
         </div>
         <div className="navItem compose">
           <Dropdown overlay={menu}>
-            <Button type="primary" icon={<EditOutlined />}>
+            <Button type="link" icon={<EditOutlined />}>
               Create <DownOutlined />
             </Button>
           </Dropdown>

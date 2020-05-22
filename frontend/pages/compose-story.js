@@ -1,11 +1,11 @@
 import { Layout, Space, Typography, PageHeader, Skeleton } from "antd";
 import { EditOutlined } from "@ant-design/icons";
-import Nav from "../components/global/nav.js";
-import Sidebar from "../components/global/sidebar";
+import Nav from "components/global/nav.js";
+import Sidebar from "components/global/sidebar";
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Router from "next/router";
-import Shimmer from "../components/global/shimmer";
+import Shimmer from "components/global/shimmer";
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;

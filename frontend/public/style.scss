@@ -34,6 +34,33 @@ $High-Desktop: 2000px;
   margin-top: 11px;
 }
 
+nav {
+  button {
+    @media (prefers-color-scheme: dark) {
+      color: white !important;
+    }
+    // @media (prefers-color-scheme: light) {
+    //   color: #ffffffa6;
+    // }
+  }
+}
+
+.ant-menu-item {
+  span {
+    a {
+      @media (prefers-color-scheme: dark) {
+        color: inherit;
+        transition: none;
+      }
+
+      @media (prefers-color-scheme: light) {
+        color: inherit;
+        transition: none;
+      }
+    }
+  }
+}
+
 .ant-card {
   margin: 10px 20px !important;
   @include mobile {

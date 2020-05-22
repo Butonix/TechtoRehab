@@ -11,12 +11,12 @@ import {
   Skeleton,
 } from "antd";
 import { CheckOutlined, LoadingOutlined } from "@ant-design/icons";
-import Nav from "../components/global/nav.js";
-import Sidebar from "../components/global/sidebar";
+import Nav from "components/global/nav.js";
+import Sidebar from "components/global/sidebar";
 import React from "react";
 import dynamic from "next/dynamic";
 import Router from "next/router";
-import Shimmer from "../components/global/shimmer";
+import Shimmer from "components/global/shimmer";
 
 var CreateEditor = dynamic(
   () => import("@tinymce/tinymce-react").then((editor) => editor.Editor),
