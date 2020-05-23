@@ -25,7 +25,11 @@ const Indexo = () => {
             <Content className="site-layout">
               <PageHeader
                 onBack={() => Router.back()}
-                title={pid[1].toUpperCase() + " " + pid[0].toUpperCase()}
+                title={
+                  pid[1]
+                    ? pid[1].toUpperCase()
+                    : "" + " " + pid[0].toUpperCase()
+                }
               />
               <Card>
                 {pid[0] == "announcements" && !pid[1] ? (
