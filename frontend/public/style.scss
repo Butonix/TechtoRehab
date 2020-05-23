@@ -61,6 +61,14 @@ nav {
   }
 }
 
+// .mainLayout {
+//   height: 100vh !important;
+
+//   @include mobile {
+//     height: 100%;
+//   }
+// }
+
 .ant-card {
   margin: 10px 20px !important;
   @include mobile {

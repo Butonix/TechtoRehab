@@ -10,7 +10,7 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "@apollo/react-ssr": "^3.1.5",
-    "@atlaskit/editor-core": "^123.0.1",
+    "@emotion/core": "^10.0.28",
     "@nejcm/react-skeleton": "^2.0.1",
     "@tinymce/tinymce-react": "^3.5.1",
     "antd": "^4.2.0",
@@ -29,6 +29,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "remixicon": "^2.4.0",
+    "rich-markdown-editor": "^10.0.1",
     "sass": "^1.26.5",
     "styled-components": "^5.1.0"
   },

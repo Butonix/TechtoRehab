@@ -17,11 +17,17 @@ import React from "react";
 import dynamic from "next/dynamic";
 import Router from "next/router";
 import Shimmer from "components/global/shimmer";
+// import Editor from "rich-markdown-editor";
 
 var CreateEditor = dynamic(
   () => import("@tinymce/tinymce-react").then((editor) => editor.Editor),
   { ssr: false, loading: () => <Shimmer editor /> }
 );
+
+// var CreatoEditor = dynamic(() => import("rich-markdown-editor"), {
+//   ssr: false,
+//   loading: () => <Shimmer editor />,
+// });
 
 const onChanger = (content, editor) => {
   console.log("Content is" + content);
@@ -175,21 +181,18 @@ class Compose extends React.Component {
                   ],
                   importcss_append: true,
                   file_picker_callback: function (callback, value, meta) {
-                    /* Provide file and text for the link dialog */
                     if (meta.filetype === "file") {
                       callback("https://www.google.com/logos/google.jpg", {
                         text: "My text",
                       });
                     }
 
-                    /* Provide image and alt text for the image dialog */
                     if (meta.filetype === "image") {
                       callback("https://www.google.com/logos/google.jpg", {
                         alt: "My alt text",
                       });
                     }
 
-                    /* Provide alternative source and posted for the media dialog */
                     if (meta.filetype === "media") {
                       callback("movie.mp4", {
                         source2: "alt.ogg",
@@ -260,10 +263,21 @@ class Compose extends React.Component {
                     xhr.send(finalData);
                   },
                   images_upload_url: "http://localhost:3000/api/imageHandler",
+                  height: "100vh",
                 }}
                 onChange={onChanger}
                 onEditorChange={onChanger}
               />
+              {/* <CreatoEditor
+                defaultValue="Hello world!"
+                dark
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  margin: 20,
+                  padding: 20,
+                }}
+              /> */}
             </Content>
           </Layout>
         </Layout>

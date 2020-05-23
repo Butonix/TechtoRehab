@@ -144,7 +144,11 @@ const Sidebar = (props) => {
       {props.admin ? (
         <Menu
           mode="inline"
-          defaultSelectedKeys={props.id}
+          defaultSelectedKeys={
+            props.id == "users" && props.id2 == "view"
+              ? props.id + props.id2
+              : props.id
+          }
           defaultOpenKeys={["user", "settings"]}
           style={{ height: "100%", borderRight: 0 }}
           theme={darko ? "dark" : "light"}
@@ -156,16 +160,18 @@ const Sidebar = (props) => {
             <Link href="/admin/announcements">Announcements</Link>
           </Menu.Item>
           <Menu.Item key="articles" icon={<CopyOutlined />}>
-            Articles
+            <Link href="/admin/articles">Articles</Link>
           </Menu.Item>
           <Menu.Item key="comments" icon={<MessageOutlined />}>
-            Comments
+            <Link href="/admin/comments">Comments</Link>
           </Menu.Item>
           <Menu.Item key="reports" icon={<CopyrightCircleOutlined />}>
-            Reports
+            <Link href="/admin/reports">Reports</Link>
           </Menu.Item>
           <SubMenu key="user" icon={<UserOutlined />} title="Users">
-            <Menu.Item key="users">View</Menu.Item>
+            <Menu.Item key="usersview">
+              <Link href="/admin/users/view">View</Link>
+            </Menu.Item>
             <Menu.Item key="sub4-2">Create</Menu.Item>
           </SubMenu>
           <SubMenu key="settings" icon={<SettingOutlined />} title="Settings">

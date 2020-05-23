@@ -14,7 +14,6 @@ import { UploadOutlined, PlusOutlined, DeleteFilled } from "@ant-design/icons";
 import { useState } from "react";
 import Story from "../global/story";
 import React from "react";
-import ListBodyWrapper from "antd/lib/transfer/renderListBody";
 
 const { Paragraph, Title, Text } = Typography;
 const { Option } = Select;

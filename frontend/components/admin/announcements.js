@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Row, Col, Space, Button, Input, Typography, Select } from "antd";
-import { DownloadOutlined } from "@ant-design/icons";
+import { Row, Col, Space, Button, Input, Typography, Select, Card } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
 const { Title, Paragraph, Text } = Typography;
@@ -8,9 +8,13 @@ const { Option } = Select;
 
 const AnnouncementHolder = styled.div`
   display: flex;
-  overflow: auto;
+  flex-flow: row wrap;
   width: 100%;
+  overflow: auto;
+  height: 200px;
   padding: 10px;
+  width: 100%;
+  justify-content: center;
 `;
 
 const Announcement = styled.div`
@@ -19,24 +23,32 @@ const Announcement = styled.div`
   color: white;
   font-size: 16px;
   padding: 10px;
-  width: 100%;
+  width: 500px;
   height: 50px;
-  margin: 0px 20px;
+  margin: 10px;
 
   .type {
   }
   .title {
+    width: 300px;
+    max-width: 450px;
   }
   .button {
     margin-left: auto;
     margin-right: 10px;
     margin-top: auto;
     margin-bottom: auto;
+    i {
+      color: white;
+    }
   }
   .close {
     margin-left: auto;
     margin-top: auto;
     margin-bottom: auto;
+    i {
+      color: white;
+    }
   }
 `;
 
@@ -52,6 +64,17 @@ var announces = [
     type: "app",
     link: "https://google.com",
   },
+  {
+    id: "id-3",
+    title: `Get Our App On Android`,
+    type: "app",
+    link: "https://google.com",
+  },
+  {
+    id: "id-4",
+    title: "Title is important",
+    type: "info",
+  },
 ];
 
 const Announcements = (props) => {
@@ -59,7 +82,8 @@ const Announcements = (props) => {
   const [type, setType] = useState("");
   return props.pid ? (
     <>
-      <Row style={{ margin: 28 }}>
+      <Title level={4}>Active Announcements</Title>
+      <Row style={{ margin: 28 }} justify="center">
         <AnnouncementHolder>
           {announces.map((mapped) => (
             <Announcement
@@ -126,6 +150,15 @@ const Announcements = (props) => {
               <Input />
             </>
           ) : null}
+          <Row justify="center">
+            <Button
+              type="primary"
+              style={{ marginTop: 30 }}
+              icon={<UploadOutlined />}
+            >
+              Submit
+            </Button>
+          </Row>
         </Col>
       </Row>
     </>
