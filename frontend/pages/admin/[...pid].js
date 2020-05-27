@@ -8,6 +8,7 @@ import Wrapper from "components/global/wrapper";
 import Comments from "components/admin/comments";
 import Reports from "components/admin/reports";
 import UsersView from "components/admin/users/view";
+import UsersCreate from "components/admin/users/create";
 
 const { Content } = Layout;
 
@@ -27,7 +28,7 @@ const Indexo = () => {
                 onBack={() => Router.back()}
                 title={
                   pid[1]
-                    ? pid[1].toUpperCase()
+                    ? pid[1].toUpperCase() + "" + " " + pid[0].toUpperCase()
                     : "" + " " + pid[0].toUpperCase()
                 }
               />
@@ -48,8 +49,14 @@ const Indexo = () => {
                   <Reports pid={pid[0] == "reports" ? pid[0] : null} />
                 ) : null}
 
-                {pid[0] == "users" ? (
+                {pid[0] == "users" && pid[1] == "view" ? (
                   <UsersView
+                    pid={pid[0] == "users" ? pid[0] : null}
+                    pid1={pid[1] == "view" ? pid[1] : null}
+                  />
+                ) : null}
+                {pid[0] == "users" && pid[1] == "create" ? (
+                  <UsersCreate
                     pid={pid[0] == "users" ? pid[0] : null}
                     pid1={pid[1] == "view" ? pid[1] : null}
                   />

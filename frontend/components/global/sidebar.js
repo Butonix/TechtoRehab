@@ -145,7 +145,8 @@ const Sidebar = (props) => {
         <Menu
           mode="inline"
           defaultSelectedKeys={
-            props.id == "users" && props.id2 == "view"
+            (props.id == "users" && props.id2 == "view") ||
+            (props.id == "users" && props.id2 == "create")
               ? props.id + props.id2
               : props.id
           }
@@ -172,7 +173,9 @@ const Sidebar = (props) => {
             <Menu.Item key="usersview">
               <Link href="/admin/users/view">View</Link>
             </Menu.Item>
-            <Menu.Item key="sub4-2">Create</Menu.Item>
+            <Menu.Item key="userscreate">
+              <Link href="/admin/users/create">Create</Link>
+            </Menu.Item>
           </SubMenu>
           <SubMenu key="settings" icon={<SettingOutlined />} title="Settings">
             <Menu.Item key="sub6-1">General</Menu.Item>
