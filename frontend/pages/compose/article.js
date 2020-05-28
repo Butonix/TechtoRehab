@@ -279,7 +279,7 @@ class Compose extends React.Component {
               /> */}
             </Content>
           </Layout>
-          <Sidebar />
+          <Sidebar global />
         </Layout>
       </Layout>
     );
