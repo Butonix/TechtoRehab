@@ -11,7 +11,6 @@ import {
   Avatar,
   Typography,
   Divider,
-  Anchor,
   Button,
 } from "antd";
 import { withApollo } from "../.././../lib/apollo";

@@ -16,7 +16,6 @@ import { breakPoints } from "./responsive";
 
 const HeaderDefault = styled.header`
   box-shadow: 0px 0px 3px 0px #f5f5f5;
-  height: 50px;
   position: relative;
   background: white;
   display: flex;
@@ -25,11 +24,11 @@ const HeaderDefault = styled.header`
     font-size: 16px;
     width: 100%;
     justify-content: space-between;
-    box-shadow: 0px 1px 3px 0px #dcdcdc;
+    box-shadow: 0px 2px 3px 1px #f5f5f5;
     z-index: 1;
     background: white;
     align-items: center;
-    height: 50px;
+    height: 64px;
     .navItem {
       margin: 0px 15px;
       line-height: 3;
@@ -83,9 +82,9 @@ const HeaderDefault = styled.header`
         bottom: 20px;
         right: 0px;
         button {
-          height: 50px;
-          width: 50px;
-          border-radius: 50%;
+          height: 40px;
+          width: 60px;
+          border-radius: 10%;
           background: #1890ff;
           color: white;
           .composeText {
@@ -106,7 +105,10 @@ const HeaderDefault = styled.header`
     }
 
     .getStarted {
-      margin-right: 10px;
+      margin-right: 40px;
+      @media ${breakPoints.mobile} {
+        margin-right: 10px;
+      }
     }
 
     .loginIcon {
@@ -192,8 +194,8 @@ const NavBar = () => {
         </div>
         <div className="navItem compose">
           <Dropdown overlay={menu}>
-            <Button type="link" icon={<EditOutlined />}>
-              Create <DownOutlined />
+            <Button type="primary" shape="round" icon={<EditOutlined />}>
+              <DownOutlined />
             </Button>
           </Dropdown>
         </div>
@@ -202,8 +204,8 @@ const NavBar = () => {
               Hello, Afzaal <DownOutlined />
             </Button>
           </Dropdown> */}
-        <Button type="primary" className="getStarted">
-          Get Started
+        <Button type="link" className="getStarted">
+          Sign in
         </Button>
       </nav>
     </HeaderDefault>

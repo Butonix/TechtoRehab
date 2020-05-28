@@ -146,9 +146,14 @@ const Sidebar = (props) => {
           mode="inline"
           defaultSelectedKeys={
             (props.id == "users" && props.id2 == "view") ||
-            (props.id == "users" && props.id2 == "create")
-              ? props.id + props.id2
-              : props.id
+            (props.id == "users" && props.id2 == "create") ||
+            (props.id == "settings" && props.id2 == "general") ||
+            (props.id == "settings" && props.id2 == "article") ||
+            (props.id == "settings" && props.id2 == "comments") ||
+            (props.id == "settings" && props.id2 == "users") ||
+            (props.id == "settings" && props.id2 == "security")
+              ? props.id2 + props.id
+              : props.id + "Alone"
           }
           defaultOpenKeys={["user", "settings"]}
           style={{ height: "100%", borderRight: 0 }}
@@ -157,32 +162,42 @@ const Sidebar = (props) => {
           <Title level={4} style={{ margin: "20px", fontSize: "16px" }}>
             TTR Admin Panel
           </Title>
-          <Menu.Item key="announcements" icon={<NotificationOutlined />}>
+          <Menu.Item key="announcementsAlone" icon={<NotificationOutlined />}>
             <Link href="/admin/announcements">Announcements</Link>
           </Menu.Item>
-          <Menu.Item key="articles" icon={<CopyOutlined />}>
+          <Menu.Item key="postsAlone" icon={<CopyOutlined />}>
             <Link href="/admin/articles">Articles</Link>
           </Menu.Item>
-          <Menu.Item key="comments" icon={<MessageOutlined />}>
+          <Menu.Item key="commentsAlone" icon={<MessageOutlined />}>
             <Link href="/admin/comments">Comments</Link>
           </Menu.Item>
-          <Menu.Item key="reports" icon={<CopyrightCircleOutlined />}>
+          <Menu.Item key="reportsAlone" icon={<CopyrightCircleOutlined />}>
             <Link href="/admin/reports">Reports</Link>
           </Menu.Item>
           <SubMenu key="user" icon={<UserOutlined />} title="Users">
-            <Menu.Item key="usersview">
+            <Menu.Item key="viewusers">
               <Link href="/admin/users/view">View</Link>
             </Menu.Item>
-            <Menu.Item key="userscreate">
+            <Menu.Item key="createusers">
               <Link href="/admin/users/create">Create</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu key="settings" icon={<SettingOutlined />} title="Settings">
-            <Menu.Item key="sub6-1">General</Menu.Item>
-            <Menu.Item key="sub6-2">Articles</Menu.Item>
-            <Menu.Item key="sub6-3">Comments</Menu.Item>
-            <Menu.Item key="sub6-4">Users</Menu.Item>
-            <Menu.Item key="sub6-5">Security</Menu.Item>
+            <Menu.Item key="generalsettings">
+              <Link href="/admin/settings/general">General</Link>
+            </Menu.Item>
+            <Menu.Item key="articlesettings">
+              <Link href="/admin/settings/article">Article</Link>
+            </Menu.Item>
+            <Menu.Item key="commentssettings">
+              <Link href="/admin/settings/comments">Comments</Link>
+            </Menu.Item>
+            <Menu.Item key="userssettings">
+              <Link href="/admin/settings/users">Users</Link>
+            </Menu.Item>
+            <Menu.Item key="securitysettings">
+              <Link href="/admin/settings/security">Security</Link>
+            </Menu.Item>
           </SubMenu>
         </Menu>
       ) : null}

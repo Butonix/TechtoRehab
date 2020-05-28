@@ -9,6 +9,11 @@ import Comments from "components/admin/comments";
 import Reports from "components/admin/reports";
 import UsersView from "components/admin/users/view";
 import UsersCreate from "components/admin/users/create";
+import GeneralSettings from "components/admin/settings/general";
+import ArticleSettings from "components/admin/settings/article";
+import CommentSettings from "components/admin/settings/comments";
+import UsersSettings from "components/admin/settings/users";
+import SecuritySettings from "components/admin/settings/security";
 
 const { Content } = Layout;
 
@@ -21,7 +26,11 @@ const Indexo = () => {
       <Layout>
         <Nav />
         <Layout>
-          <Sidebar id={pid[0]} id2={pid[1]} admin />
+          <Sidebar
+            id={pid[0] == "articles" ? "posts" : pid[0]}
+            id2={pid[1]}
+            admin
+          />
           <Layout className="mainLayout">
             <Content className="site-layout">
               <PageHeader
@@ -34,32 +43,32 @@ const Indexo = () => {
               />
               <Card>
                 {pid[0] == "announcements" && !pid[1] ? (
-                  <Announcements
-                    pid={pid[0] == "announcements" ? pid[0] : null}
-                  />
+                  <Announcements />
                 ) : null}
-                {pid[0] == "articles" && !pid[1] ? (
-                  <Articles pid={pid[0] == "articles" ? pid[0] : null} />
-                ) : null}
-                {pid[0] == "comments" && !pid[1] ? (
-                  <Comments pid={pid[0] == "comments" ? pid[0] : null} />
-                ) : null}
+                {pid[0] == "articles" && !pid[1] ? <Articles /> : null}
+                {pid[0] == "comments" && !pid[1] ? <Comments /> : null}
 
-                {pid[0] == "reports" && !pid[1] ? (
-                  <Reports pid={pid[0] == "reports" ? pid[0] : null} />
-                ) : null}
+                {pid[0] == "reports" && !pid[1] ? <Reports /> : null}
 
-                {pid[0] == "users" && pid[1] == "view" ? (
-                  <UsersView
-                    pid={pid[0] == "users" ? pid[0] : null}
-                    pid1={pid[1] == "view" ? pid[1] : null}
-                  />
-                ) : null}
+                {pid[0] == "users" && pid[1] == "view" ? <UsersView /> : null}
                 {pid[0] == "users" && pid[1] == "create" ? (
-                  <UsersCreate
-                    pid={pid[0] == "users" ? pid[0] : null}
-                    pid1={pid[1] == "view" ? pid[1] : null}
-                  />
+                  <UsersCreate />
+                ) : null}
+
+                {pid[0] == "settings" && pid[1] == "general" ? (
+                  <GeneralSettings />
+                ) : null}
+                {pid[0] == "settings" && pid[1] == "article" ? (
+                  <ArticleSettings />
+                ) : null}
+                {pid[0] == "settings" && pid[1] == "comments" ? (
+                  <CommentSettings />
+                ) : null}
+                {pid[0] == "settings" && pid[1] == "users" ? (
+                  <UsersSettings />
+                ) : null}
+                {pid[0] == "settings" && pid[1] == "security" ? (
+                  <SecuritySettings />
                 ) : null}
               </Card>
             </Content>

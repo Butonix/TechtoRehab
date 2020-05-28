@@ -105,7 +105,6 @@ class Compose extends React.Component {
       <Layout>
         <Nav />
         <Layout>
-          <Sidebar />
           <Layout className="mainLayout">
             <Content className="site-layout">
               <div style={{ margin: "20px 0px" }} />
@@ -280,6 +279,7 @@ class Compose extends React.Component {
               /> */}
             </Content>
           </Layout>
+          <Sidebar />
         </Layout>
       </Layout>
     );

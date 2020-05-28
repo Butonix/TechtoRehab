@@ -11,7 +11,7 @@ const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 
 var CreateHighlight = dynamic(
-  () => import("../components/compose/createHighlight"),
+  () => import("../../components/compose/createHighlight"),
   { ssr: false, loading: () => <Shimmer storyEditor /> }
 );
 

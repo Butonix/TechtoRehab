@@ -310,7 +310,7 @@ const CreateUser = () => {
                 <Option value="lucy">No</Option>
               </Select>
             </Form.Item>
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Form.Item wrapperCol={{ offset: 8 }}>
               <Button type="primary">Submit</Button>
             </Form.Item>
           </Form>
