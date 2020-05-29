@@ -49,17 +49,18 @@ export default function Home() {
       setDark(false);
     }
   });
+
   return (
     <Wrapper>
       <Layout>
         <Nav />
         <Layout>
-          <Sidebar home={true} />
+          <Sidebar home />
           <Layout className="mainLayout">
             <Content className="site-layout">
-              <Featured />
+              {/* <Featured />
               <CatArticles />
-              <Feed />
+              <Feed /> */}
             </Content>
           </Layout>
         </Layout>
