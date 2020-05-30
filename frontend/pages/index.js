@@ -16,39 +16,39 @@ export default function Home() {
   var dark = useStoreState((state) => state.site.dark);
   const [stater, setStater] = useState(false);
 
-  var setter = () => {
-    // var boda = document.getElementsByTagName("body")[0];
-    // if (boda.classList.contains("light")) {
-    //   boda.classList.remove("light");
-    //   boda.classList.add("dark");
-    // } else if (boda.classList.contains("dark")) {
-    //   boda.classList.remove("dark");
-    //   boda.classList.add("light");
-    // }
-    setStater(!stater);
-  };
-  useEffect(() => {
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (e) => {
-        if (
-          window.matchMedia &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches
-        ) {
-          setDark(true);
-        } else {
-          setDark(false);
-        }
-      });
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      setDark(true);
-    } else {
-      setDark(false);
-    }
-  });
+  // var setter = () => {
+  //   // var boda = document.getElementsByTagName("body")[0];
+  //   // if (boda.classList.contains("light")) {
+  //   //   boda.classList.remove("light");
+  //   //   boda.classList.add("dark");
+  //   // } else if (boda.classList.contains("dark")) {
+  //   //   boda.classList.remove("dark");
+  //   //   boda.classList.add("light");
+  //   // }
+  //   setStater(!stater);
+  // };
+  // useEffect(() => {
+  //   window
+  //     .matchMedia("(prefers-color-scheme: dark)")
+  //     .addEventListener("change", (e) => {
+  //       if (
+  //         window.matchMedia &&
+  //         window.matchMedia("(prefers-color-scheme: dark)").matches
+  //       ) {
+  //         setDark(true);
+  //       } else {
+  //         setDark(false);
+  //       }
+  //     });
+  //   if (
+  //     window.matchMedia &&
+  //     window.matchMedia("(prefers-color-scheme: dark)").matches
+  //   ) {
+  //     setDark(true);
+  //   } else {
+  //     setDark(false);
+  //   }
+  // });
 
   return (
     <Wrapper>

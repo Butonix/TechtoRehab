@@ -105,7 +105,7 @@ const Sidebar = (props) => {
           </Menu.Item>
           <Menu.Item key="8" icon={<i class="ri-team-fill ri-xl mr-10"></i>}>
             <Link href="/authors" prefetch={false}>
-              Authors
+              <a>Authors</a>
             </Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<i class="ri-apps-line ri-xl mr-10"></i>}>
