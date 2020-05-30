@@ -36,12 +36,10 @@ const Articles = () => {
                 width: 120,
                 render: (text, record) => (
                   <>
-                    <Button type="primary" style={{ margin: 5 }} danger>
+                    <Button type="primary mg-5" danger>
                       Delete
                     </Button>
-                    <Button type="primary" style={{ margin: 5 }}>
-                      PM Author
-                    </Button>
+                    <Button type="primary mg-5">PM Author</Button>
                   </>
                 ),
               },

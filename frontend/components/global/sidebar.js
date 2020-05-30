@@ -29,6 +29,7 @@ const Sidebar = (props) => {
       {props.admin ? (
         <Menu
           mode="inline"
+          className="sticky-sidebar-menu"
           defaultSelectedKeys={
             (props.id == "users" && props.id2 == "view") ||
             (props.id == "users" && props.id2 == "create") ||
@@ -41,7 +42,6 @@ const Sidebar = (props) => {
               : props.id + "Alone"
           }
           defaultOpenKeys={["user", "settings"]}
-          style={{ height: "100%", borderRight: 0 }}
           theme={darko ? "dark" : "light"}
         >
           <Title level={4} style={{ margin: "20px", fontSize: "16px" }}>
@@ -88,59 +88,92 @@ const Sidebar = (props) => {
       ) : (
         <Menu
           mode="inline"
+          className="sticky-sidebar-menu"
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
-          style={{ height: "100%", borderRight: 0 }}
           theme={darko ? "dark" : "light"}
         >
-          <Title style={{ margin: "20px", fontSize: "16px" }}>Categories</Title>
+          <div className="mg-10" />
 
-          <SubMenu key="sub2" title={<Space>Physical Therapy</Space>}>
-            <Menu.Item key="5">MSK/Orthopedic</Menu.Item>
-            <Menu.Item key="6">Neuro</Menu.Item>
-            <Menu.Item key="7">Sports</Menu.Item>
-            <Menu.Item key="8">Cardiopulmonary</Menu.Item>
-          </SubMenu>
-          <SubMenu key="sub4" title={<Space>Programming</Space>}>
-            <Menu.Item key="5">JavaScript</Menu.Item>
-            <Menu.Item key="6">Flutter</Menu.Item>
-            <Menu.Item key="7">PHP</Menu.Item>
-            <Menu.Item key="8">HTML</Menu.Item>
-            <Menu.Item key="9">CSS</Menu.Item>
-            <Menu.Item key="10">SEO</Menu.Item>
-          </SubMenu>
+          <Text className="sidebar-heading" strong>
+            Navigation
+          </Text>
+          <Menu.Item key="1" icon={<i class="ri-home-3-fill ri-xl mr-5"></i>}>
+            <Link href="/" prefetch={false}>
+              Home
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="8" icon={<i class="ri-team-fill ri-xl mr-10"></i>}>
+            <Link href="/authors" prefetch={false}>
+              Authors
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="2" icon={<i class="ri-apps-line ri-xl mr-10"></i>}>
+            <Link href="/categories" prefetch={false}>
+              Categories
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<i class="ri-book-3-fill ri-xl mr-10"></i>}>
+            <Link href="/courses" prefetch={false}>
+              Courses
+            </Link>
+          </Menu.Item>
 
-          <SubMenu key="sub5" title={<Space>Short Courses</Space>}>
-            <Menu.Item key="5">option5</Menu.Item>
-            <Menu.Item key="6">option6</Menu.Item>
-            <Menu.Item key="7">option7</Menu.Item>
-            <Menu.Item key="8">option8</Menu.Item>
-          </SubMenu>
+          <Menu.Item
+            key="6"
+            icon={<i class="ri-lightbulb-flash-fill ri-xl mr-10"></i>}
+          >
+            <Link href="/tuts" prefetch={false}>
+              Tutorials
+            </Link>
+          </Menu.Item>
+
+          <Text className="sidebar-heading" strong>
+            Legal
+          </Text>
+          <Menu.Item
+            key="4"
+            icon={<i class="ri-shield-user-fill ri-xl mr-10"></i>}
+          >
+            <Link href="/legal/privacy">Privacy</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="5"
+            icon={<i class="ri-file-shield-2-fill ri-xl mr-10"></i>}
+          >
+            <Link href="/legal/terms">Terms</Link>
+          </Menu.Item>
+
+          <Text className="sidebar-heading" strong>
+            Support
+          </Text>
+          <Menu.Item
+            key="7"
+            icon={<i class="ri-question-fill ri-xl mr-10"></i>}
+          >
+            <Link href="/support/kb">Website Help</Link>
+          </Menu.Item>
           {props.home ? (
             <>
-              <Title style={{ margin: "20px", fontSize: "16px" }}>
-                Customize Feed
-              </Title>
-              <Title style={{ margin: "10px 20px", fontSize: "14px" }}>
-                Show/Hide
-              </Title>
-              <Space style={{ margin: "10px 20px" }}>
+              <Title className="mg-20 fs-16">Customize Feed</Title>
+              <Title className="fs-14 sidebar-space">Show/Hide</Title>
+              <Space className="sidebar-space">
                 <Switch defaultChecked />
                 <Text>Physiotherapy</Text>
               </Space>
-              <Space style={{ margin: "10px 20px" }}>
+              <Space className="sidebar-space">
                 <Switch />
                 <Text>Medicine</Text>
               </Space>
-              <Space style={{ margin: "10px 20px" }}>
+              <Space className="sidebar-space">
                 <Switch defaultChecked />
                 <Text>Technology</Text>
               </Space>
-              <Space style={{ margin: "10px 20px" }}>
+              <Space className="sidebar-space">
                 <Switch />
                 <Text>Courses</Text>
               </Space>
-              <Space style={{ margin: "10px 20px" }}>
+              <Space className="sidebar-space">
                 <Switch />
                 <Text>TTR-Ai</Text>
                 <Tooltip title="It Suggests Articles Based On Your Reading">
@@ -152,10 +185,8 @@ const Sidebar = (props) => {
             </>
           ) : props.article ? (
             <>
-              <Title style={{ margin: "20px", fontSize: "16px" }}>
-                Navigate Article
-              </Title>
-              <Anchor style={{ margin: "0px 20px" }}>
+              <Title className="mg-20 fs-16">Navigate Article</Title>
+              <Anchor className="sidebar-space">
                 <Anchor.Link
                   href="#components-anchor-demo-basic"
                   title="Introduction"

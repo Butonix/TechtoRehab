@@ -83,7 +83,7 @@ const Announcements = (props) => {
   return props.pid ? (
     <>
       <Title level={4}>Active Announcements</Title>
-      <Row style={{ margin: 28 }} justify="center">
+      <Row className="mg-30" justify="center">
         <AnnouncementHolder>
           {announces.map((mapped) => (
             <Announcement
@@ -132,11 +132,12 @@ const Announcements = (props) => {
       </Row>
       <Row style={{ margin: 28 }} justify="center">
         <Col>
-          <Text style={{ lineHeight: 3, fontSize: 18 }}>Announcement Text</Text>
+          <Text className="fs-18 lh-3">Announcement Text</Text>
           <Input />
-          <Text style={{ lineHeight: 6, fontSize: 18 }}>Announcement Type</Text>
+          <Text className="lh-6 fs-18">Announcement Type</Text>
           <Select
-            style={{ width: 120, marginLeft: 20, lineHeight: 6 }}
+            className="ml-20 lh-6"
+            style={{ width: 120 }}
             defaultValue="info"
             onChange={(value) => setType(value)}
           >
@@ -146,16 +147,12 @@ const Announcements = (props) => {
           </Select>
           {type == "app" ? (
             <>
-              <div style={{ lineHeight: 3, fontSize: 18 }}>App Store Link</div>
+              <div className="lh-3 fs-18">App Store Link</div>
               <Input />
             </>
           ) : null}
           <Row justify="center">
-            <Button
-              type="primary"
-              style={{ marginTop: 30 }}
-              icon={<UploadOutlined />}
-            >
+            <Button type="primary mt-30" icon={<UploadOutlined />}>
               Submit
             </Button>
           </Row>

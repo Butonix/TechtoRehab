@@ -58,9 +58,9 @@ export default function Home() {
           <Sidebar home />
           <Layout className="mainLayout">
             <Content className="site-layout">
-              {/* <Featured />
+              <Featured />
               <CatArticles />
-              <Feed /> */}
+              <Feed />
             </Content>
           </Layout>
         </Layout>

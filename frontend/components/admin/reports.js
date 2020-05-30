@@ -38,7 +38,7 @@ const Reports = () => {
                   width: 60,
                   render: (text, record) => (
                     <>
-                      <Button type="primary" style={{ margin: 5 }} danger>
+                      <Button type="primary mg-5" danger>
                         Delete
                       </Button>
                     </>

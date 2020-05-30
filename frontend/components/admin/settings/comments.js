@@ -28,15 +28,7 @@ const CommentSettings = () => {
           </Form.Item>
         </Form>
       </Col>
-      <Col
-        sm={24}
-        xs={24}
-        md={24}
-        lg={24}
-        xl={8}
-        xxl={12}
-        style={{ padding: 10 }}
-      >
+      <Col sm={24} xs={24} md={24} lg={24} xl={8} xxl={12} className="pd-10">
         <Card title="Key">Card</Card>
       </Col>
     </Row>

@@ -128,7 +128,7 @@ const Creator = (props) => {
 
   return (
     <>
-      <Row justify="center" className="highlight-row" style={{}}>
+      <Row justify="center" className="highlight-row">
         {
           (console.log(highlightData),
           highlightData.map((mapped, index) => (
@@ -175,10 +175,7 @@ const Creator = (props) => {
               </Col>
               <Col>
                 <Select
-                  style={{
-                    width: "100%",
-                    marginLeft: "30px",
-                  }}
+                  className="ml-30 wd-100pc"
                   onChange={(value) => setPage(value)}
                   value={page}
                 >
@@ -195,7 +192,7 @@ const Creator = (props) => {
         </Col>
       </Row>
       <Row justify="center" className="highlight-decide">
-        <Col xxl={12} xl={12} style={{ margin: "auto" }}>
+        <Col xxl={12} xl={12} className="mg-auto">
           <div ref={editorPlace}>
             <Text style={{ lineHeight: 3 }}>Title</Text>
             <Input
@@ -209,7 +206,7 @@ const Creator = (props) => {
 
           {page == 0 ? (
             <>
-              <Text style={{ lineHeight: 3 }}>Category</Text>
+              <Text className="lh-3">Category</Text>
               <Input
                 placeholder="Basic usage"
                 onChange={(e) => setCategory(e.target.value)}
@@ -222,18 +219,13 @@ const Creator = (props) => {
           ) : null}
           {page == 0 ? (
             <>
-              <Text style={{ lineHeight: 3 }}>Author/Authors</Text>
+              <Text className="lh-3">Author/Authors</Text>
               <Select
                 mode="multiple"
-                style={{ width: "100%" }}
+                className="wd-100pc"
                 placeholder="Please Select Author(s)"
                 onChange={(value) => onAuthors(value)}
                 onBlur={() => props.setCond("Saved Authors Field")}
-                // value={
-                //   highlightData[page].authors
-                //     ? highlightData[page].authors
-                //     : null
-                // }
                 defaultValue={highlightData[page].authors}
               >
                 <Option value={null} key={1}>
@@ -250,7 +242,7 @@ const Creator = (props) => {
           ) : null}
           {page > 0 ? (
             <>
-              <Text style={{ lineHeight: 3 }}>Summary</Text>
+              <Text className="lh-3">Summary</Text>
               <Input
                 placeholder="Basic usage"
                 onChange={(e) => setSummary(e.target.value)}
@@ -260,9 +252,7 @@ const Creator = (props) => {
               />
             </>
           ) : null}
-          <Text style={{ lineHeight: 3 }}>
-            Background Image (Must Be Valid URL)
-          </Text>
+          <Text className="lh-3">Background Image (Must Be Valid URL)</Text>
           <Input
             placeholder="Basic usage"
             // onChange={(e) => setBackground(e.target.value)}
@@ -272,19 +262,16 @@ const Creator = (props) => {
           />
           <Space style={{ margin: "10px 0px" }}>
             <Button
+              className="mt-20"
               onClick={addData}
               type="primary"
-              style={{ marginTop: "20px" }}
               icon={<UploadOutlined />}
             >
               Save All
             </Button>
             <Button
               onClick={changePage}
-              style={{
-                marginTop: "20px",
-                marginLeft: "15px",
-              }}
+              className="mt-20 ml-15"
               type="primary"
               icon={<PlusOutlined />}
             >
@@ -292,11 +279,7 @@ const Creator = (props) => {
             </Button>
             <Button
               onClick={removePage}
-              style={{
-                marginTop: "20px",
-                marginLeft: "15px",
-                fontWeight: "bold",
-              }}
+              className="mt-20 ml-15 fw-bold"
               icon={<DeleteFilled />}
               danger
             >

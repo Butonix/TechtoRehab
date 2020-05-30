@@ -125,19 +125,19 @@ function Article() {
                     your Design`}
                   </Title>
                   <span>
-                    <Space style={{ margin: "5px 5px" }}>
+                    <Space className="mg-5">
                       <Avatar src="https://static.vecteezy.com/system/resources/previews/000/241/070/original/flat-boy-with-vintage-glasses-avatar-vector-illustration.jpg" />
                       <Text> Afzaal Afridi</Text>
                     </Space>
-                    <Space style={{ margin: "5px 5px" }}>
+                    <Space className="mg-5">
                       <i class="ri-time-line ri-xl"></i>
                       <Text>2 Min Read</Text>
                     </Space>
-                    <Space style={{ margin: "5px 5px" }}>
+                    <Space className="mg-5">
                       <Tag
+                        className="fw-600"
                         icon={<SafetyCertificateFilled />}
                         color="rgb(23,144,255)"
-                        style={{ fontWeight: "600" }}
                       >
                         SPONSORED
                       </Tag>
@@ -146,7 +146,8 @@ function Article() {
                     <Space style={{ margin: "8px 10px" }}>
                       <Tag
                         color="#30F579"
-                        style={{ color: "#141414", fontWeight: "600" }}
+                        className="fw-600"
+                        style={{ color: "#141414" }}
                         icon={<StarFilled />}
                       >
                         FEATURED
@@ -156,14 +157,9 @@ function Article() {
                 </Col>
                 <Col xs={24} sm={24} md={13} lg={12} xl={10} xxl={10}>
                   <img
-                    // width="450px"
                     height="400px"
+                    className="mg-auto pd-10 br-15 o-fit-cover max-wd-100pc"
                     style={{
-                      margin: "auto",
-                      borderRadius: "15px",
-                      padding: "10px",
-                      objectFit: "cover",
-                      maxWidth: "100%",
                       maxHeight: "400px",
                     }}
                     src="https://c4.wallpaperflare.com/wallpaper/470/932/861/vector-planet-space-meteors-wallpaper-preview.jpg"
@@ -181,13 +177,13 @@ function Article() {
                   style={{ margin: "auto" }}
                 >
                   <Title level={1}>Introduction</Title>
-                  <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
+                  <Paragraph className="fs-16 ta-justify">
                     {/* {data.articles.map((mapped) => (
                       <Title level={1}>{mapped.article_title}</Title>
                     ))} */}
                   </Paragraph>
                   <Title level={2}>Introduction</Title>
-                  <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
+                  <Paragraph className="fs-16 ta-justify">
                     <img
                       width="100%"
                       style={{
@@ -207,11 +203,11 @@ function Article() {
                         <Title level={3}>Introduction</Title>
                       </a>
 
-                      <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
+                      <Paragraph className="ta-justify fs-16">
                         <Title level={4}>Level 1</Title>
                         {paragraph.slice(20, 300)}
                       </Paragraph>
-                      <Paragraph style={{ textAlign: "justify", fontSize: 16 }}>
+                      <Paragraph className="ta-justify fs-16">
                         <Title level={3}>
                           Level 2 <a href="#">#</a>
                         </Title>
@@ -242,7 +238,7 @@ function Article() {
                             <Avatar src="https://png.pngtree.com/element_our/png_detail/20181026/avatar-vector-icon-man-vector-symbol-avatar-icon-png_219941.jpg" />
                             <TextArea
                               rows={4}
-                              style={{ marginLeft: "20px" }}
+                              className="ml-20"
                               placeholder="Your Comment"
                             />
                           </span>

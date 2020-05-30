@@ -123,43 +123,41 @@ const HeaderDefault = styled.header`
 `;
 
 const menu = (
-  <Menu onClick={() => {}} style={{ padding: 15, width: 250 }}>
+  <Menu onClick={() => {}} className="pd-15" style={{ width: 250 }}>
     <Menu.Item
       key="1"
       style={{ padding: 15, border: "1px solid #333" }}
       icon={
         <i
-          class="ri-article-fill ri-lg"
+          class="ri-article-fill ri-lg mr-20"
           style={{
             fontSize: 25,
-            marginRight: 20,
           }}
         />
       }
     >
-      <Typography.Text strong style={{ fontSize: 16 }}>
+      <Typography.Text strong className="fs-16">
         Article
       </Typography.Text>
     </Menu.Item>
     <Menu.Item
       key="2"
+      className="pd-15"
       style={{
-        padding: 15,
         margin: "10px 0px",
         border: "1px solid #333",
       }}
       icon={
         <i
-          class="ri-chat-history-fill ri-lg"
+          class="ri-chat-history-fill ri-lg mr-20"
           style={{
             fontSize: 25,
-            marginRight: 20,
             color: "#FFD75A",
           }}
         />
       }
     >
-      <Typography.Text strong style={{ fontSize: 16, marginTop: 20 }}>
+      <Typography.Text strong className="mt-20 fs-16">
         Highlight
       </Typography.Text>
     </Menu.Item>
@@ -172,8 +170,8 @@ const NavBar = () => {
   return (
     <HeaderDefault>
       <nav>
-        <img className="logoLight" src={`${link}/TTR-LIGHT.svg`} />
-        <img className={`logoDark`} src={`${link}/TTR-DARK.svg`} />
+        <img className="logoLight" src={`/TTR-LIGHT.svg`} />
+        <img className={`logoDark`} src={`/TTR-DARK.svg`} />
         <div className="center">
           <div className="navItem">
             <Badge count={0} showZero>
@@ -194,16 +192,16 @@ const NavBar = () => {
         </div>
         <div className="navItem compose">
           <Dropdown overlay={menu}>
-            <Button type="primary" shape="round" icon={<EditOutlined />}>
+            <Button
+              type="primary"
+              className="unset-button"
+              shape="round"
+              icon={<EditOutlined />}
+            >
               <DownOutlined />
             </Button>
           </Dropdown>
         </div>
-        {/* <Dropdown className="userOptions" overlay={menu}>
-            <Button>
-              Hello, Afzaal <DownOutlined />
-            </Button>
-          </Dropdown> */}
         <Button type="link" className="getStarted">
           Sign in
         </Button>

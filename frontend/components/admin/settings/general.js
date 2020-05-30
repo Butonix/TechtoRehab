@@ -44,7 +44,7 @@ const GeneralSettings = () => {
               <Radio value={2}>Available</Radio>
             </Radio.Group>
           </Form.Item>
-          <Typography.Text style={{ fontSize: 20, lineHeight: 3 }}>
+          <Typography.Text className="fs-20 lh-3">
             Open Graph Settings
           </Typography.Text>
           <Form.Item label="Open Graph Picture" name="og-pic">
@@ -69,21 +69,11 @@ const GeneralSettings = () => {
             </Upload.Dragger>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" style={{ width: "100%" }}>
-              Update Settings
-            </Button>
+            <Button type="primary wd-100pc">Update Settings</Button>
           </Form.Item>
         </Form>
       </Col>
-      <Col
-        sm={24}
-        xs={24}
-        md={24}
-        lg={24}
-        xl={8}
-        xxl={12}
-        style={{ padding: 10 }}
-      >
+      <Col className="pd-10" sm={24} xs={24} md={24} lg={24} xl={8} xxl={12}>
         <Card title="Key">Card</Card>
       </Col>
     </Row>

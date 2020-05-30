@@ -35,12 +35,10 @@ const userView = () => {
                 width: 12,
                 render: (text, record) => (
                   <>
-                    <Button type="primary" style={{ margin: 5 }} danger>
+                    <Button type="primary mg-5" danger>
                       Delete
                     </Button>
-                    <Button type="primary" style={{ margin: 5 }}>
-                      View
-                    </Button>
+                    <Button type="primary mg-5">View</Button>
                   </>
                 ),
               },
