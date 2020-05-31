@@ -41,7 +41,7 @@ const Indexo = () => {
                     : "" + " " + pid[0].toUpperCase()
                 }
               />
-              {!pid[0] == "announcements" ? (
+              {pid[0] !== "announcements" ? (
                 <Card>
                   {pid[0] == "announcements" && !pid[1] ? (
                     <Announcements />
