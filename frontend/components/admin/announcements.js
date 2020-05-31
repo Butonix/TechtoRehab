@@ -12,8 +12,6 @@ const AnnouncementHolder = styled.div`
   width: 100%;
   overflow: auto;
   height: 200px;
-  padding: 10px;
-  width: 100%;
   justify-content: center;
 `;
 
@@ -23,9 +21,9 @@ const Announcement = styled.div`
   color: white;
   font-size: 16px;
   padding: 10px;
-  width: 500px;
+  width: 100%;
   height: 50px;
-  margin: 10px;
+  margin: 10px 0px;
 
   .type {
   }
@@ -80,11 +78,10 @@ var announces = [
 const Announcements = (props) => {
   const [announce, setAnnounce] = useState(null);
   const [type, setType] = useState("");
-  return props.pid ? (
+  return (
     <>
-      <Title level={4}>Active Announcements</Title>
-      <Row className="mg-30" justify="center">
-        <AnnouncementHolder>
+      <Row justify="center" className="mb-30">
+        <AnnouncementHolder className="announcements-custom">
           {announces.map((mapped) => (
             <Announcement
               style={{
@@ -130,7 +127,7 @@ const Announcements = (props) => {
       <Row justify="center">
         <Title level={4}>Create An Announcement</Title>
       </Row>
-      <Row style={{ margin: 28 }} justify="center">
+      <Row justify="center">
         <Col>
           <Text className="fs-18 lh-3">Announcement Text</Text>
           <Input />
@@ -159,7 +156,7 @@ const Announcements = (props) => {
         </Col>
       </Row>
     </>
-  ) : null;
+  );
 };
 
 export default Announcements;

@@ -41,36 +41,69 @@ const Indexo = () => {
                     : "" + " " + pid[0].toUpperCase()
                 }
               />
-              <Card>
-                {pid[0] == "announcements" && !pid[1] ? (
-                  <Announcements />
-                ) : null}
-                {pid[0] == "articles" && !pid[1] ? <Articles /> : null}
-                {pid[0] == "comments" && !pid[1] ? <Comments /> : null}
+              {!pid[0] == "announcements" ? (
+                <Card>
+                  {pid[0] == "announcements" && !pid[1] ? (
+                    <Announcements />
+                  ) : null}
+                  {pid[0] == "articles" && !pid[1] ? <Articles /> : null}
+                  {pid[0] == "comments" && !pid[1] ? <Comments /> : null}
 
-                {pid[0] == "reports" && !pid[1] ? <Reports /> : null}
+                  {pid[0] == "reports" && !pid[1] ? <Reports /> : null}
 
-                {pid[0] == "users" && pid[1] == "view" ? <UsersView /> : null}
-                {pid[0] == "users" && pid[1] == "create" ? (
-                  <UsersCreate />
-                ) : null}
+                  {pid[0] == "users" && pid[1] == "view" ? <UsersView /> : null}
+                  {pid[0] == "users" && pid[1] == "create" ? (
+                    <UsersCreate />
+                  ) : null}
 
-                {pid[0] == "settings" && pid[1] == "general" ? (
-                  <GeneralSettings />
-                ) : null}
-                {pid[0] == "settings" && pid[1] == "article" ? (
-                  <ArticleSettings />
-                ) : null}
-                {pid[0] == "settings" && pid[1] == "comments" ? (
-                  <CommentSettings />
-                ) : null}
-                {pid[0] == "settings" && pid[1] == "users" ? (
-                  <UsersSettings />
-                ) : null}
-                {pid[0] == "settings" && pid[1] == "security" ? (
-                  <SecuritySettings />
-                ) : null}
-              </Card>
+                  {pid[0] == "settings" && pid[1] == "general" ? (
+                    <GeneralSettings />
+                  ) : null}
+                  {pid[0] == "settings" && pid[1] == "article" ? (
+                    <ArticleSettings />
+                  ) : null}
+                  {pid[0] == "settings" && pid[1] == "comments" ? (
+                    <CommentSettings />
+                  ) : null}
+                  {pid[0] == "settings" && pid[1] == "users" ? (
+                    <UsersSettings />
+                  ) : null}
+                  {pid[0] == "settings" && pid[1] == "security" ? (
+                    <SecuritySettings />
+                  ) : null}
+                </Card>
+              ) : (
+                <>
+                  {pid[0] == "announcements" && !pid[1] ? (
+                    <Announcements />
+                  ) : null}
+                  {pid[0] == "articles" && !pid[1] ? <Articles /> : null}
+                  {pid[0] == "comments" && !pid[1] ? <Comments /> : null}
+
+                  {pid[0] == "reports" && !pid[1] ? <Reports /> : null}
+
+                  {pid[0] == "users" && pid[1] == "view" ? <UsersView /> : null}
+                  {pid[0] == "users" && pid[1] == "create" ? (
+                    <UsersCreate />
+                  ) : null}
+
+                  {pid[0] == "settings" && pid[1] == "general" ? (
+                    <GeneralSettings />
+                  ) : null}
+                  {pid[0] == "settings" && pid[1] == "article" ? (
+                    <ArticleSettings />
+                  ) : null}
+                  {pid[0] == "settings" && pid[1] == "comments" ? (
+                    <CommentSettings />
+                  ) : null}
+                  {pid[0] == "settings" && pid[1] == "users" ? (
+                    <UsersSettings />
+                  ) : null}
+                  {pid[0] == "settings" && pid[1] == "security" ? (
+                    <SecuritySettings />
+                  ) : null}
+                </>
+              )}
             </Content>
           </Layout>
         </Layout>

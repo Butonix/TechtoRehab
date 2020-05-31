@@ -615,3 +615,46 @@ nav {
   padding: 1.2px;
   font-size: 15px;
 }
+
+.mb-5 {
+  margin-bottom: 5px !important;
+}
+
+.mb-10 {
+  margin-bottom: 10px !important;
+}
+
+.mb-15 {
+  margin-bottom: 15px !important;
+}
+
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+
+.mb-25 {
+  margin-bottom: 25px !important;
+}
+
+.mb-30 {
+  margin-bottom: 30px !important;
+}
+
+.announcements-custom {
+  @include hd {
+    padding: 0px 10% !important;
+  }
+
+  @include desktop {
+    padding: 0px 10% !important;
+  }
+}
+
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td,
+.ant-table tfoot > tr > th,
+.ant-table tfoot > tr > td {
+  @include mobile {
+    padding: 5px !important;
+  }
+}
