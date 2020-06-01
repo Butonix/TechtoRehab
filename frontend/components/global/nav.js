@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Tooltip, Typography, Menu, Button, Badge, Dropdown } from "antd";
+import {
+  Tooltip,
+  Alert,
+  Typography,
+  Menu,
+  Button,
+  Badge,
+  Dropdown,
+} from "antd";
 import {
   ReloadOutlined,
   UserOutlined,
@@ -13,6 +21,7 @@ import {
 import styled from "styled-components";
 import { breakPoints } from "./responsive";
 
+const { Text } = Typography;
 const HeaderDefault = styled.header`
   box-shadow: 0px 0px 3px 0px #f5f5f5;
   position: relative;
@@ -167,45 +176,47 @@ const NavBar = () => {
   const link = process.env.NEXT_PUBLIC_WEB_ADDRESS;
 
   return (
-    <HeaderDefault>
-      <nav>
-        <img className="logoLight" src={`/TTR-LIGHT.svg`} />
-        <img className={`logoDark`} src={`/TTR-DARK.svg`} />
-        <div className="center">
-          <div className="navItem">
-            <Badge count={0} showZero>
-              <Dropdown overlay={menu} trigger={["click"]}>
-                <a onClick={(e) => e.preventDefault()}>
-                  <i class="ri-notification-3-line"></i>
+    <>
+      <HeaderDefault>
+        <nav>
+          <img className="logoLight" src={`/TTR-LIGHT.svg`} />
+          <img className={`logoDark`} src={`/TTR-DARK.svg`} />
+          <div className="center">
+            <div className="navItem">
+              <Badge count={0} showZero>
+                <Dropdown overlay={menu} trigger={["click"]}>
+                  <a onClick={(e) => e.preventDefault()}>
+                    <i class="ri-notification-3-line"></i>
+                  </a>
+                </Dropdown>
+              </Badge>
+            </div>
+            <div className="navItem">
+              <Tooltip title="My Bookmarks">
+                <a>
+                  <i class="ri-bookmark-line"></i>
                 </a>
-              </Dropdown>
-            </Badge>
+              </Tooltip>
+            </div>
           </div>
-          <div className="navItem">
-            <Tooltip title="My Bookmarks">
-              <a>
-                <i class="ri-bookmark-line"></i>
-              </a>
-            </Tooltip>
+          <div className="navItem compose">
+            <Dropdown overlay={menu}>
+              <Button
+                type="primary"
+                className="unset-button"
+                shape="round"
+                icon={<EditOutlined />}
+              >
+                <DownOutlined />
+              </Button>
+            </Dropdown>
           </div>
-        </div>
-        <div className="navItem compose">
-          <Dropdown overlay={menu}>
-            <Button
-              type="primary"
-              className="unset-button"
-              shape="round"
-              icon={<EditOutlined />}
-            >
-              <DownOutlined />
-            </Button>
-          </Dropdown>
-        </div>
-        <Button type="link" className="getStarted">
-          Sign in
-        </Button>
-      </nav>
-    </HeaderDefault>
+          <Button type="link" className="getStarted">
+            Sign in
+          </Button>
+        </nav>
+      </HeaderDefault>
+    </>
   );
 };
 
