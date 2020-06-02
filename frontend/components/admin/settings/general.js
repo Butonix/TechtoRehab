@@ -6,11 +6,14 @@ import {
   Upload,
   Form,
   Card,
-  Select,
+  Space,
   Radio,
   Input,
 } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { useState } from "react";
+
 const fileList = [
   {
     uid: "-1",
@@ -22,13 +25,23 @@ const fileList = [
 ];
 
 const GeneralSettings = () => {
+  const [image, setImage] = useState(null);
+
+  const changer = (info) => {
+    if (info.file.status === "done") {
+      const reader = new FileReader();
+      reader.readAsDataURL(info.file.originFileObj);
+      reader.onload = () => setImage(reader.result);
+    }
+  };
+
   return (
     <Row>
-      <Col sm={24} md={24} lg={24} xl={16} xxl={12}>
+      <Col xs={24} sm={24} md={24} lg={24} xl={16} xxl={12}>
         <Typography.Title level={4} style={{ marginBottom: "30px" }}>
           Update Details
         </Typography.Title>
-        <Form name="basic" layout="vertical" wrapperCol={{ span: 24 }}>
+        <Form name="basic" layout="vertical">
           <Form.Item label="Site Title" name="site-name">
             <Input placeholder="Hello" />
           </Form.Item>
@@ -48,7 +61,7 @@ const GeneralSettings = () => {
             Open Graph Settings
           </Typography.Text>
           <Form.Item label="Open Graph Picture" name="og-pic">
-            <Upload.Dragger
+            {/* <Upload.Dragger
               defaultFileList={fileList}
               listType="picture-card"
               accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -66,7 +79,54 @@ const GeneralSettings = () => {
                 Support for a single or bulk upload. Strictly prohibit from
                 uploading company data or other band files
               </p>
-            </Upload.Dragger>
+            </Upload.Dragger> */}
+
+            <Upload
+              name="avatar"
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              onChange={changer}
+              listType="picture"
+              progress={{
+                strokeColor: {
+                  "0%": "#108ee9",
+                  "100%": "#87d068",
+                },
+                strokeWidth: 3,
+                format: (percent) => `${parseFloat(percent.toFixed(2))}%`,
+              }}
+              onRemove={() => setImage(null)}
+            >
+              {image ? (
+                <img
+                  src={image}
+                  width="250px"
+                  height="250px"
+                  className="o-fit-cover"
+                  style={{ objectFit: "cover" }}
+                />
+              ) : (
+                <Card
+                  className="mg-20"
+                  style={{
+                    borderStyle: "dashed",
+                    borderWidth: 2,
+                    borderColor: "#292929",
+                    width: 150,
+                    height: 150,
+                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Space direction="vertical">
+                    <a>
+                      <PlusOutlined /> Upload File
+                    </a>
+                  </Space>
+                </Card>
+              )}
+            </Upload>
           </Form.Item>
           <Form.Item>
             <Button type="primary wd-100pc">Update Settings</Button>

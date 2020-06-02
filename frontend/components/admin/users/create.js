@@ -1,14 +1,4 @@
-import {
-  Row,
-  Col,
-  Typography,
-  Form,
-  Input,
-  Button,
-  Radio,
-  Select,
-  Card,
-} from "antd";
+import { Row, Col, Form, Input, Button, Radio, Select, Card } from "antd";
 
 const CreateUser = () => {
   const [form] = Form.useForm();
