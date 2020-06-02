@@ -1,25 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Tooltip,
-  Alert,
+  Avatar,
   Typography,
+  Space,
   Menu,
   Button,
   Badge,
   Dropdown,
 } from "antd";
-import {
-  ReloadOutlined,
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-  EditOutlined,
-  DownOutlined,
-  ArrowRightOutlined,
-  ClockCircleOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, DownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { breakPoints } from "./responsive";
+import { useStoreState, useStoreActions } from "easy-peasy";
 
 const { Text } = Typography;
 const HeaderDefault = styled.header`
@@ -49,6 +42,7 @@ const HeaderDefault = styled.header`
       .navItem {
         margin: 0px 15px;
         height: 38px;
+
         span {
           span {
             font-size: 20px;
@@ -74,11 +68,15 @@ const HeaderDefault = styled.header`
     }
     img {
       width: 150px;
-      margin: 0px 15px;
 
       @media ${breakPoints.mobile} {
         width: 130px;
-        margin: 0px 10px;
+      }
+    }
+
+    .nav-avatar-holder {
+      img {
+        width: 100%;
       }
     }
 
@@ -113,7 +111,7 @@ const HeaderDefault = styled.header`
     }
 
     .getStarted {
-      margin-right: 40px;
+      /* margin-right: 40px; */
       @media ${breakPoints.mobile} {
         margin-right: 10px;
       }
@@ -125,6 +123,12 @@ const HeaderDefault = styled.header`
       @media ${breakPoints.mobile} {
         display: block;
         font-size: 20px;
+      }
+    }
+    .userDrop {
+      margin-right: 40px;
+      @media ${breakPoints.mobile} {
+        margin-right: 10px;
       }
     }
   }
@@ -174,7 +178,20 @@ const menu = (
 
 const NavBar = () => {
   const link = process.env.NEXT_PUBLIC_WEB_ADDRESS;
+  var darkState = useStoreState((state) => state.site.dark);
+  var setDark = useStoreActions((actions) => actions.site.setDark);
 
+  useEffect(() => {
+    // var darkElement = document.getElementsByClassName("darkMode")[0];
+    // console.log(darkElement);
+    // darkElement.addEventListener("click", () => {
+    //   if (darkState) {
+    //     setDark(false);
+    //   } else {
+    //     setDark(true);
+    //   }
+    // });
+  });
   return (
     <>
       <HeaderDefault>
@@ -199,6 +216,13 @@ const NavBar = () => {
               </Tooltip>
             </div>
           </div>
+          {/* <div className="navItem darkMode" onClick={() => setDark(!darkState)}>
+            {darkState ? (
+              <i class="ri-moon-line ml-20 ri-lg"></i>
+            ) : (
+              <i class="ri-sun-line ml-20 ri-lg"></i>
+            )}
+          </div> */}
           <div className="navItem compose">
             <Dropdown overlay={menu}>
               <Button
@@ -211,9 +235,25 @@ const NavBar = () => {
               </Button>
             </Dropdown>
           </div>
-          <Button type="link" className="getStarted">
+          <Button type="text" className="getStarted">
             Sign in
           </Button>
+          <div className="navItem userDrop">
+            <Dropdown overlay={menu} trigger={["click"]}>
+              <a onClick={(e) => e.preventDefault()}>
+                <Avatar
+                  src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/134137295/original/854c8fcd234a32ba2e360fc32c0c4c0a992aebeb/change-your-photo-into-a-portrait-cartoon.jpg"
+                  /**  size={30} */
+                  className="mr-10 nav-avatar-holder"
+                />
+                <Text className="fs-14">Afzaal Afridi</Text>
+                <i
+                  class="ri-arrow-drop-down-line ri-lg"
+                  style={{ verticalAlign: "-6px !important" }}
+                ></i>
+              </a>
+            </Dropdown>
+          </div>
         </nav>
       </HeaderDefault>
     </>

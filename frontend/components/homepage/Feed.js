@@ -13,7 +13,11 @@ import {
   Button,
   List,
 } from "antd";
-import { UserOutlined, ArrowRightOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  ArrowRightOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 
@@ -34,7 +38,7 @@ const menu = (
   </Menu>
 );
 
-const Feed = () => {
+const Feed = (props) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([
     {
@@ -90,19 +94,12 @@ const Feed = () => {
   ) : null;
   return (
     <>
-      <PageHeader
-        title="News Feed"
-        extra={[
-          <>
-            <span>See More</span> <ArrowRightOutlined />
-          </>,
-        ]}
-      />
       <Row>
         <List
           itemLayout="vertical"
           dataSource={data}
-          style={{ margin: "0px 20px" }}
+          style={props.style}
+          className={props.className}
           loadMore={loadMore}
           renderItem={(item) => (
             <List.Item

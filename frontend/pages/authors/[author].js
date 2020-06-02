@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Nav from "components/global/nav";
 import Wrapper from "components/global/wrapper";
 import Sidebar from "components/global/sidebar";
+import Feed from "components/homepage/Feed";
 const { Text, Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
 const Author = () => {
@@ -109,7 +110,7 @@ const Author = () => {
                       <Col xs={24} sm={24} md={24} lg={18} xl={18} xxl={24}>
                         <Tabs defaultActiveKey="1" size="large">
                           <TabPane tab="Contribution Feed" key="1">
-                            <Card>Hello 2</Card>
+                            <Feed />
                           </TabPane>
                           <TabPane tab="Author Profile" key="2">
                             <Card
@@ -173,12 +174,10 @@ const Author = () => {
                                     Instagram:
                                   </Text>
                                   <Text className="fs-16">
-                                    <span className="instagram">
-                                      <i
-                                        class="ri-instagram-fill ri-lg"
-                                        style={{ color: "white" }}
-                                      ></i>
-                                    </span>
+                                    <i
+                                      class="ri-instagram-line ri-lg instagram-text-fill-gradient"
+                                      style={{ color: "white" }}
+                                    ></i>
                                   </Text>
                                 </div>
                                 <div className="mg-10">

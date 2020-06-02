@@ -58,9 +58,36 @@ export default function Home() {
           <Sidebar home />
           <Layout className="mainLayout">
             <Content className="site-layout">
+              <PageHeader
+                title="HIGHLIGHTS"
+                className="pd-15"
+                extra={[
+                  <>
+                    <span>See More</span> <ArrowRightOutlined />
+                  </>,
+                ]}
+              />
               <Featured />
+              <PageHeader
+                title="FROM TECHNOLOGY"
+                className="pd-15"
+                extra={[
+                  <>
+                    <span>See More</span> <ArrowRightOutlined />
+                  </>,
+                ]}
+              />
               <CatArticles />
-              <Feed />
+              <PageHeader
+                title="NEWS FEED"
+                className="pd-15"
+                extra={[
+                  <>
+                    <span>See More</span> <ArrowRightOutlined />
+                  </>,
+                ]}
+              />
+              <Feed style={{ margin: "0px 15px" }} />
             </Content>
           </Layout>
         </Layout>

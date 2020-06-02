@@ -102,21 +102,16 @@ const GeneralSettings = () => {
                   width="250px"
                   height="250px"
                   className="o-fit-cover"
-                  style={{ objectFit: "cover" }}
                 />
               ) : (
                 <Card
-                  className="mg-20"
+                  className="mg-20 ta-center d-flex jc-center ai-center"
                   style={{
                     borderStyle: "dashed",
                     borderWidth: 2,
                     borderColor: "#292929",
                     width: 150,
                     height: 150,
-                    textAlign: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
                   }}
                 >
                   <Space direction="vertical">

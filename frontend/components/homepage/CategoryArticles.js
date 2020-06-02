@@ -44,14 +44,6 @@ const menu = (
 const CatArticles = () => {
   return (
     <>
-      <PageHeader
-        title="From Technology"
-        extra={[
-          <>
-            <span>See More</span> <ArrowRightOutlined />
-          </>,
-        ]}
-      />
       <Row>
         <Col xs={23} sm={12} md={12} lg={12} xl={6}>
           {/* <Card
