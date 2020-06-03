@@ -58,6 +58,10 @@ $High-Desktop: 2000px;
         color: white;
       }
     }
+
+    .ant-switch-handle::before {
+      background-color: white;
+    }
   }
 
   .tox {
@@ -114,6 +118,12 @@ $High-Desktop: 2000px;
   .unset-button {
     color: #1890ff !important;
     background-color: white !important;
+  }
+
+  nav {
+    .ant-switch-handle::before {
+      background-color: #141414;
+    }
   }
 }
 
@@ -749,3 +759,11 @@ $High-Desktop: 2000px;
     }
   }
 }
+
+// .light .ant-switch-handle::before {
+//   background-color: #141414;
+// }
+
+// .dark .ant-switch-handle::before {
+//   background-color: white;
+// }

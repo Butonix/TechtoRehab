@@ -266,18 +266,20 @@ const NavBar = () => {
             Sign in
           </Button>
           <div className="navItem userDrop">
+            <Avatar
+              src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/134137295/original/854c8fcd234a32ba2e360fc32c0c4c0a992aebeb/change-your-photo-into-a-portrait-cartoon.jpg"
+              /**  size={30} */
+              className="mr-5 nav-avatar-holder"
+            />
             <Dropdown overlay={menu} trigger={["click"]}>
-              <a onClick={(e) => e.preventDefault()}>
-                <Avatar
-                  src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/134137295/original/854c8fcd234a32ba2e360fc32c0c4c0a992aebeb/change-your-photo-into-a-portrait-cartoon.jpg"
-                  /**  size={30} */
-                  className="mr-10 nav-avatar-holder"
-                />
-                <Text className="fs-14">Afzaal Afridi</Text>
-                <i
-                  class="ri-arrow-drop-down-line ri-lg"
-                  style={{ verticalAlign: "-6px !important" }}
-                ></i>
+              <a>
+                <Button type="text" style={{ padding: "4px 8px" }}>
+                  <Text className="fs-14">Afzaal Afridi</Text>
+                  <i
+                    class="ri-arrow-drop-down-line ri-lg"
+                    style={{ verticalAlign: "-6px !important" }}
+                  ></i>
+                </Button>
               </a>
             </Dropdown>
           </div>
