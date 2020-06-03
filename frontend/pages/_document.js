@@ -35,7 +35,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html className="light">
         <Head>
           {/* <link href="https://cdn.jsdelivr.net/npm/remixicon@2.4.0/fonts/remixicon.css" rel="stylesheet" /> */}
           <link
@@ -61,7 +61,7 @@ export default class MyDocument extends Document {
             src="https://cdn.ampproject.org/v0/amp-video-0.1.js"
           />
         </Head>
-        <body className="light" style={{ margin: 0 }}>
+        <body style={{ margin: 0 }}>
           <Main />
           <NextScript />
         </body>

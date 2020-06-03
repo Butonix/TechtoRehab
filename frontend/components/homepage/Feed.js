@@ -108,7 +108,11 @@ const Feed = (props) => {
                 !item.loading ? (
                   <Space>
                     <Avatar />
-                    <span>Afzaal Afridi</span>
+                    <a>
+                      <Button style={{ padding: "4px 5px" }} type="text">
+                        Afzaal Afridi
+                      </Button>
+                    </a>
                   </Space>
                 ) : (
                   <div></div>

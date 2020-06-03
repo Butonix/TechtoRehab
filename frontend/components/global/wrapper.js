@@ -7,18 +7,31 @@ const wrapper = (props) => {
   var setDark = useStoreActions((actions) => actions.site.setDark);
 
   useEffect(() => {
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      setDark(true);
-    }
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: light)").matches
-    ) {
-      setDark(false);
-    }
+    var hotml = document.documentElement;
+
+    // if (window.matchMedia("(prefers-color-scheme)").media) {
+    //   if (
+    //     window.matchMedia &&
+    //     window.matchMedia("(prefers-color-scheme: dark)").matches
+    //   ) {
+    //     setDark(true);
+    //     if (hotml.classList.contains("light")) {
+    //       hotml.classList.remove("light");
+    //     }
+    //     if (hotml.classList.contains("dark")) {
+    //       hotml.classList.remove("dark");
+    //     }
+    //     hotml.classList.add("dark");
+    //   }
+
+    //   if (
+    //     window.matchMedia &&
+    //     window.matchMedia("(prefers-color-scheme: light)").matches
+    //   ) {
+    //     setDark(false);
+    //   }
+    // }
+
     var mql = window.matchMedia("(prefers-color-scheme: dark)");
     mql.addEventListener("change", () => {
       if (
@@ -27,6 +40,7 @@ const wrapper = (props) => {
       ) {
         setDark(true);
       }
+
       if (
         window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: light)").matches
@@ -34,21 +48,23 @@ const wrapper = (props) => {
         setDark(false);
       }
     });
-  });
 
-  return (
-    <div>
-      {/* <Head>
-        {darkState ? (
-          <link rel="stylesheet" href="/dark.css" />
-        ) : (
-          <link rel="stylesheet" href="/light.css" />
-        )}
-        <title>{darkState ? "dark" : "light"}</title>
-      </Head> */}
-      {props.children}
-    </div>
-  );
+    if (darkState) {
+      if (hotml.classList.contains("light")) {
+        hotml.classList.remove("light");
+      }
+      if (hotml.classList.contains("dark")) {
+        hotml.classList.remove("dark");
+      }
+      hotml.classList.add("dark");
+    } else {
+      if (hotml.classList.contains("dark")) {
+        hotml.classList.remove("dark");
+      }
+      hotml.classList.add("light");
+    }
+  });
+  return <div>{props.children}</div>;
 };
 
 export default wrapper;

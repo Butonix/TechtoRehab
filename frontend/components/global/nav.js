@@ -3,6 +3,7 @@ import {
   Tooltip,
   Avatar,
   Typography,
+  Switch,
   Space,
   Menu,
   Button,
@@ -216,13 +217,39 @@ const NavBar = () => {
               </Tooltip>
             </div>
           </div>
-          {/* <div className="navItem darkMode" onClick={() => setDark(!darkState)}>
-            {darkState ? (
-              <i class="ri-moon-line ml-20 ri-lg"></i>
+          <div
+            className="navItem cursor-pointer"
+            onClick={() => setDark(!darkState)}
+            style={{ color: "white" }}
+          >
+            {/* {darkState ? (
+              <i
+                class="ri-sun-line ml-10 ri-lg fs-24"
+                style={{ verticalAlign: "-7px !important" }}
+              ></i>
             ) : (
-              <i class="ri-sun-line ml-20 ri-lg"></i>
-            )}
-          </div> */}
+              <i
+                class="ri-moon-line ml-10 ri-lg fs-24"
+                style={{ verticalAlign: "-7px !important" }}
+              ></i>
+            )} */}
+
+            <Switch
+              unCheckedChildren={[
+                <i
+                  class="ri-moon-fill ml-10 fs-16"
+                  style={{ color: "white" }}
+                ></i>,
+              ]}
+              checkedChildren={
+                <i
+                  class="ri-sun-fill mr-10 fs-16"
+                  style={{ color: "white" }}
+                ></i>
+              }
+              checked={darkState ? true : false}
+            />
+          </div>
           <div className="navItem compose">
             <Dropdown overlay={menu}>
               <Button

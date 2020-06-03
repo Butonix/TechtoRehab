@@ -29,46 +29,134 @@ $High-Desktop: 2000px;
   }
 }
 
+.dark {
+  .ant-menu-item {
+    span {
+      a {
+        color: inherit;
+        transition: none;
+      }
+    }
+  }
+
+  nav {
+    button {
+      color: rgba(255, 255, 255, 0.65) !important;
+    }
+
+    a {
+      color: rgba(255, 255, 255, 0.65) !important;
+      // :hover {
+      //   color: unset;
+      // }
+
+      i {
+        color: rgba(255, 255, 255, 0.65);
+      }
+
+      i:hover {
+        color: white;
+      }
+    }
+  }
+
+  .tox {
+    .tox-editor-header {
+      background: #141414 !important;
+      .tox-menubar {
+        background: none !important;
+        background-color: unset !important;
+      }
+
+      .tox-toolbar-overlord {
+        background-color: unset !important;
+        .tox-toolbar__primary {
+          background: none !important;
+          background-color: unset !important;
+        }
+        .tox-toolbar__overflow {
+          background: none !important;
+          background-color: unset !important;
+        }
+      }
+    }
+  }
+  .unset-button {
+    color: white !important;
+    background-color: #141414 !important;
+  }
+  .unset-button:hover {
+    background-color: #1890ff !important;
+  }
+}
+
+.light {
+  .ant-menu-item {
+    span {
+      a {
+        color: inherit;
+        transition: none;
+      }
+    }
+  }
+
+  .unset-button:hover {
+    background-color: #1890ff !important;
+    color: white !important;
+  }
+
+  .ant-list-item-meta-title {
+    a {
+      color: rgb(38, 38, 38) !important;
+    }
+  }
+
+  .unset-button {
+    color: #1890ff !important;
+    background-color: white !important;
+  }
+}
+
 .ant-page-header-heading-extra {
   margin: 0px 0px;
   margin-top: 11px;
 }
 
-nav {
-  button {
-    @media (prefers-color-scheme: dark) {
-      color: rgba(255, 255, 255, 0.65) !important;
-    }
-    // @media (prefers-color-scheme: light) {
-    //   color: #ffffffa6;
-    // }
-  }
+// nav {
+//   button {
+//     @media (prefers-color-scheme: dark) {
+//       color: rgba(255, 255, 255, 0.65) !important;
+//     }
+//     // @media (prefers-color-scheme: light) {
+//     //   color: #ffffffa6;
+//     // }
+//   }
 
-  a {
-    @media (prefers-color-scheme: dark) {
-      color: rgba(255, 255, 255, 0.65) !important;
-      :hover {
-        color: unset;
-      }
-    }
-  }
-}
+//   a {
+//     @media (prefers-color-scheme: dark) {
+//       color: rgba(255, 255, 255, 0.65) !important;
+//       :hover {
+//         color: unset;
+//       }
+//     }
+//   }
+// }
 
-.ant-menu-item {
-  span {
-    a {
-      @media (prefers-color-scheme: dark) {
-        color: inherit;
-        transition: none;
-      }
+// .ant-menu-item {
+//   span {
+//     a {
+//       @media (prefers-color-scheme: dark) {
+//         color: inherit;
+//         transition: none;
+//       }
 
-      @media (prefers-color-scheme: light) {
-        color: inherit;
-        transition: none;
-      }
-    }
-  }
-}
+//       @media (prefers-color-scheme: light) {
+//         color: inherit;
+//         transition: none;
+//       }
+//     }
+//   }
+// }
 
 // .mainLayout {
 //   height: 100vh !important;
@@ -94,14 +182,6 @@ nav {
   }
 }
 
-.ant-list-item-meta-title {
-  @media (prefers-color-scheme: light) {
-    a {
-      color: rgb(38, 38, 38) !important;
-    }
-  }
-}
-
 .ant-page-header {
   @include mobile {
     padding: 16px 15px;
@@ -115,44 +195,6 @@ nav {
 
 .skeleton {
   width: 100%;
-}
-
-.ph-item {
-  border: 0;
-  padding: 0;
-  margin: 0;
-  background: #fbfbfb !important;
-  @media (prefers-color-scheme: dark) {
-    background: #141414 !important;
-  }
-  .ph-picture {
-    width: 270px;
-    height: 200px;
-    @media (prefers-color-scheme: dark) {
-      background: #171717;
-    }
-    @media (prefers-color-scheme: light) {
-      background: #f2f2f2;
-    }
-  }
-
-  .ph-avatar {
-    @media (prefers-color-scheme: dark) {
-      background: #202020;
-    }
-    @media (prefers-color-scheme: light) {
-      background: #f2f2f2;
-    }
-  }
-
-  .ph-row > div {
-    @media (prefers-color-scheme: dark) {
-      background: #202020 !important;
-    }
-    @media (prefers-color-scheme: light) {
-      background: #f2f2f2;
-    }
-  }
 }
 
 .ri-lg {
@@ -230,27 +272,27 @@ nav {
 }
 
 .tox {
-  @media (prefers-color-scheme: dark) {
-    .tox-editor-header {
-      background: #141414 !important;
-      .tox-menubar {
-        background: none !important;
-        background-color: unset !important;
-      }
+  // @media (prefers-color-scheme: dark) {
+  //   .tox-editor-header {
+  //     background: #141414 !important;
+  //     .tox-menubar {
+  //       background: none !important;
+  //       background-color: unset !important;
+  //     }
 
-      .tox-toolbar-overlord {
-        background-color: unset !important;
-        .tox-toolbar__primary {
-          background: none !important;
-          background-color: unset !important;
-        }
-        .tox-toolbar__overflow {
-          background: none !important;
-          background-color: unset !important;
-        }
-      }
-    }
-  }
+  //     .tox-toolbar-overlord {
+  //       background-color: unset !important;
+  //       .tox-toolbar__primary {
+  //         background: none !important;
+  //         background-color: unset !important;
+  //       }
+  //       .tox-toolbar__overflow {
+  //         background: none !important;
+  //         background-color: unset !important;
+  //       }
+  //     }
+  //   }
+  // }
 
   .tox-statusbar {
     background-color: unset !important;
@@ -323,28 +365,6 @@ nav {
   height: 338px;
   position: relative;
   overflow: hidden;
-}
-
-.unset-button {
-  @media (prefers-color-scheme: dark) {
-    color: white !important;
-    background-color: #141414 !important;
-  }
-
-  @media (prefers-color-scheme: light) {
-    color: #1890ff !important;
-    background-color: white !important;
-  }
-}
-
-.unset-button:hover {
-  @media (prefers-color-scheme: dark) {
-    background-color: #1890ff !important;
-  }
-  @media (prefers-color-scheme: light) {
-    background-color: #1890ff !important;
-    color: white !important;
-  }
 }
 
 .sidebar-heading {
@@ -699,5 +719,33 @@ nav {
 .ant-table tfoot > tr > td {
   @include mobile {
     padding: 5px !important;
+  }
+}
+
+.logoLight {
+  margin-left: 20px;
+}
+
+.logoDark {
+  margin-left: 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.dark .ant-btn-text:hover,
+.dark .ant-btn-text:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.ant-list-item-action {
+  li {
+    @include mobile {
+      padding: 0 10px !important;
+    }
+    @include tablet {
+      padding: 0 10px !important;
+    }
   }
 }

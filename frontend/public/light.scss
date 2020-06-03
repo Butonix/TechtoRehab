@@ -1,4 +1,6 @@
-@media (prefers-color-scheme: light) {
+.light 
+{
+// @media (prefers-color-scheme: light) {
   [class^="ant-"]::-ms-clear,
   [class*="ant-"]::-ms-clear,
   [class^="ant-"] input::-ms-clear,
@@ -29693,4 +29695,3 @@
     color: rgba(0, 0, 0, 0.7);
   }
 }
-

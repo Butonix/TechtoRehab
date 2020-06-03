@@ -2,7 +2,7 @@ import { action } from "easy-peasy";
 
 export var storage = {
   site: {
-    dark: false,
+    dark: true,
     setDark: action((state, payload) => {
       state.dark = payload;
     }),
