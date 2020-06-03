@@ -28,7 +28,6 @@ const HeaderDefault = styled.header`
     justify-content: space-between;
     box-shadow: 0px 2px 3px 1px #f5f5f5;
     z-index: 1;
-    background: white;
     align-items: center;
     height: 64px;
     .navItem {
