@@ -1,5 +1,4 @@
 .dark {
-  // @media (prefers-color-scheme: dark) {
   [class^="ant-"]::-ms-clear,
   [class*="ant-"]::-ms-clear,
   [class^="ant-"] input::-ms-clear,
@@ -3226,7 +3225,7 @@
     fill: #262626;
   }
   .ant-empty-img-default-path-2 {
-    fill: url(#linearGradient-1);
+    // fill: url(#linearGradient-1);
   }
   .ant-empty-img-default-path-3 {
     fill: #595959;
@@ -30056,6 +30055,4 @@
   .logoDark {
     display: block;
   }
-
-  /*# sourceMappingURL=antd.dark.css.map*/
 }

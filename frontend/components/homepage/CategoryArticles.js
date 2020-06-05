@@ -2,15 +2,12 @@ import {
   Tooltip,
   Avatar,
   Space,
-  Skeleton,
   Row,
   Col,
   Card,
   Typography,
   Layout,
   Menu,
-  Button,
-  Badge,
   Dropdown,
   PageHeader,
   List,
@@ -23,7 +20,7 @@ import {
 import Shimmer from "../global/shimmer";
 
 const { Content } = Layout;
-const { Paragraph } = Typography;
+const { Paragraph, Text } = Typography;
 
 const menu = (
   <Menu onClick={() => {}}>
@@ -46,45 +43,47 @@ const CatArticles = () => {
     <>
       <Row>
         <Col xs={23} sm={12} md={12} lg={12} xl={6}>
-          {/* <Card
-          className="mg-20"
+          <Card
+            className="mg-20"
             cover={
               <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
             }
             loading={false}
-            hoverable={true}
           >
             <Card.Meta
               title="The most simple Contentful + React tutorial using a
                         NextJS application"
               description={
-                <Space>
-                  This is a random excerpt of a post you should know
-                  <Dropdown overlay={menu} trigger={["click"]}>
-                    <a onClick={(e) => e.preventDefault()}>
-                      <i class="ri-more-2-line ri-lg"></i>
-                    </a>
-                  </Dropdown>
-                  <Tooltip title="Bookmark This">
-                    <a>
-                      <i class="ri-bookmark-line ri-lg"></i>
-                    </a>
-                  </Tooltip>
-                </Space>
+                <Row>
+                  <Col>
+                    <Space>
+                      This is a random excerpt of a post you should know
+                      <Dropdown overlay={menu} trigger={["click"]}>
+                        <a onClick={(e) => e.preventDefault()}>
+                          <i class="ri-more-2-line ri-lg"></i>
+                        </a>
+                      </Dropdown>
+                      <Tooltip title="Bookmark This">
+                        <a>
+                          <i class="ri-bookmark-line ri-lg"></i>
+                        </a>
+                      </Tooltip>
+                    </Space>
+                  </Col>
+                </Row>
               }
             />
             <Space className="mt-15"></Space>
-          </Card> */}
-          <Shimmer card />
+          </Card>
+          {/* <Shimmer card /> */}
         </Col>
         <Col xs={23} sm={12} md={12} lg={12} xl={6}>
-          {/* <Card
-          className="mg-20"
+          <Card
+            className="mg-20"
             cover={
               <img src="https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148244293.jpg" />
             }
             loading={false}
-            hoverable={true}
           >
             <Card.Meta
               title="Mixins and Base Classes : A recipe for success in Flutter"
@@ -92,7 +91,7 @@ const CatArticles = () => {
                 <Space>
                   This is a random excerpt of a post you should know
                   <Dropdown overlay={menu} trigger={["click"]}>
-                    <a onClick={(e) => e.preventDefault()}>
+                    <a>
                       <i class="ri-more-2-line ri-lg"></i>
                     </a>
                   </Dropdown>
@@ -105,8 +104,8 @@ const CatArticles = () => {
               }
             />
             <Space className="mt-15"></Space>
-          </Card> */}
-          <Shimmer card />
+          </Card>
+          {/* <Shimmer card /> */}
         </Col>
         <Col xs={23} sm={12} md={12} lg={12} xl={6}>
           {/* <Card

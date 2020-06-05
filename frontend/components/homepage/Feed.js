@@ -18,6 +18,7 @@ import {
   ArrowRightOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
+import Shimmer from "../global/shimmer";
 
 const { Paragraph } = Typography;
 
@@ -40,6 +41,7 @@ const menu = (
 
 const Feed = (props) => {
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(false);
   const [data, setData] = useState([
     {
       href: "http://ant.design",
@@ -117,7 +119,7 @@ const Feed = (props) => {
                 ) : (
                   <div></div>
                 ),
-                <Dropdown overlay={menu}>
+                <Dropdown overlay={menu} trigger="click">
                   <a onClick={(e) => e.preventDefault()}>
                     <i
                       class="ri-more-2-fill ri-lg"
@@ -139,11 +141,14 @@ const Feed = (props) => {
               ]}
               extra={
                 !item.cover ? (
-                  <div class="ph-item">
-                    <div class="ph-picture"></div>
-                  </div>
+                  <Shimmer image />
                 ) : (
-                  <img width={272} alt="logo" src={item.cover} />
+                  <img
+                    width={272}
+                    alt="logo"
+                    src={item.cover}
+                    onLoad={() => setImage(true)}
+                  />
                 )
               }
             >

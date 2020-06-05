@@ -1,4 +1,3 @@
-import Stories from "react-insta-stories";
 import {
   Row,
   Col,

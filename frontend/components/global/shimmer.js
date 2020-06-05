@@ -19,6 +19,10 @@ const Shimmer = (props) => {
     <Skeleton darkTheme={dark ? true : false} className="pd-10">
       <Card image paragraph header />
     </Skeleton>
+  ) : props.image ? (
+    <Skeleton darkTheme={dark ? true : false} className="pd-10">
+      <Skeleton.Rectangle height={190} width={272} />
+    </Skeleton>
   ) : null;
 };
 

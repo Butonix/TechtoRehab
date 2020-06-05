@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { Typography, Layout, Menu, Button, PageHeader } from "antd";
+import {
+  Typography,
+  Layout,
+  Menu,
+  Button,
+  PageHeader,
+  Dropdown,
+  Divider,
+} from "antd";
 import { UserOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import Nav from "components/global/nav.js";
 import Sidebar from "components/global/sidebar";
@@ -11,45 +19,44 @@ import Wrapper from "components/global/wrapper";
 
 const { Content } = Layout;
 
+const menu2 = (
+  <Menu onClick={() => {}} className="mr-20 pd-10" style={{ width: 140 }}>
+    <Divider> Create</Divider>
+    <Menu.Item
+      key="1"
+      className="pd-10"
+      icon={<i class="ri-article-line mr-10 ri-lg"></i>}
+    >
+      Article
+    </Menu.Item>
+    <Menu.Item
+      key="2"
+      className="pd-10"
+      icon={<i class="ri-chat-history-fill mr-10 ri-lg"></i>}
+    >
+      Highlight
+    </Menu.Item>
+    <Divider> More</Divider>
+
+    <Menu.Item
+      key="4"
+      className="pd-10"
+      icon={<i class="ri-user-line mr-10 ri-lg"></i>}
+    >
+      Profile
+    </Menu.Item>
+    <Menu.Item
+      key="5"
+      className="pd-10"
+      icon={<i class="ri-settings-line mr-10 ri-lg"></i>}
+    >
+      Settings
+    </Menu.Item>
+  </Menu>
+);
+
 export default function Home() {
-  var setDark = useStoreActions((actions) => actions.site.setDark);
-  var dark = useStoreState((state) => state.site.dark);
-  const [stater, setStater] = useState(false);
-
-  // var setter = () => {
-  //   // var boda = document.getElementsByTagName("body")[0];
-  //   // if (boda.classList.contains("light")) {
-  //   //   boda.classList.remove("light");
-  //   //   boda.classList.add("dark");
-  //   // } else if (boda.classList.contains("dark")) {
-  //   //   boda.classList.remove("dark");
-  //   //   boda.classList.add("light");
-  //   // }
-  //   setStater(!stater);
-  // };
-  // useEffect(() => {
-  //   window
-  //     .matchMedia("(prefers-color-scheme: dark)")
-  //     .addEventListener("change", (e) => {
-  //       if (
-  //         window.matchMedia &&
-  //         window.matchMedia("(prefers-color-scheme: dark)").matches
-  //       ) {
-  //         setDark(true);
-  //       } else {
-  //         setDark(false);
-  //       }
-  //     });
-  //   if (
-  //     window.matchMedia &&
-  //     window.matchMedia("(prefers-color-scheme: dark)").matches
-  //   ) {
-  //     setDark(true);
-  //   } else {
-  //     setDark(false);
-  //   }
-  // });
-
+  useEffect(() => {});
   return (
     <Wrapper>
       <Layout>

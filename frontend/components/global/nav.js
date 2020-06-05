@@ -4,16 +4,22 @@ import {
   Avatar,
   Typography,
   Switch,
-  Space,
+  Divider,
   Menu,
   Button,
   Badge,
   Dropdown,
 } from "antd";
-import { EditOutlined, DownOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DownOutlined,
+  UpOutlined,
+  ThunderboltOutlined,
+} from "@ant-design/icons";
 import styled from "styled-components";
 import { breakPoints } from "./responsive";
 import { useStoreState, useStoreActions } from "easy-peasy";
+import interact from "interactjs";
 
 const { Text } = Typography;
 const HeaderDefault = styled.header`
@@ -83,8 +89,7 @@ const HeaderDefault = styled.header`
     .compose {
       margin-right: 10px;
       @media ${breakPoints.mobile} {
-        /* margin-right: 10px; */
-        position: fixed;
+        /* position: fixed;
         bottom: 20px;
         right: 0px;
         button {
@@ -96,10 +101,10 @@ const HeaderDefault = styled.header`
           .composeText {
             display: none;
             ::after {
-              /* content: ' Article' */
             }
           }
-        }
+        } */
+        display: none;
       }
     }
 
@@ -128,6 +133,7 @@ const HeaderDefault = styled.header`
     .userDrop {
       margin-right: 40px;
       @media ${breakPoints.mobile} {
+        display: none;
         margin-right: 10px;
       }
     }
@@ -172,6 +178,42 @@ const menu = (
       <Typography.Text strong className="mt-20 fs-16">
         Highlight
       </Typography.Text>
+    </Menu.Item>
+  </Menu>
+);
+
+const menu2 = (
+  <Menu onClick={() => {}} className="mr-20 pd-10" style={{ width: 140 }}>
+    <Divider> Create</Divider>
+    <Menu.Item
+      key="1"
+      className="pd-10"
+      icon={<i class="ri-article-line mr-10 ri-lg"></i>}
+    >
+      Article
+    </Menu.Item>
+    <Menu.Item
+      key="2"
+      className="pd-10"
+      icon={<i class="ri-chat-history-fill mr-10 ri-lg"></i>}
+    >
+      Highlight
+    </Menu.Item>
+    <Divider> More</Divider>
+
+    <Menu.Item
+      key="4"
+      className="pd-10"
+      icon={<i class="ri-user-line mr-10 ri-lg"></i>}
+    >
+      Profile
+    </Menu.Item>
+    <Menu.Item
+      key="5"
+      className="pd-10"
+      icon={<i class="ri-settings-line mr-10 ri-lg"></i>}
+    >
+      Settings
     </Menu.Item>
   </Menu>
 );
@@ -250,7 +292,7 @@ const NavBar = () => {
             />
           </div>
           <div className="navItem compose">
-            <Dropdown overlay={menu}>
+            <Dropdown overlay={menu} placement="topLeft">
               <Button
                 type="primary"
                 className="unset-button"

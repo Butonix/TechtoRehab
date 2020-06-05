@@ -5,8 +5,8 @@ const { Text } = Typography;
 const Story = styled.div`
   display: flex;
   flex-flow: column;
-  height: 615px;
-  width: 369px;
+  height: 500px;
+  width: 300px;
   font-size: 14px;
   font-weight: 600;
   position: relative;
@@ -21,8 +21,8 @@ const Story = styled.div`
     background-image: url("https://dynaimage-cdn-cnn-com.cdn.ampproject.org/i/s/dynaimage.cdn.cnn.com/cnn/w_768,h_1024,c_scale/https%3A%2F%2Fdynaimage.cdn.cnn.com%2Fcnn%2Fx_552%2Cy_0%2Cw_798%2Ch_1064%2Cc_crop%2Fhttps%253A%252F%252Fstamp.static.cnn.io%252F5b3f861ad045070021cb6c51%252FAntarctica-cover%252520image.jpg");
     background-size: cover;
     background-position: center;
-    height: 615px;
-    width: 369px;
+    height: 500px;
+    width: 300px;
   }
 
   .filter {
@@ -40,8 +40,8 @@ const Story = styled.div`
   .content {
     position: absolute;
     bottom: 0;
-    margin-bottom: 20px;
-    width: 350px;
+    /* margin-bottom: 20px; */
+    width: 300px;
     z-index: 3;
     padding: 32px;
 
@@ -51,6 +51,10 @@ const Story = styled.div`
         height: 40px;
         width: 40px;
       }
+    }
+
+    .summary {
+      margin: 10px 0px;
     }
 
     .category {
