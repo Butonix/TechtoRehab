@@ -1,63 +1,99 @@
 import { useEffect } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import { Dropdown, Button, Menu, Divider, Avatar } from "antd";
+import { Dropdown, Button, Menu, Divider, Avatar, Typography } from "antd";
 import interact from "interactjs";
-
-/**                  */
-/**                  */
-/**                  */
-/**                  */
-/**  FAB DROP MENU   */
-/**                  */
-/**                  */
-/**                  */
-/**                  */
-/**                  */
-const menu2 = (
-  <Menu onClick={() => {}} className="mr-20 pd-10" style={{ width: 140 }}>
-    <Divider> Create</Divider>
-    <Menu.Item
-      key="1"
-      className="pd-10"
-      icon={<i class="ri-article-line mr-10 ri-lg"></i>}
-    >
-      Article
-    </Menu.Item>
-    <Menu.Item
-      key="2"
-      className="pd-10"
-      icon={<i class="ri-chat-history-fill mr-10 ri-lg"></i>}
-    >
-      Highlight
-    </Menu.Item>
-    <Divider> More</Divider>
-
-    <Menu.Item
-      key="4"
-      className="pd-10"
-      icon={<i class="ri-user-line mr-10 ri-lg"></i>}
-    >
-      Profile
-    </Menu.Item>
-    <Menu.Item
-      key="5"
-      className="pd-10"
-      icon={<i class="ri-settings-line mr-10 ri-lg"></i>}
-    >
-      Settings
-    </Menu.Item>
-  </Menu>
-);
-
-/**                  */
-/**                  */
-/**                  */
-/**                  */
-/**                  */
 
 const wrapper = (props) => {
   var darkState = useStoreState((state) => state.site.dark);
   var setDark = useStoreActions((actions) => actions.site.setDark);
+
+  /**                  */
+  /**                  */
+  /**                  */
+  /**                  */
+  /**  FAB DROP MENU   */
+  /**                  */
+  /**                  */
+  /**                  */
+  /**                  */
+  /**                  */
+  const menu2 = (
+    <Menu onClick={() => {}} className="mr-20 pd-10" style={{ width: 160 }}>
+      <Divider className="fs-14 mg-y-10">Create</Divider>
+
+      <Menu.Item
+        key="1"
+        className="pd-10"
+        icon={
+          <i class="ri-edit-circle-fill fs-22 va-minus-6 green-gradient"></i>
+        }
+      >
+        <Typography.Text strong>
+          <Divider type="vertical" />
+          Article
+        </Typography.Text>
+      </Menu.Item>
+      <Menu.Item
+        key="2"
+        className="pd-10"
+        icon={<i class="ri-focus-2-fill fs-22 blue-gradient va-minus-6"></i>}
+      >
+        <Typography.Text strong>
+          <Divider type="vertical" />
+          Highlight
+        </Typography.Text>
+      </Menu.Item>
+      <Divider className="fs-14 mg-y-10">More</Divider>
+      <Menu.Item
+        key="6"
+        className="pd-10"
+        icon={
+          <i
+            class={
+              darkState
+                ? "ri-sun-fill sun-gradient" +
+                  " " +
+                  "fs-22 va-minus-6 standard-gradient"
+                : "ri-moon-fill standard-gradient" + " " + "fs-22 va-minus-6"
+            }
+          ></i>
+        }
+        onClick={() => setDark(!darkState)}
+      >
+        <Typography.Text strong>
+          <Divider type="vertical" />
+          Go {darkState ? "Light" : "Dark"}
+        </Typography.Text>
+      </Menu.Item>
+
+      <Menu.Item
+        key="4"
+        className="pd-10"
+        icon={<i class="ri-user-line fs-22 ri-lg va-minus-6"></i>}
+      >
+        <Typography.Text strong>
+          <Divider type="vertical" />
+          Profile
+        </Typography.Text>
+      </Menu.Item>
+      <Menu.Item
+        key="5"
+        className="pd-10"
+        icon={<i class="ri-settings-line fs-22 va-minus-6"></i>}
+      >
+        <Typography.Text strong>
+          <Divider type="vertical" />
+          Settings
+        </Typography.Text>
+      </Menu.Item>
+    </Menu>
+  );
+
+  /**                  */
+  /**                  */
+  /**                  */
+  /**                  */
+  /**                  */
 
   useEffect(() => {
     /** Get html */

@@ -47,6 +47,12 @@ $High-Desktop: 2000px;
     font-weight: 600;
   }
 
+  .ant-menu-item-selected {
+    span {
+      font-weight: 600;
+    }
+  }
+
   nav {
     button {
       color: rgba(255, 255, 255, 0.65) !important;
@@ -72,33 +78,38 @@ $High-Desktop: 2000px;
     }
   }
 
-  .tox {
-    .tox-editor-header {
-      background: #141414 !important;
-      .tox-menubar {
-        background: none !important;
-        background-color: unset !important;
-      }
+  // .tox {
+  //   .tox-editor-header {
+  //     background: #141414 !important;
+  //     .tox-menubar {
+  //       background: none !important;
+  //       background-color: unset !important;
+  //     }
 
-      .tox-toolbar-overlord {
-        background-color: unset !important;
-        .tox-toolbar__primary {
-          background: none !important;
-          background-color: unset !important;
-        }
-        .tox-toolbar__overflow {
-          background: none !important;
-          background-color: unset !important;
-        }
-      }
-    }
-  }
+  //     .tox-toolbar-overlord {
+  //       background-color: unset !important;
+  //       .tox-toolbar__primary {
+  //         background: none !important;
+  //         background-color: unset !important;
+  //       }
+  //       .tox-toolbar__overflow {
+  //         background: none !important;
+  //         background-color: unset !important;
+  //       }
+  //     }
+  //   }
+  // }
   .unset-button {
     color: white !important;
     background-color: #141414 !important;
+    box-shadow: unset !important;
   }
   .unset-button:hover {
     background-color: #1890ff !important;
+  }
+
+  .compose-menu-item {
+    // border: 1px solid #333;
   }
 }
 
@@ -106,7 +117,7 @@ $High-Desktop: 2000px;
   .ant-menu-item {
     span {
       a {
-        color: #141414 !important;
+        color: rgba(0, 0, 0, 0.65) !important;
         transition: none;
       }
     }
@@ -114,6 +125,12 @@ $High-Desktop: 2000px;
 
   .ant-menu-item > span > a:hover {
     font-weight: 600;
+  }
+
+  .ant-menu-item-selected {
+    span {
+      font-weight: 600;
+    }
   }
 
   .ant-menu-item:hover {
@@ -134,12 +151,17 @@ $High-Desktop: 2000px;
   .unset-button {
     color: #1890ff !important;
     background-color: white !important;
+    box-shadow: unset !important;
   }
 
   nav {
     .ant-switch-handle::before {
       background-color: #141414;
     }
+  }
+
+  .compose-menu-item {
+    // border: 1px solid #cecece;
   }
 }
 
@@ -223,28 +245,40 @@ $High-Desktop: 2000px;
   width: 100%;
 }
 
-.ri-lg {
-  vertical-align: -0.2em !important;
+// .ri-lg {
+//   vertical-align: -0.2em !important;
+// }
+
+// .ri-xl {
+//   vertical-align: -0.2em !important;
+// }
+
+// .ri-sm {
+//   vertical-align: -0.2em !important;
+// }
+
+// .ri-xs {
+//   vertical-align: -0.2em !important;
+// }
+
+// .ri-1x {
+//   vertical-align: -0.2em !important;
+// }
+
+// .ri-2x {
+//   vertical-align: -0.2em !important;
+// }
+
+.va-minus-2 {
+  vertical-align: -2px !important;
 }
 
-.ri-xl {
-  vertical-align: -0.2em !important;
+.va-minus-4 {
+  vertical-align: -4px !important;
 }
 
-.ri-sm {
-  vertical-align: -0.2em !important;
-}
-
-.ri-xs {
-  vertical-align: -0.2em !important;
-}
-
-.ri-1x {
-  vertical-align: -0.2em !important;
-}
-
-.ri-2x {
-  vertical-align: -0.2em !important;
+.va-minus-6 {
+  vertical-align: -6px !important;
 }
 
 .ant-page-header-heading-extra {
@@ -297,33 +331,33 @@ $High-Desktop: 2000px;
   padding-top: 16px !important;
 }
 
-.tox {
-  // @media (prefers-color-scheme: dark) {
-  //   .tox-editor-header {
-  //     background: #141414 !important;
-  //     .tox-menubar {
-  //       background: none !important;
-  //       background-color: unset !important;
-  //     }
+// .tox {
+// @media (prefers-color-scheme: dark) {
+//   .tox-editor-header {
+//     background: #141414 !important;
+//     .tox-menubar {
+//       background: none !important;
+//       background-color: unset !important;
+//     }
 
-  //     .tox-toolbar-overlord {
-  //       background-color: unset !important;
-  //       .tox-toolbar__primary {
-  //         background: none !important;
-  //         background-color: unset !important;
-  //       }
-  //       .tox-toolbar__overflow {
-  //         background: none !important;
-  //         background-color: unset !important;
-  //       }
-  //     }
-  //   }
-  // }
+//     .tox-toolbar-overlord {
+//       background-color: unset !important;
+//       .tox-toolbar__primary {
+//         background: none !important;
+//         background-color: unset !important;
+//       }
+//       .tox-toolbar__overflow {
+//         background: none !important;
+//         background-color: unset !important;
+//       }
+//     }
+//   }
+// }
 
-  .tox-statusbar {
-    background-color: unset !important;
-  }
-}
+//   .tox-statusbar {
+//     background-color: unset !important;
+//   }
+// }
 
 .ant-page-header-heading-extra {
   white-space: unset !important;
@@ -478,6 +512,54 @@ $High-Desktop: 2000px;
   padding: 30px !important;
 }
 
+.pd-x-5 {
+  padding: 0px 5px !important;
+}
+
+.pd-x-10 {
+  padding: 0px 10px !important;
+}
+
+.pd-x-15 {
+  padding: 0px 15px !important;
+}
+
+.pd-x-20 {
+  padding: 0px 20px !important;
+}
+
+.pd-x-25 {
+  padding: 0px 25px !important;
+}
+
+.pd-x-30 {
+  padding: 0px 30px !important;
+}
+
+.pd-y-5 {
+  padding: 5px 0px !important;
+}
+
+.pd-y-10 {
+  padding: 10px 0px !important;
+}
+
+.pd-y-15 {
+  padding: 15px 0px !important;
+}
+
+.pd-y-20 {
+  padding: 20px 0px !important;
+}
+
+.pd-y-25 {
+  padding: 25px 0px !important;
+}
+
+.pd-y-30 {
+  padding: 30px 0px !important;
+}
+
 .ps-rel {
   position: relative !important;
 }
@@ -492,6 +574,54 @@ $High-Desktop: 2000px;
 
 .mg-zero {
   margin: 0 !important;
+}
+
+.mg-x-5 {
+  margin: 0px 5px !important;
+}
+
+.mg-x-10 {
+  margin: 0px 10px !important;
+}
+
+.mg-x-15 {
+  margin: 0px 15px !important;
+}
+
+.mg-x-20 {
+  margin: 0px 20px !important;
+}
+
+.mg-x-25 {
+  margin: 0px 25px !important;
+}
+
+.mg-x-30 {
+  margin: 0px 30px !important;
+}
+
+.mg-y-5 {
+  margin: 5px 0px !important;
+}
+
+.mg-y-10 {
+  margin: 10px 0px !important;
+}
+
+.mg-y-15 {
+  margin: 15px 0px !important;
+}
+
+.mg-y-20 {
+  margin: 20px 0px !important;
+}
+
+.mg-y-25 {
+  margin: 25px 0px !important;
+}
+
+.mg-y-30 {
+  margin: 30px 0px !important;
 }
 
 .mg-5 {
@@ -601,8 +731,20 @@ $High-Desktop: 2000px;
   line-height: 1 !important;
 }
 
+.lh-1-5 {
+  line-height: 1.5 !important;
+}
+
+.lh-1-6 {
+  line-height: 1.6 !important;
+}
+
 .lh-2 {
   line-height: 2 !important;
+}
+
+.lh-2-5 {
+  line-height: 2.5 !important;
 }
 
 .lh-3 {
@@ -789,6 +931,21 @@ $High-Desktop: 2000px;
   }
 }
 
+.category-status {
+  .ant-badge-status-dot {
+    height: 7px !important;
+    width: 7px !important;
+  }
+}
+
+.o-position-center {
+  object-position: center;
+}
+
+.pd-zero {
+  padding: 0 !important;
+}
+
 // .light .ant-switch-handle::before {
 //   background-color: #141414;
 // }
@@ -796,3 +953,61 @@ $High-Desktop: 2000px;
 // .dark .ant-switch-handle::before {
 //   background-color: white;
 // }
+
+.green-gradient {
+  background-color: #09c7fb;
+  background-image: linear-gradient(315deg, #09c7fb 0%, #93fb9d 74%);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.blue-gradient {
+  background-color: #045de9;
+  background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.moon-gradient {
+  background-color: #485461;
+  background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sun-gradient {
+  background-image: linear-gradient(135deg, #ffe985 10%, #fa742b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.desktop-dark-toggle {
+  display: none;
+
+  @include tablet {
+    display: block;
+  }
+  @include desktop {
+    display: block;
+  }
+
+  @include hd {
+    display: block;
+  }
+}
+
+:target {
+  border: 1px solid #1890ff;
+  padding: 10px;
+}
+
+.anchor-heading::before {
+  content: "# ";
+  color: #1890ff;
+}
+
+.dark .ant-dropdown-menu-item,
+.dark .ant-dropdown-menu-submenu-title {
+  white-space: normal !important;
+}

@@ -35,13 +35,14 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html className="light">
+      <Html className="dark">
         <Head>
           {/* <link href="https://cdn.jsdelivr.net/npm/remixicon@2.4.0/fonts/remixicon.css" rel="stylesheet" /> */}
           <link
             rel="stylesheet"
             href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css"
           />
+
           <script
             async
             key="amp-story"

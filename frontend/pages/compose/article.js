@@ -17,17 +17,13 @@ import React from "react";
 import dynamic from "next/dynamic";
 import Router from "next/router";
 import Shimmer from "components/global/shimmer";
-// import Editor from "rich-markdown-editor";
+import Wrapper from "components/global/wrapper";
+import { useStoreState } from "easy-peasy";
 
 var CreateEditor = dynamic(
   () => import("@tinymce/tinymce-react").then((editor) => editor.Editor),
   { ssr: false, loading: () => <Shimmer editor /> }
 );
-
-// var CreatoEditor = dynamic(() => import("rich-markdown-editor"), {
-//   ssr: false,
-//   loading: () => <Shimmer editor />,
-// });
 
 const onChanger = (content, editor) => {
   console.log("Content is" + content);
@@ -44,34 +40,10 @@ var highlightData = [
     content: () => {},
   },
 ];
-class Compose extends React.Component {
-  state = {
-    dark: false,
-    tempTitle: null,
-    title: "",
-    typing: false,
-  };
-  componentDidMount() {
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      this.setState({
-        dark: true,
-      });
-    } else {
-      this.setState({
-        dark: false,
-      });
-    }
 
-    var mql = window.matchMedia("(prefers-color-scheme: dark)");
-    mql.addEventListener("change", () => {
-      location.reload();
-    });
-  }
-
-  handleChange = (e) => {
+const Compose = () => {
+  const darkState = useStoreState((state) => state.site.dark);
+  var handleChange = (e) => {
     if (e.target.value == "") {
       this.setState({
         title: "",
@@ -85,7 +57,7 @@ class Compose extends React.Component {
     }
   };
 
-  handleText = () => {
+  var handleText = () => {
     var lastLength = this.state.tempTitle.length - 1;
     console.log(lastLength);
     var tempoTitle = this.state.tempTitle.replace(/ /g, "-");
@@ -100,8 +72,8 @@ class Compose extends React.Component {
     });
   };
 
-  render() {
-    return (
+  return (
+    <Wrapper>
       <Layout>
         <Nav />
         <Layout>
@@ -114,8 +86,10 @@ class Compose extends React.Component {
                   <Space>
                     <span>Url:</span>
                     <a>
-                      {"https://localhost:3000/articleCategories/" +
-                        this.state.title}
+                      {
+                        "https://localhost:3000/articleCategories/" + "alba"
+                        // this.state.title
+                      }
                     </a>
                   </Space>
                 }
@@ -126,18 +100,18 @@ class Compose extends React.Component {
               <Input
                 placeholder="Article Title"
                 allowClear
-                suffix={[
-                  this.state.typing ? (
-                    <Space style={{ margin: "0px 10px" }}>
-                      <CheckOutlined
-                        style={{ color: "#34A852" }}
-                        height="1.3em"
-                        width="1.3em"
-                        onClick={this.handleText}
-                      />
-                    </Space>
-                  ) : null,
-                ]}
+                // suffix={[
+                //   this.state.typing ? (
+                //     <Space style={{ margin: "0px 10px" }}>
+                //       <CheckOutlined
+                //         style={{ color: "#34A852" }}
+                //         height="1.3em"
+                //         width="1.3em"
+                //         onClick={this.handleText}
+                //       />
+                //     </Space>
+                //   ) : null,
+                // ]}
                 onChange={(e) => this.handleChange(e)}
               />
               <div style={{ margin: "20px 0px" }} />
@@ -145,7 +119,7 @@ class Compose extends React.Component {
                 apiKey="m2scqo7knj5972vza3c3an2ex1x93cw66e1hlb9vejb61ya1"
                 initialValue="<p>Initial content</p>"
                 init={{
-                  skin: this.state.dark == true ? "oxide-dark" : "",
+                  // skin: darkState ? "oxide-dark" : "",
                   height: 500,
                   menubar: false,
                   plugins:
@@ -267,23 +241,13 @@ class Compose extends React.Component {
                 onChange={onChanger}
                 onEditorChange={onChanger}
               />
-              {/* <CreatoEditor
-                defaultValue="Hello world!"
-                dark
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  margin: 20,
-                  padding: 20,
-                }}
-              /> */}
             </Content>
           </Layout>
           <Sidebar global />
         </Layout>
       </Layout>
-    );
-  }
-}
+    </Wrapper>
+  );
+};
 
 export default Compose;

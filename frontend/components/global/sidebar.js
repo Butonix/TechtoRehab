@@ -98,22 +98,34 @@ const Sidebar = (props) => {
           <Text className="sidebar-heading" strong>
             Navigation
           </Text>
-          <Menu.Item key="1" icon={<i class="ri-home-3-fill ri-xl mr-5"></i>}>
+          <Menu.Item
+            key="1"
+            icon={<i class="ri-home-3-fill ri-xl mr-5 va-minus-4"></i>}
+          >
             <Link href="/" prefetch={false}>
               Home
             </Link>
           </Menu.Item>
-          <Menu.Item key="8" icon={<i class="ri-team-fill ri-xl mr-10"></i>}>
-            <Link href="/authors" prefetch={false}>
-              <a>Authors</a>
+          <Menu.Item
+            key="8"
+            icon={<i class="ri-team-fill ri-xl mr-10 va-minus-4"></i>}
+          >
+            <Link href="/users" prefetch={false}>
+              <a>Contributors</a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<i class="ri-apps-line ri-xl mr-10"></i>}>
+          <Menu.Item
+            key="2"
+            icon={<i class="ri-apps-line ri-xl mr-10 va-minus-4"></i>}
+          >
             <Link href="/categories" prefetch={false}>
               Categories
             </Link>
           </Menu.Item>
-          <Menu.Item key="3" icon={<i class="ri-book-3-fill ri-xl mr-10"></i>}>
+          {/* <Menu.Item
+            key="3"
+            icon={<i class="ri-book-3-fill ri-xl mr-10 va-minus-4"></i>}
+          >
             <Link href="/courses" prefetch={false}>
               Courses
             </Link>
@@ -121,38 +133,40 @@ const Sidebar = (props) => {
 
           <Menu.Item
             key="6"
-            icon={<i class="ri-lightbulb-flash-fill ri-xl mr-10"></i>}
+            icon={
+              <i class="ri-lightbulb-flash-fill ri-xl mr-10 va-minus-4"></i>
+            }
           >
             <Link href="/tuts" prefetch={false}>
               Tutorials
             </Link>
-          </Menu.Item>
+          </Menu.Item> */}
 
           <Text className="sidebar-heading" strong>
             Legal
           </Text>
           <Menu.Item
             key="4"
-            icon={<i class="ri-shield-user-fill ri-xl mr-10"></i>}
+            icon={<i class="ri-shield-user-fill ri-xl mr-10 va-minus-4"></i>}
           >
             <Link href="/legal/privacy">Privacy</Link>
           </Menu.Item>
           <Menu.Item
             key="5"
-            icon={<i class="ri-file-shield-2-fill ri-xl mr-10"></i>}
+            icon={<i class="ri-file-shield-2-fill ri-xl mr-10 va-minus-4"></i>}
           >
             <Link href="/legal/terms">Terms</Link>
           </Menu.Item>
 
-          <Text className="sidebar-heading" strong>
+          {/* <Text className="sidebar-heading" strong>
             Support
-          </Text>
-          <Menu.Item
+          </Text> */}
+          {/* <Menu.Item
             key="7"
             icon={<i class="ri-question-fill ri-xl mr-10"></i>}
           >
             <Link href="/support/kb">Website Help</Link>
-          </Menu.Item>
+          </Menu.Item> */}
           {props.home ? (
             <>
               <Title className="mg-20 fs-16">Customize Feed</Title>

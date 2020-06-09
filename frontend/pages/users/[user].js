@@ -6,9 +6,9 @@ import Sidebar from "components/global/sidebar";
 import Feed from "components/homepage/Feed";
 const { Text, Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
-const Author = () => {
+const User = () => {
   const router = useRouter();
-  var { author } = router.query;
+  var { user } = router.query;
   const { Content } = Layout;
   return (
     <Wrapper>
@@ -53,29 +53,19 @@ const Author = () => {
                     </Row>
                     <Row style={{ marginTop: "30px" }} justify="center">
                       <Col style={{ textAlign: "center" }}>
-                        <div
-                          style={{
-                            marginLeft: 10,
-                            marginTop: 15,
-                            fontSize: 25,
-                          }}
-                        >
+                        <div className="ml-10 mt-15 fs-26">
                           <Text>Muhammad Afzaal Afridi</Text>
-                          <span style={{ marginLeft: 5 }}>
+                          <span className="ml-5">
                             <i
-                              class="ri-checkbox-circle-fill"
-                              style={{ verticalAlign: -3, color: "#1890ff" }}
+                              class="ri-checkbox-circle-fill va-minus-4"
+                              style={{ color: "#1890ff" }}
                             ></i>
                           </span>
                         </div>
-                        <div
-                          style={{ marginTop: 0, marginLeft: 10, fontSize: 18 }}
-                        >
+                        <div className="ml-10 fs-18">
                           <Text>Administrator</Text>
                         </div>
-                        <div
-                          style={{ marginTop: 5, marginLeft: 10, fontSize: 16 }}
-                        >
+                        <div className="mt-5 ml-10 fs-16">
                           <Text>
                             <a>@{author}</a>
                           </Text>
@@ -95,11 +85,8 @@ const Author = () => {
                             Edit Profile
                           </Button>
                           <Button
-                            className="unset-button"
+                            className="unset-button mg-x-5 mg-y-10"
                             type="primary"
-                            style={{
-                              margin: "10px 5px",
-                            }}
                           >
                             Message
                           </Button>
@@ -208,4 +195,4 @@ const Author = () => {
   );
 };
 
-export default Author;
+export default User;

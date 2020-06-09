@@ -4,6 +4,7 @@ import {
   Avatar,
   Typography,
   Switch,
+  Row,
   Divider,
   Menu,
   Button,
@@ -19,9 +20,9 @@ import {
 import styled from "styled-components";
 import { breakPoints } from "./responsive";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import interact from "interactjs";
+import Link from "next/link";
 
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 const HeaderDefault = styled.header`
   box-shadow: 0px 0px 3px 0px #f5f5f5;
   position: relative;
@@ -41,8 +42,7 @@ const HeaderDefault = styled.header`
       line-height: 3;
     }
     .center {
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0px auto;
       align-items: center;
       display: flex;
       .navItem {
@@ -89,21 +89,6 @@ const HeaderDefault = styled.header`
     .compose {
       margin-right: 10px;
       @media ${breakPoints.mobile} {
-        /* position: fixed;
-        bottom: 20px;
-        right: 0px;
-        button {
-          height: 40px;
-          width: 60px;
-          border-radius: 10%;
-          background: #1890ff;
-          color: white;
-          .composeText {
-            display: none;
-            ::after {
-            }
-          }
-        } */
         display: none;
       }
     }
@@ -141,79 +126,83 @@ const HeaderDefault = styled.header`
 `;
 
 const menu = (
-  <Menu onClick={() => {}} className="pd-15" style={{ width: 250 }}>
+  <Menu onClick={() => {}} className="mt-10" style={{ width: 200 }}>
     <Menu.Item
+      className="compose-menu-item pd-15"
       key="1"
-      style={{ padding: 15, border: "1px solid #333" }}
-      icon={
-        <i
-          class="ri-article-fill ri-lg mr-20"
-          style={{
-            fontSize: 25,
-          }}
-        />
-      }
+      icon={<i class="ri-edit-circle-fill  green-gradient fs-22 va-minus-6" />}
     >
-      <Typography.Text strong className="fs-16">
-        Article
+      <Typography.Text className="fs-16" strong>
+        <Divider type="vertical" />
+        <Link href="/compose/article">
+          <a>
+            <Text>Article</Text>
+          </a>
+        </Link>
       </Typography.Text>
     </Menu.Item>
     <Menu.Item
       key="2"
-      className="pd-15"
-      style={{
-        margin: "10px 0px",
-        border: "1px solid #333",
-      }}
-      icon={
-        <i
-          class="ri-chat-history-fill ri-lg mr-20"
-          style={{
-            fontSize: 25,
-            color: "#FFD75A",
-          }}
-        />
-      }
+      className="pd-15 mt-10"
+      icon={<i class="ri-focus-2-fill  blue-gradient fs-22 va-minus-6" />}
     >
-      <Typography.Text strong className="mt-20 fs-16">
-        Highlight
+      <Typography.Text className="mt-20 fs-16" strong>
+        <Divider type="vertical" />
+        <Link href="/compose/story">
+          <a>
+            <Text>Highlights</Text>
+          </a>
+        </Link>
       </Typography.Text>
     </Menu.Item>
   </Menu>
 );
 
-const menu2 = (
-  <Menu onClick={() => {}} className="mr-20 pd-10" style={{ width: 140 }}>
-    <Divider> Create</Divider>
+const userMenu = (
+  <Menu className="pd-15" style={{ width: 180 }}>
     <Menu.Item
-      key="1"
+      key="profile"
       className="pd-10"
-      icon={<i class="ri-article-line mr-10 ri-lg"></i>}
+      icon={<i class="ri-account-circle-fill ri-lg va-minus-4"></i>}
     >
-      Article
+      <Divider type="vertical" />
+      My Profile
     </Menu.Item>
     <Menu.Item
-      key="2"
+      key="settings"
       className="pd-10"
-      icon={<i class="ri-chat-history-fill mr-10 ri-lg"></i>}
+      icon={<i class="ri-settings-fill ri-lg va-minus-4"></i>}
     >
-      Highlight
-    </Menu.Item>
-    <Divider> More</Divider>
-
-    <Menu.Item
-      key="4"
-      className="pd-10"
-      icon={<i class="ri-user-line mr-10 ri-lg"></i>}
-    >
-      Profile
-    </Menu.Item>
-    <Menu.Item
-      key="5"
-      className="pd-10"
-      icon={<i class="ri-settings-line mr-10 ri-lg"></i>}
-    >
+      <Divider type="vertical" />
       Settings
+    </Menu.Item>
+  </Menu>
+);
+
+const notifications = (
+  <Menu className="pd-15" style={{ width: 250 }}>
+    <Menu.Item
+      icon={<i class="ri-shield-flash-fill ri-lg va-minus-4"></i>}
+      className="pd-10"
+    >
+      <Divider type="vertical" />
+      Your articles are trending, click to see details
+    </Menu.Item>
+    <Divider className="mt-5 mb-5" />
+    <Menu.Item
+      icon={<i class="ri-account-circle-fill ri-lg va-minus-4"></i>}
+      className="pd-10"
+    >
+      <Divider type="vertical" />
+      Muhammad Hassan Mehmood Mentioned You In A comment
+    </Menu.Item>
+    <Divider className="mt-5 mb-5" />
+    <Menu.Item
+      icon={<i class="ri-shield-star-fill ri-lg va-minus-4"></i>}
+      className="pd-10"
+    >
+      <Divider type="vertical" />
+      You Have Been Warned For Spamming An Article. Click For More Details
     </Menu.Item>
   </Menu>
 );
@@ -243,9 +232,9 @@ const NavBar = () => {
           <div className="center">
             <div className="navItem">
               <Badge count={0} showZero>
-                <Dropdown overlay={menu} trigger={["click"]}>
+                <Dropdown overlay={notifications} trigger={["click"]}>
                   <a onClick={(e) => e.preventDefault()}>
-                    <i class="ri-notification-3-line"></i>
+                    <i class="ri-notification-3-line va-minus-2"></i>
                   </a>
                 </Dropdown>
               </Badge>
@@ -253,28 +242,16 @@ const NavBar = () => {
             <div className="navItem">
               <Tooltip title="My Bookmarks">
                 <a>
-                  <i class="ri-bookmark-line"></i>
+                  <i class="ri-bookmark-line va-minus-2"></i>
                 </a>
               </Tooltip>
             </div>
           </div>
           <div
-            className="navItem cursor-pointer"
+            className="navItem cursor-pointer desktop-dark-toggle"
             onClick={() => setDark(!darkState)}
             style={{ color: "white" }}
           >
-            {/* {darkState ? (
-              <i
-                class="ri-sun-line ml-10 ri-lg fs-24"
-                style={{ verticalAlign: "-7px !important" }}
-              ></i>
-            ) : (
-              <i
-                class="ri-moon-line ml-10 ri-lg fs-24"
-                style={{ verticalAlign: "-7px !important" }}
-              ></i>
-            )} */}
-
             <Switch
               unCheckedChildren={[
                 <i
@@ -292,7 +269,7 @@ const NavBar = () => {
             />
           </div>
           <div className="navItem compose">
-            <Dropdown overlay={menu} placement="topLeft">
+            <Dropdown overlay={menu} placement="bottomLeft">
               <Button
                 type="primary"
                 className="unset-button"
@@ -306,20 +283,20 @@ const NavBar = () => {
           <Button type="text" className="getStarted">
             Sign in
           </Button>
+          <Button type="text" className="signOut">
+            Sign out
+          </Button>
           <div className="navItem userDrop">
             <Avatar
               src="https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/134137295/original/854c8fcd234a32ba2e360fc32c0c4c0a992aebeb/change-your-photo-into-a-portrait-cartoon.jpg"
               /**  size={30} */
               className="mr-5 nav-avatar-holder"
             />
-            <Dropdown overlay={menu} trigger={["click"]}>
+            <Dropdown overlay={userMenu} trigger={["click"]}>
               <a>
                 <Button type="text" style={{ padding: "4px 8px" }}>
                   <Text className="fs-14">Afzaal Afridi</Text>
-                  <i
-                    class="ri-arrow-drop-down-line ri-lg"
-                    style={{ verticalAlign: "-6px !important" }}
-                  ></i>
+                  <i class="ri-arrow-drop-down-line ri-lg va-minus-6"></i>
                 </Button>
               </a>
             </Dropdown>

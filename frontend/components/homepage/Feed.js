@@ -122,7 +122,7 @@ const Feed = (props) => {
                 <Dropdown overlay={menu} trigger="click">
                   <a onClick={(e) => e.preventDefault()}>
                     <i
-                      class="ri-more-2-fill ri-lg"
+                      class="ri-more-2-fill ri-lg va-minus-4"
                       style={{ margin: "2px 0px" }}
                     ></i>
                   </a>
@@ -130,7 +130,7 @@ const Feed = (props) => {
                 <Tooltip title="Bookmark This">
                   <a>
                     <i
-                      class="ri-bookmark-line ri-lg"
+                      class="ri-bookmark-line ri-lg va-minus-4"
                       onFocus={(e) => e.preventDefault()}
                     ></i>
                   </a>
