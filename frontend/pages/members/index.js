@@ -18,7 +18,7 @@ const data = [
     title: "Ant Design Title 4",
   },
 ];
-const Users = () => {
+const Members = () => {
   const { Content } = Layout;
   return (
     <Wrapper>
@@ -93,4 +93,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Members;

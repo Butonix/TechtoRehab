@@ -111,7 +111,7 @@ const Sidebar = (props) => {
             icon={<i class="ri-team-fill ri-xl mr-10 va-minus-4"></i>}
           >
             <Link href="/users" prefetch={false}>
-              <a>Contributors</a>
+              <a>Members</a>
             </Link>
           </Menu.Item>
           <Menu.Item

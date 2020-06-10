@@ -6,9 +6,9 @@ import Sidebar from "components/global/sidebar";
 import Feed from "components/homepage/Feed";
 const { Text, Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
-const User = () => {
+const Member = () => {
   const router = useRouter();
-  var { user } = router.query;
+  var { member } = router.query;
   const { Content } = Layout;
   return (
     <Wrapper>
@@ -67,7 +67,7 @@ const User = () => {
                         </div>
                         <div className="mt-5 ml-10 fs-16">
                           <Text>
-                            <a>@{author}</a>
+                            <a>@{member}</a>
                           </Text>
                         </div>
                       </Col>
@@ -96,10 +96,13 @@ const User = () => {
                     <Row justify="center">
                       <Col xs={24} sm={24} md={24} lg={18} xl={18} xxl={24}>
                         <Tabs defaultActiveKey="1" size="large">
-                          <TabPane tab="Contribution Feed" key="1">
+                          <TabPane tab="Bookmarks" key="1">
                             <Feed />
                           </TabPane>
-                          <TabPane tab="Author Profile" key="2">
+                          <TabPane tab="Contributions" key="2">
+                            <Feed />
+                          </TabPane>
+                          <TabPane tab="Profile Details" key="3">
                             <Card
                               className="mg-zero"
                               bodyStyle={{ padding: 10 }}
@@ -195,4 +198,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Member;

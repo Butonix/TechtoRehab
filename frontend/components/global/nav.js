@@ -166,7 +166,11 @@ const userMenu = (
       icon={<i class="ri-account-circle-fill ri-lg va-minus-4"></i>}
     >
       <Divider type="vertical" />
-      My Profile
+      <Link href="/member/dukesx">
+        <a>
+          <Text>My Profile</Text>
+        </a>
+      </Link>
     </Menu.Item>
     <Menu.Item
       key="settings"
@@ -174,7 +178,11 @@ const userMenu = (
       icon={<i class="ri-settings-fill ri-lg va-minus-4"></i>}
     >
       <Divider type="vertical" />
-      Settings
+      <Link href="/member/dukesx/settings">
+        <a>
+          <Text>Settings</Text>
+        </a>
+      </Link>
     </Menu.Item>
   </Menu>
 );
