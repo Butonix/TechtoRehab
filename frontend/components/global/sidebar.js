@@ -1,4 +1,13 @@
-import { Switch, Anchor, Tooltip, Space, Typography, Layout, Menu } from "antd";
+import {
+  Switch,
+  Anchor,
+  Tooltip,
+  Space,
+  Button,
+  Typography,
+  Layout,
+  Menu,
+} from "antd";
 import {
   MessageOutlined,
   CopyOutlined,
@@ -24,7 +33,8 @@ const Sidebar = (props) => {
       width={200}
       className="site-layout-background"
       breakpoint="lg"
-      collapsedWidth="0"
+      collapsedWidth={0}
+      trigger="Hello"
     >
       {props.admin ? (
         <Menu
@@ -110,7 +120,7 @@ const Sidebar = (props) => {
             key="8"
             icon={<i class="ri-team-fill ri-xl mr-10 va-minus-4"></i>}
           >
-            <Link href="/users" prefetch={false}>
+            <Link href="/members" prefetch={false}>
               <a>Members</a>
             </Link>
           </Menu.Item>
@@ -122,25 +132,15 @@ const Sidebar = (props) => {
               Categories
             </Link>
           </Menu.Item>
-          {/* <Menu.Item
-            key="3"
-            icon={<i class="ri-book-3-fill ri-xl mr-10 va-minus-4"></i>}
-          >
-            <Link href="/courses" prefetch={false}>
-              Courses
-            </Link>
-          </Menu.Item>
 
           <Menu.Item
-            key="6"
-            icon={
-              <i class="ri-lightbulb-flash-fill ri-xl mr-10 va-minus-4"></i>
-            }
+            key="10"
+            icon={<i class="ri-focus-2-fill ri-xl mr-10 va-minus-4"></i>}
           >
-            <Link href="/tuts" prefetch={false}>
-              Tutorials
+            <Link href="/highlights" prefetch={false}>
+              Highlights
             </Link>
-          </Menu.Item> */}
+          </Menu.Item>
 
           <Text className="sidebar-heading" strong>
             Legal
@@ -220,7 +220,16 @@ const Sidebar = (props) => {
                 </Anchor.Link>
               </Anchor>
             </>
-          ) : null}
+          ) : // ) : props.composeArticle ? (
+          // <div className="d-flex" style={{ flexFlow: "column" }}>
+          //   <Text className="sidebar-heading" strong>
+          //     Page Settings
+          //   </Text>
+          //   <Button type="primary" className="mg-x-20">
+          //     Submit Data
+          //   </Button>
+          // </div>
+          null}
         </Menu>
       )}
     </Sider>

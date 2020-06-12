@@ -1011,3 +1011,16 @@ $High-Desktop: 2000px;
 .dark .ant-dropdown-menu-submenu-title {
   white-space: normal !important;
 }
+
+.light .ant-dropdown-menu-item,
+.light .ant-dropdown-menu-submenu-title {
+  white-space: normal !important;
+}
+
+.dark .ant-layout-sider-zero-width-trigger {
+  z-index: 2 !important;
+}
+
+.light .ant-layout-sider-zero-width-trigger {
+  z-index: 2 !important;
+}

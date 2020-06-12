@@ -2,10 +2,8 @@ import {
   Layout,
   Card,
   Typography,
-  Progress,
   Row,
   Col,
-  Space,
   Divider,
   Form,
   Input,
@@ -51,7 +49,12 @@ const MemberSettings = () => {
                     </Row>
                     <Tabs tabPosition="left">
                       <Tabs.TabPane tab="Basic Info" key="1">
-                        <Form wrapperCol={{ span: 12 }} layout="vertical">
+                        <Form
+                          wrapperCol={{ span: 12 }}
+                          layout="vertical"
+                          onFinish={() => alert("finished")}
+                          onFinishFailed={() => alert("failed")}
+                        >
                           <Form.Item
                             label="Username"
                             name="username"
@@ -71,15 +74,19 @@ const MemberSettings = () => {
                               },
                               {
                                 validator: async (_, val) => {
-                                  return new Promise((resolve, reject) => {
-                                    setTimeout(() => {
-                                      if (val == "Password12#$") {
-                                        return resolve();
-                                      } else {
-                                        return reject("Password is Wrong");
-                                      }
-                                    }, 5000);
-                                  });
+                                  if (val) {
+                                    return new Promise((resolve, reject) => {
+                                      setTimeout(() => {
+                                        if (val == "Password12#$") {
+                                          return resolve();
+                                        } else {
+                                          return reject("Password is Wrong");
+                                        }
+                                      }, 5000);
+                                    });
+                                  } else {
+                                    return;
+                                  }
                                 },
                               },
                             ]}
@@ -147,11 +154,14 @@ const MemberSettings = () => {
                       <Tabs.TabPane tab="Account Preferences" key="2">
                         <Form layout="vertical">
                           <Form.Item
-                            label="Account Verification"
+                            label="Collaboration Features"
                             wrapperCol={{ span: 12 }}
                           >
                             <Select defaultValue="1">
-                              <Select.Option value="1">Option 1</Select.Option>
+                              <Select.Option value="1">Activate</Select.Option>
+                              <Select.Option value="2">
+                                De-Activate
+                              </Select.Option>
                             </Select>
                           </Form.Item>
                           <Form.Item label="Verfication Status">
@@ -162,7 +172,16 @@ const MemberSettings = () => {
                         </Form>
                       </Tabs.TabPane>
                       <Tabs.TabPane tab="Website Preferences" key="3">
-                        <Input />
+                        <Form layout="vertical" wrapperCol={{ span: 12 }}>
+                          <Form.Item label="Website Theme">
+                            <Select defaultValue={1}>
+                              <Select.Option value={1}>Dark Mode</Select.Option>
+                              <Select.Option value={0}>
+                                Light Mode
+                              </Select.Option>
+                            </Select>
+                          </Form.Item>
+                        </Form>
                       </Tabs.TabPane>
                     </Tabs>
                   </Col>

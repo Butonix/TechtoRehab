@@ -75,20 +75,27 @@ const Member = () => {
                     <Row justify="center">
                       <Col>
                         <div>
-                          <Button
+                          {/* <Button
                             type="primary"
                             className="unset-button"
                             style={{
                               margin: "10px 5px",
                             }}
                           >
-                            Edit Profile
-                          </Button>
+                            Add To Team
+                          </Button> */}
                           <Button
                             className="unset-button mg-x-5 mg-y-10"
                             type="primary"
                           >
                             Message
+                          </Button>
+
+                          <Button
+                            className="unset-button mg-x-10"
+                            type="primary"
+                          >
+                            Sponsor
                           </Button>
                         </div>
                       </Col>
@@ -183,6 +190,9 @@ const Member = () => {
                                 </div>
                               </Col>
                             </Card>
+                          </TabPane>
+                          <TabPane key="4" tab="Sponsors">
+                            Sponsors Area
                           </TabPane>
                         </Tabs>
                       </Col>
