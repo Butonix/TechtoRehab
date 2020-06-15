@@ -1,4 +1,4 @@
-import { List, Row, Col, Layout, Menu } from "antd";
+import { List, Row, Col, Layout, Menu, Avatar, Space, Typography } from "antd";
 import Wrapper from "components/global/wrapper";
 import dynamic from "next/dynamic";
 import { useState } from "react";
@@ -11,23 +11,22 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 
 const query = gql`
   query MyQuery {
-    articles_and_users {
-      article {
+    articles {
+      title
+      excerpt
+      content
+      article_category {
         title
-        content
-        excerpt
         slug
-        article_category {
-          title
-          slug
-        }
-        article_topic {
-          title
-          slug
-        }
       }
-      authors {
-        username
+      article_topic {
+        title
+        slug
+      }
+      users_to_articles {
+        authors {
+          username
+        }
       }
     }
     site_settings {
@@ -38,6 +37,7 @@ const query = gql`
 `;
 
 const { Sider } = Layout;
+const { Text } = Typography;
 
 export default function Home() {
   const { loading, error, data } = useQuery(query);
@@ -47,7 +47,9 @@ export default function Home() {
   if (error) return <div>Error Occured</div>;
 
   var settings = data.site_settings;
-  var articles = data.articles_and_users;
+  var articles = data.articles;
+
+  console.log(articles);
 
   return (
     <>
@@ -81,10 +83,26 @@ export default function Home() {
                       src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
                     />
                   }
+                  actions={[
+                    <Space>
+                      <Avatar />
+                      <Text>
+                        {item.users_to_articles.length > 1
+                          ? item.users_to_articles.map((mapped, index) => {
+                              if (index + 1 < item.users_to_articles.length) {
+                                return mapped.authors.username + " and ";
+                              } else {
+                                return mapped.authors.username;
+                              }
+                            })
+                          : item.users_to_articles.authors.username}
+                      </Text>
+                    </Space>,
+                  ]}
                 >
                   <List.Item.Meta
-                    title={item.article.title}
-                    description={item.article.excerpt}
+                    title={item.title}
+                    description={item.excerpt}
                   />
                 </List.Item>
               )}
