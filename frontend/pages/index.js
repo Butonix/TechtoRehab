@@ -28,25 +28,13 @@ export default function Home() {
 
   var title = data.settings[0].setting_value;
 
-  const getData = () => {
-    fetch("/api/createFile")
-      .then((res) => {
-        fetch("/api/readFile")
-          .then((res2) => {
-            res2.json().then((data) => console.log(data));
-          })
-          .catch((err2) => console.log(err2));
-      })
-      .catch((err) => console.log(err));
-  };
   return (
     <>
       <Head>
         <title>{obj.theme}</title>
       </Head>
       <Wrapper>
-        {getData()}
-        <div style={{ width: 900 }}>Divider</div>
+        <div style={{ width: 900 }} />
       </Wrapper>
     </>
   );
