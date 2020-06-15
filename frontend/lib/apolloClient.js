@@ -9,7 +9,7 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     link: new HttpLink({
-      uri: "http://localhost:8080/v1/graphql", // Server URL (must be absolute)
+      uri: "https://hasura-server-next.herokuapp.com/v1/graphql", // Server URL (must be absolute)
       credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
     }),
     cache: new InMemoryCache(),
