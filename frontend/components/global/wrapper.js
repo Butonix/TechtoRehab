@@ -1,99 +1,12 @@
 import { useEffect } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import { Dropdown, Button, Menu, Divider, Avatar, Typography } from "antd";
-import interact from "interactjs";
+import { Menu, Divider, Typography, Layout } from "antd";
+import Navbar from "./nav";
+// import interact from "interactjs";
 
 const wrapper = (props) => {
   var darkState = useStoreState((state) => state.site.dark);
   var setDark = useStoreActions((actions) => actions.site.setDark);
-
-  /**                  */
-  /**                  */
-  /**                  */
-  /**                  */
-  /**  FAB DROP MENU   */
-  /**                  */
-  /**                  */
-  /**                  */
-  /**                  */
-  /**                  */
-  const menu2 = (
-    <Menu onClick={() => {}} className="mr-20 pd-10" style={{ width: 160 }}>
-      <Divider className="fs-14 mg-y-10">Create</Divider>
-
-      <Menu.Item
-        key="1"
-        className="pd-10"
-        icon={
-          <i class="ri-edit-circle-fill fs-22 va-minus-6 green-gradient"></i>
-        }
-      >
-        <Typography.Text strong>
-          <Divider type="vertical" />
-          Article
-        </Typography.Text>
-      </Menu.Item>
-      <Menu.Item
-        key="2"
-        className="pd-10"
-        icon={<i class="ri-focus-2-fill fs-22 blue-gradient va-minus-6"></i>}
-      >
-        <Typography.Text strong>
-          <Divider type="vertical" />
-          Highlight
-        </Typography.Text>
-      </Menu.Item>
-      <Divider className="fs-14 mg-y-10">More</Divider>
-      <Menu.Item
-        key="6"
-        className="pd-10"
-        icon={
-          <i
-            class={
-              darkState
-                ? "ri-sun-fill sun-gradient" +
-                  " " +
-                  "fs-22 va-minus-6 standard-gradient"
-                : "ri-moon-fill standard-gradient" + " " + "fs-22 va-minus-6"
-            }
-          ></i>
-        }
-        onClick={() => setDark(!darkState)}
-      >
-        <Typography.Text strong>
-          <Divider type="vertical" />
-          Go {darkState ? "Light" : "Dark"}
-        </Typography.Text>
-      </Menu.Item>
-
-      <Menu.Item
-        key="4"
-        className="pd-10"
-        icon={<i class="ri-user-line fs-22 ri-lg va-minus-6"></i>}
-      >
-        <Typography.Text strong>
-          <Divider type="vertical" />
-          Profile
-        </Typography.Text>
-      </Menu.Item>
-      <Menu.Item
-        key="5"
-        className="pd-10"
-        icon={<i class="ri-settings-line fs-22 va-minus-6"></i>}
-      >
-        <Typography.Text strong>
-          <Divider type="vertical" />
-          Settings
-        </Typography.Text>
-      </Menu.Item>
-    </Menu>
-  );
-
-  /**                  */
-  /**                  */
-  /**                  */
-  /**                  */
-  /**                  */
 
   useEffect(() => {
     /** Get html */
@@ -139,69 +52,168 @@ const wrapper = (props) => {
       }
       hotml.classList.add("light");
     }
-
-    /**                  */
-    /**                  */
-    /**                  */
-    /**                  */
-    /** Drag Mobile FAB  */
-    /**                  */
-    /**                  */
-    /**                  */
-    /**                  */
-
-    const position = { x: 0, y: 0 };
-    const slider = interact(".f-a-b");
-    slider.draggable({
-      inertia: true,
-      modifiers: [
-        interact.modifiers.restrictRect({
-          restriction: "parent",
-          endOnly: true,
-        }),
-      ],
-      listeners: {
-        start(event) {
-          console.log(event.type, event.target);
-        },
-        move(event) {
-          position.x += event.dx;
-          position.y += event.dy;
-
-          event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
-        },
-        end(event) {
-          console.log({ x: position.x, y: position.y });
-        },
-      },
-    });
-
-    /**                  */
-    /**                  */
-    /**                  */
-    /**                  */
-    /**                  */
   });
+  const { Content, Sider } = Layout;
+  const sidebar = useStoreState((state) => state.site.sidebar);
+
   return (
-    <div>
-      <div className="f-a-b">
-        <Dropdown overlay={menu2} placement="topCenter" trigger="click">
-          {/* <Button
-            type="primary"
-            shape="circle"
-            style={{ height: 60, width: 60 }}
-          >
-            <i class="ri-add-line fs-26" style={{ color: "white" }}></i>
-          </Button> */}
-          <Avatar
-            src="https://freelanceglobalgigs.com/wp-content/uploads/2020/04/9-768x435.jpg"
-            size={60}
-          />
-        </Dropdown>
-      </div>
-      {props.children}
-    </div>
+    <Layout>
+      <Navbar />
+      <Layout>
+        <Sider
+          collapsed={sidebar}
+          collapsedWidth={0}
+          width={200}
+          style={{
+            zIndex: 1,
+            height: "100vh",
+            position: "sticky",
+            top: "0px",
+          }}
+          theme="light"
+        >
+          <Menu style={{ height: "100vh" }}>
+            <Menu.Item>Item</Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout className="mainLayout">
+          <Content className="site-layout">{props.children}</Content>
+        </Layout>
+      </Layout>
+    </Layout>
   );
 };
 
 export default wrapper;
+
+/** EXTRA STUFF  */
+
+/**                  */
+/**                  */
+/**                  */
+/**                  */
+/**  FAB DROP MENU   */
+/**                  */
+/**                  */
+/**                  */
+/**                  */
+/**                  */
+// const menu2 = (
+//   <Menu onClick={() => {}} className="mr-20 pd-10" style={{ width: 160 }}>
+//     <Divider className="fs-14 mg-y-10">Create</Divider>
+
+//     <Menu.Item
+//       key="1"
+//       className="pd-10"
+//       icon={
+//         <i class="ri-edit-circle-fill fs-22 va-minus-6 green-gradient"></i>
+//       }
+//     >
+//       <Typography.Text strong>
+//         <Divider type="vertical" />
+//         Article
+//       </Typography.Text>
+//     </Menu.Item>
+//     <Menu.Item
+//       key="2"
+//       className="pd-10"
+//       icon={<i class="ri-focus-2-fill fs-22 blue-gradient va-minus-6"></i>}
+//     >
+//       <Typography.Text strong>
+//         <Divider type="vertical" />
+//         Highlight
+//       </Typography.Text>
+//     </Menu.Item>
+//     <Divider className="fs-14 mg-y-10">More</Divider>
+//     <Menu.Item
+//       key="6"
+//       className="pd-10"
+//       icon={
+//         <i
+//           class={
+//             darkState
+//               ? "ri-sun-fill sun-gradient" +
+//                 " " +
+//                 "fs-22 va-minus-6 standard-gradient"
+//               : "ri-moon-fill standard-gradient" + " " + "fs-22 va-minus-6"
+//           }
+//         ></i>
+//       }
+//       onClick={() => setDark(!darkState)}
+//     >
+//       <Typography.Text strong>
+//         <Divider type="vertical" />
+//         Go {darkState ? "Light" : "Dark"}
+//       </Typography.Text>
+//     </Menu.Item>
+
+//     <Menu.Item
+//       key="4"
+//       className="pd-10"
+//       icon={<i class="ri-user-line fs-22 ri-lg va-minus-6"></i>}
+//     >
+//       <Typography.Text strong>
+//         <Divider type="vertical" />
+//         Profile
+//       </Typography.Text>
+//     </Menu.Item>
+//     <Menu.Item
+//       key="5"
+//       className="pd-10"
+//       icon={<i class="ri-settings-line fs-22 va-minus-6"></i>}
+//     >
+//       <Typography.Text strong>
+//         <Divider type="vertical" />
+//         Settings
+//       </Typography.Text>
+//     </Menu.Item>
+//   </Menu>
+// );
+
+/**                  */
+/**                  */
+/**                  */
+/**                  */
+/**                  */
+
+/**                  */
+/**                  */
+/**                  */
+/**                  */
+/** Drag Mobile FAB  */
+/**                  */
+/**                  */
+/**                  */
+/**                  */
+
+// const position = { x: 0, y: 0 };
+// const slider = interact(".f-a-b");
+// slider.draggable({
+//   inertia: true,
+//   modifiers: [
+//     interact.modifiers.restrictRect({
+//       restriction: "parent",
+//       endOnly: true,
+//     }),
+//   ],
+//   listeners: {
+//     start(event) {
+//       console.log(event.type, event.target);
+//     },
+//     move(event) {
+//       position.x += event.dx;
+//       position.y += event.dy;
+
+//       event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
+//     },
+//     end(event) {
+//       console.log({ x: position.x, y: position.y });
+//     },
+//   },
+// });
+
+/**                  */
+/**                  */
+/**                  */
+/**                  */
+/**                  */

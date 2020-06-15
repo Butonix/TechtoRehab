@@ -35,31 +35,11 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html className="dark">
+      <Html className="light">
         <Head>
-          {/* <link href="https://cdn.jsdelivr.net/npm/remixicon@2.4.0/fonts/remixicon.css" rel="stylesheet" /> */}
           <link
             rel="stylesheet"
             href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css"
-          />
-
-          <script
-            async
-            key="amp-story"
-            custom-element="amp-story"
-            src="https://cdn.ampproject.org/v0/amp-story-1.0.js"
-          />
-          <script
-            async
-            key="amp-story"
-            custom-element="amp-story"
-            src="https://cdn.ampproject.org/v0/amp-story-1.0.js"
-          />
-          <script
-            async
-            key="amp-video"
-            custom-element="amp-video"
-            src="https://cdn.ampproject.org/v0/amp-video-0.1.js"
           />
         </Head>
         <body style={{ margin: 0 }}>
