@@ -29,219 +29,10 @@ $High-Desktop: 2000px;
   }
 }
 
-.dark {
-  .ant-menu-item {
-    span {
-      a {
-        color: inherit;
-        transition: none;
-      }
-    }
-  }
-
-  .ant-menu-item:hover {
-    background-color: rgba(255, 255, 255, 0.08) !important;
-  }
-
-  .ant-menu-item > span > a:hover {
-    font-weight: 600;
-  }
-
-  .ant-menu-item-selected {
-    span {
-      font-weight: 600;
-    }
-  }
-
-  nav {
-    button {
-      color: rgba(255, 255, 255, 0.65) !important;
-    }
-
-    a {
-      color: rgba(255, 255, 255, 0.65) !important;
-      // :hover {
-      //   color: unset;
-      // }
-
-      i {
-        color: rgba(255, 255, 255, 0.65);
-      }
-
-      i:hover {
-        color: white;
-      }
-    }
-
-    .ant-switch-handle::before {
-      background-color: white;
-    }
-  }
-
-  // .tox {
-  //   .tox-editor-header {
-  //     background: #141414 !important;
-  //     .tox-menubar {
-  //       background: none !important;
-  //       background-color: unset !important;
-  //     }
-
-  //     .tox-toolbar-overlord {
-  //       background-color: unset !important;
-  //       .tox-toolbar__primary {
-  //         background: none !important;
-  //         background-color: unset !important;
-  //       }
-  //       .tox-toolbar__overflow {
-  //         background: none !important;
-  //         background-color: unset !important;
-  //       }
-  //     }
-  //   }
-  // }
-  .unset-button {
-    color: white !important;
-    background-color: #141414 !important;
-    box-shadow: unset !important;
-  }
-  .unset-button:hover {
-    background-color: #1890ff !important;
-  }
-
-  .compose-menu-item {
-    // border: 1px solid #333;
-  }
-}
-
-.light {
-  .ant-menu-item {
-    span {
-      a {
-        color: rgba(0, 0, 0, 0.65) !important;
-        transition: none;
-      }
-    }
-  }
-
-  .ant-menu-item > span > a:hover {
-    font-weight: 600;
-  }
-
-  .ant-menu-item-selected {
-    span {
-      font-weight: 600;
-    }
-  }
-
-  .ant-menu-item:hover {
-    background-color: #f5f5f5 !important;
-  }
-
-  .unset-button:hover {
-    background-color: #1890ff !important;
-    color: white !important;
-  }
-
-  .ant-list-item-meta-title {
-    a {
-      color: rgb(38, 38, 38) !important;
-    }
-  }
-
-  .unset-button {
-    color: #1890ff !important;
-    background-color: white !important;
-    box-shadow: unset !important;
-  }
-
-  nav {
-    .ant-switch-handle::before {
-      background-color: #141414;
-    }
-  }
-
-  .compose-menu-item {
-    // border: 1px solid #cecece;
-  }
-
-  .ant-layout {
-    background: #f5f5f5;
-  }
-}
-
-.ant-page-header-heading-extra {
-  margin: 0px 0px;
-  margin-top: 11px;
-}
-
-// nav {
-//   button {
-//     @media (prefers-color-scheme: dark) {
-//       color: rgba(255, 255, 255, 0.65) !important;
-//     }
-//     // @media (prefers-color-scheme: light) {
-//     //   color: #ffffffa6;
-//     // }
-//   }
-
-//   a {
-//     @media (prefers-color-scheme: dark) {
-//       color: rgba(255, 255, 255, 0.65) !important;
-//       :hover {
-//         color: unset;
-//       }
-//     }
-//   }
-// }
-
-// .ant-menu-item {
-//   span {
-//     a {
-//       @media (prefers-color-scheme: dark) {
-//         color: inherit;
-//         transition: none;
-//       }
-
-//       @media (prefers-color-scheme: light) {
-//         color: inherit;
-//         transition: none;
-//       }
-//     }
-//   }
-// }
-
-// .mainLayout {
-//   height: 100vh !important;
-
-//   @include mobile {
-//     height: 100%;
-//   }
-// }
-
-.ant-card {
-  margin: 10px 20px !important;
-  @include mobile {
-    margin: 10px 0px !important;
-  }
-}
-
 .mainLayout {
-  padding: 0 24px 24px;
-  // height: 100vh !important;
   @include mobile {
     padding: 0px;
     margin-left: 0;
-  }
-}
-
-.ant-page-header {
-  @include mobile {
-    padding: 16px 15px;
-  }
-}
-
-.ant-list-vertical .ant-list-item-extra {
-  @include mobile {
   }
 }
 
@@ -249,29 +40,18 @@ $High-Desktop: 2000px;
   width: 100%;
 }
 
-// .ri-lg {
-//   vertical-align: -0.2em !important;
-// }
-
-// .ri-xl {
-//   vertical-align: -0.2em !important;
-// }
-
-// .ri-sm {
-//   vertical-align: -0.2em !important;
-// }
-
-// .ri-xs {
-//   vertical-align: -0.2em !important;
-// }
-
-// .ri-1x {
-//   vertical-align: -0.2em !important;
-// }
-
-// .ri-2x {
-//   vertical-align: -0.2em !important;
-// }
+//
+//
+//
+//
+//
+//
+//
+// VERTICAL ALIGNS
+//
+//
+//
+//
 
 .va-minus-2 {
   vertical-align: -2px !important;
@@ -285,294 +65,18 @@ $High-Desktop: 2000px;
   vertical-align: -6px !important;
 }
 
-.ant-page-header-heading-extra {
-  margin: 0px 0 !important;
-  margin-top: 10px !important;
-  white-space: nowrap;
-}
-
-.site-layout {
-  padding: 0px 24px;
-  padding-bottom: 20px;
-  margin: auto;
-  min-width: 400px;
-  max-width: 900px;
-}
-
-.ant-card-meta-title {
-  white-space: normal !important;
-  height: 55px;
-}
-
-.ant-page-header-heading-title {
-  white-space: normal !important;
-}
-
-// .ant-layout-sider {
-//   // position: sticky !important;
-//   height: 100vh;
-//   top: 0;
-
-//   @include mobile {
-//     position: relative !important;
-//     height: 100% !important;
-//   }
-// }
-
-.articleTitle {
-  @include mobile {
-    margin-left: 20px;
-  }
-}
-
-.titleCol {
-  margin-right: 20px;
-
-  @include mobile {
-    margin-right: 0px;
-  }
-}
-
-.articleHeader {
-  padding-top: 16px !important;
-}
-
-// .tox {
-// @media (prefers-color-scheme: dark) {
-//   .tox-editor-header {
-//     background: #141414 !important;
-//     .tox-menubar {
-//       background: none !important;
-//       background-color: unset !important;
-//     }
-
-//     .tox-toolbar-overlord {
-//       background-color: unset !important;
-//       .tox-toolbar__primary {
-//         background: none !important;
-//         background-color: unset !important;
-//       }
-//       .tox-toolbar__overflow {
-//         background: none !important;
-//         background-color: unset !important;
-//       }
-//     }
-//   }
-// }
-
-//   .tox-statusbar {
-//     background-color: unset !important;
-//   }
-// }
-
-.ant-page-header-heading-extra {
-  white-space: unset !important;
-}
-
-// .submitComment {
-//   @media (prefers-color-scheme: dark) {
-//     background-color: #2ff579 !important;
-//     color: #141414 !important;
-//     outline: none !important;
-//     border: none !important;
-//   }
-// }
-
-.ant-affix {
-  z-index: -1 !important;
-}
-
-.highlights {
-  @include mobile {
-    flex-flow: row !important;
-    overflow: auto !important;
-  }
-}
-
-.highlight-decide {
-  display: block;
-  @include mobile {
-    display: none;
-  }
-
-  @include tablet {
-    display: none;
-  }
-}
-.warning-col {
-  display: none;
-  @include mobile {
-    display: block;
-  }
-
-  @include tablet {
-    display: block;
-  }
-}
-
-@keyframes placeHolderShimmer {
-  0% {
-    background-position: -468px 0;
-  }
-  100% {
-    background-position: 468px 0;
-  }
-}
-
-.el {
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: placeHolderShimmer;
-  animation-timing-function: linear;
-  background: #141414;
-  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
-  background-size: 1000px 104px;
-  height: 338px;
-  position: relative;
-  overflow: hidden;
-}
-
-.sidebar-heading {
-  font-size: 16px;
-  margin: 20px;
-  line-height: 2;
-}
-
-.mr-auto {
-  margin-right: auto !important;
-}
-
-.mr-5 {
-  margin-right: 5px !important;
-}
-
-.mr-10 {
-  margin-right: 10px !important;
-}
-
-.mr-15 {
-  margin-right: 15px !important;
-}
-
-.mr-20 {
-  margin-right: 20px !important;
-}
-
-.mr-25 {
-  margin-right: 25px !important;
-}
-
-.mr-30 {
-  margin-right: 30px !important;
-}
-
-.ml-auto {
-  margin-left: auto !important;
-}
-
-.ml-5 {
-  margin-left: 5px !important;
-}
-
-.ml-10 {
-  margin-left: 10px !important;
-}
-
-.ml-15 {
-  margin-left: 15px !important;
-}
-
-.ml-20 {
-  margin-left: 20px !important;
-}
-
-.ml-25 {
-  margin-left: 25px !important;
-}
-.ml-30 {
-  margin-left: 30px !important;
-}
-
-.pd-5 {
-  padding: 5px !important;
-}
-
-.pd-10 {
-  padding: 10px !important;
-}
-
-.pd-15 {
-  padding: 15px !important;
-}
-
-.pd-20 {
-  padding: 20px !important;
-}
-
-.pd-25 {
-  padding: 25px !important;
-}
-
-.pd-30 {
-  padding: 30px !important;
-}
-
-.pd-x-5 {
-  padding: 0px 5px !important;
-}
-
-.pd-x-10 {
-  padding: 0px 10px !important;
-}
-
-.pd-x-15 {
-  padding: 0px 15px !important;
-}
-
-.pd-x-20 {
-  padding: 0px 20px !important;
-}
-
-.pd-x-25 {
-  padding: 0px 25px !important;
-}
-
-.pd-x-30 {
-  padding: 0px 30px !important;
-}
-
-.pd-y-5 {
-  padding: 5px 0px !important;
-}
-
-.pd-y-10 {
-  padding: 10px 0px !important;
-}
-
-.pd-y-15 {
-  padding: 15px 0px !important;
-}
-
-.pd-y-20 {
-  padding: 20px 0px !important;
-}
-
-.pd-y-25 {
-  padding: 25px 0px !important;
-}
-
-.pd-y-30 {
-  padding: 30px 0px !important;
-}
-
-.ps-rel {
-  position: relative !important;
-}
-
-.ps-abs {
-  position: absolute !important;
-}
+//
+//
+//
+//
+//
+//
+//
+// MARGINS
+//
+//
+//
+//
 
 .mg-auto {
   margin: auto !important;
@@ -674,6 +178,229 @@ $High-Desktop: 2000px;
   margin-top: 30px !important;
 }
 
+.mr-auto {
+  margin-right: auto !important;
+}
+
+.mr-5 {
+  margin-right: 5px !important;
+}
+
+.mr-10 {
+  margin-right: 10px !important;
+}
+
+.mr-15 {
+  margin-right: 15px !important;
+}
+
+.mr-20 {
+  margin-right: 20px !important;
+}
+
+.mr-25 {
+  margin-right: 25px !important;
+}
+
+.mr-30 {
+  margin-right: 30px !important;
+}
+
+.ml-auto {
+  margin-left: auto !important;
+}
+
+.ml-5 {
+  margin-left: 5px !important;
+}
+
+.ml-10 {
+  margin-left: 10px !important;
+}
+
+.ml-15 {
+  margin-left: 15px !important;
+}
+
+.ml-20 {
+  margin-left: 20px !important;
+}
+
+.ml-25 {
+  margin-left: 25px !important;
+}
+.ml-30 {
+  margin-left: 30px !important;
+}
+
+.mb-5 {
+  margin-bottom: 5px !important;
+}
+
+.mb-10 {
+  margin-bottom: 10px !important;
+}
+
+.mb-15 {
+  margin-bottom: 15px !important;
+}
+
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+
+.mb-25 {
+  margin-bottom: 25px !important;
+}
+
+.mb-30 {
+  margin-bottom: 30px !important;
+}
+
+//
+//
+//
+//
+//
+//
+//
+// PADDINGS
+//
+//
+//
+//
+
+.pd-5 {
+  padding: 5px !important;
+}
+
+.pd-10 {
+  padding: 10px !important;
+}
+
+.pd-15 {
+  padding: 15px !important;
+}
+
+.pd-20 {
+  padding: 20px !important;
+}
+
+.pd-25 {
+  padding: 25px !important;
+}
+
+.pd-30 {
+  padding: 30px !important;
+}
+
+.pd-x-5 {
+  padding: 0px 5px !important;
+}
+
+.pd-x-10 {
+  padding: 0px 10px !important;
+}
+
+.pd-x-15 {
+  padding: 0px 15px !important;
+}
+
+.pd-x-20 {
+  padding: 0px 20px !important;
+}
+
+.pd-x-25 {
+  padding: 0px 25px !important;
+}
+
+.pd-x-30 {
+  padding: 0px 30px !important;
+}
+
+.pd-y-5 {
+  padding: 5px 0px !important;
+}
+
+.pd-y-10 {
+  padding: 10px 0px !important;
+}
+
+.pd-y-15 {
+  padding: 15px 0px !important;
+}
+
+.pd-y-20 {
+  padding: 20px 0px !important;
+}
+
+.pd-y-25 {
+  padding: 25px 0px !important;
+}
+
+.pd-y-30 {
+  padding: 30px 0px !important;
+}
+
+.pd-zero {
+  padding: 0 !important;
+}
+
+//
+//
+//
+//
+//
+//
+//
+// POSITION
+//
+//
+//
+//
+
+.ps-rel {
+  position: relative !important;
+}
+
+.ps-abs {
+  position: absolute !important;
+}
+
+//
+//
+//
+//
+//
+//
+//
+// FONT WEIGHT
+//
+//
+//
+//
+
+.fw-bold {
+  font-weight: bold !important;
+}
+
+.fw-600 {
+  font-weight: 600 !important;
+}
+
+//
+//
+//
+//
+//
+//
+//
+// FONT SIZE
+//
+//
+//
+//
+
 .fs-12 {
   font-size: 12px !important;
 }
@@ -714,16 +441,18 @@ $High-Desktop: 2000px;
   font-size: 30px !important;
 }
 
-.sidebar-space {
-  margin: 10px 20px !important;
-}
-
-.sticky-sidebar-menu {
-  height: 100vh !important;
-  position: sticky !important;
-  top: 0 !important;
-  overflow-x: hidden !important;
-}
+//
+//
+//
+//
+//
+//
+//
+// WIDTH
+//
+//
+//
+//
 
 .wd-100pc {
   width: 100% !important;
@@ -732,6 +461,19 @@ $High-Desktop: 2000px;
 .max-wd-100pc {
   max-width: 100% !important;
 }
+
+//
+//
+//
+//
+//
+//
+//
+// LINE HEIGHT
+//
+//
+//
+//
 
 .lh-1 {
   line-height: 1 !important;
@@ -768,13 +510,19 @@ $High-Desktop: 2000px;
 .lh-6 {
   line-height: 6 !important;
 }
-.fw-bold {
-  font-weight: bold !important;
-}
 
-.fw-600 {
-  font-weight: 600 !important;
-}
+//
+//
+//
+//
+//
+//
+//
+// BORDER RADIUS
+//
+//
+//
+//
 
 .br-5 {
   border-radius: 5px !important;
@@ -796,9 +544,63 @@ $High-Desktop: 2000px;
   border-radius: 50% !important;
 }
 
+//
+//
+//
+//
+//
+//
+//
+// IMG PROPERTIES
+//
+//
+//
+//
 .o-fit-cover {
   object-fit: cover !important;
 }
+
+.o-position-center {
+  object-position: center;
+}
+
+//
+//
+//
+//
+//
+//
+//
+// DIV COVER
+//
+//
+//
+//
+
+.bs-cover {
+  background-size: cover;
+}
+
+.bs-contain {
+  background-size: contain;
+}
+
+.bp-center {
+  background-position: center;
+}
+
+//
+//
+//
+//
+//
+//
+//
+// TEXT ALIGN
+//
+//
+//
+//
 
 .ta-center {
   text-align: center !important;
@@ -807,6 +609,19 @@ $High-Desktop: 2000px;
 .ta-justify {
   text-align: justify !important;
 }
+
+//
+//
+//
+//
+//
+//
+//
+// FLEX PROPERTIES
+//
+//
+//
+//
 
 .jc-center {
   justify-content: center !important;
@@ -832,10 +647,24 @@ $High-Desktop: 2000px;
   flex-flow: column !important;
 }
 
+.flex-auto {
+  flex: auto !important;
+}
+
+//
+//
+//
+//
+//
+//
+//
+// GRADIENTS
+//
+//
+//
+//
+
 .instagram-text-fill-gradient {
-  // -webkit-background-clip: text;
-  // background-clip: text;
-  // -webkit-text-fill-color: transparent;
   background: radial-gradient(
     circle at 30% 107%,
     #fdf497 0%,
@@ -844,121 +673,10 @@ $High-Desktop: 2000px;
     #d6249f 60%,
     #285aeb 90%
   );
-  // height: 40px;
-  // width: 40px;
-  // border-radius: 5px;
-  // padding: 1.2px;
-  // font-size: 15px;
+
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
-.mb-5 {
-  margin-bottom: 5px !important;
-}
-
-.mb-10 {
-  margin-bottom: 10px !important;
-}
-
-.mb-15 {
-  margin-bottom: 15px !important;
-}
-
-.mb-20 {
-  margin-bottom: 20px !important;
-}
-
-.mb-25 {
-  margin-bottom: 25px !important;
-}
-
-.mb-30 {
-  margin-bottom: 30px !important;
-}
-
-.announcements-custom {
-  @include hd {
-    padding: 0px 10% !important;
-  }
-
-  @include desktop {
-    padding: 0px 10% !important;
-  }
-}
-
-.ant-table-thead > tr > th,
-.ant-table-tbody > tr > td,
-.ant-table tfoot > tr > th,
-.ant-table tfoot > tr > td {
-  @include mobile {
-    padding: 5px !important;
-  }
-}
-
-.logoLight {
-  margin-left: 20px;
-}
-
-.logoDark {
-  margin-left: 20px;
-}
-
-.cursor-pointer {
-  cursor: pointer !important;
-}
-
-.dark .ant-btn-text:hover,
-.dark .ant-btn-text:focus {
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.ant-list-item-action {
-  li {
-    @include mobile {
-      padding: 0 10px !important;
-    }
-    @include tablet {
-      padding: 0 10px !important;
-    }
-  }
-}
-
-.f-a-b {
-  display: none;
-  @include mobile {
-    display: block;
-    position: fixed;
-    z-index: 2;
-    bottom: 30px;
-    right: 20px;
-    touch-action: none;
-    user-select: none;
-  }
-}
-
-.category-status {
-  .ant-badge-status-dot {
-    height: 7px !important;
-    width: 7px !important;
-  }
-}
-
-.o-position-center {
-  object-position: center;
-}
-
-.pd-zero {
-  padding: 0 !important;
-}
-
-// .light .ant-switch-handle::before {
-//   background-color: #141414;
-// }
-
-// .dark .ant-switch-handle::before {
-//   background-color: white;
-// }
 
 .green-gradient {
   background-color: #09c7fb;
@@ -988,19 +706,29 @@ $High-Desktop: 2000px;
   -webkit-text-fill-color: transparent;
 }
 
-.desktop-dark-toggle {
-  display: none;
+//
+//
+//
+//
+//
+//
+//
+// MISC PROPERTIES
+//
+//
+//
+//
 
-  @include tablet {
-    display: block;
-  }
-  @include desktop {
-    display: block;
-  }
+.logoLight {
+  margin-left: 20px;
+}
 
-  @include hd {
-    display: block;
-  }
+.logoDark {
+  margin-left: 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
 }
 
 :target {
@@ -1011,22 +739,4 @@ $High-Desktop: 2000px;
 .anchor-heading::before {
   content: "# ";
   color: #1890ff;
-}
-
-.dark .ant-dropdown-menu-item,
-.dark .ant-dropdown-menu-submenu-title {
-  white-space: normal !important;
-}
-
-.light .ant-dropdown-menu-item,
-.light .ant-dropdown-menu-submenu-title {
-  white-space: normal !important;
-}
-
-.dark .ant-layout-sider-zero-width-trigger {
-  z-index: 2 !important;
-}
-
-.light .ant-layout-sider-zero-width-trigger {
-  z-index: 2 !important;
 }
