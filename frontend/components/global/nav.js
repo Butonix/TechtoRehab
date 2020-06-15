@@ -5,7 +5,7 @@ import { breakPoints } from "./responsive";
 
 const Nav = styled.div`
   display: flex;
-  padding: 13px 15px 13px 15px;
+  padding: 10px 15px;
   background: white;
   box-shadow: 0px 2px 5px 1px #eeeeee;
   z-index: 2;
