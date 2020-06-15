@@ -72,7 +72,7 @@ const Navigation = () => {
       </div>
       <div className="navigation logo-holder mr-auto ml-10">
         <a href="/">
-          <img className="logo" src="/TTR-Light.svg" />
+          <img className="logo" src="/TTR-LIGHT.svg" />
         </a>
       </div>
       <div className="navigation desktop-link">
