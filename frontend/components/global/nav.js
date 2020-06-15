@@ -71,8 +71,8 @@ const Navigation = () => {
         </a>
       </div>
       <div className="navigation logo-holder mr-auto ml-10">
-        <a href="http://localhost:3000">
-          <img className="logo" src="TTR-Light.svg" />
+        <a href="/">
+          <img className="logo" src="/TTR-Light.svg" />
         </a>
       </div>
       <div className="navigation desktop-link">

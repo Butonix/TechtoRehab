@@ -29,9 +29,9 @@ export default function Home() {
   var title = data.settings[0].setting_value;
 
   const getData = () => {
-    fetch("http://localhost:3000/api/createFile")
+    fetch("/api/createFile")
       .then((res) => {
-        fetch("http://localhost:3000/api/readFile")
+        fetch("/api/readFile")
           .then((res2) => {
             res2.json().then((data) => console.log(data));
           })
