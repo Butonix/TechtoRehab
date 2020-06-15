@@ -34,7 +34,7 @@ export default function Home() {
         <title>{obj.theme}</title>
       </Head>
       <Wrapper>
-        <div style={{ width: 900 }} />
+        <div style={{ width: 900 }}>Divide and Conquer</div>
       </Wrapper>
     </>
   );
