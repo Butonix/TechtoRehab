@@ -15,16 +15,16 @@ const Nav = styled.div`
   }
 
   .logo-holder {
-    line-height: 2;
+    line-height: 2.7 !important;
 
     .logo {
       max-width: 130px;
-      margin-top: 3px;
     }
   }
 
   .sidebar {
     display: none;
+    margin-top: 2px;
     @media ${breakPoints.mobile} {
       display: block;
     }
@@ -32,6 +32,10 @@ const Nav = styled.div`
     @media ${breakPoints.iPad} {
       display: block;
     }
+  }
+
+  .navigation {
+    line-height: 3;
   }
   .desktop-link {
     display: block;
