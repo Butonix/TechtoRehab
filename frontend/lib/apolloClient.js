@@ -12,6 +12,16 @@ function createApolloClient() {
       uri: "http://www.techtorehab.com:8080/v1/graphql", // Server URL (must be absolute)
       credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
     }),
+    defaultOptions: {
+      // watchQuery: {
+      //   fetchPolicy: "all",
+      //   errorPolicy: "all",
+      // },
+      query: {
+        fetchPolicy: "all",
+        errorPolicy: "all",
+      },
+    },
     cache: new InMemoryCache(),
   });
 }
