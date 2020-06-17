@@ -14,8 +14,10 @@ import {
   Modal,
 } from "antd";
 import Wrapper from "components/global/wrapper";
+import styled from "styled-components";
 import { useState } from "react";
 import obj from "../config.json";
+import { breakPoints } from "components/global/responsive";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { initializeApollo } from "lib/apolloClient";
@@ -44,10 +46,27 @@ const query = gql`
           username
         }
       }
+      reactions_to_articles {
+        reaction {
+          name
+          color
+          code
+          gradient
+          type
+        }
+      }
     }
     site_settings {
       setting_name
       setting_value
+    }
+
+    reactions {
+      name
+      code
+      gradient
+      color
+      type
     }
   }
 `;
@@ -65,6 +84,31 @@ const updateBookmarkQuery = gql`
 
 const { Sider } = Layout;
 const { Text, Paragraph } = Typography;
+
+const Reactions = styled.div`
+  display: flex;
+
+  .reaction-holder {
+    display: flex;
+    margin: 0px 10px;
+    .reaction {
+      margin-right: 10px;
+      font-size: 20px;
+      i {
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      @media ${breakPoints.mobile} {
+        margin-right: -24px;
+      }
+    }
+    .reaction-count {
+      @media ${breakPoints.mobile} {
+        display: none;
+      }
+    }
+  }
+`;
 
 export default function Home() {
   const { loading, error, data } = useQuery(query, {
@@ -98,11 +142,25 @@ export default function Home() {
 
   var settings = data.site_settings;
   var articles = data.articles;
+  var reactions = data.reactions;
+
   const sidebar = useStoreState((state) => state.site.sidebar);
   const [drawer, setDrawer] = useState(false);
   const [type, setType] = useState("");
   const [sheetData, setSheetData] = useState([]);
   const [articlesData, setArticlesData] = useState(articles);
+
+  const getReactionCount = (name, array) => {
+    var newarr = array.filter((filtered) => filtered.reaction.name == name);
+    return newarr.length;
+  };
+
+  const removeDuplicates = (arr) => {
+    var newArr = [];
+    var newArr2 = [];
+
+    return "1";
+  };
 
   const addBookmark = (objecto) => {
     setArticlesData(
@@ -168,7 +226,7 @@ export default function Home() {
                       }}
                     >
                       <Text
-                        className="t-transform-cpt fs-12"
+                        className="t-transform-cpt fs-12 article-list-item-author"
                         style={{
                           border: "1px solid #cecece",
                           borderRadius: 25,
@@ -196,14 +254,48 @@ export default function Home() {
                         <i
                           className={
                             item.bookmark
-                              ? "ri-bookmark-fill " + "ri-lg va-minus-6"
-                              : "ri-bookmark-line " + "ri-lg va-minus-6"
+                              ? "ri-bookmark-fill fs-20 " + "ri-lg va-minus-4"
+                              : "ri-bookmark-line fs-20 " + "ri-lg va-minus-4"
                           }
                           onClick={() => addBookmark(item)}
                           style={{ color: "rgba(86, 85, 85, 0.65)" }}
                         ></i>
                       </a>
                     </Tooltip>,
+                    item.reactions_to_articles.length > 0 ? (
+                      <a
+                        onClick={() => {
+                          return (
+                            setType("Reactions"),
+                            setDrawer(true),
+                            setSheetData(item.reactions_to_articles)
+                          );
+                        }}
+                      >
+                        <Reactions>
+                          {reactions.map((mapped) => {
+                            item.reactions_to_articles.map((mapped2) => {
+                              if (mapped2.reaction.name == mapped.name) {
+                                return;
+                              }
+                            });
+                            return (
+                              <div className="reaction-holder">
+                                <div className="reaction">
+                                  <i
+                                    class={`${mapped.code} va-minus-4`}
+                                    style={mapped.gradient}
+                                  ></i>
+                                </div>
+                                <div className="reaction-count">
+                                  <Text className="lh-2-5">{mapped.name}</Text>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </Reactions>
+                      </a>
+                    ) : null,
                   ]}
                 >
                   <Modal
@@ -220,14 +312,34 @@ export default function Home() {
                   >
                     <div className="d-flex flex-column">
                       {sheetData.length > 0 ? (
-                        sheetData.map((mapped) => (
-                          <Space className="mt-10">
-                            <Avatar />
-                            <Text className="t-transform-cpt">
-                              {mapped.authors.username}
-                            </Text>
-                          </Space>
-                        ))
+                        type == "Authors" ? (
+                          sheetData.map((mapped) => (
+                            <Space className="mt-10">
+                              <Avatar />
+                              <Text className="t-transform-cpt">
+                                {mapped.authors.username}
+                              </Text>
+                            </Space>
+                          ))
+                        ) : (
+                          <Reactions>
+                            {sheetData.map((mapped) => (
+                              <div className="reaction-holder">
+                                <div className="reaction">
+                                  <i
+                                    class={`${mapped.reaction.code} va-minus-4`}
+                                    style={mapped.reaction.gradient}
+                                  ></i>
+                                </div>
+                                <div className="reaction-count">
+                                  <Text className="lh-2-5">
+                                    {getReactionCount("Love", sheetData)}
+                                  </Text>
+                                </div>
+                              </div>
+                            ))}
+                          </Reactions>
+                        )
                       ) : (
                         <p>Nulled</p>
                       )}

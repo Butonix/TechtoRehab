@@ -35,7 +35,7 @@ const Nav = styled.div`
   }
 
   .navigation {
-    line-height: 3;
+    line-height: 2.8;
   }
   .desktop-link {
     display: block;
