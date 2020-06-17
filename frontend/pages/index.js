@@ -296,10 +296,13 @@ export default function Home() {
                               }
                             });
                             return (
-                              <div className="reaction-holder">
+                              <div
+                                className="reaction-holder"
+                                key={mapped.name}
+                              >
                                 <div className="reaction">
                                   <i
-                                    class={`${mapped.code} va-minus-4`}
+                                    className={`${mapped.code} va-minus-4`}
                                     style={mapped.gradient}
                                   ></i>
                                 </div>
@@ -357,7 +360,7 @@ export default function Home() {
                                         <div className="reaction-holder">
                                           <div className="reaction">
                                             <i
-                                              class={`${mapped.code} va-minus-4`}
+                                              className={`${mapped.code} va-minus-4`}
                                               style={mapped.gradient}
                                             ></i>
                                           </div>
@@ -377,12 +380,19 @@ export default function Home() {
                                     }
                                   >
                                     <div className="d-flex flex-column">
-                                      {sheetData.map((mapped2) => {
+                                      {sheetData.map((mapped2, index) => {
                                         if (
                                           mapped2.reaction.name == mapped.name
                                         ) {
                                           return (
-                                            <Space className="mt-15">
+                                            <Space
+                                              className="mt-15"
+                                              key={
+                                                mapped2.reaction.name +
+                                                mapped.name +
+                                                index
+                                              }
+                                            >
                                               <Avatar size={35} />
                                               <Text>
                                                 {mapped2.user.username}
