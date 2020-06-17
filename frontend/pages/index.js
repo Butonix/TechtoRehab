@@ -5,6 +5,7 @@ import {
   Button,
   Tooltip,
   message,
+  Tabs,
   Layout,
   Result,
   Menu,
@@ -54,6 +55,10 @@ const query = gql`
           gradient
           type
         }
+
+        user {
+          username
+        }
       }
     }
     site_settings {
@@ -92,20 +97,31 @@ const Reactions = styled.div`
     display: flex;
     margin: 0px 10px;
     .reaction {
-      margin-right: 10px;
       font-size: 20px;
       i {
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
-      @media ${breakPoints.mobile} {
-        margin-right: -24px;
-      }
+      margin-right: -24px;
     }
     .reaction-count {
+      margin-left: 30px;
       @media ${breakPoints.mobile} {
         display: none;
       }
+    }
+  }
+
+  .reaction-total {
+    line-height: 2.5;
+    margin-left: 25px;
+  }
+
+  .reaction-name {
+    line-height: 2.5;
+
+    @media ${breakPoints.mobile} {
+      margin-left: 20px;
     }
   }
 `;
@@ -155,11 +171,8 @@ export default function Home() {
     return newarr.length;
   };
 
-  const removeDuplicates = (arr) => {
-    var newArr = [];
-    var newArr2 = [];
-
-    return "1";
+  const getReactionTotal = (arra) => {
+    return arra.length;
   };
 
   const addBookmark = (objecto) => {
@@ -287,12 +300,13 @@ export default function Home() {
                                     style={mapped.gradient}
                                   ></i>
                                 </div>
-                                <div className="reaction-count">
-                                  <Text className="lh-2-5">{mapped.name}</Text>
-                                </div>
                               </div>
                             );
                           })}
+                          <Text className="reaction-total" strong>
+                            {getReactionTotal(item.reactions_to_articles) + " "}
+                            Total
+                          </Text>
                         </Reactions>
                       </a>
                     ) : null,
@@ -322,23 +336,62 @@ export default function Home() {
                             </Space>
                           ))
                         ) : (
-                          <Reactions>
-                            {sheetData.map((mapped) => (
-                              <div className="reaction-holder">
-                                <div className="reaction">
-                                  <i
-                                    class={`${mapped.reaction.code} va-minus-4`}
-                                    style={mapped.reaction.gradient}
-                                  ></i>
-                                </div>
-                                <div className="reaction-count">
-                                  <Text className="lh-2-5">
-                                    {getReactionCount("Love", sheetData)}
-                                  </Text>
-                                </div>
-                              </div>
-                            ))}
-                          </Reactions>
+                          <>
+                            <Tabs>
+                              {reactions.map((mapped) => {
+                                sheetData.map((mapped2) => {
+                                  if (mapped2.reaction.name == mapped.name) {
+                                    return;
+                                  }
+                                });
+                                return (
+                                  <Tabs.TabPane
+                                    key={mapped.name}
+                                    tab={
+                                      <Reactions>
+                                        <div className="reaction-holder">
+                                          <div className="reaction">
+                                            <i
+                                              class={`${mapped.code} va-minus-4`}
+                                              style={mapped.gradient}
+                                            ></i>
+                                          </div>
+                                          <div className="reaction-count">
+                                            <Text className="lh-2-5">
+                                              {getReactionCount(
+                                                mapped.name,
+                                                sheetData
+                                              )}
+                                            </Text>
+                                          </div>
+                                        </div>
+                                        <Text className="reaction-name">
+                                          {mapped.name}
+                                        </Text>
+                                      </Reactions>
+                                    }
+                                  >
+                                    <div className="d-flex flex-column">
+                                      {sheetData.map((mapped2) => {
+                                        if (
+                                          mapped2.reaction.name == mapped.name
+                                        ) {
+                                          return (
+                                            <Space className="mt-15">
+                                              <Avatar size={35} />
+                                              <Text>
+                                                {mapped2.user.username}
+                                              </Text>
+                                            </Space>
+                                          );
+                                        }
+                                      })}
+                                    </div>
+                                  </Tabs.TabPane>
+                                );
+                              })}
+                            </Tabs>
+                          </>
                         )
                       ) : (
                         <p>Nulled</p>
