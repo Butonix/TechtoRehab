@@ -319,6 +319,8 @@ export default function Home() {
                       padding: "15px 15px",
                       paddingBottom: "45px",
                       paddingTop: 5,
+                      height: 300,
+                      overflowY: "auto",
                     }}
                     closable
                     onCancel={() => setDrawer(false)}
