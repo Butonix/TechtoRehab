@@ -9,7 +9,7 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     link: new HttpLink({
-      uri: "http://www.techtorehab.com:8080/v1/graphql", // Server URL (must be absolute)
+      uri: "https://hasura.techtorehab.com/v1/graphql", // Server URL (must be absolute)
       credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
     }),
     defaultOptions: {
