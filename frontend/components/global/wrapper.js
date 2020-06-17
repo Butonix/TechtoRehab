@@ -2,12 +2,20 @@ import { useEffect } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Menu, Divider, Typography, Layout } from "antd";
 import Navbar from "./nav";
+import { useSwipeable, Swipeable } from "react-swipeable";
+
 // import interact from "interactjs";
 
 const wrapper = (props) => {
-  var darkState = useStoreState((state) => state.site.dark);
-  var setDark = useStoreActions((actions) => actions.site.setDark);
-
+  const darkState = useStoreState((state) => state.site.dark);
+  const setDark = useStoreActions((actions) => actions.site.setDark);
+  const sidebar = useStoreState((state) => state.site.sidebar);
+  const setSidebar = useStoreActions((actions) => actions.site.setSidebar);
+  var handlers = useSwipeable({
+    onSwipedRight: () => console.log("swiped"),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
   useEffect(() => {
     /** Get html */
     var hotml = document.documentElement;
@@ -52,9 +60,20 @@ const wrapper = (props) => {
       }
       hotml.classList.add("light");
     }
+
+    // var cont = document.getElementsByClassName("mainLayout")[0];
+    // var listener = SwipeListener(cont);
+    // cont.addEventListener("swipe", function (e) {
+    //   var directions = e.detail.directions;
+    //   var x = e.detail.x;
+    //   var y = e.detail.y;
+    //   if (directions.right) {
+    //     settingSide;
+    //   }
+    // });
   });
+
   const { Content, Sider } = Layout;
-  const sidebar = useStoreState((state) => state.site.sidebar);
 
   return (
     <Layout>
@@ -77,7 +96,14 @@ const wrapper = (props) => {
           </Menu>
         </Sider>
         <Layout className="mainLayout">
-          <Content className="site-layout">{props.children}</Content>
+          <Content className="site-layout">
+            <Swipeable
+              onSwipedLeft={(eventData) => setSidebar(true)}
+              onSwipedRight={sidebar ? (eventData) => setSidebar(false) : null}
+            >
+              {props.children}
+            </Swipeable>
+          </Content>
         </Layout>
       </Layout>
     </Layout>
