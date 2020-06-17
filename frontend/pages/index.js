@@ -33,6 +33,7 @@ const query = gql`
       title
       excerpt
       content
+      featured_image
       bookmark
       article_category {
         title
@@ -223,9 +224,11 @@ export default function Home() {
                   extra={
                     <img
                       width={272}
+                      height={160}
                       className="o-fit-cover"
                       alt="logo"
-                      src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                      src={item.featured_image}
+                      style={{ borderRadius: 5 }}
                     />
                   }
                   actions={[
