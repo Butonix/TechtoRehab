@@ -211,7 +211,15 @@ export default function Home() {
               <Menu.Item key="sidebar-1-4">Option 4</Menu.Item>
             </Menu>
           </Col>
-          <Col xs={24} sm={24} md={22} lg={20} xl={14} xxl={12} className="">
+          <Col
+            xs={24}
+            sm={24}
+            md={22}
+            lg={20}
+            xl={14}
+            xxl={12}
+            className="mg-x-auto"
+          >
             <List
               itemLayout="vertical"
               dataSource={articlesData}
