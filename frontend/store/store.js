@@ -6,7 +6,7 @@ export var storage = {
     setDark: action((state, payload) => {
       state.dark = payload;
     }),
-    sidebar: true,
+    sidebar: false,
     setSidebar: action((state, payload) => {
       state.sidebar = payload;
     }),

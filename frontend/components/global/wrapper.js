@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import { Menu, Divider, Typography, Layout } from "antd";
+import { Menu, Divider, Typography, Layout, Drawer } from "antd";
 import Navbar from "./nav";
 import { useSwipeable, Swipeable } from "react-swipeable";
 
@@ -79,27 +79,22 @@ const wrapper = (props) => {
     <Layout>
       <Navbar />
       <Layout>
-        <Sider
-          collapsed={sidebar}
-          collapsedWidth={0}
-          width={200}
-          style={{
-            zIndex: 1,
-            height: "100vh",
-            position: "sticky",
-            top: "0px",
-          }}
-          theme="light"
+        <Drawer
+          placement="left"
+          visible={sidebar}
+          closable={false}
+          onClose={() => setSidebar(false)}
         >
-          <Menu style={{ height: "100vh" }}>
-            <Menu.Item>Item</Menu.Item>
+          <Menu defaultSelectedKeys={["1"]} className="">
+            <Menu.Item key="1">item</Menu.Item>
           </Menu>
-        </Sider>
+        </Drawer>
+
         <Layout className="mainLayout">
           <Content className="site-layout">
             <Swipeable
-              onSwipedLeft={(eventData) => setSidebar(true)}
-              onSwipedRight={sidebar ? (eventData) => setSidebar(false) : null}
+              onSwipedRight={(eventData) => setSidebar(true)}
+              key="jklm"
             >
               {props.children}
             </Swipeable>
