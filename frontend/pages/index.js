@@ -197,7 +197,7 @@ export default function Home() {
         <title>{obj.theme}</title>
       </Head>
       <Wrapper>
-        <Row justify="center">
+        <Row>
           <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-x-20">
             <Menu
               theme="light"
@@ -211,15 +211,7 @@ export default function Home() {
               <Menu.Item key="sidebar-1-4">Option 4</Menu.Item>
             </Menu>
           </Col>
-          <Col
-            xs={24}
-            sm={24}
-            md={22}
-            lg={20}
-            xl={14}
-            xxl={12}
-            className="mg-x-auto"
-          >
+          <Col xs={24} sm={24} md={22} lg={20} xl={14} xxl={12} className="">
             <List
               itemLayout="vertical"
               dataSource={articlesData}

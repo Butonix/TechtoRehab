@@ -782,7 +782,7 @@ $High-Desktop: 2000px;
 
     .ant-list-item-action {
       @include mobile {
-        width: 100vw !important;
+        width: 100% !important;
       }
     }
   }

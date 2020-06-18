@@ -1,18 +1,17 @@
-import Wrapper from "components/global/wrapper";
-import { Typography, Row, Col } from "antd";
-
-const { Text } = Typography;
+import AdminComponent from "components/admin/adminWrapper";
 
 const Admin = () => {
   return (
-    <Wrapper admin>
-      <Row>
-        <Col>
-          <Text>Something</Text>
-        </Col>
-      </Row>
-    </Wrapper>
+    <AdminComponent>
+      <p>Children</p>
+    </AdminComponent>
   );
 };
 
 export default Admin;
+
+export const getServerSideProps = async () => {
+  return {
+    props: {},
+  };
+};

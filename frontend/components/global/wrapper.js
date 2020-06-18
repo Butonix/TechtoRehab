@@ -4,18 +4,12 @@ import { Menu, Divider, Typography, Layout, Drawer } from "antd";
 import Navbar from "./nav";
 import { useSwipeable, Swipeable } from "react-swipeable";
 
-// import interact from "interactjs";
-
 const wrapper = (props) => {
   const darkState = useStoreState((state) => state.site.dark);
   const setDark = useStoreActions((actions) => actions.site.setDark);
   const sidebar = useStoreState((state) => state.site.sidebar);
   const setSidebar = useStoreActions((actions) => actions.site.setSidebar);
-  var handlers = useSwipeable({
-    onSwipedRight: () => console.log("swiped"),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-  });
+
   useEffect(() => {
     /** Get html */
     var hotml = document.documentElement;
@@ -73,7 +67,7 @@ const wrapper = (props) => {
     // });
   });
 
-  const { Content, Sider } = Layout;
+  const { Content } = Layout;
 
   return (
     <Layout>
@@ -85,17 +79,14 @@ const wrapper = (props) => {
           closable={false}
           onClose={() => setSidebar(false)}
         >
-          <Menu defaultSelectedKeys={["1"]} className="">
+          <Menu defaultSelectedKeys={["1"]} className="mt-30">
             <Menu.Item key="1">item</Menu.Item>
           </Menu>
         </Drawer>
 
         <Layout className="mainLayout">
           <Content className="site-layout">
-            <Swipeable
-              onSwipedRight={(eventData) => setSidebar(true)}
-              key="jklm"
-            >
+            <Swipeable onSwipedRight={(eventData) => setSidebar(true)}>
               {props.children}
             </Swipeable>
           </Content>
