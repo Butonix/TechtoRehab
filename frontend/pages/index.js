@@ -198,22 +198,28 @@ export default function Home() {
       </Head>
       <Wrapper>
         <Row justify="center">
-          <Col className="pd-10" xs={0} sm={0} md={0} lg={0} xl={5} xxl={5}>
-            <Sider theme="light">
-              <Menu
-                theme="light"
-                mode="inline"
-                defaultSelectedKeys={["sidebar-1-1"]}
-                style={{ height: "100vh", position: "sticky", top: 10 }}
-              >
-                <Menu.Item key="sidebar-1-1">Option 1</Menu.Item>
-                <Menu.Item key="sidebar-1-2">Option 2</Menu.Item>
-                <Menu.Item key="sidebar-1-3">Option 3</Menu.Item>
-                <Menu.Item key="sidebar-1-4">Option 4</Menu.Item>
-              </Menu>
-            </Sider>
+          <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-x-20">
+            <Menu
+              theme="light"
+              mode="inline"
+              defaultSelectedKeys={["sidebar-1-1"]}
+              style={{ height: "100vh", position: "sticky", top: 10 }}
+            >
+              <Menu.Item key="sidebar-1-1">Option 1</Menu.Item>
+              <Menu.Item key="sidebar-1-2">Option 2</Menu.Item>
+              <Menu.Item key="sidebar-1-3">Option 3</Menu.Item>
+              <Menu.Item key="sidebar-1-4">Option 4</Menu.Item>
+            </Menu>
           </Col>
-          <Col xs={24} sm={24} md={22} lg={20} xl={14} xxl={12}>
+          <Col
+            xs={24}
+            sm={24}
+            md={22}
+            lg={20}
+            xl={14}
+            xxl={12}
+            className="mg-auto"
+          >
             <List
               itemLayout="vertical"
               dataSource={articlesData}
@@ -311,7 +317,6 @@ export default function Home() {
                           })}
                           <Text className="reaction-total" strong>
                             {getReactionTotal(item.reactions_to_articles) + " "}
-                            Total
                           </Text>
                         </Reactions>
                       </a>
@@ -434,17 +439,15 @@ export default function Home() {
               )}
             />
           </Col>
-          <Col className="pd-10" xs={0} sm={0} md={0} lg={0} xl={5} xxl={5}>
-            <Sider className="ml-auto">
-              <Menu
-                theme="light"
-                defaultSelectedKeys={["sidebar-2-1"]}
-                mode="inline"
-                style={{ height: "100vh", position: "sticky", top: 10 }}
-              >
-                <Menu.Item key="sidebar-2-1">Item 1</Menu.Item>
-              </Menu>
-            </Sider>
+          <Col className="pd-x-20" xs={0} sm={0} md={0} lg={0} xl={5} xxl={4}>
+            <Menu
+              theme="light"
+              defaultSelectedKeys={["sidebar-2-1"]}
+              mode="inline"
+              style={{ height: "100vh", position: "sticky", top: 10 }}
+            >
+              <Menu.Item key="sidebar-2-1">Item 1</Menu.Item>
+            </Menu>
           </Col>
         </Row>
       </Wrapper>
@@ -452,7 +455,7 @@ export default function Home() {
   );
 }
 
-export async function getStaticProps() {
+export const getServerSideProps = async () => {
   const apolloClient = initializeApollo();
   await apolloClient.query({
     query: query,
@@ -462,6 +465,5 @@ export async function getStaticProps() {
     props: {
       initialApolloState: apolloClient.cache.extract(),
     },
-    unstable_revalidate: 1,
   };
-}
+};
