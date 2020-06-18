@@ -218,7 +218,7 @@ export default function Home() {
             lg={20}
             xl={14}
             xxl={12}
-            className="mg-auto"
+            className="mg-x-auto"
           >
             <List
               itemLayout="vertical"
