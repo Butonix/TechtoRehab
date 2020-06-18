@@ -10,30 +10,28 @@ const AdminWrapper = (props) => {
     <Wrapper admin>
       <Row justify="center">
         <Col xs={0} sm={0} md={6} lg={6} xl={4} xxl={3}>
-          <Sider>
-            <Menu
-              theme="light"
-              defaultSelectedKeys={`${props.route}`}
-              mode="inline"
-              style={{ position: "sticky", height: "100vh", top: 10 }}
-            >
-              <Menu.Item key="home">
-                <Link href="/admin/home">
-                  <a>Dashboard</a>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="articles">
-                <Link href="/admin/articles">
-                  <a>Articles</a>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="users">
-                <Link href="/admin/users">
-                  <a>Users</a>
-                </Link>
-              </Menu.Item>
-            </Menu>
-          </Sider>
+          <Menu
+            theme="light"
+            defaultSelectedKeys={props.route ? `${props.route}` : ["home"]}
+            mode="inline"
+            style={{ position: "sticky", height: "100vh", top: 10 }}
+          >
+            <Menu.Item key="home">
+              <Link href="/admin">
+                <a>Dashboard</a>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="articles">
+              <Link href="/admin/articles">
+                <a>Articles</a>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="users">
+              <Link href="/admin/users">
+                <a>Users</a>
+              </Link>
+            </Menu.Item>
+          </Menu>
         </Col>
         <Col
           xs={24}
@@ -41,8 +39,8 @@ const AdminWrapper = (props) => {
           md={12}
           lg={12}
           xl={12}
-          xxl={12}
-          className="mg-x-auto"
+          xxl={10}
+          className="ml-20 mr-auto adminContainer"
         >
           {props.children}
         </Col>
