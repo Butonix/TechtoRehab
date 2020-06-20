@@ -1,13 +1,14 @@
 import Wrapper from "components/global/wrapper";
 import { Typography, Row, Col, Layout, Menu } from "antd";
 import Link from "next/link";
+import { useStoreActions } from "easy-peasy";
 
 const { Text } = Typography;
 const { Sider } = Layout;
 
 const AdminWrapper = (props) => {
   return (
-    <Wrapper admin>
+    <Wrapper admin route={props.route}>
       <Row justify="center">
         <Col xs={0} sm={0} md={6} lg={6} xl={4} xxl={3}>
           <Menu
@@ -36,10 +37,10 @@ const AdminWrapper = (props) => {
         <Col
           xs={24}
           sm={24}
-          md={12}
-          lg={12}
-          xl={12}
-          xxl={10}
+          md={17}
+          lg={16}
+          xl={19}
+          xxl={20}
           className="ml-20 mr-auto adminContainer"
         >
           {props.children}

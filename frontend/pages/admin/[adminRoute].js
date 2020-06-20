@@ -20,6 +20,7 @@ const AdminRoutePage = () => {
               Go Back
             </Button>,
           ]}
+          style={{ margin: "auto" }}
         ></Result>
       )}
     </AdminComponent>

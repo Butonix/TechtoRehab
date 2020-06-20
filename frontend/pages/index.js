@@ -46,6 +46,7 @@ const query = gql`
       users_to_articles {
         authors {
           username
+          profile_picture
         }
       }
       reactions_to_articles {
@@ -59,6 +60,7 @@ const query = gql`
 
         user {
           username
+          profile_picture
         }
       }
     }
@@ -341,8 +343,9 @@ export default function Home() {
                       {sheetData.length > 0 ? (
                         type == "Authors" ? (
                           sheetData.map((mapped) => (
-                            <Space className="mt-10">
-                              <Avatar />
+                            <Space className="mt-20">
+                              {console.log(mapped.authors.profile_picture)}
+                              <Avatar src={mapped.authors.profile_picture} />
                               <Text className="t-transform-cpt">
                                 {mapped.authors.username}
                               </Text>
@@ -398,7 +401,12 @@ export default function Home() {
                                                 index
                                               }
                                             >
-                                              <Avatar size={35} />
+                                              <Avatar
+                                                size={35}
+                                                src={
+                                                  mapped2.user.profile_picture
+                                                }
+                                              />
                                               <Text>
                                                 {mapped2.user.username}
                                               </Text>
