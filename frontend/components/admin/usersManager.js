@@ -12,7 +12,7 @@ import {
   Anchor,
 } from "antd";
 import gql from "graphql-tag";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import { useState, useEffect, useReducer, useCallback } from "react";
 
 const getUser = gql`
@@ -35,13 +35,66 @@ const checkUsero = gql`
   }
 `;
 
+const checkEmailo = gql`
+  query checkEmail($email: String!) {
+    users_aggregate(where: { email: { _eq: $email } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
+
+const addUsero = gql`
+  mutation addUser(
+    $uName: String!
+    $fName: String
+    $lName: String
+    $password: String!
+    $email: String!
+  ) {
+    insert_users_one(
+      object: {
+        first_name: $fName
+        last_name: $lName
+        username: $uName
+        email: $email
+        password: $password
+      }
+    ) {
+      id
+    }
+  }
+`;
+
 const { Text, Title, Paragraph } = Typography;
 
 const UsersManager = () => {
-  var [available, setAvailable] = useReducer((state, action) => {
-    state = action;
-    return state;
-  }, null);
+  const [form] = Form.useForm();
+  var [availableUserName, setAvailableUserName] = useReducer(
+    (state, action) => {
+      state = action;
+      return state;
+    },
+    null
+  );
+
+  var [availableUserEmail, setAvailableUserEmail] = useReducer(
+    (state, action) => {
+      state = action;
+      return state;
+    },
+    null
+  );
+
+  const [
+    addUser,
+    { loading: addUserLoading, data: addUserData, error: addUserError },
+  ] = useMutation(addUsero, {
+    onError: (err) => message.error("Error Adding User"),
+    onCompleted: (succ) => message.success("User Added Successfully"),
+    errorPolicy: "all",
+  });
 
   const [sendUser, { loading, data }] = useLazyQuery(getUser, {
     onError: () => message.error("Couldn't Fetch Users"),
@@ -50,32 +103,57 @@ const UsersManager = () => {
 
   const [
     checkUser,
-    { loading: checkUserLoading, data: checkUserData, refetch },
+    { loading: checkUserLoading, data: checkUserData },
   ] = useLazyQuery(checkUsero, {
     onError: () => message.error("Couldn't Fetch User"),
     errorPolicy: "all",
     fetchPolicy: "network-only",
   });
 
+  const [
+    checkEmail,
+    { loading: checkEmailLoading, data: checkEmailData },
+  ] = useLazyQuery(checkEmailo, {
+    onError: () => message.error("Couldn't Fetch Email"),
+    errorPolicy: "all",
+    fetchPolicy: "network-only",
+  });
+
   useEffect(() => {
-    console.log(checkUserData);
     if (checkUserData && checkUserData.users_aggregate) {
       if (checkUserData.users_aggregate.aggregate.count == 1) {
-        console.log(checkUserData);
-        return setAvailable("unavailable");
+        return setAvailableUserName("unavailable");
       }
       if (
         checkUserData.users_aggregate.aggregate.count == 0 ||
         checkUserData.users_aggregate.aggregate.count == undefined
       ) {
-        if (available == null) {
+        if (availableUserName == null) {
           return;
         } else {
-          return setAvailable("available");
+          return setAvailableUserName("available");
         }
       }
     }
   }, [checkUserData]);
+
+  useEffect(() => {
+    if (checkEmailData && checkEmailData.users_aggregate) {
+      if (checkEmailData.users_aggregate.aggregate.count == 1) {
+        return setAvailableUserEmail("unavailable");
+      }
+      if (
+        checkEmailData.users_aggregate.aggregate.count == 0 ||
+        checkEmailData.users_aggregate.aggregate.count == undefined
+      ) {
+        if (availableUserEmail == null) {
+          return;
+        } else {
+          return setAvailableUserEmail("available");
+        }
+      }
+    }
+  }, [checkEmailData]);
 
   return (
     <Row className="" justify="center">
@@ -89,11 +167,16 @@ const UsersManager = () => {
               style={{ width: "100%" }}
               placeholder="enter username of the user"
               onChange={(val) => {
-                var newValue = "%" + val.target.value + "%";
-                sendUser({ variables: { username: newValue } });
+                if (val.target.value.length >= 4) {
+                  var newValue = "%" + val.target.value + "%";
+                  sendUser({ variables: { username: newValue } });
+                } else {
+                  var newValue = val.target.value;
+                  sendUser({ variables: { username: newValue } });
+                }
               }}
             />
-            {data !== undefined ? (
+            {data !== undefined && data.users.length > 0 ? (
               <List
                 dataSource={data ? data.users : []}
                 className="mt-20"
@@ -139,7 +222,24 @@ const UsersManager = () => {
         <Title level={4} className="mt-30 mb-20">
           Create User
         </Title>
-        <Form layout="vertical" onFinish={() => alert("finished")}>
+        <Form
+          layout="vertical"
+          form={form}
+          onFinish={(values) => {
+            addUser({
+              variables: {
+                uName: values.uName,
+                fName: values.fName,
+                lName: values.lName,
+                password: values.password,
+                email: values.email,
+              },
+            });
+            form.resetFields();
+            setAvailableUserName(null);
+            setAvailableUserEmail(null);
+          }}
+        >
           <Form.Item label="First Name" name="fName">
             <Input style={{ width: "100%" }} placeholder="enter first name" />
           </Form.Item>
@@ -149,18 +249,17 @@ const UsersManager = () => {
           </Form.Item>
           <Form.Item
             label="Username"
-            name="Uname"
+            name="uName"
             hasFeedback
             validateStatus={
-              available == "validating"
+              availableUserName == "validating"
                 ? "validating"
-                : available == "available"
+                : availableUserName == "available"
                 ? "success"
-                : available == null
+                : availableUserName == null
                 ? null
                 : "error"
             }
-            shouldUpdate
             rules={[
               {
                 required: true,
@@ -168,19 +267,19 @@ const UsersManager = () => {
             ]}
             help={
               <Text
-                type={available == "unavailable" ? "danger" : null}
-                mark={available == "validating" ? true : false}
+                type={availableUserName == "unavailable" ? "danger" : null}
+                mark={availableUserName == "validating" ? true : false}
                 strong
                 className="lh-1"
                 style={{ position: "absolute", marginTop: -23, right: 35 }}
               >
-                {available == "validating"
+                {availableUserName == "validating"
                   ? "Checking Username"
-                  : available == "available"
+                  : availableUserName == "available"
                   ? "Username Available!"
-                  : available == "unavailable"
+                  : availableUserName == "unavailable"
                   ? "Username Already Exists"
-                  : available == null
+                  : availableUserName == null
                   ? null
                   : null}
               </Text>
@@ -191,24 +290,114 @@ const UsersManager = () => {
               placeholder="enter username"
               onChange={(vals) => {
                 if (vals.target.value.length > 0) {
-                  setAvailable("validating");
+                  setAvailableUserName("validating");
                   return checkUser({ variables: { user: vals.target.value } });
                 } else {
-                  setAvailable(null);
+                  setAvailableUserName(null);
+                }
+              }}
+              allowClear={true}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+            validateStatus={
+              availableUserEmail == "validating"
+                ? "validating"
+                : availableUserEmail == "available"
+                ? "success"
+                : availableUserEmail == null
+                ? null
+                : "error"
+            }
+            help={
+              <Text
+                type={availableUserEmail == "unavailable" ? "danger" : null}
+                mark={availableUserEmail == "validating" ? true : false}
+                strong
+                className="lh-1"
+                style={{ position: "absolute", marginTop: -23, right: 35 }}
+              >
+                {availableUserEmail == "validating"
+                  ? "Checking Email"
+                  : availableUserEmail == "available"
+                  ? "Email Is Valid"
+                  : availableUserEmail == "unavailable"
+                  ? "Email is Already Registered"
+                  : availableUserEmail == null
+                  ? null
+                  : null}
+              </Text>
+            }
+            hasFeedback
+          >
+            <Input
+              type="email"
+              onChange={(vals) => {
+                if (vals.target.value.length > 0) {
+                  setAvailableUserEmail("validating");
+                  return checkEmail({
+                    variables: { email: vals.target.value },
+                  });
+                } else {
+                  setAvailableUserEmail(null);
                 }
               }}
             />
           </Form.Item>
-          {/* {available == "available" ? ( */}
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+              },
+              {
+                pattern: /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$£¥%^&*])[\w!@#$£¥%^&*]{10,}$/,
+                message:
+                  "Password Must Be Atleast 10 Characters Long With One Digit, One Special Character, One Small and One Capital Letter",
+              },
+            ]}
+            label="Password"
+          >
+            <Input.Password autoComplete="new-password" />
+          </Form.Item>
+          <Form.Item
+            name="rPassword"
+            label="Repeat Password"
+            rules={[
+              {
+                required: true,
+              },
+              ({ getFieldValue }) => ({
+                validator(rule, val) {
+                  if (!val || val === getFieldValue("password")) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject("Passwords don't match");
+                },
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
           <Form.Item name="submit">
             <Button
               htmlType="submit"
-              disabled={available == "available" ? false : true}
+              disabled={
+                availableUserName && availableUserEmail == "available"
+                  ? false
+                  : true
+              }
             >
               Submit
             </Button>
           </Form.Item>
-          {/* ) : null} */}
         </Form>
       </Col>
     </Row>
