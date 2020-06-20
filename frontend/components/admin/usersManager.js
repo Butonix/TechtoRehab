@@ -58,12 +58,22 @@ const UsersManager = () => {
   });
 
   useEffect(() => {
+    console.log(checkUserData);
     if (checkUserData && checkUserData.users_aggregate) {
       if (checkUserData.users_aggregate.aggregate.count == 1) {
         console.log(checkUserData);
         return setAvailable("unavailable");
       }
-      return setAvailable("available");
+      if (
+        checkUserData.users_aggregate.aggregate.count == 0 ||
+        checkUserData.users_aggregate.aggregate.count == undefined
+      ) {
+        if (available == null) {
+          return;
+        } else {
+          return setAvailable("available");
+        }
+      }
     }
   }, [checkUserData]);
 
@@ -170,6 +180,8 @@ const UsersManager = () => {
                   ? "Username Available!"
                   : available == "unavailable"
                   ? "Username Already Exists"
+                  : available == null
+                  ? null
                   : null}
               </Text>
             }
@@ -178,8 +190,12 @@ const UsersManager = () => {
               style={{ width: "100%" }}
               placeholder="enter username"
               onChange={(vals) => {
-                setAvailable("validating");
-                return checkUser({ variables: { user: vals.target.value } });
+                if (vals.target.value.length > 0) {
+                  setAvailable("validating");
+                  return checkUser({ variables: { user: vals.target.value } });
+                } else {
+                  setAvailable(null);
+                }
               }}
             />
           </Form.Item>
