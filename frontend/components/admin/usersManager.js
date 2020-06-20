@@ -18,6 +18,7 @@ import { useState, useEffect, useReducer, useCallback } from "react";
 const getUser = gql`
   query MyQuery($username: String!) {
     users(where: { username: { _ilike: $username } }, limit: 10) {
+      id
       username
       profile_picture
       created_at
@@ -41,6 +42,14 @@ const checkEmailo = gql`
       aggregate {
         count
       }
+    }
+  }
+`;
+
+const deleteUsero = gql`
+  mutation MyMutation($id: uuid!) {
+    delete_users(where: { id: { _eq: $id } }) {
+      affected_rows
     }
   }
 `;
@@ -96,9 +105,23 @@ const UsersManager = () => {
     errorPolicy: "all",
   });
 
+  const [
+    deleteUser,
+    {
+      loading: deleteUserLoading,
+      data: deleteUserData,
+      error: deleteUserError,
+    },
+  ] = useMutation(deleteUsero, {
+    onError: (err) => message.error("Error Deleting User"),
+    onCompleted: (succ) => message.success("User Deleted Successfully"),
+    errorPolicy: "all",
+  });
+
   const [sendUser, { loading, data }] = useLazyQuery(getUser, {
     onError: () => message.error("Couldn't Fetch Users"),
     errorPolicy: "all",
+    pollInterval: 500,
   });
 
   const [
@@ -183,7 +206,13 @@ const UsersManager = () => {
                 renderItem={(item) => (
                   <List.Item
                     actions={[
-                      <Button type="primary" danger>
+                      <Button
+                        type="primary"
+                        danger
+                        onClick={() =>
+                          deleteUser({ variables: { id: item.id } })
+                        }
+                      >
                         Delete
                       </Button>,
                       <Button type="link" danger>
