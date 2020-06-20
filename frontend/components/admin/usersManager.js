@@ -139,7 +139,7 @@ const UsersManager = () => {
         <Title level={4} className="mt-30 mb-20">
           Create User
         </Title>
-        <Form layout="vertical">
+        <Form layout="vertical" onFinish={() => alert("finished")}>
           <Form.Item label="First Name" name="fName">
             <Input style={{ width: "100%" }} placeholder="enter first name" />
           </Form.Item>
@@ -199,11 +199,16 @@ const UsersManager = () => {
               }}
             />
           </Form.Item>
-          {available ? (
-            <Form.Item name="submit">
-              <Button htmlType="submit">Submit</Button>
-            </Form.Item>
-          ) : null}
+          {/* {available == "available" ? ( */}
+          <Form.Item name="submit">
+            <Button
+              htmlType="submit"
+              disabled={available == "available" ? false : true}
+            >
+              Submit
+            </Button>
+          </Form.Item>
+          {/* ) : null} */}
         </Form>
       </Col>
     </Row>
