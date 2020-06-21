@@ -29,13 +29,6 @@ $High-Desktop: 2000px;
   }
 }
 
-.mainLayout {
-  // @include mobile {
-  //   padding: 0px;
-  //   margin-left: 0;
-  // }
-}
-
 .site-layout {
   padding: 15px;
 }
@@ -752,6 +745,7 @@ $High-Desktop: 2000px;
   );
 
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -759,12 +753,14 @@ $High-Desktop: 2000px;
   background-color: #485461;
   background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .sun-gradient {
   background-image: linear-gradient(135deg, #ffe985 10%, #fa742b 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
