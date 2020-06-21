@@ -13,8 +13,8 @@ const store = createStore(storage);
 function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState);
   return (
-    <StoreProvider store={store}>
-      <ApolloProvider client={apolloClient}>
+    <ApolloProvider client={apolloClient}>
+      <StoreProvider store={store}>
         <DefaultSeo
           openGraph={{
             type: "website",
@@ -29,8 +29,8 @@ function MyApp({ Component, pageProps }) {
           }}
         />
         <Component {...pageProps} />
-      </ApolloProvider>
-    </StoreProvider>
+      </StoreProvider>
+    </ApolloProvider>
   );
 }
 export default MyApp;

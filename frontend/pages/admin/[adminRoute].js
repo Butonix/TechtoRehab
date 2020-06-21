@@ -1,6 +1,7 @@
 import { Result, Button } from "antd";
 import AdminComponent from "components/admin/adminWrapper";
 import UsersManager from "components/admin/usersManager";
+import ArticlesManager from "components/admin/articlesManager";
 import { useRouter } from "next/router";
 
 const AdminRoutePage = () => {
@@ -10,6 +11,8 @@ const AdminRoutePage = () => {
     <AdminComponent route={adminRoute}>
       {adminRoute === "users" ? (
         <UsersManager />
+      ) : adminRoute === "articles" ? (
+        <ArticlesManager />
       ) : (
         <Result
           status="404"

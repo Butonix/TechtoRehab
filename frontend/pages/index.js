@@ -200,11 +200,12 @@ export default function Home() {
       </Head>
       <Wrapper>
         <Row>
-          <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-x-20">
+          <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-r-20">
             <Menu
               theme="light"
-              mode="inline"
               defaultSelectedKeys={["sidebar-1-1"]}
+              className="mg-auto"
+              mode="vertical-left"
               style={{ height: "100vh", position: "sticky", top: 10 }}
             >
               <Menu.Item key="sidebar-1-1">Option 1</Menu.Item>
@@ -447,12 +448,16 @@ export default function Home() {
               )}
             />
           </Col>
-          <Col className="pd-x-20" xs={0} sm={0} md={0} lg={0} xl={5} xxl={4}>
+          <Col className="pd-l-20" xs={0} sm={0} md={0} lg={0} xl={5} xxl={4}>
             <Menu
               theme="light"
               defaultSelectedKeys={["sidebar-2-1"]}
-              mode="inline"
-              style={{ height: "100vh", position: "sticky", top: 10 }}
+              mode="vertical-right"
+              style={{
+                height: "100vh",
+                position: "sticky",
+                top: 10,
+              }}
             >
               <Menu.Item key="sidebar-2-1">Item 1</Menu.Item>
             </Menu>

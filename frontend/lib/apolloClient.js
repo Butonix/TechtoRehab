@@ -18,7 +18,6 @@ function createApolloClient() {
       //   errorPolicy: "all",
       // },
       query: {
-        fetchPolicy: "all",
         errorPolicy: "all",
       },
     },

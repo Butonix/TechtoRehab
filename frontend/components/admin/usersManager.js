@@ -22,6 +22,18 @@ const getUser = gql`
       username
       profile_picture
       created_at
+      blocked
+    }
+  }
+`;
+
+const userBlockTogglo = gql`
+  mutation BlockToggle($id: uuid, $blockedStatus: Boolean!) {
+    update_users(
+      where: { id: { _eq: $id } }
+      _set: { blocked: $blockedStatus }
+    ) {
+      affected_rows
     }
   }
 `;
@@ -118,10 +130,24 @@ const UsersManager = () => {
     errorPolicy: "all",
   });
 
+  const [
+    userBlockToggle,
+    {
+      loading: userBlockToggleLoading,
+      data: userBlockToggleData,
+      error: userBlockToggleError,
+    },
+  ] = useMutation(userBlockTogglo, {
+    onError: (err) => message.error("User Blocked Status Couldn't Be Updated"),
+    onCompleted: (succ) =>
+      message.success("User Blocked Status Updated Successfully"),
+    errorPolicy: "all",
+  });
+
   const [sendUser, { loading, data }] = useLazyQuery(getUser, {
     onError: () => message.error("Couldn't Fetch Users"),
     errorPolicy: "all",
-    pollInterval: 500,
+    pollInterval: 1000,
   });
 
   const [
@@ -179,7 +205,7 @@ const UsersManager = () => {
   }, [checkEmailData]);
 
   return (
-    <Row className="" justify="center">
+    <Row justify="center">
       <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={14} className="pd-10">
         <Title level={4} className="mt-20 mb-20">
           User Manager
@@ -199,7 +225,7 @@ const UsersManager = () => {
                 }
               }}
             />
-            {data !== undefined && data.users.length > 0 ? (
+            {data !== undefined ? (
               <List
                 dataSource={data ? data.users : []}
                 className="mt-20"
@@ -215,9 +241,31 @@ const UsersManager = () => {
                       >
                         Delete
                       </Button>,
-                      <Button type="link" danger>
-                        Block
-                      </Button>,
+                      item.blocked ? (
+                        <Button
+                          type="link"
+                          danger
+                          onClick={() =>
+                            userBlockToggle({
+                              variables: { id: item.id, blockedStatus: false },
+                            })
+                          }
+                        >
+                          UnBlock
+                        </Button>
+                      ) : (
+                        <Button
+                          type="link"
+                          danger
+                          onClick={() =>
+                            userBlockToggle({
+                              variables: { id: item.id, blockedStatus: true },
+                            })
+                          }
+                        >
+                          Block
+                        </Button>
+                      ),
                     ]}
                   >
                     <List.Item.Meta
