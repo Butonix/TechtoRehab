@@ -204,7 +204,7 @@ export default function Home() {
             <Menu
               theme="light"
               defaultSelectedKeys={["sidebar-1-1"]}
-              className="mg-auto"
+              className="mg-auto pd-y-20"
               mode="vertical-left"
               style={{ height: "100vh", position: "sticky", top: 10 }}
             >
@@ -225,6 +225,7 @@ export default function Home() {
           >
             <List
               itemLayout="vertical"
+              className="pd-y-20"
               dataSource={articlesData}
               renderItem={(item) => (
                 <List.Item
@@ -453,6 +454,7 @@ export default function Home() {
               theme="light"
               defaultSelectedKeys={["sidebar-2-1"]}
               mode="vertical-right"
+              className="pd-y-20"
               style={{
                 height: "100vh",
                 position: "sticky",

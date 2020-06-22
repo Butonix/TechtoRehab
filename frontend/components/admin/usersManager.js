@@ -6,13 +6,13 @@ import {
   Form,
   List,
   Button,
+  Result,
   Typography,
   Avatar,
   message,
-  Anchor,
 } from "antd";
 import gql from "graphql-tag";
-import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { useState, useEffect, useReducer, useCallback } from "react";
 
 const getUser = gql`
@@ -206,7 +206,7 @@ const UsersManager = () => {
 
   return (
     <Row justify="center">
-      <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={14} className="pd-10">
+      <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={14} className="pd-20">
         <Title level={4} className="mt-20 mb-20">
           User Manager
         </Title>

@@ -13,6 +13,7 @@ const AdminWrapper = (props) => {
         <Col xs={0} sm={0} md={6} lg={6} xl={4} xxl={3}>
           <Menu
             theme="light"
+            className="pd-y-20"
             defaultSelectedKeys={props.route ? `${props.route}` : ["home"]}
             mode="inline"
             style={{ position: "sticky", height: "100vh", top: 10 }}
@@ -41,7 +42,7 @@ const AdminWrapper = (props) => {
           lg={16}
           xl={19}
           xxl={20}
-          className="ml-20 mr-auto adminContainer"
+          className="ml-20 mr-auto adminContainer pd-20"
         >
           {props.children}
         </Col>
