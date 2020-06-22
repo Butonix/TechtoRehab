@@ -225,7 +225,7 @@ const UsersManager = () => {
                 }
               }}
             />
-            {data !== undefined ? (
+            {data && data.users.length > 0 ? (
               <List
                 dataSource={data ? data.users : []}
                 className="mt-20"
@@ -482,16 +482,3 @@ const UsersManager = () => {
 };
 
 export default UsersManager;
-
-// export const getServerSideProps = async () => {
-//   const apolloClient = initializeApollo();
-//   await apolloClient.query({
-//     query: getUser,
-//   });
-
-//   return {
-//     props: {
-//       initialApolloState: apolloClient.cache.extract(),
-//     },
-//   };
-// };

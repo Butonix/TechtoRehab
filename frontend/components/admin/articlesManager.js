@@ -5,15 +5,19 @@ import {
   Typography,
   Result,
   Input,
+  Card,
+  Avatar,
   Skeleton,
+  Drawer,
   List,
   Button,
   Space,
   message,
 } from "antd";
 import gql from "graphql-tag";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const getArticlesQuery = gql`
   query getArticles($offset: Int, $limit: Int) {
@@ -78,6 +82,20 @@ const searchArticlo = gql`
     }
   }
 `;
+
+const deleteArticleQuery = gql`
+  mutation deleteArticleMutation($id: uuid!) {
+    delete_reactions_to_articles(where: { article_id: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_articles_and_users(where: { article_id: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_articles(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;
 const { Text, Paragraph, Title } = Typography;
 
 const ArticlesManager = () => {
@@ -87,13 +105,15 @@ const ArticlesManager = () => {
     loading: getArticleLoading,
     error: getArticleError,
     fetchMore,
+    refetch,
     networkStatus,
   } = useQuery(getArticlesQuery, {
     variables: {
       offset: 0,
-      limit: 1,
+      limit: 5,
     },
     notifyOnNetworkStatusChange: true,
+    fetchPolicy: "cache-and-network",
   });
 
   const [
@@ -107,6 +127,16 @@ const ArticlesManager = () => {
     pollInterval: 100,
     onError: () => message.error("Error Searching Articles"),
   });
+
+  const [
+    deleteArticle,
+    { loading: deleteArticleLoading, data: deleteArticleData },
+  ] = useMutation(deleteArticleQuery, {
+    onCompleted: () => message.success("Successfully Deleted"),
+  });
+
+  const [articleManagerDrawer, setArticleManagerDrawer] = useState(false);
+  const [articleManagerDrawerData, setArticleManagerDrawerData] = useState({});
 
   return getArticleError ? (
     <Result
@@ -144,125 +174,199 @@ const ArticlesManager = () => {
           </Form.Item>
           {(searchArticlesData && searchArticlesData.articles.length > 0) ||
           getArticleData ? (
-            <List
-              itemLayout="vertical"
-              className="mt-20"
-              dataSource={
-                searchArticlesData && searchArticlesData.articles.length > 0
-                  ? searchArticlesData.articles
-                  : getArticleData
-                  ? getArticleData.articles
-                  : []
-              }
-              loadMore={
-                <div className="d-flex jc-center mt-20">
-                  <Button
-                    disabled={networkStatus == 3 ? true : false}
-                    onClick={() =>
-                      fetchMore({
-                        variables: { offset: getArticleData.articles.length },
-                        updateQuery: (prev, { fetchMoreResult }) => {
-                          if (!fetchMoreResult) {
-                            return prev;
-                          }
-                          return Object.assign({}, prev, {
-                            articles: [
-                              ...prev.articles,
-                              ...fetchMoreResult.articles,
-                            ],
-                          });
-                        },
-                      })
-                    }
-                  >
-                    {networkStatus == 3 ? "Loading..." : "Show More"}
-                  </Button>
-                </div>
-              }
-              renderItem={(item) =>
-                networkStatus == 3 ? (
-                  <Skeleton className="mt-30" avatar paragraph={2} title />
-                ) : (
-                  <List.Item
-                    extra={
-                      <img
-                        className="o-fit-cover br-5"
-                        src={item.featured_image}
-                        width={250}
-                      />
-                    }
-                    key={item.id}
-                  >
-                    <List.Item.Meta
-                      title={
-                        <a
-                          href={
-                            process.env.NEXT_PUBLIC_WEB_ADDRESS +
-                            "/" +
-                            item.article_category.title +
-                            "/" +
-                            (item.article_topic !== null
-                              ? item.article_topic.title + "/"
-                              : "") +
-                            item.slug
-                          }
-                        >
-                          <Paragraph ellipsis={{ rows: 2 }}>
-                            {item.title}
-                          </Paragraph>
-                        </a>
-                      }
-                      description={
-                        <Paragraph ellipsis={{ rows: 2 }}>
-                          {item.excerpt}
-                        </Paragraph>
-                      }
-                    />
-                    <Space>
-                      {item.users_to_articles.map((mapped, index) => {
-                        if (
-                          item.users_to_articles.length > 1 &&
-                          index + 1 < item.users_to_articles.length
-                        ) {
-                          return (
-                            <div key={item.id}>
-                              <Text className="t-transform-cpt">
-                                {mapped.authors.username}
-                              </Text>
-                              <i className="ri-more-fill ri-lg va-minus-6 mg-x-10"></i>
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <Text className="t-transform-cpt" key={item.id}>
-                              {mapped.authors.username}
-                            </Text>
-                          );
-                        }
-                      })}
-                    </Space>
-                    <i className="ri-more-fill ri-lg va-minus-6 mg-x-10"></i>
-
-                    <Button
-                      danger
-                      type="primary"
-                      icon={
-                        <i
-                          className="ri-delete-bin-7-line ri-lg va-minus-2"
-                          style={{ color: "white" }}
-                        ></i>
-                      }
-                      className="ml-10"
-                    />
-                  </List.Item>
-                )
-              }
-            />
-          ) : (
             <>
-              <Skeleton className="mt-30" avatar paragraph={1} title />
-              <Skeleton className="mt-30" avatar paragraph={1} title />
+              <List
+                className="mt-20"
+                dataSource={
+                  searchArticlesData && searchArticlesData.articles.length > 0
+                    ? searchArticlesData.articles
+                    : getArticleData
+                    ? getArticleData.articles
+                    : []
+                }
+                loadMore={
+                  <div className="d-flex jc-center mt-20">
+                    <Button
+                      disabled={
+                        networkStatus == 3 ||
+                        getArticleData.articles.length >=
+                          getArticleData.articles_aggregate.aggregate.count
+                          ? true
+                          : false
+                      }
+                      onClick={() =>
+                        fetchMore({
+                          variables: { offset: getArticleData.articles.length },
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) {
+                              return prev;
+                            }
+                            return Object.assign({}, prev, {
+                              articles: [
+                                ...prev.articles,
+                                ...fetchMoreResult.articles,
+                              ],
+                            });
+                          },
+                        })
+                      }
+                    >
+                      {networkStatus == 3 ? "Loading..." : "Show More"}
+                    </Button>
+                  </div>
+                }
+                renderItem={(item) =>
+                  networkStatus == 3 ? (
+                    <Skeleton className="mt-30" avatar paragraph={2} title />
+                  ) : (
+                    <List.Item key={item.id}>
+                      <List.Item.Meta
+                        title={
+                          <a
+                            href={
+                              process.env.NEXT_PUBLIC_WEB_ADDRESS +
+                              "/" +
+                              item.article_category.title +
+                              "/" +
+                              (item.article_topic !== null
+                                ? item.article_topic.title + "/"
+                                : "") +
+                              item.slug
+                            }
+                          >
+                            <Paragraph ellipsis={{ rows: 2 }}>
+                              {item.title}
+                            </Paragraph>
+                          </a>
+                        }
+                        description={
+                          <Paragraph ellipsis={{ rows: 2 }}>
+                            {item.excerpt}
+                          </Paragraph>
+                        }
+                        avatar={<Avatar size={45} src={item.featured_image} />}
+                      />
+                      <i className="ri-more-fill ri-lg va-minus-6 mg-x-10"></i>
+                      <Button
+                        type="link"
+                        icon={
+                          <i
+                            className="ri-share-box-line ri-lg va-minus-2 fs-20"
+                            style={{
+                              color: "inherit",
+                            }}
+                          ></i>
+                        }
+                        className="ml-10"
+                        onClick={() => {
+                          setArticleManagerDrawerData(item);
+                          setArticleManagerDrawer(true);
+                        }}
+                      />
+                    </List.Item>
+                  )
+                }
+              />
+              <Drawer
+                visible={articleManagerDrawer}
+                maskClosable
+                onClose={() => setArticleManagerDrawer(false)}
+                closable={false}
+                placement="right"
+                width="300px"
+                bodyStyle={{ padding: 0 }}
+              >
+                <Card
+                  cover={
+                    <img
+                      src={articleManagerDrawerData.featured_image}
+                      className="o-fit-cover"
+                      width="100%"
+                    />
+                  }
+                  style={{ marginTop: -1 }}
+                >
+                  {articleManagerDrawerData ? (
+                    <>
+                      <Paragraph
+                        ellipsis={{ rows: 3 }}
+                        className="fs-16 t-transform-cpt"
+                        strong
+                      >
+                        {articleManagerDrawerData.title}
+                      </Paragraph>
+
+                      <Paragraph
+                        ellipsis={{ rows: 2 }}
+                        className="mt-20 t-transform-cpt"
+                      >
+                        {articleManagerDrawerData.excerpt}
+                      </Paragraph>
+                      <div>
+                        <Space className="mt-20">
+                          {articleManagerDrawerData.users_to_articles
+                            ? articleManagerDrawerData.users_to_articles.map(
+                                (mapped, index) => {
+                                  if (
+                                    articleManagerDrawerData.users_to_articles
+                                      .length > 1 &&
+                                    index + 1 <
+                                      articleManagerDrawerData.users_to_articles
+                                        .length
+                                  ) {
+                                    return (
+                                      <div key={articleManagerDrawerData.id}>
+                                        <Avatar
+                                          src={mapped.profile_picture}
+                                          className="mr-10"
+                                        />
+                                        <Text className="t-transform-cpt">
+                                          {mapped.authors.username}
+                                        </Text>
+                                        <i className="ri-more-fill ri-lg va-minus-6 mg-x-10"></i>
+                                      </div>
+                                    );
+                                  } else {
+                                    return (
+                                      <>
+                                        <Avatar src={mapped.profile_picture} />
+                                        <Text
+                                          className="t-transform-cpt"
+                                          key={articleManagerDrawerData.id}
+                                        >
+                                          {mapped.authors.username}
+                                        </Text>
+                                      </>
+                                    );
+                                  }
+                                }
+                              )
+                            : null}
+                        </Space>
+                      </div>
+                      <Space className="mt-20">
+                        <Button
+                          danger
+                          onClick={() => {
+                            setArticleManagerDrawer(false);
+                            deleteArticle({
+                              variables: { id: articleManagerDrawerData.id },
+                            });
+                            setArticleManagerDrawerData({});
+                            refetch();
+                          }}
+                        >
+                          Delete
+                        </Button>
+                        <Button>View Article</Button>
+                      </Space>
+                    </>
+                  ) : null}
+                </Card>
+              </Drawer>
             </>
+          ) : (
+            <Skeleton className="mt-30" avatar paragraph={1} title />
           )}
         </Form>
       </Col>
