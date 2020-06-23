@@ -10,6 +10,7 @@ import {
   Result,
   Menu,
   Avatar,
+  Skeleton,
   Space,
   Typography,
   Modal,
@@ -25,10 +26,11 @@ import { initializeApollo } from "lib/apolloClient";
 import Head from "next/head";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { useRouter } from "next/router";
+import InfiniteScroll from "react-infinite-scroller";
 
 const query = gql`
-  query MyQuery {
-    articles(order_by: { updated_at: desc }) {
+  query MyQuery($offset: Int, $limit: Int) {
+    articles(offset: $offset, limit: $limit) {
       id
       title
       excerpt
@@ -75,6 +77,12 @@ const query = gql`
       gradient
       color
       type
+    }
+
+    articles_aggregate {
+      aggregate {
+        count
+      }
     }
   }
 `;
@@ -130,9 +138,10 @@ const Reactions = styled.div`
 `;
 
 export default function Home() {
-  const { loading, error, data } = useQuery(query, {
-    onError: () => message.error("An Error Occurred. Try Again Later"),
-    errorPolicy: "all",
+  const { loading, error, data, fetchMore } = useQuery(query, {
+    variables: { offset: 0, limit: 5 },
+    // notifyOnNetworkStatusChange: true,
+    // fetchPolicy: "cache-and-network",
   });
   const router = useRouter();
   const [updateBookmark] = useMutation(updateBookmarkQuery, {
@@ -140,7 +149,7 @@ export default function Home() {
     onError: () => message.error("An Error Occured. Try Again Later"),
     errorPolicy: "all",
   });
-  if (loading) return <div>Loading...</div>;
+  // if (loading) return <div>Loading...</div>;
   if (error)
     return (
       <Result
@@ -162,12 +171,13 @@ export default function Home() {
   var settings = data.site_settings;
   var articles = data.articles;
   var reactions = data.reactions;
+  var total = data.articles_aggregate.aggregate.count;
 
   const sidebar = useStoreState((state) => state.site.sidebar);
   const [drawer, setDrawer] = useState(false);
   const [type, setType] = useState("");
   const [sheetData, setSheetData] = useState([]);
-  const [articlesData, setArticlesData] = useState(articles);
+  // const [articlesData, setArticlesData] = useState(articles);
 
   const getReactionCount = (name, array) => {
     var newarr = array.filter((filtered) => filtered.reaction.name == name);
@@ -221,233 +231,280 @@ export default function Home() {
             lg={20}
             xl={14}
             xxl={12}
-            className="mg-x-auto"
+            className="mg-x-auto pd-x-20"
           >
-            <List
-              itemLayout="vertical"
-              className="pd-y-20"
-              dataSource={articlesData}
-              renderItem={(item) => (
-                <List.Item
-                  key={item.id}
-                  className="article-list-item"
-                  extra={
-                    <img
-                      width={272}
-                      height={160}
-                      className="o-fit-cover"
-                      alt="logo"
-                      src={item.featured_image}
-                      style={{ borderRadius: 5 }}
-                    />
-                  }
-                  actions={[
-                    <a
-                      onClick={() => {
-                        return (
-                          setType("Authors"),
-                          setDrawer(true),
-                          setSheetData(item.users_to_articles)
-                        );
-                      }}
-                    >
-                      <Text
-                        className="t-transform-cpt fs-12 article-list-item-author"
-                        style={{
-                          border: "1px solid #cecece",
-                          borderRadius: 25,
-                          padding: "5px 10px",
-                        }}
-                      >
-                        {item.users_to_articles.length > 1
-                          ? " By " +
-                            item.users_to_articles[0].authors.username +
-                            " + " +
-                            (item.users_to_articles.length - 1) +
-                            " More "
-                          : " By " + item.users_to_articles[0].authors.username}
-                      </Text>
-                    </a>,
-
-                    <Tooltip
-                      title={
-                        item.bookmark
-                          ? "Remove From Bookmarks"
-                          : "Bookmark This"
-                      }
-                    >
-                      <a>
-                        <i
-                          className={
-                            item.bookmark
-                              ? "ri-bookmark-fill fs-20 " + "ri-lg va-minus-4"
-                              : "ri-bookmark-line fs-20 " + "ri-lg va-minus-4"
-                          }
-                          onClick={() => addBookmark(item)}
-                          style={{ color: "rgba(86, 85, 85, 0.65)" }}
-                        ></i>
-                      </a>
-                    </Tooltip>,
-                    item.reactions_to_articles.length > 0 ? (
+            <InfiniteScroll
+              initialLoad={false}
+              pageStart={0}
+              hasMore={
+                articles.length === data.articles_aggregate.aggregate.count
+                  ? false
+                  : true
+              }
+              loadMore={() =>
+                fetchMore({
+                  variables: {
+                    offset: data.articles.length,
+                  },
+                  updateQuery: (previous, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) return previous;
+                    return Object.assign({}, previous, {
+                      articles: [
+                        ...previous.articles,
+                        ...fetchMoreResult.articles,
+                      ],
+                    });
+                  },
+                })
+              }
+              loader={
+                <>
+                  <Skeleton
+                    className="mt-20"
+                    avatar
+                    title
+                    paragraph={{ rows: 1 }}
+                    active
+                  />
+                  <Skeleton
+                    className="mt-20"
+                    avatar
+                    title
+                    paragraph={{ rows: 1 }}
+                    active
+                  />
+                </>
+              }
+              useWindow={true}
+            >
+              <List
+                itemLayout="vertical"
+                className="pd-y-20"
+                dataSource={articles}
+                renderItem={(item) => (
+                  <List.Item
+                    key={item.id}
+                    className="article-list-item"
+                    extra={
+                      <img
+                        width={272}
+                        height={160}
+                        className="o-fit-cover"
+                        alt="logo"
+                        src={item.featured_image}
+                        style={{ borderRadius: 5 }}
+                      />
+                    }
+                    actions={[
                       <a
                         onClick={() => {
                           return (
-                            setType("Reactions"),
+                            setType("Authors"),
                             setDrawer(true),
-                            setSheetData(item.reactions_to_articles)
+                            setSheetData(item.users_to_articles)
                           );
                         }}
                       >
-                        <Reactions>
-                          {reactions.map((mapped) => {
-                            item.reactions_to_articles.map((mapped2) => {
-                              if (mapped2.reaction.name == mapped.name) {
-                                return;
-                              }
-                            });
-                            return (
-                              <div
-                                className="reaction-holder"
-                                key={mapped.name}
-                              >
-                                <div className="reaction">
-                                  <i
-                                    className={`${mapped.code} va-minus-4`}
-                                    style={mapped.gradient}
-                                  ></i>
-                                </div>
-                              </div>
-                            );
-                          })}
-                          <Text className="reaction-total" strong>
-                            {getReactionTotal(item.reactions_to_articles) + " "}
-                          </Text>
-                        </Reactions>
-                      </a>
-                    ) : null,
-                  ]}
-                >
-                  <Modal
-                    title={type}
-                    visible={drawer}
-                    bodyStyle={{
-                      padding: "15px 15px",
-                      paddingBottom: "45px",
-                      paddingTop: 5,
-                      height: 300,
-                      overflowY: "auto",
-                    }}
-                    closable
-                    onCancel={() => setDrawer(false)}
-                    footer={null}
-                  >
-                    <div className="d-flex flex-column">
-                      {sheetData.length > 0 ? (
-                        type == "Authors" ? (
-                          sheetData.map((mapped) => (
-                            <Space className="mt-20">
-                              {console.log(mapped.authors.profile_picture)}
-                              <Avatar src={mapped.authors.profile_picture} />
-                              <Text className="t-transform-cpt">
-                                {mapped.authors.username}
-                              </Text>
-                            </Space>
-                          ))
-                        ) : (
-                          <>
-                            <Tabs>
-                              {reactions.map((mapped) => {
-                                sheetData.map((mapped2) => {
-                                  if (mapped2.reaction.name == mapped.name) {
-                                    return;
-                                  }
-                                });
-                                return (
-                                  <Tabs.TabPane
-                                    key={mapped.name}
-                                    tab={
-                                      <Reactions>
-                                        <div className="reaction-holder">
-                                          <div className="reaction">
-                                            <i
-                                              className={`${mapped.code} va-minus-4`}
-                                              style={mapped.gradient}
-                                            ></i>
-                                          </div>
-                                          <div className="reaction-count">
-                                            <Text className="lh-2-5">
-                                              {getReactionCount(
-                                                mapped.name,
-                                                sheetData
-                                              )}
-                                            </Text>
-                                          </div>
-                                        </div>
-                                        <Text className="reaction-name">
-                                          {mapped.name}
-                                        </Text>
-                                      </Reactions>
-                                    }
-                                  >
-                                    <div className="d-flex flex-column">
-                                      {sheetData.map((mapped2, index) => {
-                                        if (
-                                          mapped2.reaction.name == mapped.name
-                                        ) {
-                                          return (
-                                            <Space
-                                              className="mt-15"
-                                              key={
-                                                mapped2.reaction.name +
-                                                mapped.name +
-                                                index
-                                              }
-                                            >
-                                              <Avatar
-                                                size={35}
-                                                src={
-                                                  mapped2.user.profile_picture
-                                                }
-                                              />
-                                              <Text>
-                                                {mapped2.user.username}
-                                              </Text>
-                                            </Space>
-                                          );
-                                        }
-                                      })}
-                                    </div>
-                                  </Tabs.TabPane>
-                                );
-                              })}
-                            </Tabs>
-                          </>
-                        )
-                      ) : (
-                        <p>Nulled</p>
-                      )}
-                    </div>
-                  </Modal>
-                  <List.Item.Meta
-                    title={
-                      <a>
-                        <Paragraph
-                          ellipsis={{ rows: 2 }}
-                          className="mr-20 article-list-item-title"
+                        <Text
+                          className="t-transform-cpt fs-12 article-list-item-author"
+                          style={{
+                            border: "1px solid #cecece",
+                            borderRadius: 25,
+                            padding: "5px 10px",
+                          }}
                         >
-                          {item.title}
+                          {item.users_to_articles.length > 1
+                            ? " By " +
+                              item.users_to_articles[0].authors.username +
+                              " + " +
+                              (item.users_to_articles.length - 1) +
+                              " More "
+                            : " By " +
+                              item.users_to_articles[0].authors.username}
+                        </Text>
+                      </a>,
+
+                      <Tooltip
+                        title={
+                          item.bookmark
+                            ? "Remove From Bookmarks"
+                            : "Bookmark This"
+                        }
+                      >
+                        <a>
+                          <i
+                            className={
+                              item.bookmark
+                                ? "ri-bookmark-fill fs-20 " + "ri-lg va-minus-6"
+                                : "ri-bookmark-line fs-20 " + "ri-lg va-minus-6"
+                            }
+                            onClick={() => addBookmark(item)}
+                            style={{ color: "rgba(86, 85, 85, 0.65)" }}
+                          ></i>
+                        </a>
+                      </Tooltip>,
+                      item.reactions_to_articles.length > 0 ? (
+                        <a
+                          onClick={() => {
+                            return (
+                              setType("Reactions"),
+                              setDrawer(true),
+                              setSheetData(item.reactions_to_articles)
+                            );
+                          }}
+                        >
+                          <Reactions>
+                            {reactions.map((mapped) => {
+                              item.reactions_to_articles.map((mapped2) => {
+                                if (mapped2.reaction.name == mapped.name) {
+                                  return;
+                                }
+                              });
+                              return (
+                                <div
+                                  className="reaction-holder"
+                                  key={mapped.name}
+                                >
+                                  <div className="reaction">
+                                    <i
+                                      className={`${mapped.code} va-minus-4`}
+                                      style={mapped.gradient}
+                                    ></i>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                            <Text className="reaction-total" strong>
+                              {getReactionTotal(item.reactions_to_articles) +
+                                " "}
+                            </Text>
+                          </Reactions>
+                        </a>
+                      ) : null,
+                    ]}
+                  >
+                    <Modal
+                      title={type}
+                      visible={drawer}
+                      bodyStyle={{
+                        padding: "15px 15px",
+                        paddingBottom: "45px",
+                        paddingTop: 5,
+                        height: 300,
+                        overflowY: "auto",
+                      }}
+                      closable
+                      onCancel={() => setDrawer(false)}
+                      footer={null}
+                    >
+                      <div className="d-flex flex-column">
+                        {sheetData.length > 0 ? (
+                          type == "Authors" ? (
+                            sheetData.map((mapped) => (
+                              <Space className="mt-20">
+                                {console.log(mapped.authors.profile_picture)}
+                                <Avatar src={mapped.authors.profile_picture} />
+                                <Text className="t-transform-cpt">
+                                  {mapped.authors.username}
+                                </Text>
+                              </Space>
+                            ))
+                          ) : (
+                            <>
+                              <Tabs>
+                                {reactions.map((mapped) => {
+                                  sheetData.map((mapped2) => {
+                                    if (mapped2.reaction.name == mapped.name) {
+                                      return;
+                                    }
+                                  });
+                                  return (
+                                    <Tabs.TabPane
+                                      key={mapped.name}
+                                      tab={
+                                        <Reactions>
+                                          <div className="reaction-holder">
+                                            <div className="reaction">
+                                              <i
+                                                className={`${mapped.code} va-minus-4`}
+                                                style={mapped.gradient}
+                                              ></i>
+                                            </div>
+                                            <div className="reaction-count">
+                                              <Text className="lh-2-5">
+                                                {getReactionCount(
+                                                  mapped.name,
+                                                  sheetData
+                                                )}
+                                              </Text>
+                                            </div>
+                                          </div>
+                                          <Text className="reaction-name">
+                                            {mapped.name}
+                                          </Text>
+                                        </Reactions>
+                                      }
+                                    >
+                                      <div className="d-flex flex-column">
+                                        {sheetData.map((mapped2, index) => {
+                                          if (
+                                            mapped2.reaction.name == mapped.name
+                                          ) {
+                                            return (
+                                              <Space
+                                                className="mt-15"
+                                                key={
+                                                  mapped2.reaction.name +
+                                                  mapped.name +
+                                                  index
+                                                }
+                                              >
+                                                <Avatar
+                                                  size={35}
+                                                  src={
+                                                    mapped2.user.profile_picture
+                                                  }
+                                                />
+                                                <Text>
+                                                  {mapped2.user.username}
+                                                </Text>
+                                              </Space>
+                                            );
+                                          }
+                                        })}
+                                      </div>
+                                    </Tabs.TabPane>
+                                  );
+                                })}
+                              </Tabs>
+                            </>
+                          )
+                        ) : (
+                          <p>Nulled</p>
+                        )}
+                      </div>
+                    </Modal>
+                    <List.Item.Meta
+                      title={
+                        <a>
+                          <Paragraph
+                            ellipsis={{ rows: 2 }}
+                            className="mr-20 article-list-item-title"
+                          >
+                            {item.title}
+                          </Paragraph>
+                        </a>
+                      }
+                      description={
+                        <Paragraph className="mr-20" ellipsis={{ rows: 2 }}>
+                          {item.excerpt}
                         </Paragraph>
-                      </a>
-                    }
-                    description={
-                      <Paragraph className="mr-20" ellipsis={{ rows: 2 }}>
-                        {item.excerpt}
-                      </Paragraph>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            </InfiniteScroll>
           </Col>
           <Col className="pd-l-20" xs={0} sm={0} md={0} lg={0} xl={5} xxl={4}>
             <Menu
@@ -474,6 +531,10 @@ export const getServerSideProps = async () => {
   const apolloClient = initializeApollo();
   await apolloClient.query({
     query: query,
+    variables: {
+      offset: 0,
+      limit: 5,
+    },
   });
 
   return {

@@ -196,17 +196,28 @@ const ArticlesManager = () => {
                       }
                       onClick={() =>
                         fetchMore({
-                          variables: { offset: getArticleData.articles.length },
+                          variables: {
+                            offset: getArticleData.articles.length,
+                            limit: 5,
+                          },
                           updateQuery: (prev, { fetchMoreResult }) => {
                             if (!fetchMoreResult) {
+                              console.log("not");
                               return prev;
                             }
-                            return Object.assign({}, prev, {
+                            var abc = Object.assign({}, prev, {
                               articles: [
                                 ...prev.articles,
                                 ...fetchMoreResult.articles,
                               ],
                             });
+                            // return Object.assign({}, prev, {
+                            //   articles: [
+                            //     ...prev.articles,
+                            //     ...fetchMoreResult.articles,
+                            //   ],
+                            // });
+                            console.log(abc);
                           },
                         })
                       }
