@@ -58,6 +58,17 @@ $High-Desktop: 2000px;
   vertical-align: -6px !important;
 }
 
+.va-middle {
+  vertical-align: middle !important;
+}
+.va-top {
+  vertical-align: top !important;
+}
+
+.va-bottom {
+  vertical-align: bottom !important;
+}
+
 //
 //
 //
@@ -853,4 +864,11 @@ $High-Desktop: 2000px;
   @include mobile {
     margin-left: 0 !important;
   }
+}
+
+div[id^="tiny-react_"] {
+  padding: 10px;
+  border: 1px solid #cecece;
+  border-radius: 5px;
+  min-height: 900px;
 }
