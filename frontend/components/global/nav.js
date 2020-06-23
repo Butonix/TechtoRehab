@@ -85,7 +85,9 @@ const Navigation = () => {
         </a>
       </div>
       <div className="navigation">
-        <Button type="text">Sign in</Button>
+        <Button type="primary" shape="round">
+          Create
+        </Button>
       </div>
       <div className="navigation">
         <Button type="text">Sign out</Button>

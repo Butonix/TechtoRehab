@@ -5,6 +5,8 @@ import {
   Button,
   Tooltip,
   message,
+  Affix,
+  Select,
   Tabs,
   Layout,
   Result,
@@ -19,137 +21,60 @@ import Wrapper from "components/global/wrapper";
 import styled from "styled-components";
 import { useState } from "react";
 import obj from "../config.json";
-import { breakPoints } from "components/global/responsive";
-import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { initializeApollo } from "lib/apolloClient";
 import Head from "next/head";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroller";
+import {
+  getArticleQuery,
+  getBookmarkQuery,
+  updateBookmarkQuery,
+  getArticlesQuery,
+} from "components/home/queries";
+import { Reactions } from "components/home/sub/reactions-holder";
+//
+//
+//
+//
+//
+//
+//
 
-const query = gql`
-  query MyQuery($offset: Int, $limit: Int) {
-    articles(offset: $offset, limit: $limit) {
-      id
-      title
-      excerpt
-      content
-      featured_image
-      bookmark
-      article_category {
-        title
-        slug
-      }
-      article_topic {
-        title
-        slug
-      }
-      users_to_articles {
-        authors {
-          username
-          profile_picture
-        }
-      }
-      reactions_to_articles {
-        reaction {
-          name
-          color
-          code
-          gradient
-          type
-        }
-
-        user {
-          username
-          profile_picture
-        }
-      }
-    }
-    site_settings {
-      setting_name
-      setting_value
-    }
-
-    reactions {
-      name
-      code
-      gradient
-      color
-      type
-    }
-
-    articles_aggregate {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
-
-const updateBookmarkQuery = gql`
-  mutation update($id: uuid!, $bookmark: Boolean!) {
-    update_articles(
-      where: { id: { _eq: $id } }
-      _set: { bookmark: $bookmark }
-    ) {
-      affected_rows
-    }
-  }
-`;
-
-const { Sider } = Layout;
-const { Text, Paragraph } = Typography;
-
-const Reactions = styled.div`
-  display: flex;
-
-  .reaction-holder {
-    display: flex;
-    margin: 0px 10px;
-    .reaction {
-      font-size: 20px;
-      i {
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      margin-right: -24px;
-    }
-    .reaction-count {
-      margin-left: 30px;
-      @media ${breakPoints.mobile} {
-        display: none;
-      }
-    }
-  }
-
-  .reaction-total {
-    line-height: 2.5;
-    margin-left: 25px;
-  }
-
-  .reaction-name {
-    line-height: 2.5;
-
-    @media ${breakPoints.mobile} {
-      margin-left: 20px;
-    }
-  }
-`;
-
+const { Text, Paragraph, Title } = Typography;
+//
+//
+//
+//
+//
+//
+//
 export default function Home() {
-  const { loading, error, data, fetchMore } = useQuery(query, {
+  //
+  //
+  //
+  const { loading, error, data, fetchMore } = useQuery(getArticlesQuery, {
     variables: { offset: 0, limit: 5 },
-    // notifyOnNetworkStatusChange: true,
-    // fetchPolicy: "cache-and-network",
   });
+  //
+  //
+  //
   const router = useRouter();
+  //
+  //
+  //
   const [updateBookmark] = useMutation(updateBookmarkQuery, {
     onCompleted: () => message.success("Bookmarks Updated"),
     onError: () => message.error("An Error Occured. Try Again Later"),
     errorPolicy: "all",
   });
-  // if (loading) return <div>Loading...</div>;
+  //
+  //
+  //
+  //
+  //
+  //
   if (error)
     return (
       <Result
@@ -168,16 +93,33 @@ export default function Home() {
       />
     );
 
+  //
+  //
+  //
+  //
+  //
+
   var settings = data.site_settings;
   var articles = data.articles;
   var reactions = data.reactions;
   var total = data.articles_aggregate.aggregate.count;
 
+  //
+  //
+  //
+  //
+  //
+
   const sidebar = useStoreState((state) => state.site.sidebar);
   const [drawer, setDrawer] = useState(false);
   const [type, setType] = useState("");
   const [sheetData, setSheetData] = useState([]);
-  // const [articlesData, setArticlesData] = useState(articles);
+
+  //
+  //
+  //
+  //
+  //
 
   const getReactionCount = (name, array) => {
     var newarr = array.filter((filtered) => filtered.reaction.name == name);
@@ -202,6 +144,12 @@ export default function Home() {
       variables: { id: objecto.id, bookmark: !objecto.bookmark },
     });
   };
+
+  //
+  //
+  //
+  //
+  //
 
   return (
     <>
@@ -279,7 +227,23 @@ export default function Home() {
             >
               <List
                 itemLayout="vertical"
-                className="pd-y-20"
+                header={
+                  <div className="wd-100-pc d-flex">
+                    <Title level={4} className="mt-10">
+                      News Feed
+                    </Title>
+                    <Space className="ml-auto">
+                      <Text>Filter by:</Text>
+                      <Select
+                        defaultValue={["1"]}
+                        dropdownMatchSelectWidth={100}
+                      >
+                        <Select.Option key="1">Latest</Select.Option>
+                        <Select.Option key="2">Trending</Select.Option>
+                      </Select>
+                    </Space>
+                  </div>
+                }
                 dataSource={articles}
                 renderItem={(item) => (
                   <List.Item
@@ -383,110 +347,20 @@ export default function Home() {
                       ) : null,
                     ]}
                   >
-                    <Modal
-                      title={type}
-                      visible={drawer}
-                      bodyStyle={{
-                        padding: "15px 15px",
-                        paddingBottom: "45px",
-                        paddingTop: 5,
-                        height: 300,
-                        overflowY: "auto",
-                      }}
-                      closable
-                      onCancel={() => setDrawer(false)}
-                      footer={null}
-                    >
-                      <div className="d-flex flex-column">
-                        {sheetData.length > 0 ? (
-                          type == "Authors" ? (
-                            sheetData.map((mapped) => (
-                              <Space className="mt-20">
-                                {console.log(mapped.authors.profile_picture)}
-                                <Avatar src={mapped.authors.profile_picture} />
-                                <Text className="t-transform-cpt">
-                                  {mapped.authors.username}
-                                </Text>
-                              </Space>
-                            ))
-                          ) : (
-                            <>
-                              <Tabs>
-                                {reactions.map((mapped) => {
-                                  sheetData.map((mapped2) => {
-                                    if (mapped2.reaction.name == mapped.name) {
-                                      return;
-                                    }
-                                  });
-                                  return (
-                                    <Tabs.TabPane
-                                      key={mapped.name}
-                                      tab={
-                                        <Reactions>
-                                          <div className="reaction-holder">
-                                            <div className="reaction">
-                                              <i
-                                                className={`${mapped.code} va-minus-4`}
-                                                style={mapped.gradient}
-                                              ></i>
-                                            </div>
-                                            <div className="reaction-count">
-                                              <Text className="lh-2-5">
-                                                {getReactionCount(
-                                                  mapped.name,
-                                                  sheetData
-                                                )}
-                                              </Text>
-                                            </div>
-                                          </div>
-                                          <Text className="reaction-name">
-                                            {mapped.name}
-                                          </Text>
-                                        </Reactions>
-                                      }
-                                    >
-                                      <div className="d-flex flex-column">
-                                        {sheetData.map((mapped2, index) => {
-                                          if (
-                                            mapped2.reaction.name == mapped.name
-                                          ) {
-                                            return (
-                                              <Space
-                                                className="mt-15"
-                                                key={
-                                                  mapped2.reaction.name +
-                                                  mapped.name +
-                                                  index
-                                                }
-                                              >
-                                                <Avatar
-                                                  size={35}
-                                                  src={
-                                                    mapped2.user.profile_picture
-                                                  }
-                                                />
-                                                <Text>
-                                                  {mapped2.user.username}
-                                                </Text>
-                                              </Space>
-                                            );
-                                          }
-                                        })}
-                                      </div>
-                                    </Tabs.TabPane>
-                                  );
-                                })}
-                              </Tabs>
-                            </>
-                          )
-                        ) : (
-                          <p>Nulled</p>
-                        )}
-                      </div>
-                    </Modal>
                     <List.Item.Meta
                       title={
-                        <a>
+                        <a
+                          href={
+                            process.env.NEXT_PUBLIC_WEB_ADDRESS +
+                            "/" +
+                            item.article_category.slug +
+                            (item.article_topic
+                              ? "/" + item.article_topic.slug
+                              : "") +
+                            "/" +
+                            item.slug
+                          }
+                        >
                           <Paragraph
                             ellipsis={{ rows: 2 }}
                             className="mr-20 article-list-item-title"
@@ -505,6 +379,123 @@ export default function Home() {
                 )}
               />
             </InfiniteScroll>
+            {/**           */
+            /**            */
+            /**            */
+            /**            */
+            /**            */
+            /** MODAL AREA */
+            /**            */
+            /**            */
+            /**            */
+            /**            */
+            /**            */}
+            <Modal
+              title={type}
+              visible={drawer}
+              bodyStyle={{
+                padding: "15px 15px",
+                paddingBottom: "45px",
+                paddingTop: 5,
+                height: 300,
+                overflowY: "auto",
+              }}
+              closable
+              onCancel={() => setDrawer(false)}
+              footer={null}
+            >
+              <div className="d-flex flex-column">
+                {sheetData.length > 0 ? (
+                  type == "Authors" ? (
+                    sheetData.map((mapped) => (
+                      <Space className="mt-20">
+                        {console.log(mapped.authors.profile_picture)}
+                        <Avatar src={mapped.authors.profile_picture} />
+                        <Text className="t-transform-cpt">
+                          {mapped.authors.username}
+                        </Text>
+                      </Space>
+                    ))
+                  ) : (
+                    <>
+                      <Tabs>
+                        {reactions.map((mapped) => {
+                          sheetData.map((mapped2) => {
+                            if (mapped2.reaction.name == mapped.name) {
+                              return;
+                            }
+                          });
+                          return (
+                            <Tabs.TabPane
+                              key={mapped.name}
+                              tab={
+                                <Reactions>
+                                  <div className="reaction-holder">
+                                    <div className="reaction">
+                                      <i
+                                        className={`${mapped.code} va-minus-4`}
+                                        style={mapped.gradient}
+                                      ></i>
+                                    </div>
+                                    <div className="reaction-count">
+                                      <Text className="lh-2-5">
+                                        {getReactionCount(
+                                          mapped.name,
+                                          sheetData
+                                        )}
+                                      </Text>
+                                    </div>
+                                  </div>
+                                  <Text className="reaction-name">
+                                    {mapped.name}
+                                  </Text>
+                                </Reactions>
+                              }
+                            >
+                              <div className="d-flex flex-column">
+                                {sheetData.map((mapped2, index) => {
+                                  if (mapped2.reaction.name == mapped.name) {
+                                    return (
+                                      <Space
+                                        className="mt-15"
+                                        key={
+                                          mapped2.reaction.name +
+                                          mapped.name +
+                                          index
+                                        }
+                                      >
+                                        <Avatar
+                                          size={35}
+                                          src={mapped2.user.profile_picture}
+                                        />
+                                        <Text>{mapped2.user.username}</Text>
+                                      </Space>
+                                    );
+                                  }
+                                })}
+                              </div>
+                            </Tabs.TabPane>
+                          );
+                        })}
+                      </Tabs>
+                    </>
+                  )
+                ) : (
+                  <p>Nulled</p>
+                )}
+              </div>
+            </Modal>
+            {/**           */
+            /**            */
+            /**            */
+            /**            */
+            /**            */
+            /** MODAL AREA */
+            /**            */
+            /**            */
+            /**            */
+            /**            */
+            /**            */}
           </Col>
           <Col className="pd-l-20" xs={0} sm={0} md={0} lg={0} xl={5} xxl={4}>
             <Menu
@@ -530,7 +521,7 @@ export default function Home() {
 export const getServerSideProps = async () => {
   const apolloClient = initializeApollo();
   await apolloClient.query({
-    query: query,
+    query: getArticlesQuery,
     variables: {
       offset: 0,
       limit: 5,
