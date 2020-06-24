@@ -310,7 +310,7 @@ const createArticle = () => {
                 listType="picture-card"
                 className="large-upload-picture-card mg-y-10 ml-auto"
                 showUploadList={false}
-                action="https://techto-rehab.vercel.app/api/imageUpload"
+                action="/api/imageUpload"
                 onChange={handleImagePreview}
                 accept=".jpeg, .jpg"
               >
