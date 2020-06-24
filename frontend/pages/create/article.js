@@ -310,7 +310,7 @@ const createArticle = () => {
                 listType="picture-card"
                 className="large-upload-picture-card mg-y-10 ml-auto"
                 showUploadList={false}
-                action="http://localhost:3000/api/imageUpload"
+                action="/api/imageUpload"
                 onChange={handleImagePreview}
               >
                 {image ? (
