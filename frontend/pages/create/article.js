@@ -312,7 +312,7 @@ const createArticle = () => {
                 showUploadList={false}
                 action="/api/imageUpload"
                 onChange={handleImagePreview}
-                accept="image/*;capture=camera"
+                accept=".jpeg, .jpg"
               >
                 {image ? (
                   <img
