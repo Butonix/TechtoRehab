@@ -85,7 +85,7 @@ const Navigation = () => {
         </a>
       </div>
       <div className="navigation mr-10 ml-10">
-        <a href={`/create`}>
+        <a href="/create">
           <Button
             type="primary"
             icon={
