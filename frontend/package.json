@@ -18,7 +18,10 @@
     "apollo-client": "^2.6.9",
     "apollo-link-http": "^1.5.17",
     "babel-plugin-graphql-tag": "^2.5.0",
+    "co-busboy": "^1.4.0",
     "easy-peasy": "^3.3.0",
+    "express-formidable": "^1.2.0",
+    "formidable": "^1.2.2",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "interactjs": "^1.9.19",
@@ -35,6 +38,7 @@
     "remixicon": "^2.5.0",
     "rich-markdown-editor": "^10.0.1",
     "sass": "^1.26.5",
+    "sharp": "^0.25.4",
     "styled-components": "^5.1.0"
   },
   "devDependencies": {

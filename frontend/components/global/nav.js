@@ -84,10 +84,20 @@ const Navigation = () => {
           <Text>Categories</Text>
         </a>
       </div>
-      <div className="navigation">
-        <Button type="primary" shape="round">
-          Create
-        </Button>
+      <div className="navigation mr-10 ml-10">
+        <a href={`${process.env.NEXT_PUBLIC_WEB_ADDRESS}/create`}>
+          <Button
+            type="primary"
+            icon={
+              <i
+                className="ri-edit-line mr-5 va-minus-2"
+                style={{ color: "inherit" }}
+              ></i>
+            }
+          >
+            Create
+          </Button>
+        </a>
       </div>
       <div className="navigation">
         <Button type="text">Sign out</Button>

@@ -94,7 +94,7 @@ $High-Desktop: 2000px;
   margin: 0px auto !important;
 }
 
-.m-y-auto {
+.mg-y-auto {
   margin: auto 0px !important;
 }
 
@@ -164,6 +164,10 @@ $High-Desktop: 2000px;
 
 .mg-30 {
   margin: 30px !important;
+}
+
+.mt-auto {
+  margin-top: auto !important;
 }
 
 .mt-5 {
@@ -866,9 +870,27 @@ $High-Desktop: 2000px;
   }
 }
 
-div[id^="tiny-react_"] {
+.mce-content-body {
   padding: 10px;
   border: 1px solid #cecece;
   border-radius: 5px;
-  min-height: 900px;
+  min-height: 500px;
+}
+
+.featured-image-uploader {
+  @include mobile {
+    display: flex;
+  }
+  .large-upload-picture-card {
+    width: unset !important;
+
+    .ant-upload-select-picture-card {
+      width: 200px !important;
+      height: 200px !important;
+      @include mobile {
+        width: 150px !important;
+        height: 150px !important;
+      }
+    }
+  }
 }

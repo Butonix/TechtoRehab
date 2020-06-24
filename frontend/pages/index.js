@@ -254,7 +254,6 @@ export default function Home() {
                         width={272}
                         height={160}
                         className="o-fit-cover"
-                        alt="logo"
                         src={item.featured_image}
                         style={{ borderRadius: 5 }}
                       />

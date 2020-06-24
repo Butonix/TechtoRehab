@@ -8,7 +8,7 @@ const Create = () => {
       <Row justify="center" className="pd-20">
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={10}>
           <Title level={4} className="mg-y-30">
-            Choose Your Option
+            CHOOSE AN OPTION
           </Title>
 
           <Card>
@@ -26,12 +26,14 @@ const Create = () => {
               >
                 <List.Item.Meta
                   title={
-                    <a>
+                    <a
+                      href={`${process.env.NEXT_PUBLIC_WEB_ADDRESS}/create/article`}
+                    >
                       <Space>
                         <Text strong className="fs-18">
-                          Article
+                          ARTICLE
                         </Text>
-                        <i class="ri-arrow-right-line ri-lg va-minus-6"></i>
+                        <i class="ri-arrow-right-line ri-lg va-middle"></i>
                       </Space>
                     </a>
                   }
@@ -42,7 +44,7 @@ const Create = () => {
                 <List.Item.Meta
                   title={
                     <Text strong className="fs-18">
-                      Coming soon!
+                      Coming Soon!
                     </Text>
                   }
                 />
