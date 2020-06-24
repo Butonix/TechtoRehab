@@ -15,7 +15,7 @@ const Create = () => {
             <List>
               <List.Item
                 extra={
-                  <a>
+                  <a href="/create/article">
                     <img
                       className="o-fit-cover"
                       src="article.svg"
