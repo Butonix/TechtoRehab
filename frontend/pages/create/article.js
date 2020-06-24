@@ -312,6 +312,7 @@ const createArticle = () => {
                 showUploadList={false}
                 action="/api/imageUpload"
                 onChange={handleImagePreview}
+                accept="image/png,image/jpeg"
               >
                 {image ? (
                   <img
