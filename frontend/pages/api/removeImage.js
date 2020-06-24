@@ -2,7 +2,7 @@ const fs = require("fs");
 
 export default (req, res) => {
   console.log(req.body);
-  var path = req.body.path.substring(21);
+  var path = req.body.path;
 
   fs.unlink("public" + path, (err) => {
     if (err) {

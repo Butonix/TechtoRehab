@@ -65,7 +65,7 @@ const insertPostQuery = gql`
 
 const MyEditor = dynamic(
   () => import("@tinymce/tinymce-react").then((res) => res.Editor),
-  { loading: () => <Skeleton paragraph={{ rows: 2 }} title /> }
+  { loading: () => <Skeleton paragraph={{ rows: 2 }} title />, ssr: false }
 );
 
 const { Text, Title, Paragraph, Link } = Typography;
@@ -98,7 +98,7 @@ const createArticle = () => {
 
   const handleImagePreview = (info) => {
     if (info.file.response && info.file.response.path) {
-      setImage(`http://localhost:3000` + info.file.response.path);
+      setImage(info.file.response.path);
     }
   };
 
