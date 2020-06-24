@@ -326,10 +326,10 @@ const createArticle = () => {
                 )}
               </Upload>
             </Form.Item>
-            <Form.Item>
+            <Form.Item className="d-flex flex-column jc-center">
               {image ? (
                 <Button
-                  className="mt-10"
+                  className="mt-10 mg-x-20"
                   danger
                   onClick={async () => {
                     const response = await fetch("/api/removeImage", {
@@ -359,7 +359,7 @@ const createArticle = () => {
               ) : null}
               <Button
                 type="primary"
-                className="mt-10 wd-100-pc"
+                className="mt-10 wd-100-pc mg-x-20"
                 htmlType="submit"
               >
                 Publish Article
