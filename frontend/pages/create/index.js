@@ -26,9 +26,7 @@ const Create = () => {
               >
                 <List.Item.Meta
                   title={
-                    <a
-                      href={`${process.env.NEXT_PUBLIC_WEB_ADDRESS}/create/article`}
-                    >
+                    <a href={`/create/article`}>
                       <Space>
                         <Text strong className="fs-18">
                           ARTICLE
