@@ -1,6 +1,6 @@
 const sharp = require("sharp");
 var formidable = require("formidable");
-var util = require("util");
+
 export default async (req, res) => {
   const form = formidable({ multiples: true });
   await form.parse(req, (err, fields, files) => {

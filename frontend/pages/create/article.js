@@ -99,6 +99,7 @@ const createArticle = () => {
   const handleImagePreview = (info) => {
     if (info.file.response && info.file.response.path) {
       setImage(info.file.response.path);
+      return info.file.response.path;
     }
   };
 
@@ -187,7 +188,7 @@ const createArticle = () => {
                 },
               ]}
             >
-              <Input />
+              <Input.TextArea rows={4} />
             </Form.Item>
           </Form>
         </Col>
@@ -304,6 +305,7 @@ const createArticle = () => {
                   message: "Article Cannot Be Without Featured Image",
                 },
               ]}
+              valuePropName="file"
             >
               <Upload
                 name="avatar"
