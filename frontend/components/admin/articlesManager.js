@@ -211,13 +211,6 @@ const ArticlesManager = () => {
                                 ...fetchMoreResult.articles,
                               ],
                             });
-                            // return Object.assign({}, prev, {
-                            //   articles: [
-                            //     ...prev.articles,
-                            //     ...fetchMoreResult.articles,
-                            //   ],
-                            // });
-                            console.log(abc);
                           },
                         })
                       }

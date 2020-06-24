@@ -878,9 +878,6 @@ $High-Desktop: 2000px;
 }
 
 .featured-image-uploader {
-  @include mobile {
-    display: flex;
-  }
   .large-upload-picture-card {
     width: unset !important;
 
@@ -891,6 +888,14 @@ $High-Desktop: 2000px;
         width: 150px !important;
         height: 150px !important;
       }
+    }
+  }
+
+  .ant-form-item-control {
+    align-items: center;
+
+    @include mobile {
+      align-items: center;
     }
   }
 }

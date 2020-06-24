@@ -15,9 +15,9 @@ import {
 import Wrapper from "components/global/wrapper";
 import { initializeApollo } from "lib/apolloClient";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
 
 const getCatsandTopicsQuery = gql`
   query catsAndTopics {
@@ -63,6 +63,16 @@ const insertPostQuery = gql`
   }
 `;
 
+const checkTitleQuery = gql`
+  query checkTitle($title: String!) {
+    articles_aggregate(where: { title: { _eq: $title } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
+
 const MyEditor = dynamic(
   () => import("@tinymce/tinymce-react").then((res) => res.Editor),
   { loading: () => <Skeleton paragraph={{ rows: 2 }} title />, ssr: false }
@@ -71,13 +81,29 @@ const MyEditor = dynamic(
 const { Text, Title, Paragraph, Link } = Typography;
 const createArticle = () => {
   const [form] = Form.useForm();
-
   const [image, setImage] = useState(null);
   const [editorContent, setEditorContent] = useState(`Ncie Content`);
   const [permalink, setPermalink] = useState("Enter A Title");
   const [title, setTitle] = useState(null);
   const [category, setCategory] = useState(null);
   const [topic, setTopic] = useState(null);
+  const [titleApprove, setTitleApprove] = useState(null);
+
+  useEffect(() => {
+    if (checkTitleData && checkTitleData.articles_aggregate) {
+      if (checkTitleData.articles_aggregate.aggregate.count == 1) {
+        setTitleApprove("unavailable");
+        setPermalink("Enter A Title");
+      } else {
+        setTitleApprove("available");
+        var titlo = title;
+        titlo = title.replace(":", "");
+        titlo = title.split(" ").join("-");
+        setTitle(titlo);
+        setPermalink(titlo.toLowerCase());
+      }
+    }
+  });
 
   const {
     data: getCatsAndTopicsData,
@@ -96,6 +122,15 @@ const createArticle = () => {
     onError: (err) => message.error(err),
   });
 
+  const [
+    checkTitle,
+    {
+      loading: checkTitleLoading,
+      data: checkTitleData,
+      error: checkTitleError,
+    },
+  ] = useLazyQuery(checkTitleQuery);
+
   const handleImagePreview = (info) => {
     if (info.file.response && info.file.response.path) {
       setImage(info.file.response.path);
@@ -108,17 +143,20 @@ const createArticle = () => {
   };
 
   var handleTitle = (e) => {
+    setTitleApprove("validating");
     var title = e.target.value;
     setTitle(title);
-    title = title.replace(":", "");
-    title = title.split(" ").join("-");
-    setPermalink(title.toLowerCase());
+    checkTitle({
+      variables: {
+        title: title,
+      },
+    });
   };
   return (
     <Wrapper>
       <Row className="pd-10">
         <Col xs={24} sm={24} md={24} lg={19} xl={20} xxl={20} className="pd-20">
-          <Form layout="vertical" form={form}>
+          <Form layout="vertical" form={form} wrapperCol={24}>
             <Form.Item
               label="Title"
               name="title"
@@ -128,8 +166,35 @@ const createArticle = () => {
                   message: "Article Title Is Required",
                 },
               ]}
+              validateStatus={
+                titleApprove == "available"
+                  ? "success"
+                  : titleApprove == "unavailable"
+                  ? "error"
+                  : ""
+              }
+              hasFeedback
+              help={
+                <Text
+                  type={titleApprove == "unavailable" ? "danger" : null}
+                  mark={titleApprove == "validating" ? true : false}
+                  strong
+                  className="lh-1"
+                  style={{ position: "absolute", marginTop: -23, right: 35 }}
+                >
+                  {titleApprove == "validating"
+                    ? "Checking Availability"
+                    : titleApprove == "available"
+                    ? "Title Available!"
+                    : titleApprove == "unavailable"
+                    ? "Title Already Exists"
+                    : titleApprove == null
+                    ? null
+                    : null}
+                </Text>
+              }
             >
-              <Input className="mt-10" onChange={handleTitle} />
+              <Input onChange={handleTitle} />
             </Form.Item>
             <Link className="mt-10 lh-1">
               {process.env.NEXT_PUBLIC_WEB_ADDRESS +
@@ -204,7 +269,6 @@ const createArticle = () => {
         >
           <Form
             form={form}
-            wrapperCol={{ span: 24 }}
             layout="vertical"
             onFinish={(data) => {
               var sendTitle = data.title;
@@ -297,7 +361,7 @@ const createArticle = () => {
             </Form.Item>
             <Form.Item
               label="Featured Image"
-              className="featured-image-uploader"
+              className="featured-image-uploader d-flex"
               name="featuredImage"
               rules={[
                 {
@@ -328,8 +392,8 @@ const createArticle = () => {
                 )}
               </Upload>
             </Form.Item>
-            <Form.Item className="d-flex flex-column jc-center">
-              {image ? (
+            {image ? (
+              <Form.Item className="d-flex flex-column ai-center ta-center">
                 <Button
                   className="mt-10 mg-x-20"
                   danger
@@ -358,14 +422,26 @@ const createArticle = () => {
                 >
                   Remove Featured Image
                 </Button>
-              ) : null}
-              <Button
-                type="primary"
-                className="mt-10 wd-100-pc mg-x-20"
-                htmlType="submit"
-              >
-                Publish Article
-              </Button>
+              </Form.Item>
+            ) : null}
+            <Form.Item className="d-flex flex-column ai-center ta-center">
+              {titleApprove == "available" ? (
+                <Button
+                  type="primary"
+                  className="mt-10 wd-100-pc mg-x-20"
+                  htmlType="submit"
+                >
+                  Publish Article
+                </Button>
+              ) : title == null ? (
+                <Text strong type="danger" className="ta-center lh-2">
+                  Please Enter A Title Before Publishing
+                </Text>
+              ) : (
+                <Text strong type="danger" className="ta-center mt-20">
+                  Title Must Be Available Before You Can Publish
+                </Text>
+              )}
             </Form.Item>
           </Form>
         </Col>
