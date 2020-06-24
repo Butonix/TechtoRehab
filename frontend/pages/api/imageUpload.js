@@ -6,7 +6,7 @@ export default async (req, res) => {
   await form.parse(req, (err, fields, files) => {
     // console.log(JSON.stringify(files.avatar));
     sharp(files.avatar.path)
-      .resize(816, 480)
+      .resize(816, 480, { position: "top" })
       .toFormat("jpeg")
       .webp({ quality: 90 })
       .toFile(`public/images/${files.avatar.name}.webp`)
