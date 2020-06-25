@@ -9,7 +9,7 @@ export default async (req, res) => {
     sharp(files.avatar.path)
       .resize(816, 480, { position: "top" })
       .toFormat("jpeg")
-      .webp({ quality: 90 })
+      .webp({ quality: 100 })
       .toFile(`public/images/${name}.webp`)
       .then((info) => {
         console.log(info);
