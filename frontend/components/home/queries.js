@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export const getArticlesQuery = gql`
   query MyQuery($offset: Int, $limit: Int) {
-    articles(offset: $offset, limit: $limit) {
+    articles(offset: $offset, limit: $limit, order_by: { updated_at: desc }) {
       id
       title
       excerpt

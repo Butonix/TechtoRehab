@@ -899,3 +899,18 @@ $High-Desktop: 2000px;
     }
   }
 }
+
+.hoverable-reactions:hover {
+  transform: scale3d(5);
+  -webkit-transform: scale3d(2, 2, 2);
+}
+
+pre[class^="language-"] {
+  box-shadow: 0px 0px 12px 1px #757575;
+}
+
+.ant-comment-actions {
+  li {
+    width: 100% !important;
+  }
+}

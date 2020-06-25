@@ -3,6 +3,7 @@ import { useApollo } from "../lib/apolloClient";
 import "public/dark.scss";
 import { DefaultSeo } from "next-seo";
 import "public/light.scss";
+// import "antd/dist/antd.css";
 import "public/style.scss";
 import { createStore, StoreProvider, useStoreActions } from "easy-peasy";
 import "remixicon/fonts/remixicon.css";

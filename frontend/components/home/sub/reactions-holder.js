@@ -8,6 +8,7 @@ export const Reactions = styled.div`
     display: flex;
     margin: 0px 10px;
     .reaction {
+      transition: all 400ms cubic-bezier(0.47, 1.64, 0.41, 0.8);
       font-size: 20px;
       i {
         -webkit-background-clip: text;
