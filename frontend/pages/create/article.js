@@ -99,8 +99,9 @@ const createArticle = () => {
         var titlo = title;
         titlo = title.replace(":", "");
         titlo = title.split(" ").join("-");
+
         setTitle(titlo);
-        setPermalink(titlo.toLowerCase());
+        setPermalink(titlo.replace(/[^a-zA-Z 0-9 -]/g, "").toLowerCase());
       }
     }
   });
@@ -217,16 +218,20 @@ const createArticle = () => {
                 initialValue={editorContent}
                 apiKey="m2scqo7knj5972vza3c3an2ex1x93cw66e1hlb9vejb61ya1"
                 init={{
-                  toolbar: false,
+                  toolbar: true,
                   menubar: false,
                   inline: true,
+                  toolbar:
+                    "bold italic underline|undo redo|toc numlist bullist|emoticons|formatselect|image|pagebreak",
                   plugins:
                     "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons",
                   quickbars_insert_toolbar:
-                    "undo redo quicktable image codesample formatselect",
+                    "undo redo quicktable image codesample formatselect numlist bullist",
                   quickbars_selection_toolbar:
-                    "bold italic underline | formatselect quicklink",
-                  contextmenu: "undo redo | inserttable | help",
+                    "bold italic underline |formatselect quicklink",
+                  contextmenu: "undo redo | emoticons inserttable | codesample",
+                  // toolbar:
+                  //   "undo redo | toc |bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                 }}
                 onEditorChange={handleEditor}
               />

@@ -367,7 +367,6 @@ export default function Home() {
                       title={
                         <a
                           href={
-                            process.env.NEXT_PUBLIC_WEB_ADDRESS +
                             "/" +
                             item.article_category.slug +
                             (item.article_topic

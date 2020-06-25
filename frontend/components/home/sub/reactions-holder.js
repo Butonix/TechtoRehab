@@ -30,7 +30,6 @@ export const Reactions = styled.div`
 
   .reaction-name {
     line-height: 2.5;
-
     @media ${breakPoints.mobile} {
       margin-left: 20px;
     }
