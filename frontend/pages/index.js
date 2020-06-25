@@ -28,10 +28,9 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroller";
 import {
-  getArticleQuery,
-  getBookmarkQuery,
-  updateBookmarkQuery,
+  insertBookmarkQuery,
   getArticlesQuery,
+  deleteBookmarkQuery,
 } from "components/home/queries";
 import { Reactions } from "components/home/sub/reactions-holder";
 //
@@ -54,9 +53,12 @@ export default function Home() {
   //
   //
   //
-  const { loading, error, data, fetchMore } = useQuery(getArticlesQuery, {
-    variables: { offset: 0, limit: 5 },
-  });
+  const { loading, error, data, fetchMore, refetch } = useQuery(
+    getArticlesQuery,
+    {
+      variables: { offset: 0, limit: 5 },
+    }
+  );
   //
   //
   //
@@ -64,11 +66,25 @@ export default function Home() {
   //
   //
   //
-  const [updateBookmark] = useMutation(updateBookmarkQuery, {
-    onCompleted: () => message.success("Bookmarks Updated"),
+  const [insertBookmark] = useMutation(insertBookmarkQuery, {
+    onCompleted: () => message.success("Added To Bookmarks"),
     onError: () => message.error("An Error Occured. Try Again Later"),
     errorPolicy: "all",
   });
+
+  //
+  //
+  //
+  //
+  //
+  //
+
+  const [deleteBookmark] = useMutation(deleteBookmarkQuery, {
+    onCompleted: () => message.success("Deleted from Bookmarks"),
+    onError: () => message.error("An Error Occured. Try Again Later"),
+    errorPolicy: "all",
+  });
+
   //
   //
   //
@@ -130,19 +146,15 @@ export default function Home() {
     return arra.length;
   };
 
-  const addBookmark = (objecto) => {
-    setArticlesData(
-      articlesData.map((mapped) => {
-        if (mapped === objecto) {
-          mapped = { ...mapped, bookmark: !mapped.bookmark };
-        }
-        return mapped;
-      })
-    );
-
-    updateBookmark({
-      variables: { id: objecto.id, bookmark: !objecto.bookmark },
-    });
+  const addBookmark = (objecto, count) => {
+    if (count == 0) {
+      insertBookmark({
+        variables: { articleId: objecto.id },
+      });
+    } else {
+      deleteBookmark({ variables: { articleId: objecto.id } });
+    }
+    refetch();
   };
 
   //
@@ -289,7 +301,7 @@ export default function Home() {
 
                       <Tooltip
                         title={
-                          item.bookmark
+                          item.bookmarks_aggregate.aggregate.count == 1
                             ? "Remove From Bookmarks"
                             : "Bookmark This"
                         }
@@ -297,11 +309,16 @@ export default function Home() {
                         <a>
                           <i
                             className={
-                              item.bookmark
+                              item.bookmarks_aggregate.aggregate.count == 1
                                 ? "ri-bookmark-fill fs-20 " + "ri-lg va-minus-6"
                                 : "ri-bookmark-line fs-20 " + "ri-lg va-minus-6"
                             }
-                            onClick={() => addBookmark(item)}
+                            onClick={() =>
+                              addBookmark(
+                                item,
+                                item.bookmarks_aggregate.aggregate.count
+                              )
+                            }
                             style={{ color: "rgba(86, 85, 85, 0.65)" }}
                           ></i>
                         </a>

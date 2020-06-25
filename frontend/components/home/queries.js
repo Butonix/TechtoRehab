@@ -8,7 +8,6 @@ export const getArticlesQuery = gql`
       excerpt
       content
       featured_image
-      bookmark
       slug
       article_category {
         title
@@ -38,6 +37,14 @@ export const getArticlesQuery = gql`
           profile_picture
         }
       }
+
+      bookmarks_aggregate(
+        where: { userId: { _eq: "281ba274-1f2f-41d6-99d0-81c3b517fa03" } }
+      ) {
+        aggregate {
+          count
+        }
+      }
     }
     site_settings {
       setting_name
@@ -60,11 +67,28 @@ export const getArticlesQuery = gql`
   }
 `;
 
-export const updateBookmarkQuery = gql`
-  mutation update($id: uuid!, $bookmark: Boolean!) {
-    update_articles(
-      where: { id: { _eq: $id } }
-      _set: { bookmark: $bookmark }
+export const insertBookmarkQuery = gql`
+  mutation update($articleId: uuid!) {
+    insert_articles_and_bookmarks_one(
+      object: {
+        articleId: $articleId
+        userId: "281ba274-1f2f-41d6-99d0-81c3b517fa03"
+      }
+    ) {
+      bookmarkUser {
+        username
+      }
+    }
+  }
+`;
+
+export const deleteBookmarkQuery = gql`
+  mutation deleteBookmark($articleId: uuid!) {
+    delete_articles_and_bookmarks(
+      where: {
+        articleId: { _eq: $articleId }
+        userId: { _eq: "281ba274-1f2f-41d6-99d0-81c3b517fa03" }
+      }
     ) {
       affected_rows
     }
