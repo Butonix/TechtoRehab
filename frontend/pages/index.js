@@ -267,7 +267,9 @@ export default function Home() {
                         height={160}
                         className="o-fit-cover"
                         src={item.featured_image}
-                        style={{ borderRadius: 5 }}
+                        style={{
+                          borderRadius: 5,
+                        }}
                       />
                     }
                     actions={[
@@ -334,30 +336,32 @@ export default function Home() {
                           }}
                         >
                           <Reactions>
-                            {reactions.map((mapped) => {
-                              item.reactions_to_articles.map((mapped2) => {
-                                if (mapped2.reaction.name == mapped.name) {
-                                  return;
-                                }
-                              });
-                              return (
-                                <div
-                                  className="reaction-holder"
-                                  key={mapped.name}
-                                >
-                                  <div className="reaction">
-                                    <i
-                                      className={`${mapped.code} va-minus-4`}
-                                      style={mapped.gradient}
-                                    ></i>
+                            {reactions.map((reaction) => {
+                              if (
+                                item.reactions_to_articles.find(
+                                  (elem) => elem.reaction.id == reaction.id
+                                )
+                              ) {
+                                return (
+                                  <div
+                                    className="reaction-holder"
+                                    key={reaction.name}
+                                  >
+                                    <div className="reaction fs-22">
+                                      <i
+                                        className={`${reaction.code} va-middle`}
+                                        style={reaction.gradient}
+                                      ></i>
+                                    </div>
                                   </div>
-                                </div>
-                              );
+                                );
+                              }
                             })}
-                            <Text className="reaction-total" strong>
-                              {getReactionTotal(item.reactions_to_articles) +
-                                " "}
-                            </Text>
+                            <div className="reaction-total">
+                              <Text className="lh-2-5 fs-16" strong>
+                                {getReactionTotal(item.reactions_to_articles)}
+                              </Text>
+                            </div>
                           </Reactions>
                         </a>
                       ) : null,

@@ -914,3 +914,22 @@ pre[class^="language-"] {
     width: 100% !important;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+.comment-skeleton {
+  div {
+    span {
+      background: #d0d0d0 !important;
+    }
+    h3 {
+      background: #d0d0d0 !important;
+    }
+
+    li {
+      background: #d0d0d0 !important;
+    }
+  }
+}

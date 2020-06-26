@@ -132,7 +132,7 @@ const ArticlesManager = () => {
     deleteArticle,
     { loading: deleteArticleLoading, data: deleteArticleData },
   ] = useMutation(deleteArticleQuery, {
-    onCompleted: () => message.success("Successfully Deleted"),
+    onCompleted: () => refetch(),
   });
 
   const [articleManagerDrawer, setArticleManagerDrawer] = useState(false);
@@ -357,7 +357,6 @@ const ArticlesManager = () => {
                               variables: { id: articleManagerDrawerData.id },
                             });
                             setArticleManagerDrawerData({});
-                            refetch();
                           }}
                         >
                           Delete

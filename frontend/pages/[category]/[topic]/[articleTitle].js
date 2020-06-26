@@ -14,154 +14,72 @@ import {
   Space,
   Avatar,
   Form,
-  Input,
   Button,
   message,
   Menu,
   Dropdown,
 } from "antd";
 import { useRouter } from "next/router";
-import gql from "graphql-tag";
-import { useQuery, useLazyQuery, useMutation } from "@apollo/react-hooks";
-import { getArticlesQuery, insertBookmarkQuery } from "components/home/queries";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { initializeApollo } from "lib/apolloClient";
 import { Reactions } from "components/home/sub/reactions-holder";
 import Head from "next/head";
 import { useState } from "react";
+import {
+  deleteCommentQuery,
+  deleteReplyToReplyQuery,
+  deleteReplyQuery,
+  replyToReplyQuery,
+  getArticleQuery,
+  insertCommentQuery,
+  insertReplyQuery,
+  insertReactionQuery,
+} from "components/article/queries";
 
-const getArticleQuery = gql`
-  query getArticle($articleSlug: String!) {
-    articles(where: { slug: { _eq: $articleSlug } }) {
-      id
-      title
-      content
-      excerpt
-      updated_at
-      created_at
-      featured_image
-      reactions_to_articles {
-        user {
-          username
-          profile_picture
-        }
-        reaction {
-          id
-          name
-          code
-          color
-          gradient
-          type
-        }
-      }
-      users_to_articles {
-        authors {
-          username
-        }
-      }
-      article_topic {
-        title
-      }
-      article_category {
-        title
-      }
-
-      comments {
-        id
-        content
-        updated_at
-        author {
-          profile_picture
-          username
-        }
-        replies {
-          id
-          content
-          updated_at
-          commentId
-          replyAuthor {
-            profile_picture
-            username
-          }
-          replies_to_reply {
-            id
-            content
-            updated_at
-            author {
-              profile_picture
-              username
-            }
-          }
-        }
-      }
-    }
-
-    reactions {
-      id
-      name
-      color
-      code
-      gradient
-    }
-  }
-`;
-
-const insertReactionQuery = gql`
-  mutation insertReaction($articleId: uuid!, $reactionId: uuid!) {
-    insert_reactions_to_articles(
-      objects: {
-        article_id: $articleId
-        reaction_id: $reactionId
-        user_id: "b8c1db5d-a4dc-4790-8632-9b586d571735"
-      }
-    ) {
-      affected_rows
-    }
-  }
-`;
-
-const insertCommentQuery = gql`
-  mutation insertComment(
-    $articleId: uuid!
-    $content: String!
-    $userId: uuid!
-    $repliedTo: uuid
-  ) {
-    insert_comments_one(
-      object: { userId: $userId, articleId: $articleId, content: $content }
-    ) {
-      id
-    }
-  }
-`;
-
-const insertReplyQuery = gql`
-  mutation insertReply($commentId: uuid!, $content: String!, $userId: uuid!) {
-    insert_comments_and_replies_one(
-      object: { commentId: $commentId, content: $content, userId: $userId }
-    ) {
-      repliedTo {
-        content
-      }
-    }
-  }
-`;
-
-const replyToReplyQuery = gql`
-  mutation replyToReply($content: String!, $userId: uuid!, $replyId: uuid!) {
-    insert_reply_and_reply(
-      objects: { content: $content, userId: $userId, replyId: $replyId }
-    ) {
-      affected_rows
-    }
-  }
-`;
+//
+//
+//
+//
+//
+//
 
 const { Title, Paragraph, Text } = Typography;
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 const Article = () => {
+  //
+  //
+  //
+  //
+  //
+  //
   const router = useRouter();
+  //
+  //
+  //
+  //
+  //
+  //
   const { category, topic, articleTitle } = router.query;
 
   const [reactionsModal, setReactionsModal] = useState(false);
+  //
+  //
+  //
+  //
+  //
+  //
 
   const {
     loading: getArticleLoading,
@@ -174,43 +92,183 @@ const Article = () => {
     },
   });
 
+  //
+  //
+  //
+
   const [insertReaction, { data: insertReactionData }] = useMutation(
     insertReactionQuery,
     {
       onError: (err) => message.error("Error Reacting To Post"),
-      onCompleted: () => message.success("Reacted Successfully"),
+      onCompleted: () => getArticleRefetch(),
     }
   );
+
+  //
+  //
+  //
 
   const [insertComment, { data: insertCommentData }] = useMutation(
     insertCommentQuery,
     {
       onError: (err) => console.log(err),
-      onCompleted: () => message.success("Successfully Added Comment"),
+      onCompleted: () => {
+        getArticleRefetch();
+        return window.scrollTo(0, document.body.scrollHeight);
+      },
     }
   );
+
+  //
+  //
+  //
 
   const [insertReply, { data: insertReplyData }] = useMutation(
     insertReplyQuery,
     {
       onError: (err) => console.log(err),
+      onCompleted: () => {
+        getArticleRefetch();
+      },
     }
   );
 
-  const [
-    replyToReply,
-    { data: replyToReplyData },
-  ] = useMutation(replyToReplyQuery, { onError: (err) => console.log(err) });
+  //
+  //
+  //
 
-  // const [comment, setComment] = useState("");
+  const [replyToReply, { data: replyToReplyData }] = useMutation(
+    replyToReplyQuery,
+    {
+      onError: (err) => console.log(err),
+      onCompleted: () => {
+        getArticleRefetch();
+      },
+    }
+  );
+
+  //
+  //
+  //
+
+  const [deleteComment, { error: deleteCommentError }] = useMutation(
+    deleteCommentQuery,
+    {
+      onError: (err) => console.log(err),
+      onCompleted: () => getArticleRefetch(),
+    }
+  );
+
+  //
+  //
+  //
+
+  const [deleteReply, { error: deleteReplyError }] = useMutation(
+    deleteReplyQuery,
+    {
+      onError: (err) => console.log(err),
+      onCompleted: () => getArticleRefetch(),
+    }
+  );
+
+  //
+  //
+  //
+
+  const [deleteReplyToReply, { error: deleteReplyToReplyError }] = useMutation(
+    deleteReplyToReplyQuery,
+    {
+      onError: (err) => console.log(err),
+      onCompleted: () => getArticleRefetch(),
+    }
+  );
+
+  //
+  //
+  //
+  //
+  //
+  //
 
   const getCount = (array, id) => {
     var count = array.filter((filtered) => filtered.reaction.id == id);
     return count.length;
   };
 
+  //
+  //
+  //
+
   const [showReply, setShowReply] = useState(false);
   const [replyData, setReplyData] = useState(null);
+
+  //
+  //
+  //
+  //
+  //
+  //
+
+  const deleteCommentFromTop = (comments) => {
+    if (comments.replies) {
+      comments.replies.map((replies) => {
+        if (replies.replies_to_reply) {
+          replies.replies_to_reply.map((replyToReply) => {
+            deleteReplyToReply({
+              variables: { id: replyToReply.id, replyId: replyToReply.replyId },
+            });
+            return;
+          });
+        }
+        deleteReply({
+          variables: { id: replies.id, commentId: replies.commentId },
+        });
+        return;
+      });
+      deleteComment({ variables: { id: comments.id } });
+    } else {
+      deleteComment({ variables: { id: comments.id } });
+    }
+  };
+
+  //
+  //
+
+  const DeleteCommentFromSecond = (replies) => {
+    if (replies.replies_to_reply) {
+      replies.replies_to_reply.map((replyToReply) => {
+        deleteReplyToReply({
+          variables: { id: replyToReply.id, replyId: replyToReply.replyId },
+        });
+        return;
+      });
+    }
+    deleteReply({
+      variables: {
+        id: replies.id,
+        commentId: replies.commentId,
+      },
+    });
+  };
+
+  //
+  //
+
+  const DeleteCommentFromThird = (repliesToReplies) => {
+    deleteReplyToReply({
+      variables: {
+        id: repliesToReplies.id,
+        replyId: repliesToReplies.replyId,
+      },
+    });
+  };
+
+  //
+  //
+  //
+  //
+  //
+  //
 
   const reactionsMenu = (
     <Menu className="pd-10">
@@ -227,7 +285,6 @@ const Article = () => {
                       reactionId: reactions.id,
                     },
                   });
-                  getArticleRefetch();
                 }}
               >
                 <a>
@@ -243,6 +300,14 @@ const Article = () => {
       </Reactions>
     </Menu>
   );
+
+  //
+  //
+  //
+  //
+  //
+  //
+
   return (
     <Wrapper>
       <Head>
@@ -292,10 +357,6 @@ const Article = () => {
             </Row>
             <Row></Row>
           </Card>
-          {/* <Text className="mt-20 ml-10">
-            Last Updated:
-            {new Date(getArticleData.articles[0].updated_at).toDateString()}
-          </Text> */}
         </Col>
         <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={10} className="">
           <img
@@ -321,29 +382,59 @@ const Article = () => {
           <Card>
             <Row>
               <a>
+                {/**   */
+                /**   */
+                /**   */
+                /**** REACTIONS  ****/
+                /**   */
+                /**   */
+                /**   */}
                 <Reactions>
                   {getArticleData.reactions.map((reactions) => {
-                    return (
-                      <div
-                        className="reaction-holder"
-                        onClick={() => setReactionsModal(true)}
-                      >
-                        <div className="reaction fs-22">
-                          <i
-                            className={`${reactions.code} va-minus-4`}
-                            style={reactions.color ? color : reactions.gradient}
-                          ></i>
+                    if (
+                      getArticleData.articles[0].reactions_to_articles.find(
+                        (elem) => elem.reaction.id == reactions.id
+                      )
+                    ) {
+                      return (
+                        <div
+                          className="reaction-holder"
+                          onClick={() => setReactionsModal(true)}
+                        >
+                          <div className="reaction fs-22">
+                            <i
+                              className={`${reactions.code} va-middle`}
+                              style={
+                                reactions.color ? color : reactions.gradient
+                              }
+                            ></i>
+                          </div>
                         </div>
-                      </div>
-                    );
+                      );
+                    }
                   })}
                   <div className="reaction-total">
-                    <Text className="lh-2" strong>
+                    <Text className="lh-2-5 fs-16" strong>
                       {getArticleData.articles[0].reactions_to_articles.length}
                     </Text>
                   </div>
                 </Reactions>
               </a>
+              {/**   */
+              /**   */
+              /**   */
+              /**** REACTIONS END  ****/
+              /**   */
+              /**   */
+              /**   */}
+
+              {/**   */
+              /**   */
+              /**   */
+              /**** REACTIONS COUNT MODAL STARTS  ****/
+              /**   */
+              /**   */
+              /**   */}
               <Modal
                 visible={reactionsModal}
                 footer={false}
@@ -418,6 +509,21 @@ const Article = () => {
                   })}
                 </Tabs>
               </Modal>
+              {/**   */
+              /**   */
+              /**   */
+              /**** REACTION COUNTS MODAL ENDS  ****/
+              /**   */
+              /**   */
+              /**   */}
+
+              {/**   */
+              /**   */
+              /**   */
+              /**** REACTIONS POPOVER STARTS  ****/
+              /**   */
+              /**   */
+              /**   */}
               <Dropdown
                 placement="topCenter"
                 className="ml-auto"
@@ -433,6 +539,14 @@ const Article = () => {
                   ></Button>
                 </a>
               </Dropdown>
+
+              {/**   */
+              /**   */
+              /**   */
+              /**** REACTIONS POPOVER ENDS ****/
+              /**   */
+              /**   */
+              /**   */}
             </Row>
           </Card>
           <Divider orientation="center">Meta Information</Divider>
@@ -460,6 +574,14 @@ const Article = () => {
           </Card>
         </Col>
       </Row>
+
+      {/**   */
+      /**   */
+      /**   */
+      /**** COMMENT INPUT START  ****/
+      /**   */
+      /**   */
+      /**   */}
       <Row justify="center" className="pd-20">
         <Col xs={24} sm={24} md={24} lg={24} xl={12} xxl={10}>
           <Divider orientation="center">Comments</Divider>
@@ -473,7 +595,6 @@ const Article = () => {
                   content: values.comment,
                 },
               });
-              return getArticleRefetch();
             }}
           >
             <Form.Item
@@ -485,7 +606,7 @@ const Article = () => {
                 },
               ]}
             >
-              <Input.TextArea rows={4}></Input.TextArea>
+              <Mentions rows={4} placeholder="Reply to article" />
             </Form.Item>
             <Form.Item name="submit">
               <div
@@ -502,112 +623,197 @@ const Article = () => {
               </div>
             </Form.Item>
           </Form>
+          {/**   */
+          /**   */
+          /**   */
+          /**** COMMENT INPUT END  ****/
+          /**   */
+          /**   */
+          /**   */}
 
-          {getArticleData.articles[0] && getArticleData.articles[0].comments
-            ? getArticleData.articles[0].comments.map((comment) => {
+          {/**   */
+          /**   */
+          /**   */
+          /**** COMMENTS START ****/
+          /**   */
+          /**   */
+          /**   */}
+          {getArticleData.articles[0].comments.length !== 0 ? (
+            <List
+              dataSource={getArticleData.articles[0].comments}
+              renderItem={(comment) => {
                 return (
-                  <Comment
-                    key={comment.id}
-                    datetime={
-                      new Date(comment.updated_at).toLocaleDateString() +
-                      " at " +
-                      new Date(comment.updated_at).toLocaleTimeString()
-                    }
-                    className="pd-10"
-                    avatar={<Avatar src={comment.author.profile_picture} />}
-                    author={comment.author.username}
-                    content={comment.content}
-                    actions={[
-                      <div className="d-flex wd-100pc jc-end">
-                        <a
-                          className="t-transform-cpt mr-20"
-                          onClick={() => {
-                            setReplyData({ comment: comment });
-                            setShowReply(true);
-                          }}
-                        >
-                          Reply To {comment.author.username}
-                        </a>
-                        <a>
-                          <Text type="danger" className="t-transform-cpt">
-                            Report
-                          </Text>
-                        </a>
-                      </div>,
-                    ]}
-                    children={comment.replies.map((replies) => {
-                      return replies.commentId == comment.id ? (
-                        <Comment
-                          className="pd-10"
-                          datetime={
-                            new Date(replies.updated_at).toLocaleDateString() +
-                            " at " +
-                            new Date(replies.updated_at).toLocaleTimeString()
-                          }
-                          content={replies.content}
-                          key={replies.id}
-                          avatar={
-                            <Avatar src={replies.replyAuthor.profile_picture} />
-                          }
-                          author={replies.replyAuthor.username}
-                          actions={[
-                            <div className="d-flex wd-100pc jc-end">
-                              <a
-                                className="t-transform-cpt mr-20"
-                                onClick={() => {
-                                  setReplyData({ reply: replies });
-                                  setShowReply(true);
-                                }}
-                              >
-                                Reply To {comment.author.username}
-                              </a>
-                              <a>
-                                <Text type="danger" className="t-transform-cpt">
-                                  Report
-                                </Text>
-                              </a>
-                            </div>,
-                          ]}
-                          children={
-                            replies.replies_to_reply.replyId ==
-                            replies.replies_to_reply.id
-                              ? replies.replies_to_reply.map(
-                                  (repliesToReply) => {
-                                    return (
-                                      <Comment
-                                        datetime={
-                                          new Date(
-                                            repliesToReply.updated_at
-                                          ).toLocaleDateString() +
-                                          " at " +
-                                          new Date(
-                                            repliesToReply.updated_at
-                                          ).toLocaleTimeString()
-                                        }
-                                        className="pd-10"
-                                        avatar={
-                                          <Avatar
-                                            src={
-                                              repliesToReply.author
-                                                .profile_picture
-                                            }
-                                          />
-                                        }
-                                        content={repliesToReply.content}
-                                        author={repliesToReply.author.username}
-                                      />
-                                    );
+                  <List.Item>
+                    <Comment
+                      key={comment.id}
+                      datetime={
+                        new Date(comment.updated_at).toLocaleDateString() +
+                        " at " +
+                        new Date(comment.updated_at).toLocaleTimeString()
+                      }
+                      className="pd-10"
+                      avatar={<Avatar src={comment.author.profile_picture} />}
+                      author={comment.author.username}
+                      content={comment.content}
+                      actions={[
+                        <Space>
+                          <a
+                            className="t-transform-cpt mr-20"
+                            onClick={() => {
+                              setReplyData({ comment: comment });
+                              setShowReply(true);
+                            }}
+                          >
+                            Reply To {comment.author.username}
+                          </a>
+                          <a>
+                            <Text
+                              type="danger"
+                              onClick={() => deleteCommentFromTop(comment)}
+                            >
+                              Delete
+                            </Text>
+                          </a>
+                        </Space>,
+                      ]}
+                      children={
+                        comment.replies
+                          ? comment.replies.map((replies) => {
+                              return replies.commentId == comment.id ? (
+                                <Comment
+                                  className="pd-10"
+                                  datetime={
+                                    new Date(
+                                      replies.updated_at
+                                    ).toLocaleDateString() +
+                                    " at " +
+                                    new Date(
+                                      replies.updated_at
+                                    ).toLocaleTimeString()
                                   }
-                                )
-                              : null
-                          }
-                        />
-                      ) : null;
-                    })}
-                  />
+                                  content={replies.content}
+                                  key={replies.id}
+                                  avatar={
+                                    <Avatar
+                                      src={replies.replyAuthor.profile_picture}
+                                    />
+                                  }
+                                  author={replies.replyAuthor.username}
+                                  actions={[
+                                    <div className="d-flex wd-100pc jc-end">
+                                      <a
+                                        className="t-transform-cpt mr-20"
+                                        onClick={() => {
+                                          setReplyData({ reply: replies });
+                                          setShowReply(true);
+                                        }}
+                                      >
+                                        Reply To {comment.author.username}
+                                      </a>
+                                      <a>
+                                        <Text
+                                          type="danger"
+                                          className="t-transform-cpt"
+                                          onClick={() =>
+                                            DeleteCommentFromSecond(replies)
+                                          }
+                                        >
+                                          Report
+                                        </Text>
+                                      </a>
+                                    </div>,
+                                  ]}
+                                  children={
+                                    replies.replies_to_reply
+                                      ? replies.replies_to_reply.map(
+                                          (repliesToReply) => {
+                                            return (
+                                              <Comment
+                                                datetime={
+                                                  new Date(
+                                                    repliesToReply.updated_at
+                                                  ).toLocaleDateString() +
+                                                  " at " +
+                                                  new Date(
+                                                    repliesToReply.updated_at
+                                                  ).toLocaleTimeString()
+                                                }
+                                                className="pd-10"
+                                                avatar={
+                                                  <Avatar
+                                                    src={
+                                                      repliesToReply.author
+                                                        .profile_picture
+                                                    }
+                                                  />
+                                                }
+                                                content={repliesToReply.content}
+                                                author={
+                                                  repliesToReply.author.username
+                                                }
+                                                actions={[
+                                                  <a
+                                                    onClick={() =>
+                                                      DeleteCommentFromThird(
+                                                        repliesToReply
+                                                      )
+                                                    }
+                                                  >
+                                                    <Text type="danger">
+                                                      Delete
+                                                    </Text>
+                                                  </a>,
+                                                ]}
+                                              />
+                                            );
+                                          }
+                                        )
+                                      : null
+                                  }
+                                />
+                              ) : null;
+                            })
+                          : null
+                      }
+                    />
+                  </List.Item>
                 );
-              })
-            : null}
+              }}
+            />
+          ) : (
+            <Row justify="center" className="mt-30 pd-10">
+              <Col
+                className="d-flex flex-column"
+                xs={24}
+                sm={24}
+                md={16}
+                lg={12}
+                xl={12}
+                xxl={10}
+              >
+                <Text className="ta-center fs-18" strong>
+                  No comments found
+                </Text>
+                <img src="/no-comment.svg" />
+              </Col>
+            </Row>
+          )}
+
+          {/**   */
+          /**   */
+          /**   */
+          /**** COMMENTS END  ****/
+          /**   */
+          /**   */
+          /**   */}
+
+          {/**   */
+          /**   */
+          /**   */
+          /**** REPLY START  ****/
+          /**   */
+          /**   */
+          /**   */}
 
           <Drawer
             visible={showReply}
@@ -637,7 +843,6 @@ const Article = () => {
                         },
                       });
                       setShowReply(false);
-                      getArticleRefetch();
                     } else {
                       console.log("replying to reply");
                       replyToReply({
@@ -648,7 +853,6 @@ const Article = () => {
                         },
                       });
                       setShowReply(false);
-                      getArticleRefetch();
                     }
                   }}
                 >
@@ -671,7 +875,7 @@ const Article = () => {
                       },
                     ]}
                   >
-                    <Mentions className="mt-10" style={{ height: 100 }}>
+                    <Mentions className="mt-10" rows={4} placeholder="Reply">
                       <Mentions.Option key="1" value="afzaal">
                         Afzaal
                       </Mentions.Option>
@@ -696,6 +900,13 @@ const Article = () => {
               </Col>
             </Row>
           </Drawer>
+          {/**   */
+          /**   */
+          /**   */
+          /**** REPLY END  ****/
+          /**   */
+          /**   */
+          /**   */}
         </Col>
       </Row>
     </Wrapper>

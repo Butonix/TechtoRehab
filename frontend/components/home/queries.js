@@ -25,6 +25,7 @@ export const getArticlesQuery = gql`
       }
       reactions_to_articles {
         reaction {
+          id
           name
           color
           code
@@ -52,6 +53,7 @@ export const getArticlesQuery = gql`
     }
 
     reactions {
+      id
       name
       code
       gradient
