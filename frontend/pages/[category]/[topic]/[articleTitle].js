@@ -3,8 +3,10 @@ import {
   Row,
   Col,
   Modal,
+  Mentions,
   Tabs,
   Typography,
+  Drawer,
   List,
   Comment,
   Card,
@@ -80,6 +82,15 @@ const getArticleQuery = gql`
             profile_picture
             username
           }
+          replies_to_reply {
+            id
+            content
+            updated_at
+            author {
+              profile_picture
+              username
+            }
+          }
         }
       }
     }
@@ -135,6 +146,16 @@ const insertReplyQuery = gql`
   }
 `;
 
+const replyToReplyQuery = gql`
+  mutation replyToReply($content: String!, $userId: uuid!, $replyId: uuid!) {
+    insert_reply_and_reply(
+      objects: { content: $content, userId: $userId, replyId: $replyId }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
 const { Title, Paragraph, Text } = Typography;
 const Article = () => {
   const router = useRouter();
@@ -172,11 +193,16 @@ const Article = () => {
   const [insertReply, { data: insertReplyData }] = useMutation(
     insertReplyQuery,
     {
-      onError: () => message.error("Couldn't Reply"),
+      onError: (err) => console.log(err),
     }
   );
 
-  const [comment, setComment] = useState("");
+  const [
+    replyToReply,
+    { data: replyToReplyData },
+  ] = useMutation(replyToReplyQuery, { onError: (err) => console.log(err) });
+
+  // const [comment, setComment] = useState("");
 
   const getCount = (array, id) => {
     var count = array.filter((filtered) => filtered.reaction.id == id);
@@ -184,6 +210,7 @@ const Article = () => {
   };
 
   const [showReply, setShowReply] = useState(false);
+  const [replyData, setReplyData] = useState(null);
 
   const reactionsMenu = (
     <Menu className="pd-10">
@@ -434,7 +461,7 @@ const Article = () => {
         </Col>
       </Row>
       <Row justify="center" className="pd-20">
-        <Col xs={24} sm={24} md={24} lg={24} xl={12} xxl={12}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={12} xxl={10}>
           <Divider orientation="center">Comments</Divider>
           <Form
             wrapperCol={{ span: 24 }}
@@ -446,7 +473,7 @@ const Article = () => {
                   content: values.comment,
                 },
               });
-              getArticleRefetch();
+              return getArticleRefetch();
             }}
           >
             <Form.Item
@@ -475,103 +502,200 @@ const Article = () => {
               </div>
             </Form.Item>
           </Form>
+
           {getArticleData.articles[0] && getArticleData.articles[0].comments
             ? getArticleData.articles[0].comments.map((comment) => {
                 return (
                   <Comment
                     key={comment.id}
+                    datetime={
+                      new Date(comment.updated_at).toLocaleDateString() +
+                      " at " +
+                      new Date(comment.updated_at).toLocaleTimeString()
+                    }
                     className="pd-10"
                     avatar={<Avatar src={comment.author.profile_picture} />}
                     author={comment.author.username}
                     content={comment.content}
                     actions={[
                       <div className="d-flex wd-100pc jc-end">
-                        <Button
-                          type="text"
-                          className="t-transform-cpt mg-x-10"
+                        <a
+                          className="t-transform-cpt mr-20"
                           onClick={() => {
+                            setReplyData({ comment: comment });
                             setShowReply(true);
                           }}
                         >
                           Reply To {comment.author.username}
-                        </Button>
-                        <Button type="text" className="t-transform-cpt" danger>
-                          Report
-                        </Button>
+                        </a>
+                        <a>
+                          <Text type="danger" className="t-transform-cpt">
+                            Report
+                          </Text>
+                        </a>
                       </div>,
                     ]}
-                    children={
-                      comment.replies.map((replies) => {
-                        return replies.commentId == comment.id ? (
-                          <Comment
-                            content={replies.content}
-                            key={replies.id}
-                            avatar={
-                              <Avatar
-                                src={replies.replyAuthor.profile_picture}
-                              />
-                            }
-                            author={replies.replyAuthor.username}
-                            actions={[
-                              <div className="d-flex wd-100pc jc-end">
-                                <Button
-                                  type="text"
-                                  className="t-transform-cpt mg-x-10"
-                                  onClick={() => {
-                                    setShowReply(true);
-                                  }}
-                                >
-                                  Reply To {comment.author.username}
-                                </Button>
-                                <Button
-                                  type="text"
-                                  className="t-transform-cpt"
-                                  danger
-                                >
+                    children={comment.replies.map((replies) => {
+                      return replies.commentId == comment.id ? (
+                        <Comment
+                          className="pd-10"
+                          datetime={
+                            new Date(replies.updated_at).toLocaleDateString() +
+                            " at " +
+                            new Date(replies.updated_at).toLocaleTimeString()
+                          }
+                          content={replies.content}
+                          key={replies.id}
+                          avatar={
+                            <Avatar src={replies.replyAuthor.profile_picture} />
+                          }
+                          author={replies.replyAuthor.username}
+                          actions={[
+                            <div className="d-flex wd-100pc jc-end">
+                              <a
+                                className="t-transform-cpt mr-20"
+                                onClick={() => {
+                                  setReplyData({ reply: replies });
+                                  setShowReply(true);
+                                }}
+                              >
+                                Reply To {comment.author.username}
+                              </a>
+                              <a>
+                                <Text type="danger" className="t-transform-cpt">
                                   Report
-                                </Button>
-                              </div>,
-                            ]}
-                          />
-                        ) : null;
-                      })
-
-                      //  showReply ? (
-                      //     <Form
-                      //       onFinish={(values) => {
-                      //         insertReply({
-                      //           variables: {
-                      //             commentId: comment.id,
-                      //             userId: "281ba274-1f2f-41d6-99d0-81c3b517fa03",
-                      //             content: values.reply,
-                      //           },
-                      //         });
-                      //         setShowReply(false);
-                      //       }}
-                      //     >
-                      //       <Form.Item
-                      //         label={`Reply To ${comment.author.username}`}
-                      //         name="reply"
-                      //         rules={[
-                      //           {
-                      //             required: true,
-                      //           },
-                      //         ]}
-                      //       >
-                      //         <Input />
-                      //       </Form.Item>
-                      //       <Form.Item className="wd-100pc">
-                      //         <Button className="ml-auto" htmlType="submit">
-                      //           Add Reply
-                      //         </Button>
-                      //       </Form.Item>
-                      //     </Form>
-                      //   ) : null)
-                    }
+                                </Text>
+                              </a>
+                            </div>,
+                          ]}
+                          children={
+                            replies.replies_to_reply.replyId ==
+                            replies.replies_to_reply.id
+                              ? replies.replies_to_reply.map(
+                                  (repliesToReply) => {
+                                    return (
+                                      <Comment
+                                        datetime={
+                                          new Date(
+                                            repliesToReply.updated_at
+                                          ).toLocaleDateString() +
+                                          " at " +
+                                          new Date(
+                                            repliesToReply.updated_at
+                                          ).toLocaleTimeString()
+                                        }
+                                        className="pd-10"
+                                        avatar={
+                                          <Avatar
+                                            src={
+                                              repliesToReply.author
+                                                .profile_picture
+                                            }
+                                          />
+                                        }
+                                        content={repliesToReply.content}
+                                        author={repliesToReply.author.username}
+                                      />
+                                    );
+                                  }
+                                )
+                              : null
+                          }
+                        />
+                      ) : null;
+                    })}
                   />
                 );
               })
             : null}
+
+          <Drawer
+            visible={showReply}
+            onClose={() => setShowReply(false)}
+            maskClosable
+            placement="bottom"
+            bodyStyle={{
+              padding: "40px 20px",
+            }}
+            height={340}
+          >
+            <Row justify="center">
+              <Col xs={24} sm={24} md={12} lg={12} xl={12} xxl={6}>
+                <Title level={4}>Reply</Title>
+                <Form
+                  wrapperCol={{ span: 24 }}
+                  layout="vertical"
+                  onFinish={(values) => {
+                    var newData = replyData;
+                    if (newData.comment) {
+                      console.log("replying");
+                      insertReply({
+                        variables: {
+                          commentId: newData.comment.id,
+                          userId: "281ba274-1f2f-41d6-99d0-81c3b517fa03",
+                          content: values.reply,
+                        },
+                      });
+                      setShowReply(false);
+                      getArticleRefetch();
+                    } else {
+                      console.log("replying to reply");
+                      replyToReply({
+                        variables: {
+                          replyId: newData.reply.id,
+                          userId: "281ba274-1f2f-41d6-99d0-81c3b517fa03",
+                          content: values.reply,
+                        },
+                      });
+                      setShowReply(false);
+                      getArticleRefetch();
+                    }
+                  }}
+                >
+                  <Form.Item
+                    label={
+                      <div className="d-flex">
+                        <Avatar size={45} className="mt-20" />
+                        <Text className="mt-30 lh-1-5 ml-20">Dukesx</Text>
+                      </div>
+                    }
+                    name="reply"
+                    rules={[
+                      {
+                        validator: (rule, val) => {
+                          if (val.length < 1) {
+                            return Promise.reject("Enter A Value");
+                          }
+                          return Promise.resolve();
+                        },
+                      },
+                    ]}
+                  >
+                    <Mentions className="mt-10" style={{ height: 100 }}>
+                      <Mentions.Option key="1" value="afzaal">
+                        Afzaal
+                      </Mentions.Option>
+                      <Mentions.Option key="2" value="duka">
+                        Duka
+                      </Mentions.Option>
+                    </Mentions>
+                  </Form.Item>
+                  <Form.Item className="wd-100pc">
+                    <Button type="link" className="ml-auto" htmlType="submit">
+                      Add Reply
+                    </Button>
+                    <a
+                      onClick={() => {
+                        setShowReply(false);
+                      }}
+                    >
+                      <Text type="secondary">Cancel</Text>
+                    </a>
+                  </Form.Item>
+                </Form>
+              </Col>
+            </Row>
+          </Drawer>
         </Col>
       </Row>
     </Wrapper>

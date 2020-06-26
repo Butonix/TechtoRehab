@@ -33,6 +33,11 @@ const AdminWrapper = (props) => {
                 <a>Users</a>
               </Link>
             </Menu.Item>
+            <Menu.Item key="comments">
+              <Link href="/admin/comments">
+                <a>Comments</a>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Col>
         <Col

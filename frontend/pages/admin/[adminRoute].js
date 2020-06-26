@@ -3,6 +3,7 @@ import AdminComponent from "components/admin/adminWrapper";
 import UsersManager from "components/admin/usersManager";
 import ArticlesManager from "components/admin/articlesManager";
 import { useRouter } from "next/router";
+import CommentsManager from "components/admin/commentsManager";
 
 const AdminRoutePage = () => {
   const router = useRouter();
@@ -13,6 +14,8 @@ const AdminRoutePage = () => {
         <UsersManager />
       ) : adminRoute === "articles" ? (
         <ArticlesManager />
+      ) : adminRoute === "comments" ? (
+        <CommentsManager />
       ) : (
         <Result
           status="404"
@@ -33,11 +36,5 @@ const AdminRoutePage = () => {
 export default AdminRoutePage;
 
 export async function getServerSideProps() {
-  // return {
-  //   props: {
-  //     initialApolloState: apolloClient.cache.extract(),
-  //   },
-  //   unstable_revalidate: 1,
-  // };
   return { props: {} };
 }

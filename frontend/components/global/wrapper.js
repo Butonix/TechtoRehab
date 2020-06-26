@@ -132,6 +132,19 @@ const wrapper = (props) => {
                   <a>Users</a>
                 </Link>
               </Menu.Item>
+              <Menu.Item
+                key="comments"
+                icon={
+                  <i
+                    class="ri-question-answer-line ri-lg va-minus-4 mr-10"
+                    style={{ color: "inherit" }}
+                  ></i>
+                }
+              >
+                <Link href="/admin/comments">
+                  <a>Comments</a>
+                </Link>
+              </Menu.Item>
             </Menu>
           ) : null}
         </Drawer>
