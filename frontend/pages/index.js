@@ -97,6 +97,7 @@ export default function Home() {
         status="error"
         title="Error Fetching Data"
         subTitle="Please try again in a few minutes"
+        icon={<img src="/500.svg" />}
         style={{ margin: "10%" }}
         extra={[
           <Button type="primary" onClick={() => router.reload()}>
