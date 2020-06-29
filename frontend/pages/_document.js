@@ -36,12 +36,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html className="light">
-        <Head>
-          <link
-            rel="stylesheet"
-            href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css"
-          />
-        </Head>
+        <Head />
         <body style={{ margin: 0 }}>
           <Main />
           <NextScript />

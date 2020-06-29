@@ -104,9 +104,9 @@ const Navigation = (props) => {
           <i
             class={
               (props.user && props.user.id
-                ? "ri-user-received-line"
-                : "ri-user-shared-2-line") +
-              " ri-lg va-minus-6 fs-24 compose-gradient"
+                ? "ri-user-received-fill"
+                : "ri-user-shared-2-fill") +
+              " ri-lg va-minus-6 fs-24 sign-in-out-gradient"
             }
           ></i>
         }
@@ -160,7 +160,7 @@ const Navigation = (props) => {
           <Text>Categories</Text>
         </a>
       </div>
-      <div className="navigation desktop-link mr-10 ml-10">
+      {/* <div className="navigation desktop-link mr-10 ml-10">
         <a href="/create">
           <Button
             type="primary"
@@ -174,7 +174,7 @@ const Navigation = (props) => {
             Create
           </Button>
         </a>
-      </div>
+      </div> */}
       <div className="navigation dropDown">
         <Dropdown trigger="click" overlay={UserDrop}>
           <Button

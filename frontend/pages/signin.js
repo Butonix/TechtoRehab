@@ -87,7 +87,7 @@ const SignIn = () => {
             bodyStyle={{ padding: 0 }}
             bordered={false}
             style={{
-              boxShadow: "0px 0px 6px 6px #f5f5f5",
+              boxShadow: "0px 0px 3px 4px #f5f5f5",
             }}
           >
             <Row align="middle" justify="center">
@@ -186,11 +186,13 @@ const SignIn = () => {
                         >
                           Reset Form
                         </Button>
-                        <Button type="link">Forgot Password?</Button>
                       </Form.Item>
                     </Form>
                   </Tabs.TabPane>
                   <Tabs.TabPane key="register" tab={<Text>REGISTER</Text>}>
+                    Hello2
+                  </Tabs.TabPane>
+                  <Tabs.TabPane key="forgot" tab={<Text>FORGOT PASSWORD</Text>}>
                     Hello2
                   </Tabs.TabPane>
                 </Tabs>

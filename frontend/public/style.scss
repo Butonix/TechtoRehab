@@ -955,3 +955,11 @@ html {
     color: white !important;
   }
 }
+
+.sign-in-out-gradient {
+  background-color: #dbcbd8;
+  background-image: linear-gradient(316deg, #dbcbd8 0%, #2e4057 74%);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
