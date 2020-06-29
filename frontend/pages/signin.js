@@ -3,11 +3,13 @@ import {
   Col,
   Typography,
   Card,
+  Divider,
   Form,
   Input,
   Button,
   message,
   Alert,
+  Tabs,
 } from "antd";
 import Wrapper from "components/global/wrapper";
 import ButtonGroup from "antd/lib/button/button-group";
@@ -41,6 +43,7 @@ const SignIn = () => {
   const router = useRouter();
   const [loginFailed, setLoginFailed] = useState(false);
   const [fetchingLogin, setFetchingLogin] = useState(false);
+
   const [login, { loading: loginLoading, error: loginError }] = useLazyQuery(
     loginQuery,
     {
@@ -60,7 +63,7 @@ const SignIn = () => {
             .then((res) => res.json())
             .then((data) => {
               setFetchingLogin(false);
-              console.log("success");
+              router.back();
             });
         } else {
           setFetchingLogin(false);
@@ -113,77 +116,84 @@ const SignIn = () => {
                 xxl={12}
                 className="pd-30"
               >
-                <Title level={4} className="mt-20 mb-30">
-                  Sign in to Tech To Rehab
-                </Title>
-                {loginFailed ? (
-                  <Alert
-                    className="mg-y-20"
-                    message="Login Failed"
-                    description="Username or Password Incorrect"
-                    type="error"
-                    showIcon
-                    closable
-                    onClose={() => setLoginFailed(false)}
-                  />
-                ) : null}
-                <Form
-                  layout="vertical"
-                  form={form}
-                  onFinish={(obj) => {
-                    setFetchingLogin(true);
-                    login({
-                      variables: {
-                        username: obj.username,
-                        password: obj.password,
-                      },
-                    });
-                  }}
-                >
-                  <Form.Item
-                    label="Username"
-                    name="username"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item className="mt-30">
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      loading={fetchingLogin ? true : false}
-                    >
-                      Submit
-                    </Button>
-                    <Button
-                      type="secondary"
-                      className="mg-x-10"
-                      htmlType="button"
-                      onClick={() => {
-                        setLoginFailed(false);
-                        form.resetFields();
+                <Tabs>
+                  <Tabs.TabPane key="login" tab={<Text>SIGN IN</Text>}>
+                    <Title level={4} className="mt-20 mb-30">
+                      Sign in to Tech To Rehab
+                    </Title>
+                    {loginFailed ? (
+                      <Alert
+                        className="mg-y-20"
+                        message="Login Failed"
+                        description="Username or Password Incorrect"
+                        type="error"
+                        showIcon
+                        closable
+                        onClose={() => setLoginFailed(false)}
+                      />
+                    ) : null}
+                    <Form
+                      layout="vertical"
+                      form={form}
+                      onFinish={(obj) => {
+                        setFetchingLogin(true);
+                        login({
+                          variables: {
+                            username: obj.username,
+                            password: obj.password,
+                          },
+                        });
                       }}
                     >
-                      Reset Form
-                    </Button>
-                    <Button type="link">Forgot Password?</Button>
-                  </Form.Item>
-                </Form>
+                      <Form.Item
+                        label="Username"
+                        name="username"
+                        rules={[
+                          {
+                            required: true,
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[
+                          {
+                            required: true,
+                          },
+                        ]}
+                      >
+                        <Input.Password autocomplete="new-password" />
+                      </Form.Item>
+                      <Form.Item className="mt-30">
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          loading={fetchingLogin ? true : false}
+                        >
+                          Submit
+                        </Button>
+                        <Button
+                          type="secondary"
+                          className="mg-x-10"
+                          htmlType="button"
+                          onClick={() => {
+                            setLoginFailed(false);
+                            form.resetFields();
+                          }}
+                        >
+                          Reset Form
+                        </Button>
+                        <Button type="link">Forgot Password?</Button>
+                      </Form.Item>
+                    </Form>
+                  </Tabs.TabPane>
+                  <Tabs.TabPane key="register" tab={<Text>REGISTER</Text>}>
+                    Hello2
+                  </Tabs.TabPane>
+                </Tabs>
               </Col>
             </Row>
           </Card>
@@ -196,9 +206,11 @@ const SignIn = () => {
 export default SignIn;
 
 export const getServerSideProps = withSession(async function ({ req, res }) {
-  // const user = req.session.get("session");
-  // res.setHeader("location", "/");
-  // res.statusCode = 302;
-  // res.end();
+  const user = req.session.get("session");
+  if (user) {
+    res.setHeader("location", "/");
+    res.statusCode = 302;
+    res.end();
+  }
   return { props: {} };
 });

@@ -933,3 +933,25 @@ html {
     }
   }
 }
+
+.profile-gradient {
+  background-color: #045de9;
+  background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.compose-gradient {
+  background-color: #fc5296;
+  background-image: linear-gradient(315deg, #fc5296 0%, #f67062 74%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.selected-form-change {
+  background: #1890ff;
+
+  span {
+    color: white !important;
+  }
+}
