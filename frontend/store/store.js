@@ -10,5 +10,9 @@ export var storage = {
     setSidebar: action((state, payload) => {
       state.sidebar = payload;
     }),
+    auth: {},
+    setAuth: action((state, payload) => {
+      state.auth = payload;
+    }),
   },
 };

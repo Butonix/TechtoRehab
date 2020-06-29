@@ -5,10 +5,8 @@ import {
   Button,
   Tooltip,
   message,
-  Affix,
   Select,
   Tabs,
-  Layout,
   Result,
   Menu,
   Avatar,
@@ -18,7 +16,6 @@ import {
   Modal,
 } from "antd";
 import Wrapper from "components/global/wrapper";
-import styled from "styled-components";
 import { useState } from "react";
 import obj from "../config.json";
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -33,6 +30,8 @@ import {
   deleteBookmarkQuery,
 } from "components/home/queries";
 import { Reactions } from "components/home/sub/reactions-holder";
+import withSession from "lib/session";
+
 //
 //
 //
@@ -49,7 +48,7 @@ const { Text, Paragraph, Title } = Typography;
 //
 //
 //
-export default function Home() {
+export default function Home(props) {
   //
   //
   //
@@ -57,6 +56,8 @@ export default function Home() {
     getArticlesQuery,
     {
       variables: { offset: 0, limit: 5 },
+      onError: (err) => console.log(err),
+      ssr: true,
     }
   );
   //
@@ -91,7 +92,8 @@ export default function Home() {
   //
   //
   //
-  if (error)
+
+  if (error || data === undefined) {
     return (
       <Result
         status="error"
@@ -109,28 +111,28 @@ export default function Home() {
         ]}
       />
     );
+  }
 
-  //
-  //
-  //
-  //
-  //
-
-  var settings = data.site_settings;
-  var articles = data.articles;
-  var reactions = data.reactions;
-  var total = data.articles_aggregate.aggregate.count;
-
-  //
-  //
-  //
-  //
-  //
-
-  const sidebar = useStoreState((state) => state.site.sidebar);
+  // const sidebar = useStoreState((state) => state.site.sidebar);
   const [drawer, setDrawer] = useState(false);
   const [type, setType] = useState("");
   const [sheetData, setSheetData] = useState([]);
+  //
+  //
+  //
+  //
+  //
+  //
+
+  //
+  //
+  //
+  //
+  //
+
+  // var settings = data.site_settings;
+  var articles = data.articles;
+  var reactions = data.reactions;
 
   //
   //
@@ -167,9 +169,9 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>{obj.theme}</title>
+        <title>Title</title>
       </Head>
-      <Wrapper>
+      <Wrapper user={props.user}>
         <Row>
           <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-r-20">
             <Menu
@@ -276,11 +278,9 @@ export default function Home() {
                     actions={[
                       <a
                         onClick={() => {
-                          return (
-                            setType("Authors"),
-                            setDrawer(true),
-                            setSheetData(item.users_to_articles)
-                          );
+                          setType("Authors");
+                          setDrawer(true);
+                          setSheetData(item.users_to_articles);
                         }}
                       >
                         <Text
@@ -329,11 +329,9 @@ export default function Home() {
                       item.reactions_to_articles.length > 0 ? (
                         <a
                           onClick={() => {
-                            return (
-                              setType("Reactions"),
-                              setDrawer(true),
-                              setSheetData(item.reactions_to_articles)
-                            );
+                            setType("Reactions");
+                            setDrawer(true);
+                            setSheetData(item.reactions_to_articles);
                           }}
                         >
                           <Reactions>
@@ -372,7 +370,7 @@ export default function Home() {
                       title={
                         <a
                           href={
-                            "/" +
+                            "/article/" +
                             item.article_category.slug +
                             (item.article_topic
                               ? "/" + item.article_topic.slug
@@ -421,7 +419,9 @@ export default function Home() {
                 overflowY: "auto",
               }}
               closable
-              onCancel={() => setDrawer(false)}
+              onCancel={() => {
+                setDrawer(false);
+              }}
               footer={null}
             >
               <div className="d-flex flex-column">
@@ -538,7 +538,8 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = withSession(async function ({ req, res }) {
+  const user = req.session.get(["session"]);
   const apolloClient = initializeApollo();
   await apolloClient.query({
     query: getArticlesQuery,
@@ -547,10 +548,10 @@ export const getServerSideProps = async () => {
       limit: 5,
     },
   });
-
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
+      user: user ? user : {},
     },
   };
-};
+});

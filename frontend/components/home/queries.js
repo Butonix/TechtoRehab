@@ -47,10 +47,6 @@ export const getArticlesQuery = gql`
         }
       }
     }
-    site_settings {
-      setting_name
-      setting_value
-    }
 
     reactions {
       id

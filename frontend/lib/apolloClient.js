@@ -2,21 +2,17 @@ import { useMemo } from "react";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
+// var cookie = require("cookie");
 
 let apolloClient;
-
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     link: new HttpLink({
       uri: "https://hasura.techtorehab.com/v1/graphql", // Server URL (must be absolute)
-      credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+      credentials: "same-origin",
     }),
     defaultOptions: {
-      // watchQuery: {
-      //   fetchPolicy: "all",
-      //   errorPolicy: "all",
-      // },
       query: {
         errorPolicy: "all",
       },
@@ -27,9 +23,6 @@ function createApolloClient() {
 
 export function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient();
-
-  // If your page has Next.js data fetching methods that use Apollo Client, the initial state
-  // gets hydrated here
   if (initialState) {
     _apolloClient.cache.restore(initialState);
   }

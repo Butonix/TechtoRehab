@@ -56,7 +56,7 @@ const Nav = styled.div`
 
 const { Text } = Typography;
 
-const Navigation = () => {
+const Navigation = (props) => {
   const setSidebar = useStoreActions((actions) => actions.site.setSidebar);
   const sidebar = useStoreState((state) => state.site.sidebar);
 
@@ -100,7 +100,7 @@ const Navigation = () => {
         </a>
       </div>
       <div className="navigation">
-        <Button type="text">Sign out</Button>
+        <Button type="text">{props.user ? "Sign out" : "Sign In"}</Button>
       </div>
     </Nav>
   );

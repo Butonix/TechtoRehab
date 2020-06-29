@@ -154,7 +154,7 @@ const Article = () => {
   const [deleteComment, { error: deleteCommentError }] = useMutation(
     deleteCommentQuery,
     {
-      onError: (err) => console.log(err),
+      onError: (err) => console.log(JSON.stringify(err)),
       onCompleted: () => getArticleRefetch(),
     }
   );
