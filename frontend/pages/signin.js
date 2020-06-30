@@ -117,7 +117,7 @@ const SignIn = () => {
                 className="pd-30"
               >
                 <Tabs>
-                  <Tabs.TabPane key="login" tab={<Text>SIGN IN</Text>}>
+                  <Tabs.TabPane key="login" tab={<Text>Sign in</Text>}>
                     <Title level={4} className="mt-20 mb-30">
                       Sign in to Tech To Rehab
                     </Title>
@@ -189,10 +189,10 @@ const SignIn = () => {
                       </Form.Item>
                     </Form>
                   </Tabs.TabPane>
-                  <Tabs.TabPane key="register" tab={<Text>REGISTER</Text>}>
+                  <Tabs.TabPane key="register" tab={<Text>Register</Text>}>
                     Hello2
                   </Tabs.TabPane>
-                  <Tabs.TabPane key="forgot" tab={<Text>FORGOT PASSWORD</Text>}>
+                  <Tabs.TabPane key="forgot" tab={<Text>Forgot Password</Text>}>
                     Hello2
                   </Tabs.TabPane>
                 </Tabs>

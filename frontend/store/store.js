@@ -14,5 +14,9 @@ export var storage = {
     setAuth: action((state, payload) => {
       state.auth = payload;
     }),
+    loginModal: false,
+    setLoginModal: action((state, payload) => {
+      state.loginModal = payload;
+    }),
   },
 };

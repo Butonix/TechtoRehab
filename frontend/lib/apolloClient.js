@@ -2,16 +2,27 @@ import { useMemo } from "react";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
-// var cookie = require("cookie");
+import { onError } from "apollo-link-error";
 
 let apolloClient;
+const link = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    );
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
+
+const httpLink = new HttpLink({
+  uri: "https://hasura.techtorehab.com/v1/graphql", // Server URL (must be absolute)
+  credentials: "same-origin",
+});
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
-    link: new HttpLink({
-      uri: "https://hasura.techtorehab.com/v1/graphql", // Server URL (must be absolute)
-      credentials: "same-origin",
-    }),
+    link: link.concat(httpLink),
     defaultOptions: {
       query: {
         errorPolicy: "all",

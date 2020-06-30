@@ -56,10 +56,28 @@ export default function Home(props) {
     getArticlesQuery,
     {
       variables: { offset: 0, limit: 5 },
-      onError: (err) => console.log(err),
-      ssr: true,
+      onError: () => {
+        return (
+          <Result
+            status="error"
+            title="Error Fetching Data"
+            subTitle="Please try again in a few minutes"
+            icon={<img src="/500.svg" />}
+            style={{ margin: "10%" }}
+            extra={[
+              <Button type="primary" onClick={() => router.reload()}>
+                Reload Page
+              </Button>,
+              <Button type="link" onClick={() => router.reload()}>
+                Contact Support
+              </Button>,
+            ]}
+          />
+        );
+      },
     }
   );
+
   //
   //
   //
@@ -92,26 +110,6 @@ export default function Home(props) {
   //
   //
   //
-
-  if (error || data === undefined) {
-    return (
-      <Result
-        status="error"
-        title="Error Fetching Data"
-        subTitle="Please try again in a few minutes"
-        icon={<img src="/500.svg" />}
-        style={{ margin: "10%" }}
-        extra={[
-          <Button type="primary" onClick={() => router.reload()}>
-            Reload Page
-          </Button>,
-          <Button type="link" onClick={() => router.reload()}>
-            Contact Support
-          </Button>,
-        ]}
-      />
-    );
-  }
 
   // const sidebar = useStoreState((state) => state.site.sidebar);
   const [drawer, setDrawer] = useState(false);
@@ -165,7 +163,26 @@ export default function Home(props) {
   //
   //
   //
-
+  if (error) {
+    return (
+      <Result
+        status="error"
+        title="Error Fetching Data"
+        subTitle="Please try again in a few minutes"
+        icon={<img src="/500.svg" />}
+        style={{ margin: "10%" }}
+        extra={[
+          <Button type="primary" onClick={() => router.reload()}>
+            Reload Page
+          </Button>,
+          <Button type="link" onClick={() => router.reload()}>
+            Contact Support
+            {console.log(error)}
+          </Button>,
+        ]}
+      />
+    );
+  }
   return (
     <>
       <Head>

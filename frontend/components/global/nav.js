@@ -4,6 +4,9 @@ import {
   Typography,
   Button,
   Dropdown,
+  Form,
+  Input,
+  Modal,
   Avatar,
   Menu,
   Divider,
@@ -12,6 +15,7 @@ import styled from "styled-components";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { breakPoints } from "./responsive";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Nav = styled.div`
   display: flex;
@@ -69,9 +73,13 @@ const Nav = styled.div`
   }
 `;
 
-const { Text } = Typography;
+const { Text, Title, Paragraph } = Typography;
 
 const Navigation = (props) => {
+  const loginModal = useStoreState((state) => state.site.loginModal);
+  const setLoginModal = useStoreActions(
+    (actions) => actions.site.setLoginModal
+  );
   const setSidebar = useStoreActions((actions) => actions.site.setSidebar);
   const sidebar = useStoreState((state) => state.site.sidebar);
   const router = useRouter();
@@ -94,9 +102,17 @@ const Navigation = (props) => {
         icon={
           <i class="ri-edit-circle-fill ri-lg va-minus-6 fs-24 compose-gradient"></i>
         }
+        onClick={() => {
+          props.user && props.user.id ? null : setLoginModal(true);
+        }}
       >
-        <Divider type="vertical" style={{ height: 30 }} /> Compose
+        <Divider type="vertical" style={{ height: 30 }} />
+
+        <a href={props.user && props.user.id ? "/compose" : null}>
+          <Text> Compose</Text>
+        </a>
       </Menu.Item>
+
       <Menu.Item
         className="pd-20"
         key="3"
@@ -150,6 +166,38 @@ const Navigation = (props) => {
           ></i>
         </a>
       </div>
+      <Modal
+        closable
+        footer={false}
+        maskClosable
+        onCancel={() => setLoginModal(false)}
+        visible={loginModal}
+      >
+        <Row justify="center">
+          <Col span={18}>
+            <img src="/login-2.svg" width={350} height={250} />
+            <Title level={4} className="mg-y-20 fs-18 ta-center">
+              Please Sign In to continue
+            </Title>
+            <Form layout="vertical">
+              <Form.Item label="Username" name="username">
+                <Input placeholder="Your Username" />
+              </Form.Item>
+              <Form.Item label="Password" name="username">
+                <Input.Password
+                  placeholder="Your Password"
+                  name="password"
+                  autoComplete="new-password"
+                />
+              </Form.Item>
+              <Form.Item className="mt-30 mb-20">
+                <Button type="primary">Sign In</Button>
+                <Button type="link">Forgot Password ?</Button>
+              </Form.Item>
+            </Form>
+          </Col>
+        </Row>
+      </Modal>
       <div className="navigation logo-holder mr-auto ml-10">
         <a href="/">
           <img className="logo" src="/TTR-LIGHT.svg" />
@@ -160,46 +208,46 @@ const Navigation = (props) => {
           <Text>Categories</Text>
         </a>
       </div>
-      {/* <div className="navigation desktop-link mr-10 ml-10">
-        <a href="/create">
-          <Button
-            type="primary"
-            icon={
-              <i
-                className="ri-edit-line mr-5 va-minus-2"
-                style={{ color: "inherit" }}
-              ></i>
-            }
-          >
-            Create
+
+      {props.user && props.user.id ? (
+        <div className="navigation dropDown">
+          <Dropdown trigger="click" overlay={UserDrop}>
+            <Button
+              type="text"
+              className="t-transform-cpt"
+              icon={
+                <Avatar
+                  src={
+                    props.user && props.user.id
+                      ? props.user.profilePicture
+                      : null
+                  }
+                  size={30}
+                  className="mr-10"
+                  style={{ marginTop: -3 }}
+                />
+              }
+            >
+              {props.user && props.user.id ? (
+                <Text>{props.user.username}</Text>
+              ) : (
+                <Text>Error Loading Data</Text>
+              )}
+              <i class="ri-arrow-down-s-line va-minus-4 fs-16 ml-5"></i>
+            </Button>
+          </Dropdown>
+        </div>
+      ) : (
+        <div className="navigation">
+          <Button type="text">
+            <Link href="/signin">
+              <a>
+                <Text>Sign in</Text>
+              </a>
+            </Link>
           </Button>
-        </a>
-      </div> */}
-      <div className="navigation dropDown">
-        <Dropdown trigger="click" overlay={UserDrop}>
-          <Button
-            type="text"
-            className="t-transform-cpt"
-            icon={
-              <Avatar
-                src={
-                  props.user && props.user.id ? props.user.profilePicture : null
-                }
-                size={30}
-                className="mr-10"
-                style={{ marginTop: -3 }}
-              />
-            }
-          >
-            {props.user && props.user.id ? (
-              <Text>{props.user.username}</Text>
-            ) : (
-              <Text>Guest</Text>
-            )}
-            <i class="ri-arrow-down-s-line va-minus-4 fs-16 ml-5"></i>
-          </Button>
-        </Dropdown>
-      </div>
+        </div>
+      )}
     </Nav>
   );
 };
