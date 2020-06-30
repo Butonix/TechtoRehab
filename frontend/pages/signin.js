@@ -395,7 +395,11 @@ const SignIn = () => {
                                   "https://api.happi.dev/v1/generate-password?apikey=3f1522rCh7wwqSyBDStzSXGysI0RNRULxI6Adkat5E4ormKt0UWSz8gD&limit=1&length=15&num=1&upper=1&symbols=1"
                                 )
                                   .then((res) => res.json())
-                                  .then((result) => console.log(result));
+                                  .then((result) => {
+                                    form2.setFieldsValue({
+                                      password: result.passwords[0],
+                                    });
+                                  });
                                 // form2.setFieldsValue({
                                 //   password: "Afzaal12#$12",
                                 // });
