@@ -58,6 +58,23 @@ const checkEmailQuery = gql`
     }
   }
 `;
+
+const registerQuery = gql`
+  mutation registerUser(
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    insert_users_private_info_one(
+      object: {
+        password: "sds"
+        user: { data: { email: "asds", username: "asds" } }
+      }
+    ) {
+      user_id
+    }
+  }
+`;
 const SignIn = () => {
   const [loginFailed, setLoginFailed] = useState(false);
   const [fetchingLogin, setFetchingLogin] = useState(false);
@@ -253,7 +270,22 @@ const SignIn = () => {
                     <Title level={4} className="mg-y-20">
                       Register for an account
                     </Title>
-                    <Form form={form2} layout="vertical">
+                    <Form
+                      form={form2}
+                      layout="vertical"
+                      onFinishFailed={() => alert("failed")}
+                      onFinish={() => {
+                        if (
+                          usernameStatus == "unavailable" ||
+                          emailStatus == "unavailable"
+                        ) {
+                          return message.error(
+                            "Please make sure that both username and email are available",
+                            5
+                          );
+                        }
+                      }}
+                    >
                       <Form.Item
                         label="Username"
                         name="username"
@@ -398,14 +430,12 @@ const SignIn = () => {
                                   .then((result) => {
                                     form2.setFieldsValue({
                                       password: result.passwords[0],
+                                      rPassword: result.passwords[0],
                                     });
                                   });
-                                // form2.setFieldsValue({
-                                //   password: "Afzaal12#$12",
-                                // });
                               }}
                             >
-                              Generate
+                              Generate Password
                             </Button>
                           </>
                         }
@@ -448,17 +478,7 @@ const SignIn = () => {
                         <Input.Password placeholder="Repeat the above password" />
                       </Form.Item>
                       <Form.Item className="mt-20">
-                        {usernameStatus == "available" &&
-                        emailStatus == "available" ? (
-                          <Button type="primary" className="mr-20">
-                            Submit
-                          </Button>
-                        ) : usernameStatus == null ||
-                          emailStatus == null ? null : (
-                          <Text type="danger" strong className="mr-20">
-                            Username & Email must be valid
-                          </Text>
-                        )}
+                        <Button htmlType="submit">Submit</Button>
                         <Button
                           type="Reset"
                           onClick={() => {
