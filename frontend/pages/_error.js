@@ -1,4 +1,8 @@
+import { Result, Button } from "antd";
+import { useRouter } from "next/router";
+
 function Error({ statusCode }) {
+  const router = useRouter();
   return (
     <Result
       status="error"
@@ -12,7 +16,6 @@ function Error({ statusCode }) {
         </Button>,
         <Button type="link" onClick={() => router.reload()}>
           Contact Support
-          {console.log(error)}
         </Button>,
       ]}
     />

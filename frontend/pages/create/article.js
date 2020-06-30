@@ -184,11 +184,11 @@ const createArticle = () => {
                   style={{ position: "absolute", marginTop: -23, right: 35 }}
                 >
                   {titleApprove == "validating"
-                    ? "Checking Availability"
+                    ? "Checking"
                     : titleApprove == "available"
-                    ? "Title Available!"
+                    ? "Available!"
                     : titleApprove == "unavailable"
-                    ? "Title Already Exists"
+                    ? "Already Taken"
                     : titleApprove == null
                     ? null
                     : null}
