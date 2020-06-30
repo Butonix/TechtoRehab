@@ -16,7 +16,7 @@ import ButtonGroup from "antd/lib/button/button-group";
 import withSession from "lib/session";
 import { useRouter } from "next/router";
 import gql from "graphql-tag";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { useState, useEffect } from "react";
 
 const { Text, Title, Paragraph } = Typography;
@@ -67,8 +67,8 @@ const registerQuery = gql`
   ) {
     insert_users_private_info_one(
       object: {
-        password: "sds"
-        user: { data: { email: "asds", username: "asds" } }
+        password: $password
+        user: { data: { email: $email, username: $username } }
       }
     ) {
       user_id
@@ -129,11 +129,19 @@ const SignIn = () => {
     onError: (err) => console.log(err),
   });
 
+  const [
+    registerUser,
+    { loading: registerUserLoading, data: registerUserData },
+  ] = useMutation(registerQuery, {
+    onError: () => message.error("Server Error : Please Try Again Later"),
+    onCompleted: () => {},
+  });
+
   useEffect(() => {
     if (checkUsernameData && checkUsernameData.users_aggregate) {
       if (checkUsernameData.users_aggregate.aggregate.count == 1) {
         setUsernameStatus("unavailable");
-      } else if (checkUsernameData.users_aggregate.aggregate.count < 1) {
+      } else if (checkUsernameData.users_aggregate.aggregate.count == 0) {
         setUsernameStatus("available");
       } else {
         setUsernameStatus(null);
@@ -141,9 +149,10 @@ const SignIn = () => {
     }
 
     if (checkEmailData && checkEmailData.users_aggregate) {
+      console.log(checkEmailData);
       if (checkEmailData.users_aggregate.aggregate.count == 1) {
         setEmailStatus("unavailable");
-      } else if (checkEmailData.users_aggregate.aggregate.count < 1) {
+      } else if (checkEmailData.users_aggregate.aggregate.count == 0) {
         setEmailStatus("available");
       } else {
         setEmailStatus(null);
@@ -273,8 +282,7 @@ const SignIn = () => {
                     <Form
                       form={form2}
                       layout="vertical"
-                      onFinishFailed={() => alert("failed")}
-                      onFinish={() => {
+                      onFinish={(obj) => {
                         if (
                           usernameStatus == "unavailable" ||
                           emailStatus == "unavailable"
@@ -284,6 +292,28 @@ const SignIn = () => {
                             5
                           );
                         }
+                        console.log("passowrd is" + obj.password);
+
+                        fetch("/api/encryptPass", {
+                          method: "POST",
+                          headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            password: obj.password,
+                          }),
+                        })
+                          .then((res) => res.json())
+                          .then((result) => {
+                            registerUser({
+                              variables: {
+                                username: obj.username,
+                                password: result.hash,
+                                email: obj.email,
+                              },
+                            });
+                          });
                       }}
                     >
                       <Form.Item
@@ -484,6 +514,9 @@ const SignIn = () => {
                           onClick={() => {
                             checkUsername({
                               variables: { username: undefined },
+                            });
+                            checkEmail({
+                              variables: { email: undefined },
                             });
                             form2.resetFields();
                           }}
