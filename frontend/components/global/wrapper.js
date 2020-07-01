@@ -1,10 +1,47 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import { Menu, Divider, Typography, Layout, Drawer } from "antd";
+import {
+  Menu,
+  Divider,
+  Typography,
+  Layout,
+  Drawer,
+  Alert,
+  Form,
+  Button,
+  Input,
+  Result,
+  Row,
+  Col,
+} from "antd";
 import Navbar from "./nav";
-import { useSwipeable, Swipeable } from "react-swipeable";
 import Link from "next/link";
 import withSession from "lib/session";
+import gql from "graphql-tag";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { useRouter } from "next/router";
+import { useSwipeable, Swipeable } from "react-swipeable";
+
+const checkTokenQuery = gql`
+  query checkToken($userId: uuid!) {
+    users(where: { id: { _eq: $userId } }) {
+      private_info {
+        confirm_token
+      }
+    }
+  }
+`;
+
+const activateUserQuery = gql`
+  mutation activateUser($id: uuid!, $status: String!, $token: String!) {
+    update_users_private_info(
+      where: { user_id: { _eq: $id } }
+      _set: { status: $status, confirm_token: $token }
+    ) {
+      affected_rows
+    }
+  }
+`;
 
 const wrapper = (props) => {
   const darkState = useStoreState((state) => state.site.dark);
@@ -12,6 +49,65 @@ const wrapper = (props) => {
   const setAuth = useStoreActions((actions) => actions.site.setAuth);
   const sidebar = useStoreState((state) => state.site.sidebar);
   const setSidebar = useStoreActions((actions) => actions.site.setSidebar);
+  const [token, setToken] = useState(null);
+  const [tokenSuccess, setTokenSuccess] = useState(false);
+  const [tokenFail, setTokenFail] = useState(false);
+  const router = useRouter();
+
+  const [
+    activateUser,
+    { loading: activateUserLoading, data: activateUserData },
+  ] = useMutation(activateUserQuery, {
+    onCompleted: () => {
+      setTokenFail(false);
+      setTokenSuccess(true);
+      // setTimeout(router.reload(), 3000);
+      fetch("/api/login", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: props.user.id,
+          status: "confirmed",
+          email: props.user.email,
+          profilePicture: props.user.profilePicture,
+          username: props.user.username,
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          setTimeout(router.reload(), 3000);
+        });
+    },
+  });
+
+  const [
+    checkToken,
+    {
+      loading: checkTokenLoading,
+      data: checkTokenData,
+      error: checkTokenError,
+    },
+  ] = useLazyQuery(checkTokenQuery, {
+    onCompleted: (data) => {
+      console.log(data);
+      if (data.users[0].private_info.confirm_token == token) {
+        activateUser({
+          variables: {
+            id: props.user.id,
+            status: "confirmed",
+            token: "",
+          },
+        });
+      } else {
+        setTokenFail(true);
+      }
+    },
+    onError: (err) => console.log(err),
+    fetchPolicy: "network-only",
+  });
 
   useEffect(() => {
     /** Get html */
@@ -71,6 +167,7 @@ const wrapper = (props) => {
   });
 
   const { Content } = Layout;
+  const { Text, Paragraph, Title } = Typography;
 
   return (
     <Layout>
@@ -154,7 +251,101 @@ const wrapper = (props) => {
         <Layout className="mainLayout">
           <Content className="site-layout">
             <Swipeable onSwipedRight={(eventData) => setSidebar(true)}>
-              {props.children}
+              {props.user ? (
+                props.user.status == "pending" ? (
+                  <Row justify="center" className="pd-20">
+                    <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
+                      <Result
+                        status="warning"
+                        title="Activation Pending"
+                        icon={
+                          <img
+                            src="/email-confirm.svg"
+                            width="100%"
+                            height={400}
+                          />
+                        }
+                        subTitle={
+                          <div className="pd-10 d-flex flex-column ai-center">
+                            <div>
+                              <Paragraph
+                                ellipsis={{ rows: 2 }}
+                                className="fs-16"
+                                style={{ width: "380px" }}
+                                strong
+                              >
+                                Your Account Doesn't Seems To Be Confirmed.
+                                Please check your inbox for a confirmation token
+                              </Paragraph>
+                            </div>
+                          </div>
+                        }
+                        extra={
+                          <>
+                            {tokenFail ? (
+                              <Alert
+                                message="Error"
+                                description="TWrong Token, Please Retry"
+                                type="error"
+                                showIcon
+                                style={{ textAlign: "left" }}
+                                className="mg-y-20"
+                              />
+                            ) : tokenSuccess ? (
+                              <Alert
+                                message="Success!"
+                                description="Token Verified, Now Redirecting..."
+                                type="success"
+                                showIcon
+                                style={{ textAlign: "left" }}
+                                className="mg-y-20"
+                              />
+                            ) : null}
+                            <Form
+                              layout="vertical"
+                              onFinish={(obj) => {
+                                return checkToken({
+                                  variables: {
+                                    userId: props.user.id,
+                                  },
+                                });
+                              }}
+                            >
+                              <Form.Item
+                                label="Confirmation Token"
+                                name="token"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Token Cannot be empty!",
+                                  },
+                                ]}
+                              >
+                                <Input
+                                  placeholder="Confirmation Token From Email"
+                                  onChange={(val) => {
+                                    setToken(val.target.value);
+                                  }}
+                                />
+                              </Form.Item>
+                              <Form.Item>
+                                <Button type="primary" htmlType="submit">
+                                  Submit
+                                </Button>
+                                <Button type="link">Resend Token</Button>
+                              </Form.Item>
+                            </Form>
+                          </>
+                        }
+                      />
+                    </Col>
+                  </Row>
+                ) : (
+                  props.children
+                )
+              ) : (
+                props.children
+              )}
             </Swipeable>
           </Content>
         </Layout>

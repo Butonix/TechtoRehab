@@ -14,6 +14,10 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
     res.statusCode = 302;
     res.end();
     return { props: {} };
+  } else if (user.status == "pending") {
+    res.setHeader("location", "/user/pending");
+    res.statusCode = 302;
+    res.end();
   } else {
     return { props: {} };
   }

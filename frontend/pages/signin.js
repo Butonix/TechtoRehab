@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import gql from "graphql-tag";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { useState, useEffect } from "react";
+import { nanoid } from "nanoid";
 
 const { Text, Title, Paragraph } = Typography;
 
@@ -33,6 +34,7 @@ const loginQuery = gql`
         email
         profile_picture
         private_info {
+          status
           password
         }
       }
@@ -65,14 +67,23 @@ const registerQuery = gql`
     $username: String!
     $email: String!
     $password: String!
+    $token: String!
   ) {
     insert_users_private_info_one(
       object: {
         password: $password
+        confirm_token: $token
         user: { data: { email: $email, username: $username } }
       }
     ) {
       user_id
+      status
+      confirm_token
+      user {
+        email
+        profile_picture
+        username
+      }
     }
   }
 `;
@@ -83,6 +94,7 @@ const SignIn = () => {
   const [emailStatus, setEmailStatus] = useState(null);
   const [enteredPassword, setEnteredPassword] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [registeringUser, setRegisteringUser] = useState(false);
   const [form] = Form.useForm();
   const [form2] = Form.useForm();
 
@@ -92,8 +104,6 @@ const SignIn = () => {
     loginQuery,
     {
       onCompleted: (data) => {
-        console.log("data");
-
         if (data.users_aggregate.aggregate.count > 0) {
           fetch("/api/checkPassword", {
             method: "POST",
@@ -118,7 +128,7 @@ const SignIn = () => {
                     email: data.users_aggregate.nodes[0].email,
                     profilePicture:
                       data.users_aggregate.nodes[0].profile_picture,
-                    type: "user",
+                    status: data.users_aggregate.nodes[0].private_info.status,
                   }),
                 })
                   .then((res) => res.json())
@@ -161,8 +171,43 @@ const SignIn = () => {
     registerUser,
     { loading: registerUserLoading, data: registerUserData },
   ] = useMutation(registerQuery, {
-    onError: () => message.error("Server Error : Please Try Again Later"),
-    onCompleted: () => {},
+    onError: (err) => console.log(err),
+    onCompleted: (data) => {
+      fetch("/api/sendRegEmail", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: data.insert_users_private_info_one.confirm_token,
+          email: data.insert_users_private_info_one.user.email,
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          fetch("/api/login", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              status: data.insert_users_private_info_one.status,
+              username: data.insert_users_private_info_one.user.username,
+              id: data.insert_users_private_info_one.user_id,
+              email: data.insert_users_private_info_one.user.email,
+              profilePicture:
+                data.insert_users_private_info_one.user.profilePicture,
+            }),
+          })
+            .then((res) => res.json())
+            .then((result) => {
+              setRegisteringUser(false);
+              router.back();
+            });
+        });
+    },
   });
 
   useEffect(() => {
@@ -265,6 +310,7 @@ const SignIn = () => {
                         showIcon
                       />
                     ) : null}
+
                     <Form
                       layout="vertical"
                       form={form}
@@ -332,6 +378,26 @@ const SignIn = () => {
                     <Title level={4} className="mg-y-20">
                       Register for an account
                     </Title>
+                    {registeringUser ? (
+                      <Alert
+                        message="Success"
+                        className="mg-y-20"
+                        description={
+                          <div className="d-flex">
+                            <Text className="mr-10">
+                              Registering, Please wait...
+                            </Text>
+                            <div className="spinner">
+                              <div class="bounce1"></div>
+                              <div class="bounce2"></div>
+                              <div class="bounce3"></div>
+                            </div>
+                          </div>
+                        }
+                        type="success"
+                        showIcon
+                      />
+                    ) : null}
                     <Form
                       form={form2}
                       layout="vertical"
@@ -345,8 +411,6 @@ const SignIn = () => {
                             5
                           );
                         }
-                        console.log("passowrd is" + obj.password);
-
                         fetch("/api/encryptPass", {
                           method: "POST",
                           headers: {
@@ -359,11 +423,13 @@ const SignIn = () => {
                         })
                           .then((res) => res.json())
                           .then((result) => {
+                            setRegisteringUser(true);
                             registerUser({
                               variables: {
                                 username: obj.username,
                                 password: result.hash,
                                 email: obj.email,
+                                token: nanoid(),
                               },
                             });
                           });
