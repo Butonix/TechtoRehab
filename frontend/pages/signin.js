@@ -95,6 +95,7 @@ const SignIn = () => {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [registeringUser, setRegisteringUser] = useState(false);
+  const [username, setUsername] = useState(null);
   const [form] = Form.useForm();
   const [form2] = Form.useForm();
 
@@ -182,6 +183,7 @@ const SignIn = () => {
         body: JSON.stringify({
           token: data.insert_users_private_info_one.confirm_token,
           email: data.insert_users_private_info_one.user.email,
+          username: username,
         }),
       })
         .then((res) => res.json())
@@ -483,6 +485,7 @@ const SignIn = () => {
                           placeholder="Your chosen username"
                           onChange={(val) => {
                             if (val.target.value.length > 0) {
+                              setUsername(val.target.value);
                               checkUsername({
                                 variables: {
                                   username: val.target.value,
