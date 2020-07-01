@@ -240,9 +240,9 @@ const Navigation = (props) => {
       ) : (
         <div className="navigation">
           <Button type="text">
-            <Link href="/signin">
+            <Link href="/get-started">
               <a>
-                <Text>Sign in</Text>
+                <Text>Get Started</Text>
               </a>
             </Link>
           </Button>
