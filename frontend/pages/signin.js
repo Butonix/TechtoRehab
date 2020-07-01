@@ -22,10 +22,8 @@ import { useState, useEffect } from "react";
 const { Text, Title, Paragraph } = Typography;
 
 const loginQuery = gql`
-  query loginQuery($username: String!, $password: String!) {
-    users_aggregate(
-      where: { username: { _eq: $username }, password: { _eq: $password } }
-    ) {
+  query loginQuery($username: String!) {
+    users_aggregate(where: { username: { _eq: $username } }) {
       aggregate {
         count
       }
@@ -34,6 +32,9 @@ const loginQuery = gql`
         id
         email
         profile_picture
+        private_info {
+          password
+        }
       }
     }
   }
@@ -80,6 +81,8 @@ const SignIn = () => {
   const [fetchingLogin, setFetchingLogin] = useState(false);
   const [usernameStatus, setUsernameStatus] = useState(null);
   const [emailStatus, setEmailStatus] = useState(null);
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const [form] = Form.useForm();
   const [form2] = Form.useForm();
 
@@ -89,22 +92,46 @@ const SignIn = () => {
     loginQuery,
     {
       onCompleted: (data) => {
+        console.log("data");
+
         if (data.users_aggregate.aggregate.count > 0) {
-          fetch("http://localhost:3000/api/login", {
+          fetch("/api/checkPassword", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
             body: JSON.stringify({
-              id: data.users_aggregate.nodes[0].id,
-              username: data.users_aggregate.nodes[0].username,
-              email: data.users_aggregate.nodes[0].email,
-              profilePicture: data.users_aggregate.nodes[0].profile_picture,
-              type: "user",
+              salt: data.users_aggregate.nodes[0].private_info.password,
+              password: enteredPassword,
             }),
           })
             .then((res) => res.json())
-            .then((data) => {
-              setFetchingLogin(false);
-              router.back();
+            .then((result) => {
+              if (result.verify == "pass") {
+                fetch("/api/login", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    id: data.users_aggregate.nodes[0].id,
+                    username: data.users_aggregate.nodes[0].username,
+                    email: data.users_aggregate.nodes[0].email,
+                    profilePicture:
+                      data.users_aggregate.nodes[0].profile_picture,
+                    type: "user",
+                  }),
+                })
+                  .then((res) => res.json())
+                  .then((data) => {
+                    setFetchingLogin(false);
+                    setLoginFailed(false);
+                    setLoginSuccess(true);
+                    router.back();
+                  });
+              } else {
+                setLoginFailed(true);
+                setFetchingLogin(false);
+              }
             });
         } else {
           setFetchingLogin(false);
@@ -112,6 +139,7 @@ const SignIn = () => {
         }
       },
       onError: (err) => console.log(err),
+      fetchPolicy: "network-only",
     }
   );
 
@@ -218,6 +246,25 @@ const SignIn = () => {
                         onClose={() => setLoginFailed(false)}
                       />
                     ) : null}
+                    {loginSuccess ? (
+                      <Alert
+                        message="Success"
+                        description={
+                          <div className="d-flex">
+                            <Text className="mr-10">
+                              Success! Redirecting...
+                            </Text>
+                            <div className="spinner">
+                              <div class="bounce1"></div>
+                              <div class="bounce2"></div>
+                              <div class="bounce3"></div>
+                            </div>
+                          </div>
+                        }
+                        type="success"
+                        showIcon
+                      />
+                    ) : null}
                     <Form
                       layout="vertical"
                       form={form}
@@ -226,7 +273,6 @@ const SignIn = () => {
                         login({
                           variables: {
                             username: obj.username,
-                            password: obj.password,
                           },
                         });
                       }}
@@ -239,6 +285,7 @@ const SignIn = () => {
                             required: true,
                           },
                         ]}
+                        hasFeedback
                       >
                         <Input />
                       </Form.Item>
@@ -250,8 +297,14 @@ const SignIn = () => {
                             required: true,
                           },
                         ]}
+                        hasFeedback
                       >
-                        <Input.Password autoComplete="new-password" />
+                        <Input.Password
+                          autoComplete="new-password"
+                          onChange={(pass) => {
+                            setEnteredPassword(pass.target.value);
+                          }}
+                        />
                       </Form.Item>
                       <Form.Item className="mt-30">
                         <Button
@@ -508,7 +561,13 @@ const SignIn = () => {
                         <Input.Password placeholder="Repeat the above password" />
                       </Form.Item>
                       <Form.Item className="mt-20">
-                        <Button htmlType="submit">Submit</Button>
+                        <Button
+                          htmlType="submit"
+                          type="primary"
+                          className="mr-20"
+                        >
+                          Submit
+                        </Button>
                         <Button
                           type="Reset"
                           onClick={() => {

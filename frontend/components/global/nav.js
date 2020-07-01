@@ -222,7 +222,7 @@ const Navigation = (props) => {
                       ? props.user.profilePicture
                       : null
                   }
-                  size={30}
+                  size={26}
                   className="mr-10"
                   style={{ marginTop: -3 }}
                 />
