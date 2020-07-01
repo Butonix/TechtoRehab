@@ -239,10 +239,10 @@ const Navigation = (props) => {
         </div>
       ) : (
         <div className="navigation">
-          <Button type="text">
+          <Button type="primary">
             <Link href="/get-started">
               <a>
-                <Text>Get Started</Text>
+                <Text style={{ color: "inherit" }}>Get Started</Text>
               </a>
             </Link>
           </Button>

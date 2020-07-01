@@ -245,6 +245,7 @@ export default function Home(props) {
                     title
                     paragraph={{ rows: 1 }}
                     active
+                    key="sk-1"
                   />
                   <Skeleton
                     className="mt-20"
@@ -252,6 +253,7 @@ export default function Home(props) {
                     title
                     paragraph={{ rows: 1 }}
                     active
+                    key="sk-2"
                   />
                 </>
               }
@@ -363,7 +365,10 @@ export default function Home(props) {
                                     className="reaction-holder"
                                     key={reaction.name}
                                   >
-                                    <div className="reaction fs-22">
+                                    <div
+                                      className="reaction fs-22"
+                                      key={reaction.name}
+                                    >
                                       <i
                                         className={`${reaction.code} va-middle`}
                                         style={reaction.gradient}
@@ -384,6 +389,7 @@ export default function Home(props) {
                     ]}
                   >
                     <List.Item.Meta
+                      key={item.id}
                       title={
                         <a
                           href={
@@ -405,7 +411,11 @@ export default function Home(props) {
                         </a>
                       }
                       description={
-                        <Paragraph className="mr-20" ellipsis={{ rows: 2 }}>
+                        <Paragraph
+                          className="mr-20"
+                          ellipsis={{ rows: 2 }}
+                          key={item.id}
+                        >
                           {item.excerpt}
                         </Paragraph>
                       }
@@ -444,8 +454,8 @@ export default function Home(props) {
               <div className="d-flex flex-column">
                 {sheetData.length > 0 ? (
                   type == "Authors" ? (
-                    sheetData.map((mapped) => (
-                      <Space className="mt-20">
+                    sheetData.map((mapped, index) => (
+                      <Space className="mt-20" key={index}>
                         {console.log(mapped.authors.profile_picture)}
                         <Avatar src={mapped.authors.profile_picture} />
                         <Text className="t-transform-cpt">
@@ -466,7 +476,7 @@ export default function Home(props) {
                             <Tabs.TabPane
                               key={mapped.name}
                               tab={
-                                <Reactions>
+                                <Reactions key={mapped.name}>
                                   <div className="reaction-holder">
                                     <div className="reaction">
                                       <i
