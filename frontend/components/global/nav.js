@@ -108,8 +108,8 @@ const Navigation = (props) => {
       >
         <Divider type="vertical" style={{ height: 30 }} />
 
-        <a href={props.user && props.user.id ? "/compose" : null}>
-          <Text> Compose</Text>
+        <a href={props.user && props.user.id ? "/create" : null}>
+          <Text>Start Writing</Text>
         </a>
       </Menu.Item>
 

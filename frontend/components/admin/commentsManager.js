@@ -257,8 +257,6 @@ const CommentsManager = () => {
                       <Text type="danger">Delete</Text>
                     </a>
                   </Space>,
-                  comments.id,
-                  console.log(comments.replies),
                 ]}
                 avatar={<Avatar src={comments.author.profile_picture} />}
                 datetime={

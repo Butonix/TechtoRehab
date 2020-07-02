@@ -1,8 +1,9 @@
 import AdminComponent from "components/admin/adminWrapper";
+import withSession from "lib/session";
 
-const Admin = () => {
+const Admin = (props) => {
   return (
-    <AdminComponent>
+    <AdminComponent user={props.user}>
       <p>Children</p>
     </AdminComponent>
   );
@@ -10,8 +11,11 @@ const Admin = () => {
 
 export default Admin;
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = withSession(async function ({ req, res }) {
+  const user = req.session.get(["session"]);
   return {
-    props: {},
+    props: {
+      user: user ? user : null,
+    },
   };
-};
+});

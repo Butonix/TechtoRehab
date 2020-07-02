@@ -25,6 +25,17 @@ const getUser = gql`
       settings {
         blocked
       }
+      articles_to_users {
+        article_id
+      }
+    }
+  }
+`;
+
+const deleteArticlesQuery = gql`
+  mutation deleteArticles($id: uuid!) {
+    delete_articles(where: { id: { _eq: $id } }) {
+      affected_rows
     }
   }
 `;
@@ -64,9 +75,9 @@ const deleteUserQuery = gql`
   mutation deleteUser($id: uuid!) {
     delete_articles_and_users(where: { user_id: { _eq: $id } }) {
       affected_rows
-    }
-    delete_articles(where: { users_to_articles: { user_id: { _eq: $id } } }) {
-      affected_rows
+      returning {
+        article_id
+      }
     }
     delete_reply_and_reply(where: { userId: { _eq: $id } }) {
       affected_rows
@@ -100,13 +111,18 @@ const addUsero = gql`
     $password: String!
     $email: String!
   ) {
-    insert_users_one(
+    insert_users_private_info_one(
       object: {
-        first_name: $fName
-        last_name: $lName
-        username: $uName
-        email: $email
         password: $password
+        status: "confirmed"
+        user: {
+          data: {
+            email: $email
+            first_name: $fName
+            last_name: $lName
+            username: $uName
+          }
+        }
       }
     ) {
       id
@@ -152,7 +168,16 @@ const UsersManager = () => {
     },
   ] = useMutation(deleteUserQuery, {
     onError: (err) => message.error("Error Deleting User"),
-    onCompleted: (succ) => message.success("User Deleted Successfully"),
+    onCompleted: (data) => {
+      message.success("User Deleted Successfully");
+      data.delete_articles_and_users.returning.map((returned) => {
+        deleteArticles({
+          variables: {
+            id: returned.article_id,
+          },
+        });
+      });
+    },
     errorPolicy: "all",
   });
 
@@ -170,10 +195,20 @@ const UsersManager = () => {
     errorPolicy: "all",
   });
 
-  const [sendUser, { loading, data }] = useLazyQuery(getUser, {
+  const [deleteArticles, { data: deleteArticlesData }] = useMutation(
+    deleteArticlesQuery,
+    {
+      onCompleted: () => {
+        message.success("User Deleted Successfully");
+        refetch();
+      },
+    }
+  );
+
+  const [sendUser, { loading, data, refetch }] = useLazyQuery(getUser, {
     onError: () => message.error("Couldn't Fetch Users"),
     errorPolicy: "all",
-    pollInterval: 1000,
+    fetchPolicy: "network",
   });
 
   const [

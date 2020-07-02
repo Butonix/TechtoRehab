@@ -18,6 +18,7 @@ import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import gql from "graphql-tag";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
+import withSession from "lib/session";
 
 const getCatsandTopicsQuery = gql`
   query catsAndTopics {
@@ -43,6 +44,7 @@ const insertPostQuery = gql`
     $category: uuid!
     $topic: uuid!
     $slug: String!
+    $userId: uuid!
   ) {
     insert_articles_one(
       object: {
@@ -53,9 +55,7 @@ const insertPostQuery = gql`
         category: $category
         topic: $topic
         slug: $slug
-        users_to_articles: {
-          data: { user_id: "59b79adc-f10a-44b3-8cf5-46e0d4e2ecfc" }
-        }
+        users_to_articles: { data: { user_id: $userId } }
       }
     ) {
       created_at
@@ -79,7 +79,7 @@ const MyEditor = dynamic(
 );
 
 const { Text, Title, Paragraph, Link } = Typography;
-const createArticle = () => {
+const createArticle = (props) => {
   const [form] = Form.useForm();
   const [image, setImage] = useState(null);
   const [editorContent, setEditorContent] = useState(`Ncie Content`);
@@ -154,7 +154,7 @@ const createArticle = () => {
     });
   };
   return (
-    <Wrapper>
+    <Wrapper user={props.user}>
       <Row className="pd-10">
         <Col xs={24} sm={24} md={24} lg={19} xl={20} xxl={20} className="pd-20">
           <Form layout="vertical" form={form} wrapperCol={24}>
@@ -292,6 +292,7 @@ const createArticle = () => {
                   content: sendContent,
                   slug: sendSlug,
                   featuredImage: sendFeaturedImage,
+                  userId: props.user.id,
                 },
               });
               form.resetFields();
@@ -457,7 +458,8 @@ const createArticle = () => {
 
 export default createArticle;
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = withSession(async function ({ req, res }) {
+  const user = req.session.get(["session"]);
   const apolloClient = initializeApollo();
   await apolloClient.query({
     query: getCatsandTopicsQuery,
@@ -466,6 +468,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
+      user: user ? user : null,
     },
   };
-};
+});

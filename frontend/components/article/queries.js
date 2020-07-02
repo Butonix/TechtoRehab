@@ -78,12 +78,16 @@ export const getArticleQuery = gql`
 `;
 
 export const insertReactionQuery = gql`
-  mutation insertReaction($articleId: uuid!, $reactionId: uuid!) {
+  mutation insertReaction(
+    $articleId: uuid!
+    $reactionId: uuid!
+    $userId: uuid!
+  ) {
     insert_reactions_to_articles(
       objects: {
         article_id: $articleId
         reaction_id: $reactionId
-        user_id: "b8c1db5d-a4dc-4790-8632-9b586d571735"
+        user_id: $userId
       }
     ) {
       affected_rows

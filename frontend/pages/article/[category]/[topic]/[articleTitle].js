@@ -36,6 +36,8 @@ import {
   insertReactionQuery,
 } from "components/article/queries";
 
+import withSession from "lib/session";
+
 //
 //
 //
@@ -57,7 +59,7 @@ const { Title, Paragraph, Text } = Typography;
 //
 //
 
-const Article = () => {
+const Article = (props) => {
   //
   //
   //
@@ -283,6 +285,7 @@ const Article = () => {
                     variables: {
                       articleId: getArticleData.articles[0].id,
                       reactionId: reactions.id,
+                      userId: props.user.id,
                     },
                   });
                 }}
@@ -309,7 +312,7 @@ const Article = () => {
   //
 
   return (
-    <Wrapper>
+    <Wrapper user={props.user}>
       <Head>
         <link rel="stylesheet" type="text/css" href="/prism.css" />
         <script src="/prism.js"></script>
@@ -341,7 +344,7 @@ const Article = () => {
           <Card className="mg-x-5">
             <Row>
               <Space>
-                <Avatar src="https://1.bp.blogspot.com/-N7JSp_PRkuI/XhV5ljsxEUI/AAAAAAAALHA/cevL4UW3PMUzwh1SCIn32uJajD-atR5zwCLcBGAsYHQ/s3840/Color-Abstract-wallpaper.jpeg" />{" "}
+                <Avatar src={props.user.profilePicture} />{" "}
                 <Text>
                   {getArticleData.articles[0].users_to_articles.map(
                     (mapped) => mapped.authors.username
@@ -591,7 +594,7 @@ const Article = () => {
               insertComment({
                 variables: {
                   articleId: getArticleData.articles[0].id,
-                  userId: "281ba274-1f2f-41d6-99d0-81c3b517fa03",
+                  userId: props.user.id,
                   content: values.comment,
                 },
               });
@@ -834,11 +837,10 @@ const Article = () => {
                   onFinish={(values) => {
                     var newData = replyData;
                     if (newData.comment) {
-                      console.log("replying");
                       insertReply({
                         variables: {
                           commentId: newData.comment.id,
-                          userId: "281ba274-1f2f-41d6-99d0-81c3b517fa03",
+                          userId: props.user.id,
                           content: values.reply,
                         },
                       });
@@ -848,7 +850,7 @@ const Article = () => {
                       replyToReply({
                         variables: {
                           replyId: newData.reply.id,
-                          userId: "281ba274-1f2f-41d6-99d0-81c3b517fa03",
+                          userId: props.user.id,
                           content: values.reply,
                         },
                       });
@@ -859,7 +861,11 @@ const Article = () => {
                   <Form.Item
                     label={
                       <div className="d-flex">
-                        <Avatar size={45} className="mt-20" />
+                        <Avatar
+                          size={45}
+                          className="mt-20"
+                          src={props.user.profilePicture}
+                        />
                         <Text className="mt-30 lh-1-5 ml-20">Dukesx</Text>
                       </div>
                     }
@@ -915,19 +921,24 @@ const Article = () => {
 
 export default Article;
 
-export const getServerSideProps = async (context) => {
-  const { articleTitle } = context.params;
+export const getServerSideProps = withSession(async function ({
+  req,
+  res,
+  query,
+}) {
+  const user = req.session.get(["session"]);
   const apolloClient = initializeApollo();
   await apolloClient.query({
     query: getArticleQuery,
     variables: {
-      articleSlug: articleTitle,
+      articleSlug: query.articleTitle,
     },
   });
 
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
+      user: user ? user : null,
     },
   };
-};
+});

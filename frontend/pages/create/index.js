@@ -1,10 +1,11 @@
 import { Row, Col, Card, Typography, List, Space } from "antd";
 import Wrapper from "components/global/wrapper";
+import withSession from "lib/session";
 
 const { Title, Text, Paragraph } = Typography;
-const Create = () => {
+const Create = (props) => {
   return (
-    <Wrapper>
+    <Wrapper user={props.user}>
       <Row justify="center" className="pd-20">
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={10}>
           <Title level={4} className="mg-y-30">
@@ -56,3 +57,13 @@ const Create = () => {
 };
 
 export default Create;
+
+export const getServerSideProps = withSession(async function ({ req, res }) {
+  const user = req.session.get(["session"]);
+
+  return {
+    props: {
+      user: user ? user : null,
+    },
+  };
+});

@@ -4,12 +4,13 @@ import UsersManager from "components/admin/usersManager";
 import ArticlesManager from "components/admin/articlesManager";
 import { useRouter } from "next/router";
 import CommentsManager from "components/admin/commentsManager";
+import withSession from "lib/session";
 
-const AdminRoutePage = () => {
+const AdminRoutePage = (props) => {
   const router = useRouter();
   const { adminRoute } = router.query;
   return (
-    <AdminComponent route={adminRoute}>
+    <AdminComponent route={adminRoute} user={props.user}>
       {adminRoute === "users" ? (
         <UsersManager />
       ) : adminRoute === "articles" ? (
@@ -35,6 +36,12 @@ const AdminRoutePage = () => {
 
 export default AdminRoutePage;
 
-export async function getServerSideProps() {
-  return { props: {} };
-}
+export const getServerSideProps = withSession(async function ({ req, res }) {
+  const user = req.session.get(["session"]);
+
+  return {
+    props: {
+      user: user ? user : null,
+    },
+  };
+});

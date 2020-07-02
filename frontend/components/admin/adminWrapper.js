@@ -8,7 +8,7 @@ const { Sider } = Layout;
 
 const AdminWrapper = (props) => {
   return (
-    <Wrapper admin route={props.route}>
+    <Wrapper admin route={props.route} user={props.user}>
       <Row justify="center">
         <Col xs={0} sm={0} md={6} lg={6} xl={4} xxl={3}>
           <Menu
