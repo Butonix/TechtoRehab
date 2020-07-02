@@ -45,7 +45,8 @@
     "rich-markdown-editor": "^10.0.1",
     "sass": "^1.26.5",
     "sharp": "^0.25.4",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "url-slug": "^2.3.1"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.7",

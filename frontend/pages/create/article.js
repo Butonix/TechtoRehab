@@ -19,6 +19,8 @@ import { useState, useEffect } from "react";
 import gql from "graphql-tag";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
 import withSession from "lib/session";
+import urlSlug from "url-slug";
+import { useRouter } from "next/router";
 
 const getCatsandTopicsQuery = gql`
   query catsAndTopics {
@@ -58,6 +60,15 @@ const insertPostQuery = gql`
         users_to_articles: { data: { user_id: $userId } }
       }
     ) {
+      id
+      title
+      slug
+      article_category {
+        slug
+      }
+      article_topic {
+        slug
+      }
       created_at
     }
   }
@@ -88,6 +99,7 @@ const createArticle = (props) => {
   const [category, setCategory] = useState(null);
   const [topic, setTopic] = useState(null);
   const [titleApprove, setTitleApprove] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (checkTitleData && checkTitleData.articles_aggregate) {
@@ -97,11 +109,11 @@ const createArticle = (props) => {
       } else {
         setTitleApprove("available");
         var titlo = title;
-        titlo = title.replace(":", "");
-        titlo = title.split(" ").join("-");
+        var permalink;
 
         setTitle(titlo);
-        setPermalink(titlo.replace(/[^a-zA-Z 0-9 -]/g, "").toLowerCase());
+        permalink = urlSlug(titlo).toLowerCase();
+        setPermalink(permalink);
       }
     }
   });
@@ -120,6 +132,19 @@ const createArticle = (props) => {
       error: insertArticleError,
     },
   ] = useMutation(insertPostQuery, {
+    onCompleted: (data) => {
+      form.resetFields();
+      router.push({
+        pathname: "/create/published",
+        query: {
+          id: data.insert_articles_one.id,
+          title: data.insert_articles_one.title,
+          slug: data.insert_articles_one.slug,
+          category: data.insert_articles_one.article_category.slug,
+          topic: data.insert_articles_one.article_topic.slug,
+        },
+      });
+    },
     onError: (err) => message.error(err),
   });
 
@@ -295,10 +320,6 @@ const createArticle = (props) => {
                   userId: props.user.id,
                 },
               });
-              form.resetFields();
-              setPermalink(null);
-              setImage(null);
-              setEditorContent(null);
             }}
           >
             <Form.Item

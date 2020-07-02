@@ -85,10 +85,18 @@ const searchArticlo = gql`
 
 const deleteArticleQuery = gql`
   mutation deleteArticleMutation($id: uuid!) {
+    delete_reply_and_reply(
+      where: { repliedTo: { repliedTo: { articleId: { _eq: $id } } } }
+    ) {
+      affected_rows
+    }
     delete_reactions_to_articles(where: { article_id: { _eq: $id } }) {
       affected_rows
     }
     delete_articles_and_users(where: { article_id: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_articles_and_bookmarks(where: { articleId: { _eq: $id } }) {
       affected_rows
     }
     delete_articles(where: { id: { _eq: $id } }) {
