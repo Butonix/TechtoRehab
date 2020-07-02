@@ -45,7 +45,11 @@ const SignIn = () => {
                 className="pd-30"
               >
                 <Tabs>
-                  <Tabs.TabPane key="login" tab={<Text>Sign in</Text>}>
+                  <Tabs.TabPane
+                    key="login"
+                    id="login"
+                    tab={<Text>Sign in</Text>}
+                  >
                     <Login />
                   </Tabs.TabPane>
                   <Tabs.TabPane key="register" tab={<Text>Register</Text>}>

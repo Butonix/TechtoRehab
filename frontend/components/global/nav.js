@@ -239,10 +239,18 @@ const Navigation = (props) => {
         </div>
       ) : (
         <div className="navigation">
-          <Button type="primary">
+          <Button type="primary" className="compose-button2">
             <Link href="/get-started">
               <a>
-                <Text style={{ color: "inherit" }}>Get Started</Text>
+                <Text
+                  className="fw-bold"
+                  style={{
+                    marginTop: 2,
+                    color: "inherit",
+                  }}
+                >
+                  Get Started
+                </Text>
               </a>
             </Link>
           </Button>

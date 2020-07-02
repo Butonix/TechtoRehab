@@ -1010,3 +1010,53 @@ html {
     transform: scale(1);
   }
 }
+
+$bg: #f3f8fa;
+$white: #fff;
+$black: #282936;
+
+@mixin transition(
+  $property: all,
+  $duration: 0.45s,
+  $ease: cubic-bezier(0.65, 0, 0.076, 1)
+) {
+  transition: $property $duration $ease;
+}
+
+$bg: #f3f8fa;
+$white: #fff;
+$black: #282936;
+
+@mixin transition(
+  $property: all,
+  $duration: 0.45s,
+  $ease: cubic-bezier(0.65, 0, 0.076, 1)
+) {
+  transition: $property $duration $ease;
+}
+
+.compose-button {
+  border-color: #2f3545 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #2f3545 !important;
+}
+
+.compose-button2 {
+  border: 1px solid #2f3545 !important;
+  background: transparent !important;
+  color: #2f3545 !important;
+  box-shadow: 6px 4px 0 #2f3545 !important;
+  padding: 4px 20px !important;
+  a {
+    span {
+      font-weight: 600 !important;
+    }
+  }
+}
+
+.compose-button2:hover {
+  background: #2f3545 !important;
+  color: white !important;
+  box-shadow: 6px 4px 0 rgb(47, 53, 69, 0.8) !important;
+}
