@@ -40,6 +40,18 @@ const getArticlesQuery = gql`
       article_topic {
         title
       }
+
+      comments {
+        id
+        replies {
+          id
+          commentId
+          replies_to_reply {
+            id
+            replyId
+          }
+        }
+      }
     }
 
     articles_aggregate {
@@ -73,6 +85,18 @@ const searchArticlo = gql`
       article_topic {
         title
       }
+
+      comments {
+        id
+        replies {
+          id
+          commentId
+          replies_to_reply {
+            id
+            replyId
+          }
+        }
+      }
     }
 
     articles_aggregate {
@@ -85,11 +109,6 @@ const searchArticlo = gql`
 
 const deleteArticleQuery = gql`
   mutation deleteArticleMutation($id: uuid!) {
-    delete_reply_and_reply(
-      where: { repliedTo: { repliedTo: { articleId: { _eq: $id } } } }
-    ) {
-      affected_rows
-    }
     delete_reactions_to_articles(where: { article_id: { _eq: $id } }) {
       affected_rows
     }
@@ -100,6 +119,34 @@ const deleteArticleQuery = gql`
       affected_rows
     }
     delete_articles(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;
+
+const deleteCommentQuery = gql`
+  mutation deleteComment($id: uuid!) {
+    delete_comments(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;
+
+const deleteReplyQuery = gql`
+  mutation deleteReply($id: uuid!, $commentId: uuid!) {
+    delete_comments_and_replies(
+      where: { id: { _eq: $id }, commentId: { _eq: $commentId } }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+const deleteReplyToReplyQuery = gql`
+  mutation deleteReplyToReply($id: uuid!, $replyId: uuid!) {
+    delete_reply_and_reply(
+      where: { id: { _eq: $id }, replyId: { _eq: $replyId } }
+    ) {
       affected_rows
     }
   }
@@ -124,6 +171,12 @@ const ArticlesManager = () => {
     fetchPolicy: "cache-and-network",
   });
 
+  const [deleteReplyToReply] = useMutation(deleteReplyToReplyQuery);
+
+  const [deleteReply] = useMutation(deleteReplyQuery);
+
+  const [deleteComment] = useMutation(deleteCommentQuery);
+
   const [
     searchArticles,
     {
@@ -140,11 +193,44 @@ const ArticlesManager = () => {
     deleteArticle,
     { loading: deleteArticleLoading, data: deleteArticleData },
   ] = useMutation(deleteArticleQuery, {
-    onCompleted: () => refetch(),
+    onCompleted: () => {
+      refetch();
+    },
   });
 
   const [articleManagerDrawer, setArticleManagerDrawer] = useState(false);
   const [articleManagerDrawerData, setArticleManagerDrawerData] = useState({});
+
+  const deleteComments = (commentsArray) => {
+    commentsArray.map((comments) => {
+      if (comments.replies) {
+        comments.replies.map((replies) => {
+          console.log(comments.id);
+          console.log(replies.id);
+
+          if (replies.replies_to_reply) {
+            replies.replies_to_reply.map((replyToReply) => {
+              console.log(replyToReply.id);
+              deleteReplyToReply({
+                variables: {
+                  id: replyToReply.id,
+                  replyId: replyToReply.replyId,
+                },
+              });
+              return;
+            });
+          }
+          deleteReply({
+            variables: { id: replies.id, commentId: replies.commentId },
+          });
+          return;
+        });
+        deleteComment({ variables: { id: comments.id } });
+      } else {
+        deleteComment({ variables: { id: comments.id } });
+      }
+    });
+  };
 
   return getArticleError ? (
     <Result
@@ -360,11 +446,28 @@ const ArticlesManager = () => {
                         <Button
                           danger
                           onClick={() => {
-                            setArticleManagerDrawer(false);
-                            deleteArticle({
-                              variables: { id: articleManagerDrawerData.id },
-                            });
-                            setArticleManagerDrawerData({});
+                            if (
+                              searchArticlesData &&
+                              searchArticlesData.articles[0].comments
+                            ) {
+                              setArticleManagerDrawer(false);
+                              deleteComments(
+                                searchArticlesData.articles[0].comments
+                              );
+                              deleteArticle({
+                                variables: { id: articleManagerDrawerData.id },
+                              });
+                              setArticleManagerDrawerData({});
+                            } else {
+                              setArticleManagerDrawer(false);
+                              deleteComments(
+                                getArticleData.articles[0].comments
+                              );
+                              deleteArticle({
+                                variables: { id: articleManagerDrawerData.id },
+                              });
+                              setArticleManagerDrawerData({});
+                            }
                           }}
                         >
                           Delete
