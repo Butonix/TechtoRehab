@@ -22,7 +22,9 @@ const getUser = gql`
       username
       profile_picture
       created_at
-      blocked
+      settings {
+        blocked
+      }
     }
   }
 `;
@@ -58,8 +60,32 @@ const checkEmailo = gql`
   }
 `;
 
-const deleteUsero = gql`
-  mutation MyMutation($id: uuid!) {
+const deleteUserQuery = gql`
+  mutation deleteUser($id: uuid!) {
+    delete_articles_and_users(where: { user_id: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_articles(where: { users_to_articles: { user_id: { _eq: $id } } }) {
+      affected_rows
+    }
+    delete_reply_and_reply(where: { userId: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_comments_and_replies(where: { userId: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_comments(where: { userId: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_reactions_to_articles(where: { user_id: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_articles_and_bookmarks(where: { userId: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_users_private_info(where: { user_id: { _eq: $id } }) {
+      affected_rows
+    }
     delete_users(where: { id: { _eq: $id } }) {
       affected_rows
     }
@@ -124,7 +150,7 @@ const UsersManager = () => {
       data: deleteUserData,
       error: deleteUserError,
     },
-  ] = useMutation(deleteUsero, {
+  ] = useMutation(deleteUserQuery, {
     onError: (err) => message.error("Error Deleting User"),
     onCompleted: (succ) => message.success("User Deleted Successfully"),
     errorPolicy: "all",
@@ -464,7 +490,6 @@ const UsersManager = () => {
             <Input.Password />
           </Form.Item>
           <Form.Item name="submit">
-            
             <Button
               htmlType="submit"
               disabled={
