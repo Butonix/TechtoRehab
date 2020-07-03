@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import gql from "graphql-tag";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { useState, useEffect } from "react";
+import { RotateSpinner } from "react-spinners-kit";
 
 const { Text, Title, Paragraph } = Typography;
 
@@ -20,6 +21,7 @@ const loginQuery = gql`
         private_info {
           status
           password
+          role
         }
       }
     }
@@ -63,6 +65,7 @@ const Login = () => {
                     profilePicture:
                       data.users_aggregate.nodes[0].profile_picture,
                     status: data.users_aggregate.nodes[0].private_info.status,
+                    role: data.users_aggregate.nodes[0].private_info.role,
                   }),
                 })
                   .then((res) => res.json())
@@ -109,11 +112,7 @@ const Login = () => {
           description={
             <div className="d-flex">
               <Text className="mr-10">Success! Redirecting...</Text>
-              <div className="spinner">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-              </div>
+              <RotateSpinner size={20} color="#1890ff" />
             </div>
           }
           type="success"

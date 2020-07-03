@@ -8,7 +8,7 @@ function Error({ statusCode }) {
       status="error"
       title="Error Fetching Data"
       subTitle="Please try again in a few minutes"
-      icon={<img src="/server-error.svg" />}
+      icon={<img src="/server-error.svg" height={500} />}
       style={{ margin: "10%" }}
       extra={[
         <Button type="primary" onClick={() => router.reload()}>

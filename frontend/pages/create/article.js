@@ -21,6 +21,7 @@ import { useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
 import withSession from "lib/session";
 import urlSlug from "url-slug";
 import { useRouter } from "next/router";
+import Error from "components/global/401";
 
 const getCatsandTopicsQuery = gql`
   query catsAndTopics {
@@ -180,299 +181,312 @@ const createArticle = (props) => {
   };
   return (
     <Wrapper user={props.user}>
-      <Row className="pd-10">
-        <Col xs={24} sm={24} md={24} lg={19} xl={20} xxl={20} className="pd-20">
-          <Form layout="vertical" form={form} wrapperCol={24}>
-            <Form.Item
-              label="Title"
-              name="title"
-              rules={[
-                {
-                  required: true,
-                  message: "Article Title Is Required",
-                },
-              ]}
-              validateStatus={
-                titleApprove == "available"
-                  ? "success"
-                  : titleApprove == "unavailable"
-                  ? "error"
-                  : ""
-              }
-              hasFeedback
-              help={
-                <Text
-                  type={titleApprove == "unavailable" ? "danger" : null}
-                  mark={titleApprove == "validating" ? true : false}
-                  strong
-                  className="lh-1"
-                  style={{ position: "absolute", marginTop: -23, right: 35 }}
-                >
-                  {titleApprove == "validating"
-                    ? "Checking"
-                    : titleApprove == "available"
-                    ? "Available!"
-                    : titleApprove == "unavailable"
-                    ? "Already Taken"
-                    : titleApprove == null
-                    ? null
-                    : null}
-                </Text>
-              }
-            >
-              <Input onChange={handleTitle} />
-            </Form.Item>
-            <Link className="mt-10 lh-1">
-              {process.env.NEXT_PUBLIC_WEB_ADDRESS +
-                "/" +
-                (category ? category + "/" : "") +
-                (topic ? topic + "/" : "") +
-                permalink}
-            </Link>
-            <Form.Item
-              label="Content"
-              className="mt-20"
-              name="content"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <MyEditor
-                initialValue={editorContent}
-                apiKey="m2scqo7knj5972vza3c3an2ex1x93cw66e1hlb9vejb61ya1"
-                init={{
-                  toolbar: true,
-                  menubar: false,
-                  inline: true,
-                  toolbar:
-                    "bold italic underline|undo redo|toc numlist bullist|emoticons|formatselect|image|pagebreak",
-                  plugins:
-                    "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons",
-                  quickbars_insert_toolbar:
-                    "undo redo quicktable image codesample formatselect numlist bullist",
-                  quickbars_selection_toolbar:
-                    "bold italic underline |formatselect quicklink",
-                  contextmenu: "undo redo | emoticons inserttable | codesample",
-                  // toolbar:
-                  //   "undo redo | toc |bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
-                }}
-                onEditorChange={handleEditor}
-              />
-            </Form.Item>
-            <Form.Item
-              label="Excerpt"
-              name="excerpt"
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: "Excerpt/Summary is Required",
-                },
-                {
-                  validator: (rule, val) => {
-                    val = val.split(" ");
-                    if (val.length < 20 || val.length > 50) {
-                      return Promise.reject(
-                        "Excerpt Should Be Min 20 Words and Maximum 50 "
-                      );
-                    }
-                    return Promise.resolve();
-                  },
-                },
-              ]}
-            >
-              <Input.TextArea rows={4} />
-            </Form.Item>
-          </Form>
-        </Col>
-        <Col
-          xs={24}
-          sm={24}
-          md={24}
-          lg={5}
-          xl={4}
-          xxl={4}
-          style={{ boxShadow: "-4px 3px 3px 1px #f5f5f5" }}
-          className="pd-20"
-        >
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={(data) => {
-              var sendTitle = data.title;
-              var sendCategory = data.category;
-              var sendTopic = data.topic;
-              var sendFeaturedImage = data.featuredImage.file.response.path;
-              var sendExcerpt = data.excerpt;
-              var sendContent = data.content.level.content;
-              var sendSlug = permalink;
-              insertArticle({
-                variables: {
-                  title: sendTitle,
-                  category: sendCategory,
-                  topic: sendTopic,
-                  excerpt: sendExcerpt,
-                  content: sendContent,
-                  slug: sendSlug,
-                  featuredImage: sendFeaturedImage,
-                  userId: props.user.id,
-                },
-              });
-            }}
+      {props.user && props.user.id ? (
+        <Row className="pd-10">
+          <Col
+            xs={24}
+            sm={24}
+            md={24}
+            lg={19}
+            xl={20}
+            xxl={20}
+            className="pd-20"
           >
-            <Form.Item
-              label="Category"
-              name="category"
-              rules={[
-                {
-                  required: true,
-                  message: "Category Is Required",
-                },
-              ]}
-            >
-              <Select
-                className="ml-auto va-middle"
-                onChange={(val) => {
-                  var category = getCatsAndTopicsData.category.filter(
-                    (filtered) => filtered.id == val
-                  );
-                  setCategory(category[0].slug);
-                }}
+            <Form layout="vertical" form={form} wrapperCol={24}>
+              <Form.Item
+                label="Title"
+                name="title"
+                rules={[
+                  {
+                    required: true,
+                    message: "Article Title Is Required",
+                  },
+                ]}
+                validateStatus={
+                  titleApprove == "available"
+                    ? "success"
+                    : titleApprove == "unavailable"
+                    ? "error"
+                    : ""
+                }
+                hasFeedback
+                help={
+                  <Text
+                    type={titleApprove == "unavailable" ? "danger" : null}
+                    mark={titleApprove == "validating" ? true : false}
+                    strong
+                    className="lh-1"
+                    style={{ position: "absolute", marginTop: -23, right: 35 }}
+                  >
+                    {titleApprove == "validating"
+                      ? "Checking"
+                      : titleApprove == "available"
+                      ? "Available!"
+                      : titleApprove == "unavailable"
+                      ? "Already Taken"
+                      : titleApprove == null
+                      ? null
+                      : null}
+                  </Text>
+                }
               >
-                {getCatsAndTopicsData && getCatsAndTopicsData.category ? (
-                  getCatsAndTopicsData.category.map((category) => {
-                    return (
-                      <Select.Option key={category.id} value={category.id}>
-                        {category.title}
-                      </Select.Option>
+                <Input onChange={handleTitle} />
+              </Form.Item>
+              <Link className="mt-10 lh-1">
+                {process.env.NEXT_PUBLIC_WEB_ADDRESS +
+                  "/" +
+                  (category ? category + "/" : "") +
+                  (topic ? topic + "/" : "") +
+                  permalink}
+              </Link>
+              <Form.Item
+                label="Content"
+                className="mt-20"
+                name="content"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <MyEditor
+                  initialValue={editorContent}
+                  apiKey="m2scqo7knj5972vza3c3an2ex1x93cw66e1hlb9vejb61ya1"
+                  init={{
+                    toolbar: true,
+                    menubar: false,
+                    inline: true,
+                    toolbar:
+                      "bold italic underline|undo redo|toc numlist bullist|emoticons|formatselect|image|pagebreak",
+                    plugins:
+                      "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons",
+                    quickbars_insert_toolbar:
+                      "undo redo quicktable image codesample formatselect numlist bullist",
+                    quickbars_selection_toolbar:
+                      "bold italic underline |formatselect quicklink",
+                    contextmenu:
+                      "undo redo | emoticons inserttable | codesample",
+                    // toolbar:
+                    //   "undo redo | toc |bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
+                  }}
+                  onEditorChange={handleEditor}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Excerpt"
+                name="excerpt"
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                    message: "Excerpt/Summary is Required",
+                  },
+                  {
+                    validator: (rule, val) => {
+                      val = val.split(" ");
+                      if (val.length < 20 || val.length > 50) {
+                        return Promise.reject(
+                          "Excerpt Should Be Min 20 Words and Maximum 50 "
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  },
+                ]}
+              >
+                <Input.TextArea rows={4} />
+              </Form.Item>
+            </Form>
+          </Col>
+          <Col
+            xs={24}
+            sm={24}
+            md={24}
+            lg={5}
+            xl={4}
+            xxl={4}
+            style={{ boxShadow: "-4px 3px 3px 1px #f5f5f5" }}
+            className="pd-20"
+          >
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={(data) => {
+                var sendTitle = data.title;
+                var sendCategory = data.category;
+                var sendTopic = data.topic;
+                var sendFeaturedImage = data.featuredImage.file.response.path;
+                var sendExcerpt = data.excerpt;
+                var sendContent = data.content.level.content;
+                var sendSlug = permalink;
+                insertArticle({
+                  variables: {
+                    title: sendTitle,
+                    category: sendCategory,
+                    topic: sendTopic,
+                    excerpt: sendExcerpt,
+                    content: sendContent,
+                    slug: sendSlug,
+                    featuredImage: sendFeaturedImage,
+                    userId: props.user.id,
+                  },
+                });
+              }}
+            >
+              <Form.Item
+                label="Category"
+                name="category"
+                rules={[
+                  {
+                    required: true,
+                    message: "Category Is Required",
+                  },
+                ]}
+              >
+                <Select
+                  className="ml-auto va-middle"
+                  onChange={(val) => {
+                    var category = getCatsAndTopicsData.category.filter(
+                      (filtered) => filtered.id == val
                     );
-                  })
-                ) : (
-                  <Select.Option>Error Loading Categories</Select.Option>
-                )}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="Topic"
-              name="topic"
-              rules={[
-                {
-                  required: true,
-                  message: "Topic Is Required",
-                },
-              ]}
-            >
-              <Select
-                className="ml-auto va-middle"
-                onChange={(val) => {
-                  var topic = getCatsAndTopicsData.topic.filter(
-                    (filtered) => filtered.id == val
-                  );
-                  setTopic(topic[0].slug);
-                }}
-              >
-                {getCatsAndTopicsData && getCatsAndTopicsData.topic ? (
-                  getCatsAndTopicsData.topic.map((topic) => {
-                    return (
-                      <Select.Option key={topic.id} value={topic.id}>
-                        {topic.title}
-                      </Select.Option>
-                    );
-                  })
-                ) : (
-                  <Select.Option>Error Loading Categories</Select.Option>
-                )}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="Featured Image"
-              className="featured-image-uploader d-flex"
-              name="featuredImage"
-              rules={[
-                {
-                  required: true,
-                  message: "Article Cannot Be Without Featured Image",
-                },
-              ]}
-              valuePropName="file"
-            >
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="large-upload-picture-card mg-y-10 ml-auto"
-                showUploadList={false}
-                action="/api/imageUpload"
-                onChange={handleImagePreview}
-                accept=".jpeg, .jpg"
-              >
-                {image ? (
-                  <img
-                    className="o-fit-cover"
-                    width="200px"
-                    height="200px"
-                    src={image}
-                  />
-                ) : (
-                  <Text>Upload</Text>
-                )}
-              </Upload>
-            </Form.Item>
-            {image ? (
-              <Form.Item className="d-flex flex-column ai-center ta-center">
-                <Button
-                  className="mt-10 mg-x-20"
-                  danger
-                  onClick={async () => {
-                    const response = await fetch("/api/removeImage", {
-                      method: "POST",
-                      mode: "cors",
-                      cache: "no-cache",
-                      credentials: "same-origin",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      redirect: "follow",
-                      referrerPolicy: "no-referrer",
-                      body: JSON.stringify({
-                        path: image,
-                      }),
-                    })
-                      .then((res) => {
-                        if (res.ok == true) {
-                          setImage(null);
-                        }
-                      })
-                      .then((err) => console.log(err));
+                    setCategory(category[0].slug);
                   }}
                 >
-                  Remove Featured Image
-                </Button>
+                  {getCatsAndTopicsData && getCatsAndTopicsData.category ? (
+                    getCatsAndTopicsData.category.map((category) => {
+                      return (
+                        <Select.Option key={category.id} value={category.id}>
+                          {category.title}
+                        </Select.Option>
+                      );
+                    })
+                  ) : (
+                    <Select.Option>Error Loading Categories</Select.Option>
+                  )}
+                </Select>
               </Form.Item>
-            ) : null}
-            <Form.Item className="d-flex flex-column ai-center ta-center">
-              {titleApprove == "available" ? (
-                <Button
-                  type="primary"
-                  className="mt-10 wd-100-pc mg-x-20"
-                  htmlType="submit"
+              <Form.Item
+                label="Topic"
+                name="topic"
+                rules={[
+                  {
+                    required: true,
+                    message: "Topic Is Required",
+                  },
+                ]}
+              >
+                <Select
+                  className="ml-auto va-middle"
+                  onChange={(val) => {
+                    var topic = getCatsAndTopicsData.topic.filter(
+                      (filtered) => filtered.id == val
+                    );
+                    setTopic(topic[0].slug);
+                  }}
                 >
-                  Publish Article
-                </Button>
-              ) : title == null ? (
-                <Text strong type="danger" className="ta-center lh-2">
-                  Please Enter A Title Before Publishing
-                </Text>
-              ) : (
-                <Text strong type="danger" className="ta-center mt-20">
-                  Title Must Be Available Before You Can Publish
-                </Text>
-              )}
-            </Form.Item>
-          </Form>
-        </Col>
-      </Row>
+                  {getCatsAndTopicsData && getCatsAndTopicsData.topic ? (
+                    getCatsAndTopicsData.topic.map((topic) => {
+                      return (
+                        <Select.Option key={topic.id} value={topic.id}>
+                          {topic.title}
+                        </Select.Option>
+                      );
+                    })
+                  ) : (
+                    <Select.Option>Error Loading Categories</Select.Option>
+                  )}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                label="Featured Image"
+                className="featured-image-uploader d-flex"
+                name="featuredImage"
+                rules={[
+                  {
+                    required: true,
+                    message: "Article Cannot Be Without Featured Image",
+                  },
+                ]}
+                valuePropName="file"
+              >
+                <Upload
+                  name="avatar"
+                  listType="picture-card"
+                  className="large-upload-picture-card mg-y-10 ml-auto"
+                  showUploadList={false}
+                  action="/api/imageUpload"
+                  onChange={handleImagePreview}
+                  accept=".jpeg, .jpg"
+                >
+                  {image ? (
+                    <img
+                      className="o-fit-cover"
+                      width="200px"
+                      height="200px"
+                      src={image}
+                    />
+                  ) : (
+                    <Text>Upload</Text>
+                  )}
+                </Upload>
+              </Form.Item>
+              {image ? (
+                <Form.Item className="d-flex flex-column ai-center ta-center">
+                  <Button
+                    className="mt-10 mg-x-20"
+                    danger
+                    onClick={async () => {
+                      const response = await fetch("/api/removeImage", {
+                        method: "POST",
+                        mode: "cors",
+                        cache: "no-cache",
+                        credentials: "same-origin",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        redirect: "follow",
+                        referrerPolicy: "no-referrer",
+                        body: JSON.stringify({
+                          path: image,
+                        }),
+                      })
+                        .then((res) => {
+                          if (res.ok == true) {
+                            setImage(null);
+                          }
+                        })
+                        .then((err) => console.log(err));
+                    }}
+                  >
+                    Remove Featured Image
+                  </Button>
+                </Form.Item>
+              ) : null}
+              <Form.Item className="d-flex flex-column ai-center ta-center">
+                {titleApprove == "available" ? (
+                  <Button
+                    type="primary"
+                    className="mt-10 wd-100-pc mg-x-20"
+                    htmlType="submit"
+                  >
+                    Publish Article
+                  </Button>
+                ) : title == null ? (
+                  <Text strong type="danger" className="ta-center lh-2">
+                    Please Enter A Title Before Publishing
+                  </Text>
+                ) : (
+                  <Text strong type="danger" className="ta-center mt-20">
+                    Title Must Be Available Before You Can Publish
+                  </Text>
+                )}
+              </Form.Item>
+            </Form>
+          </Col>
+        </Row>
+      ) : (
+        <Error />
+      )}
     </Wrapper>
   );
 };
@@ -481,14 +495,18 @@ export default createArticle;
 
 export const getServerSideProps = withSession(async function ({ req, res }) {
   const user = req.session.get(["session"]);
-  const apolloClient = initializeApollo();
-  await apolloClient.query({
-    query: getCatsandTopicsQuery,
-  });
+
+  if (user) {
+    const apolloClient = initializeApollo();
+    await apolloClient.query({
+      query: getCatsandTopicsQuery,
+    });
+  }
+  res.statusCode = 401;
 
   return {
     props: {
-      initialApolloState: apolloClient.cache.extract(),
+      initialApolloState: user ? apolloClient.cache.extract() : null,
       user: user ? user : null,
     },
   };

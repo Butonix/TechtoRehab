@@ -48,6 +48,9 @@ const registerQuery = gql`
         email
         profile_picture
         username
+        private_info {
+          role
+        }
       }
     }
   }
@@ -108,6 +111,7 @@ const Register = () => {
               email: data.insert_users_private_info_one.user.email,
               profilePicture:
                 data.insert_users_private_info_one.user.profilePicture,
+              role: data.insert_users_private_info_one.user.private_info.role,
             }),
           })
             .then((res) => res.json())

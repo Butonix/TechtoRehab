@@ -18,16 +18,15 @@ const error = () => {
         style={{ margin: "10%" }}
         extra={[
           <Button type="primary">
-            <Link href="/signin">
+            <Link href="/get-started">
               <a>Sign In</a>
             </Link>
           </Button>,
-          <Button type="secondary" onClick={() => router.back()}>
+          <Button type="secondary" onClick={() => router.push("/")}>
             Back To Website
           </Button>,
           <Button type="link" onClick={() => router.reload()}>
             Contact Support
-            {console.log(error)}
           </Button>,
         ]}
       />
@@ -36,8 +35,3 @@ const error = () => {
 };
 
 export default error;
-
-export async function getServerSideProps(context) {
-  context.res.statusCode = 401;
-  return { props: {} };
-}

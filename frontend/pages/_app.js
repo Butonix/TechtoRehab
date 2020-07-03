@@ -8,6 +8,7 @@ import "public/style.scss";
 import { createStore, StoreProvider, useStoreActions } from "easy-peasy";
 import "remixicon/fonts/remixicon.css";
 import { storage } from "../store/store";
+
 const store = createStore(storage);
 
 function MyApp({ Component, pageProps }) {
@@ -28,6 +29,7 @@ function MyApp({ Component, pageProps }) {
             cardType: "summary_large_image",
           }}
         />
+
         <Component {...pageProps} />
       </StoreProvider>
     </ApolloProvider>
