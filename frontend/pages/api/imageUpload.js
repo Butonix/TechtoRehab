@@ -4,8 +4,8 @@ var formidable = require("formidable");
 export default async (req, res) => {
   const form = formidable({ multiples: true });
   await form.parse(req, (err, fields, files) => {
-    var name = files.avatar.name.replace(".jpg", "");
-    sharp(files.avatar.path)
+    var name = files.imageUpload.name.replace(".jpg", "");
+    sharp(files.imageUpload.path)
       .resize(816, 480, {
         position: "top",
         withoutEnlargement: true,

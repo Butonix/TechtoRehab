@@ -410,7 +410,7 @@ const createArticle = (props) => {
                 valuePropName="file"
               >
                 <Upload
-                  name="avatar"
+                  name="imageUpload"
                   listType="picture-card"
                   className="large-upload-picture-card mg-y-10 ml-auto"
                   showUploadList={false}
@@ -506,7 +506,6 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
 
   return {
     props: {
-      initialApolloState: user ? apolloClient.cache.extract() : null,
       user: user ? user : null,
     },
   };

@@ -1082,3 +1082,33 @@ $black: #282936;
   background-color: unset !important;
   border: unset !important;
 }
+
+.dp-imageUpload {
+}
+
+.cover-imageUpload {
+  width: 100% !important;
+  .ant-upload {
+    width: 100% !important;
+  }
+}
+.dp-imageUpload:hover {
+  img {
+    filter: blur(4px) brightness(0.5);
+  }
+  i {
+    visibility: visible !important;
+    color: rgb(255, 255, 255, 0.8) !important;
+  }
+}
+
+.cover-imageUpload:hover {
+  img {
+    filter: blur(4px) brightness(0.5);
+  }
+
+  i {
+    visibility: visible !important;
+    color: rgb(255, 255, 255, 0.8) !important;
+  }
+}

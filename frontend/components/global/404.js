@@ -2,30 +2,28 @@ import Head from "next/head";
 import { Result, Button, Typography } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
-const { Text } = Typography;
 
-const error = () => {
+const { Text } = Typography;
+const Error404 = () => {
   const router = useRouter();
   return (
     <>
       <Head>
-        <title>401 Unauthorized</title>
+        <title>404 Not Found</title>
       </Head>
       <Result
         status="error"
-        title="401 Unauthorized"
+        title="404 Not Found"
         subTitle={
-          <Text strong>You need to be logged in to access this page</Text>
+          <Text strong>
+            The Page You are Looking For Either Doesn't Exist or Has Been
+            Removed
+          </Text>
         }
-        icon={<img src="/401.svg" height={300} />}
+        icon={<img src="/404.svg" height={300} />}
         style={{ margin: "10%" }}
         extra={[
-          <Button type="primary">
-            <Link href="/get-started">
-              <a>Sign In</a>
-            </Link>
-          </Button>,
-          <Button type="secondary" onClick={() => router.back()}>
+          <Button type="primary" onClick={() => router.push("/")}>
             Back To Website
           </Button>,
           <Button type="link" onClick={() => router.reload()}>
@@ -37,4 +35,4 @@ const error = () => {
   );
 };
 
-export default error;
+export default Error404;

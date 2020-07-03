@@ -4,44 +4,223 @@ import Wrapper from "components/global/wrapper";
 import Error from "components/global/401";
 import { initializeApollo } from "lib/apolloClient";
 import gql from "graphql-tag";
-import { Row, Col, Card, Typograph, Typography, Avatar, Badge } from "antd";
-import { reducer } from "easy-peasy";
+import {
+  Row,
+  Col,
+  Card,
+  Tabs,
+  Typograph,
+  Upload,
+  Typography,
+  Avatar,
+  Badge,
+} from "antd";
+import { useState } from "react";
+import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
+import Error404 from "components/global/404";
 
 const { Text, Title, Paragraph } = Typography;
 
+const getUserQuery = gql`
+  query getUser($username: String!) {
+    users(where: { username: { _eq: $username } }) {
+      id
+      email
+      first_name
+      last_name
+      username
+      created_at
+      profile_picture
+      cover
+      private_info {
+        blocked
+        dark_mode
+        on_boarding
+        role
+        status
+      }
+      articles_to_users {
+        article {
+          featured_image
+          excerpt
+          title
+          article_category {
+            title
+            slug
+          }
+          article_topic {
+            title
+            slug
+          }
+          slug
+        }
+      }
+
+      bookmarks {
+        bookmarkedArticle {
+          content
+          excerpt
+          title
+          article_topic {
+            title
+            slug
+          }
+          article_category {
+            title
+            slug
+          }
+          slug
+        }
+      }
+    }
+  }
+`;
+
+const updateCoverQuery = gql`
+  mutation updateCover($id: uuid!, $cover: String!) {
+    update_users(where: { id: { _eq: $id } }, _set: { cover: $cover }) {
+      affected_rows
+    }
+  }
+`;
+
+const updateProfilePictureQuery = gql`
+  mutation updateProfilePicture($id: uuid!, $dp: String!) {
+    update_users(where: { id: { _eq: $id } }, _set: { profile_picture: $dp }) {
+      affected_rows
+    }
+  }
+`;
+
 const User = (props) => {
   const router = useRouter();
-  const { username } = router.query;
+  const { tab } = router.query;
+
+  const { data: getUserData, error: getUserError } = useQuery(getUserQuery, {
+    variables: {
+      username: props.username,
+    },
+  });
+
+  const [cover, setCover] = useState(
+    getUserData.users.length > 0 ? getUserData.users[0].cover : null
+  );
+  const [dp, setDp] = useState(
+    getUserData.users.length > 0 ? getUserData.users[0].profile_picture : null
+  );
+
+  const [updateCover, { data: updateCoverData }] = useMutation(
+    updateCoverQuery
+  );
+
+  const [
+    updateprofilePicture,
+    { data: updateProfilePictureData },
+  ] = useMutation(updateProfilePictureQuery);
+
+  const handleCoverPreview = (obj) => {
+    if (obj.file.response && obj.file.response.path) {
+      setCover(obj.file.response.path);
+      updateCover({
+        variables: {
+          id: getUserData.users[0].id,
+          cover: obj.file.response.path,
+        },
+      });
+    }
+  };
+
+  const handleDpPreview = (obj2) => {
+    if (obj2.file.response && obj2.file.response.path) {
+      setDp(obj2.file.response.path);
+      updateprofilePicture({
+        variables: {
+          id: getUserData.users[0].id,
+          dp: obj2.file.response.path,
+        },
+      });
+    }
+  };
+
+  if (getUserError) {
+    return <p>Bad Error</p>;
+  }
 
   return (
     <Wrapper user={props.user}>
-      {props.user ? (
-        <Row justify="center" className="mt-0">
-          <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
+      {console.log(getUserData)}
+      {props.username == null || getUserData.users.length < 1 ? (
+        <Error404 />
+      ) : (
+        <Row justify="center" className="pd-y-20">
+          <Col xs={24} sm={24} md={24} lg={16} xl={12} xxl={12}>
             <Card
               bodyStyle={{ padding: 0 }}
               bordered={false}
+              className="wd-100pc"
               cover={
-                <img
-                  src="https://i.pinimg.com/originals/00/28/18/002818a09f6ecbba8a39873f1e0f42e0.jpg"
-                  width="100%"
-                  className="o-fit-cover"
-                  height={400}
-                />
+                <Upload
+                  name="imageUpload"
+                  action="/api/imageUpload"
+                  onChange={handleCoverPreview}
+                  showUploadList={false}
+                  className="cover-imageUpload"
+                  style={{ width: "100%" }}
+                >
+                  <i
+                    class="ri-upload-cloud-2-line fs-22 uploadIcon"
+                    style={{
+                      visibility: "hidden",
+                      top: 20,
+                      left: 30,
+                      position: "absolute",
+                      zIndex: 3,
+                      color: "rgba(255, 255, 255, 0.4)",
+                      cursor: "pointer",
+                    }}
+                  ></i>
+                  <img
+                    src={cover}
+                    width="100%"
+                    className="o-fit-cover"
+                    height={400}
+                  />
+                </Upload>
               }
             >
               <Row className="d-flex jc-center">
-                <Avatar
-                  size={100}
-                  src="https://www.svgrepo.com/show/165192/avatar.svg"
-                  style={{
-                    margin: "auto",
-                    marginTop: -70,
-                    zIndex: 3,
-                    position: "relative",
-                  }}
-                />
+                <Upload
+                  action="/api/imageUpload"
+                  name="imageUpload"
+                  onChange={handleDpPreview}
+                  showUploadList={false}
+                  className="dp-imageUpload"
+                >
+                  <i
+                    class="ri-upload-cloud-2-line fs-22 uploadIcon"
+                    style={{
+                      visibility: "hidden",
+                      bottom: -10,
+                      zIndex: 4,
+                      position: "relative",
+                      color: "rgb(0,0,0,0.2)",
+                      left: 63,
+                      cursor: "pointer",
+                    }}
+                  ></i>
+                  <Avatar
+                    size={100}
+                    src={dp}
+                    style={{
+                      margin: "auto",
+                      marginTop: -70,
+                      zIndex: 3,
+                      position: "relative",
+                    }}
+                  />
+                </Upload>
               </Row>
+              <Row className="d-flex jc-center"></Row>
             </Card>
             <Row className="d-flex jc-center">
               <Text className="ta-center fs-18 mt-20" strong>
@@ -50,7 +229,6 @@ const User = (props) => {
                   class="ri-checkbox-circle-fill fs-16"
                   style={{
                     position: "absolute",
-                    bottom: 108,
                     marginLeft: 5,
                     color: "#00AAFB",
                   }}
@@ -62,11 +240,146 @@ const User = (props) => {
                 Verified Author
               </Text>
             </Row>
-            <Card>Hello</Card>
+            <Card className="mg-y-20">
+              <Row justify="center">
+                <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
+                  <Tabs defaultActiveKey={tab ? tab : "profile"}>
+                    <Tabs.TabPane tab="Profile" key="profile">
+                      <div className="mg-y-20">
+                        <Text className="mr-10" strong>
+                          First Name:
+                        </Text>
+                        <Text>
+                          {getUserData && getUserData.users
+                            ? getUserData.users[0].first_name
+                            : "Not Specified"}
+                        </Text>
+                      </div>
+
+                      <div className="mg-y-20">
+                        <Text className="mr-10" strong>
+                          Last Name:
+                        </Text>
+                        <Text>
+                          {getUserData.users[0].last_name
+                            ? getUserData.users[0].last_name
+                            : "Not Specified"}
+                        </Text>
+                      </div>
+
+                      <div className="mg-y-20">
+                        <Text className="mr-10" strong>
+                          Email:
+                        </Text>
+                        <Text>
+                          {getUserData.users[0].email
+                            ? getUserData.users[0].email
+                            : "Not Specified"}
+                        </Text>
+                      </div>
+
+                      {getUserData.users[0].facebook &&
+                      getUserData.users[0].facebook.length > 1 ? (
+                        <div className="mg-y-20">
+                          <Text className="mr-10" strong>
+                            Facebook:
+                          </Text>
+                          <Text>
+                            <a href={getUserData.users[0].facebook}>
+                              <img src="/facebook.svg" height={30} width={30} />
+                            </a>
+                          </Text>
+                        </div>
+                      ) : null}
+
+                      {getUserData.users[0].instagram &&
+                      getUserData.users[0].instagram.length > 1 ? (
+                        <div className="mg-y-20">
+                          <Text className="mr-10" strong>
+                            Instagram:
+                          </Text>
+                          <Text>
+                            <a href={getUserData.users[0].instagram}>
+                              <img
+                                src="/instagram.svg"
+                                height={30}
+                                width={30}
+                              />
+                            </a>
+                          </Text>
+                        </div>
+                      ) : null}
+
+                      {getUserData.users[0].twitter &&
+                      getUserData.users[0].twitter.length > 1 ? (
+                        <div className="mg-y-20">
+                          <Text className="mr-10" strong>
+                            Twitter:
+                          </Text>
+                          <Text>
+                            <a href={getUserData.users[0].twitter}>
+                              <img
+                                src="/instagram.svg"
+                                height={30}
+                                width={30}
+                              />
+                            </a>
+                          </Text>
+                        </div>
+                      ) : null}
+
+                      {getUserData.users[0].website &&
+                      getUserData.users[0].website.length > 1 ? (
+                        <div className="mg-y-20">
+                          <Text className="mr-10" strong>
+                            Website:
+                          </Text>
+                          <Text>{getUserData.users[0].website}</Text>
+                        </div>
+                      ) : null}
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="Contributions" key="contributions">
+                      {getUserData &&
+                      getUserData.users[0].articles_to_users.length > 1 ? (
+                        <p>Ok</p>
+                      ) : (
+                        <>
+                          <Title level={4} className="fs-18 ta-center mg-y-20">
+                            Hmmm... Seems Empty
+                          </Title>
+                          <img
+                            src="/empty.svg"
+                            className="o-fit-cover mg-y-20"
+                            height={300}
+                            width="100%"
+                          />
+                        </>
+                      )}
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="Bookmarks" key="bookmarks">
+                      {getUserData &&
+                      getUserData.users[0].bookmarks.length > 1 ? (
+                        <p>Yes</p>
+                      ) : (
+                        <>
+                          <Title level={4} className="fs-18 ta-center mg-y-20">
+                            Hmmm... Seems Empty
+                          </Title>
+                          <img
+                            src="/empty.svg"
+                            className="o-fit-cover mg-y-20"
+                            height={300}
+                            width="100%"
+                          />
+                        </>
+                      )}
+                    </Tabs.TabPane>
+                  </Tabs>
+                </Col>
+              </Row>
+            </Card>
           </Col>
         </Row>
-      ) : (
-        <Error />
       )}
     </Wrapper>
   );
@@ -77,29 +390,21 @@ export default User;
 export const getServerSideProps = withSession(async function ({
   req,
   res,
-  pathname,
+  query,
 }) {
-  const user = req.session.get("session");
-  if (user) {
-    // const apolloClient = initializeApollo();
-    // await apolloClient.query({
-    //   query: gql``,
-    //   variables: {
-    //     offset: 0,
-    //     limit: 5,
-    //   },
-    // });
-    return {
-      props: {
-        user: user ? user : null,
-        // initialApolloState: apolloClient.cache.extract(),
-      },
-    };
-  } else {
-    res.statusCode = 401;
+  const { username } = query;
+  const apolloClient = initializeApollo();
+  await apolloClient.query({
+    query: getUserQuery,
+    variables: {
+      username: username,
+    },
+  });
 
-    return {
-      props: {},
-    };
-  }
+  return {
+    props: {
+      username: username ? username : null,
+      initialApolloState: apolloClient.cache.extract(),
+    },
+  };
 });

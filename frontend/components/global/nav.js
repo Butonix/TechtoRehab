@@ -93,7 +93,16 @@ const Navigation = (props) => {
             <i class="ri-user-smile-fill fs-24 va-minus-6 profile-gradient"></i>
           }
         >
-          <Divider type="vertical" /> View Profile
+          <Divider type="vertical" />
+          <a
+            href={
+              props.user && props.user.id
+                ? `/user/${props.user.username}`
+                : null
+            }
+          >
+            <Text>View Profile</Text>
+          </a>
         </Menu.Item>
       ) : null}
       <Menu.Item
