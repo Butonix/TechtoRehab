@@ -257,7 +257,7 @@ const createArticle = (props) => {
                     menubar: false,
                     inline: true,
                     toolbar:
-                      "bold italic underline|undo redo|toc numlist bullist|emoticons|formatselect|image|pagebreak",
+                      "bold italic underline|undo redo|toc numlist bullist|image emoticons|formatselect|image|pagebreak",
                     plugins:
                       "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons",
                     quickbars_insert_toolbar:
@@ -265,7 +265,57 @@ const createArticle = (props) => {
                     quickbars_selection_toolbar:
                       "bold italic underline |formatselect quicklink",
                     contextmenu:
-                      "undo redo | emoticons inserttable | codesample",
+                      "cut copy | undo redo | emoticons inserttable | codesample",
+                    images_upload_handler: function (
+                      blobInfo,
+                      success,
+                      failure,
+                      progress
+                    ) {
+                      var xhr, formData;
+
+                      xhr = new XMLHttpRequest();
+                      xhr.withCredentials = false;
+                      xhr.open("POST", "/api/editorImageUpload");
+
+                      xhr.upload.onprogress = function (e) {
+                        progress((e.loaded / e.total) * 100);
+                      };
+
+                      xhr.onload = function () {
+                        var json;
+
+                        if (xhr.status < 200 || xhr.status >= 300) {
+                          failure("HTTP Error: " + xhr.status);
+                          return;
+                        }
+
+                        json = JSON.parse(xhr.responseText);
+
+                        if (!json || typeof json.location != "string") {
+                          failure("Invalid JSON: " + xhr.responseText);
+                          return;
+                        }
+
+                        success(json.location);
+                      };
+
+                      xhr.onerror = function () {
+                        failure(
+                          "Image upload failed due to a XHR Transport error. Code: " +
+                            xhr.status
+                        );
+                      };
+
+                      formData = new FormData();
+                      formData.append(
+                        "file",
+                        blobInfo.blob(),
+                        blobInfo.filename()
+                      );
+
+                      xhr.send(formData);
+                    },
                     // toolbar:
                     //   "undo redo | toc |bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                   }}

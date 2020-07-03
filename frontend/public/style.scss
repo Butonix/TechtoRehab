@@ -1112,3 +1112,10 @@ $black: #282936;
     color: rgb(255, 255, 255, 0.8) !important;
   }
 }
+
+img {
+  @include mobile {
+    width: 100%;
+    object-fit: cover;
+  }
+}
