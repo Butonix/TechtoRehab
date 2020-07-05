@@ -31,6 +31,7 @@ import {
 } from "components/home/queries";
 import { Reactions } from "components/home/sub/reactions-holder";
 import withSession from "lib/session";
+import ProgressiveImage from "react-progressive-image";
 
 //
 //
@@ -284,15 +285,31 @@ export default function Home(props) {
                     key={item.id}
                     className="article-list-item"
                     extra={
-                      <img
-                        width={272}
-                        height={160}
-                        className="o-fit-cover"
-                        src={item.featured_image}
-                        style={{
-                          borderRadius: 5,
-                        }}
-                      />
+                      // <img
+                      //   width={272}
+                      //   height={160}
+                      //   className="o-fit-cover"
+                      //   src={item.featured_image}
+                      //   style={{
+                      //     borderRadius: 5,
+                      //   }}
+                      // />
+                      <ProgressiveImage
+                        src={item.featured_image + ".webp"}
+                        placeholder={item.featured_image + "-placeholder.webp"}
+                      >
+                        {(src) => (
+                          <img
+                            width={272}
+                            height={160}
+                            className="o-fit-cover"
+                            src={src}
+                            style={{
+                              borderRadius: 5,
+                            }}
+                          />
+                        )}
+                      </ProgressiveImage>
                     }
                     actions={[
                       <a

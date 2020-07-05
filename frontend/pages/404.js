@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Result, Button } from "antd";
+import { Result, Button, Row, Col } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -8,28 +8,27 @@ const Error404 = () => {
   return (
     <>
       <Head>
-        <title>401 Unauthorized</title>
+        <title>404 Not Found</title>
       </Head>
-      <Result
-        status="error"
-        title="401 Unauthorized"
-        subTitle="You need to be logged in to access this page"
-        icon={<img src="/401.svg" height={400} />}
-        style={{ margin: "10%" }}
-        extra={[
-          <Button type="primary">
-            <Link href="/get-started">
-              <a>Sign In</a>
-            </Link>
-          </Button>,
-          <Button type="secondary" onClick={() => router.push("/")}>
-            Back To Website
-          </Button>,
-          <Button type="link" onClick={() => router.reload()}>
-            Contact Support
-          </Button>,
-        ]}
-      />
+      <Row justify="center">
+        <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
+          <Result
+            status="error"
+            title="404 Not Found"
+            subTitle="The Page You Are Looking For Is Either Removed or Doesn't Exist"
+            icon={<img src="/404.svg" height={400} width="100%" />}
+            style={{ margin: "10%" }}
+            extra={[
+              <Button type="primary" onClick={() => router.push("/")}>
+                Back To Website
+              </Button>,
+              <Button type="link" onClick={() => router.reload()}>
+                Contact Support
+              </Button>,
+            ]}
+          />
+        </Col>
+      </Row>
     </>
   );
 };

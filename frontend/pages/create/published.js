@@ -1,12 +1,13 @@
 import { Row, Col, Card, Button, Typography, Result } from "antd";
 import Wrapper from "components/global/wrapper";
 import { useRouter } from "next/router";
+import withSession from "lib/session";
 
 const { Text, Title, Paragraph } = Typography;
 const PublishedArticle = (props) => {
   const router = useRouter();
   return (
-    <Wrapper>
+    <Wrapper user={props.user}>
       <Row justify="center" className="pd-20">
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={10}>
           <Card>
@@ -59,7 +60,12 @@ const PublishedArticle = (props) => {
 
 export default PublishedArticle;
 
-export const getServerSideProps = async ({ req, res, query }) => {
+export const getServerSideProps = withSession(async function ({
+  req,
+  res,
+  query,
+}) {
+  const user = req.session.get(["session"]);
   const { id, title, slug, category, topic } = query;
   return {
     props: {
@@ -68,6 +74,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
       slug: slug ? slug : null,
       category: category ? category : null,
       topic: topic ? topic : null,
+      user: user ? user : null,
     },
   };
-};
+});

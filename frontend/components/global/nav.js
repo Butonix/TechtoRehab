@@ -16,6 +16,9 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import { breakPoints } from "./responsive";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import { useState } from "react";
 
 const Nav = styled.div`
   display: flex;
@@ -75,6 +78,14 @@ const Nav = styled.div`
 
 const { Text, Title, Paragraph } = Typography;
 
+const getUserProfilePictureQuery = gql`
+  query getUserProfilePicture($id: uuid!) {
+    users(where: { id: { _eq: $id } }) {
+      profile_picture
+    }
+  }
+`;
+
 const Navigation = (props) => {
   const loginModal = useStoreState((state) => state.site.loginModal);
   const setLoginModal = useStoreActions(
@@ -82,7 +93,18 @@ const Navigation = (props) => {
   );
   const setSidebar = useStoreActions((actions) => actions.site.setSidebar);
   const sidebar = useStoreState((state) => state.site.sidebar);
+  const [userDp, setUserDp] = useState();
   const router = useRouter();
+
+  const { data: getUserProfilePictureData } = useQuery(
+    getUserProfilePictureQuery,
+
+    {
+      variables: {
+        id: props.user.id,
+      },
+    }
+  );
   const UserDrop = (
     <Menu style={{ width: 200 }}>
       {props.user && props.user.id ? (
@@ -227,8 +249,9 @@ const Navigation = (props) => {
               icon={
                 <Avatar
                   src={
-                    props.user && props.user.id
-                      ? props.user.profilePicture
+                    getUserProfilePictureData
+                      ? getUserProfilePictureData.users[0].profile_picture +
+                        ".webp"
                       : null
                   }
                   size={26}

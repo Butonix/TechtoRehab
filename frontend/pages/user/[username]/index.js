@@ -18,6 +18,7 @@ import {
 import { useState } from "react";
 import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import Error404 from "components/global/404";
+import ProgressiveImage from "react-progressive-image";
 
 const { Text, Title, Paragraph } = Typography;
 
@@ -106,7 +107,9 @@ const User = (props) => {
     getUserData.users.length > 0 ? getUserData.users[0].cover : null
   );
   const [dp, setDp] = useState(
-    getUserData.users.length > 0 ? getUserData.users[0].profile_picture : null
+    getUserData.users.length > 0
+      ? getUserData.users[0].profile_picture + ".webp"
+      : null
   );
 
   const [updateCover, { data: updateCoverData }] = useMutation(
@@ -132,7 +135,7 @@ const User = (props) => {
 
   const handleDpPreview = (obj2) => {
     if (obj2.file.response && obj2.file.response.path) {
-      setDp(obj2.file.response.path);
+      setDp(obj2.file.response.path + ".webp");
       updateprofilePicture({
         variables: {
           id: getUserData.users[0].id,
@@ -179,12 +182,32 @@ const User = (props) => {
                       cursor: "pointer",
                     }}
                   ></i>
-                  <img
+                  {/* <img
                     src={cover}
                     width="100%"
                     className="o-fit-cover"
                     height={400}
-                  />
+                  /> */}
+                  {/* <LazyLoadImage
+                    className="o-fit-cover"
+                    src={cover + ".webp"}
+                    height={400}
+                    width="`100%"
+                    effect="blur"
+                  /> */}
+                  <ProgressiveImage
+                    src={cover + ".webp"}
+                    placeholder={cover + "-placeholder.webp"}
+                  >
+                    {(src) => (
+                      <img
+                        src={src}
+                        height={400}
+                        width="100%"
+                        className="o-fit-cover"
+                      />
+                    )}
+                  </ProgressiveImage>
                 </Upload>
               }
             >
@@ -242,7 +265,7 @@ const User = (props) => {
             </Row>
             <Card className="mg-y-20">
               <Row justify="center">
-                <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
+                <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={24}>
                   <Tabs defaultActiveKey={tab ? tab : "profile"}>
                     <Tabs.TabPane tab="Profile" key="profile">
                       <div className="mg-y-20">
@@ -350,8 +373,7 @@ const User = (props) => {
                           <img
                             src="/empty.svg"
                             className="o-fit-cover mg-y-20"
-                            height={300}
-                            width="100%"
+                            height={400}
                           />
                         </>
                       )}
@@ -368,8 +390,7 @@ const User = (props) => {
                           <img
                             src="/empty.svg"
                             className="o-fit-cover mg-y-20"
-                            height={300}
-                            width="100%"
+                            height={400}
                           />
                         </>
                       )}
@@ -393,6 +414,7 @@ export const getServerSideProps = withSession(async function ({
   query,
 }) {
   const { username } = query;
+  const user = req.session.get(["session"]);
   const apolloClient = initializeApollo();
   await apolloClient.query({
     query: getUserQuery,
@@ -405,6 +427,7 @@ export const getServerSideProps = withSession(async function ({
     props: {
       username: username ? username : null,
       initialApolloState: apolloClient.cache.extract(),
+      user: user ? user : null,
     },
   };
 });

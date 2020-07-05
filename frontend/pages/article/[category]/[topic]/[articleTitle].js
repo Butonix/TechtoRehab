@@ -25,7 +25,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { initializeApollo } from "lib/apolloClient";
 import { Reactions } from "components/home/sub/reactions-holder";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   deleteCommentQuery,
   deleteReplyToReplyQuery,
@@ -38,7 +38,8 @@ import {
 } from "components/article/queries";
 
 import withSession from "lib/session";
-
+import ProgressiveImage from "react-progressive-image";
+import lozad from "lozad";
 //
 //
 //
@@ -273,6 +274,24 @@ const Article = (props) => {
   //
   //
 
+  useEffect(() => {
+    // const imageObserver = new IntersectionObserver((entries, imgObserver) => {
+    //   entries.forEach((entry) => {
+    //     const lazyImage = entry.target;
+    //     var source = lazyImage.src;
+    //     if (entry.isIntersecting) {
+    //       lazyImage.src = "/maxresdefault(1)-placeholder.webp";
+    //     } else {
+    //       lazyImage.src = "http://localhost:3000/images/maxresdefault.webp";
+    //     }
+    //   });
+    // });
+    // imageObserver.observe(document.querySelector("img"));
+    const el = document.querySelector("img");
+    const observer = lozad(el);
+    observer.observe();
+  });
+
   const reactionsMenu = (
     <Menu className="pd-10">
       <Reactions>
@@ -318,7 +337,7 @@ const Article = (props) => {
         <link rel="stylesheet" type="text/css" href="/prism.css" />
         <script src="/prism.js"></script>
       </Head>
-      {getArticleData && getArticleData.id ? (
+      {getArticleData && getArticleData.articles.length > 0 ? (
         <>
           <Row justify="center">
             <Col
@@ -347,7 +366,12 @@ const Article = (props) => {
               <Card className="mg-x-5">
                 <Row>
                   <Space>
-                    <Avatar src={props.user.profilePicture} />
+                    <Avatar
+                      src={
+                        getArticleData.articles[0].users_to_articles[0].authors
+                          .profile_picture + ".webp"
+                      }
+                    />
                     <Text>
                       {getArticleData.articles[0].users_to_articles.map(
                         (mapped) => mapped.authors.username
@@ -363,21 +387,31 @@ const Article = (props) => {
                     ).toDateString()}
                   </div>
                 </Row>
-                <Row></Row>
               </Card>
             </Col>
             <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={10} className="">
-              <img
-                width="100%"
-                className="o-fit-cover mt-30"
-                src={getArticleData.articles[0].featured_image}
-                style={{ maxWidth: 800 }}
-              />
+              <ProgressiveImage
+                src={getArticleData.articles[0].featured_image + ".webp"}
+                placeholder={
+                  getArticleData.articles[0].featured_image +
+                  "-placeholder.webp"
+                }
+              >
+                {(src) => (
+                  <img
+                    width="100%"
+                    className="o-fit-cover mt-30"
+                    src={src}
+                    style={{ maxWidth: 800, maxHeight: 400 }}
+                  />
+                )}
+              </ProgressiveImage>
             </Col>
           </Row>
-          <Row justify="center" className="mt-30 pd-20">
-            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+          <Row justify="center" className="mt-30 pd-10">
+            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={14}>
               <div
+                className="content"
                 dangerouslySetInnerHTML={{
                   __html: getArticleData.articles[0].content,
                 }}

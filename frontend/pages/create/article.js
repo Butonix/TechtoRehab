@@ -15,7 +15,7 @@ import {
 import Wrapper from "components/global/wrapper";
 import { initializeApollo } from "lib/apolloClient";
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import gql from "graphql-tag";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
 import withSession from "lib/session";
@@ -90,8 +90,9 @@ const MyEditor = dynamic(
   { loading: () => <Skeleton paragraph={{ rows: 2 }} title />, ssr: false }
 );
 
-const { Text, Title, Paragraph, Link } = Typography;
+const { Text, Title, Link } = Typography;
 const createArticle = (props) => {
+  var count = 0;
   const [form] = Form.useForm();
   const [image, setImage] = useState(null);
   const [editorContent, setEditorContent] = useState(`Ncie Content`);
@@ -179,6 +180,89 @@ const createArticle = (props) => {
       },
     });
   };
+
+  useEffect(() => {
+    if (count < 1) {
+      const EditorJS = require("@editorjs/editorjs");
+      const LinkTool = require("@editorjs/link");
+      const Header = require("@editorjs/header");
+      const SimpleImage = require("@editorjs/simple-image");
+      const ImageTool = require("@editorjs/image");
+      const Checklist = require("@editorjs/checklist");
+      const List = require("@editorjs/list");
+      const Embed = require("@editorjs/embed");
+      const CodeBox = require("@bomdi/codebox");
+      const InlineCode = require("@editorjs/inline-code");
+      const Marker = require("@editorjs/marker");
+      const Underline = require("@editorjs/underline");
+      const Delimiter = require("@editorjs/delimiter");
+      const Quote = require("@editorjs/quote");
+      const Table = require("@editorjs/table");
+      const Warning = require("@editorjs/warning");
+
+      const editor = new EditorJS({
+        holder: "editorjs",
+        placeholder: "Write something Awesome",
+        tools: {
+          linkTool: {
+            class: LinkTool,
+            config: {
+              endpoint: "http://localhost:8008/fetchUrl", // Your backend endpoint for url data fetching
+            },
+          },
+          codeBox: {
+            class: CodeBox,
+            config: {
+              useDefaultTheme: "light", // Optional. This also determines the background color of the language select drop-down
+            },
+          },
+          header: Header,
+          image: {
+            class: ImageTool,
+            config: {
+              endpoints: {
+                byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
+                byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+              },
+            },
+          },
+          checklist: {
+            class: Checklist,
+            inlineToolbar: true,
+          },
+          list: {
+            class: List,
+            inlineToolbar: true,
+          },
+          embed: Embed,
+          inlineCode: {
+            class: InlineCode,
+            shortcut: "CMD+SHIFT+M",
+          },
+          Marker: {
+            class: Marker,
+            shortcut: "CMD+SHIFT+M",
+          },
+          underline: Underline,
+          delimiter: Delimiter,
+          quote: Quote,
+          table: {
+            class: Table,
+          },
+          warning: Warning,
+        },
+      });
+      editor.isReady
+        .then(() => {
+          count = count + 1;
+          return count;
+        })
+        .catch((reason) => {
+          console.log(`Editor.js initialization failed because of ${reason}`);
+        });
+    }
+  }, []);
+
   return (
     <Wrapper user={props.user}>
       {props.user && props.user.id ? (
@@ -242,14 +326,15 @@ const createArticle = (props) => {
               <Form.Item
                 label="Content"
                 className="mt-20"
-                name="content"
                 rules={[
                   {
                     required: true,
                   },
                 ]}
               >
-                <MyEditor
+                <div id="editorjs" />
+
+                {/* <MyEditor
                   initialValue={editorContent}
                   apiKey="m2scqo7knj5972vza3c3an2ex1x93cw66e1hlb9vejb61ya1"
                   init={{
@@ -257,7 +342,7 @@ const createArticle = (props) => {
                     menubar: false,
                     inline: true,
                     toolbar:
-                      "bold italic underline|undo redo|toc numlist bullist|image emoticons|formatselect|image|pagebreak",
+                      "bold italic underline|undo redo|toc numlist bullist|image emoticons|formatselect|pagebreak",
                     plugins:
                       "print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons",
                     quickbars_insert_toolbar:
@@ -320,8 +405,9 @@ const createArticle = (props) => {
                     //   "undo redo | toc |bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
                   }}
                   onEditorChange={handleEditor}
-                />
+                /> */}
               </Form.Item>
+
               <Form.Item
                 label="Excerpt"
                 name="excerpt"
@@ -473,7 +559,7 @@ const createArticle = (props) => {
                       className="o-fit-cover"
                       width="200px"
                       height="200px"
-                      src={image}
+                      src={image + ".webp"}
                     />
                   ) : (
                     <Text>Upload</Text>
@@ -497,7 +583,7 @@ const createArticle = (props) => {
                         redirect: "follow",
                         referrerPolicy: "no-referrer",
                         body: JSON.stringify({
-                          path: image,
+                          path: image + ".webp",
                         }),
                       })
                         .then((res) => {
@@ -552,7 +638,6 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
       query: getCatsandTopicsQuery,
     });
   }
-  res.statusCode = 401;
 
   return {
     props: {

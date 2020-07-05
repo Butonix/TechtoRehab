@@ -25,16 +25,30 @@ export default async (req, res) => {
       name = files.file.name.replace(".svg", "");
     }
     sharp(files.file.path)
-      .resize(816, 480, {
+      .resize(1088, 640, {
         position: "top",
+        fit: "inside",
         withoutEnlargement: true,
       })
       .toFormat("jpeg")
-      .webp({ quality: 100 })
+      .webp({ quality: 90 })
       .toFile(`public/images/${name}.webp`)
       .then((info) => {
-        res.status(200);
-        res.end(JSON.stringify({ location: `/images/${name}.webp` }));
+        sharp(files.file.path)
+          .resize(1088, 640, {
+            position: "top",
+            fit: "cover",
+            withoutEnlargement: true,
+          })
+          .toFormat("jpeg")
+          .webp({ quality: 90 })
+          .blur(57)
+          .toFile(`public/images/${name}-placeholder.webp`)
+          .then((info) => {
+            res.status(200);
+            res.end(JSON.stringify({ location: `/images/${name}.webp` }));
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   });

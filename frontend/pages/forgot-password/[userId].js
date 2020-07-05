@@ -285,7 +285,6 @@ const forgotPassword = (props) => {
 export default forgotPassword;
 
 export const getServerSideProps = async ({ query }) => {
-  console.log(query);
   if (query.userId && query.token) {
     const apolloClient = initializeApollo();
     await apolloClient.query({

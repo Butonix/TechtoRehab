@@ -27,6 +27,7 @@ export const getArticleQuery = gql`
       users_to_articles {
         authors {
           username
+          profile_picture
         }
       }
       article_topic {
