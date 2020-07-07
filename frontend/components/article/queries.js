@@ -7,6 +7,7 @@ export const getArticleQuery = gql`
       title
       content
       excerpt
+      temp_content
       updated_at
       created_at
       featured_image

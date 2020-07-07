@@ -43,7 +43,7 @@ const insertPostQuery = gql`
     $title: String!
     $excerpt: String!
     $featuredImage: String!
-    $content: String!
+    $content: jsonb!
     $category: uuid!
     $topic: uuid!
     $slug: String!
@@ -54,7 +54,8 @@ const insertPostQuery = gql`
         title: $title
         excerpt: $excerpt
         featured_image: $featuredImage
-        content: $content
+        content: "something"
+        temp_content: $content
         category: $category
         topic: $topic
         slug: $slug
@@ -101,6 +102,7 @@ const createArticle = (props) => {
   const [category, setCategory] = useState(null);
   const [topic, setTopic] = useState(null);
   const [titleApprove, setTitleApprove] = useState(null);
+  const [content, setContent] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -191,7 +193,7 @@ const createArticle = (props) => {
       const Checklist = require("@editorjs/checklist");
       const List = require("@editorjs/list");
       const Embed = require("@editorjs/embed");
-      const CodeBox = require("@bomdi/codebox");
+      const CodeTool = require("@editorjs/code");
       const InlineCode = require("@editorjs/inline-code");
       const Marker = require("@editorjs/marker");
       const Underline = require("@editorjs/underline");
@@ -201,28 +203,35 @@ const createArticle = (props) => {
       const Warning = require("@editorjs/warning");
 
       const editor = new EditorJS({
-        holder: "editorjs",
+        holder: "content",
         placeholder: "Write something Awesome",
+        autofocus: true,
+        onChange: (val) => {
+          editor
+            .save()
+            .then((outputData) => {
+              console.log(outputData);
+              setContent(outputData);
+            })
+            .catch((error) => {
+              console.log("Saving failed: ", error);
+            });
+        },
         tools: {
           linkTool: {
             class: LinkTool,
             config: {
-              endpoint: "http://localhost:8008/fetchUrl", // Your backend endpoint for url data fetching
+              endpoint: "/api/linkpreview", // Your backend endpoint for url data fetching
             },
           },
-          codeBox: {
-            class: CodeBox,
-            config: {
-              useDefaultTheme: "light", // Optional. This also determines the background color of the language select drop-down
-            },
-          },
+          code: CodeTool,
           header: Header,
           image: {
             class: ImageTool,
             config: {
               endpoints: {
-                byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
-                byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+                byFile: "/api/editorImageUpload", // Your backend file uploader endpoint
+                byUrl: "/api/editorImageUpload", // Your endpoint that provides uploading by Url
               },
             },
           },
@@ -234,7 +243,48 @@ const createArticle = (props) => {
             class: List,
             inlineToolbar: true,
           },
-          embed: Embed,
+          embed: {
+            class: Embed,
+            config: {
+              services: {
+                codesandbox: {
+                  regex: /https?:\/\/codesandbox.io\/s\/([^\/\?\&]*)/,
+                  embedUrl: "https://codesandbox.io/embed/<%= remote_id %>",
+                  html:
+                    "<iframe height='500' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
+                  height: 500,
+                  width: 800,
+                  id: (groups) => groups.join("/embed/"),
+                },
+                stackblitz: {
+                  regex: /https?:\/\/stackblitz.com\/edit\/([^\/\?\&]*)/,
+                  embedUrl:
+                    "https://stackblitz.com/edit/<%= remote_id %>?embed=1",
+                  html:
+                    "<iframe height='500' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
+                  height: 500,
+                  width: 800,
+                  id: (groups) => groups.join("/embed/"),
+                },
+                giphy: {
+                  regex: /https?:\/\/giphy.com\/gifs\/([^\/\?\&]*)/,
+                  embedUrl: "https://giphy.com/embed/<%= remote_id %>",
+                  html:
+                    "<iframe height='300' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
+                  height: 300,
+                  width: 800,
+                  id: (groups) => {
+                    groups = groups[0].substring(
+                      groups[0].length - 18,
+                      groups[0].length
+                    );
+                    return groups;
+                  },
+                },
+              },
+            },
+          },
+
           inlineCode: {
             class: InlineCode,
             shortcut: "CMD+SHIFT+M",
@@ -332,7 +382,7 @@ const createArticle = (props) => {
                   },
                 ]}
               >
-                <div id="editorjs" />
+                <div id="content" />
 
                 {/* <MyEditor
                   initialValue={editorContent}
@@ -453,7 +503,8 @@ const createArticle = (props) => {
                 var sendTopic = data.topic;
                 var sendFeaturedImage = data.featuredImage.file.response.path;
                 var sendExcerpt = data.excerpt;
-                var sendContent = data.content.level.content;
+                var sendContent = content;
+                console.log(sendContent);
                 var sendSlug = permalink;
                 insertArticle({
                   variables: {

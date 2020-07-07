@@ -37,6 +37,7 @@ export default class MyDocument extends Document {
     return (
       <Html className="light">
         <Head />
+
         <body style={{ margin: 0 }}>
           <Main />
           <NextScript />

@@ -461,6 +461,9 @@ $High-Desktop: 2000px;
   font-weight: 600 !important;
 }
 
+.fw-400 {
+  font-weight: 400 !important;
+}
 //
 //
 //
@@ -662,6 +665,10 @@ $High-Desktop: 2000px;
   object-position: center;
 }
 
+.o-position-top {
+  object-position: top;
+}
+
 //
 //
 //
@@ -725,8 +732,23 @@ $High-Desktop: 2000px;
   justify-content: center !important;
 }
 
+.jc-end {
+  justify-content: flex-end !important;
+}
+
+.jc-start {
+  justify-content: flex-start !important;
+}
 .ai-center {
   align-items: center !important;
+}
+
+.ai-end {
+  align-items: flex-end !important;
+}
+
+.ai-start {
+  align-items: flex-start !important;
 }
 
 .d-flex {
@@ -1067,7 +1089,7 @@ $black: #282936;
   padding: 4px 20px !important;
   a {
     span {
-      font-weight: 600 !important;
+      font-weight: 700 !important;
     }
   }
 }
@@ -1076,6 +1098,11 @@ $black: #282936;
   background: #2f3545 !important;
   color: white !important;
   box-shadow: 6px 4px 0 rgb(47, 53, 69, 0.8) !important;
+  a {
+    span {
+      color: white !important;
+    }
+  }
 }
 
 .ant-alert {
@@ -1124,12 +1151,47 @@ img {
 .content {
   font-size: 16px;
   img {
-    max-width: 100%;
-    object-fit: cover;
-    max-height: 500px;
+    max-width: 100% !important;
+    // object-fit: cover;
+    max-height: 600px !important;
+  }
+
+  pre {
+    max-height: 400px;
+    height: 400px;
+    overflow-y: scroll;
   }
 }
 
 .ce-block__content {
+  img {
+    max-height: 500px;
+  }
+}
+
+.ce-toolbar__content {
   max-width: 95% !important;
+}
+.codeBoxHolder {
+  // height: 400px;
+}
+
+.socialButton {
+  border: none !important;
+  background: "#2f3545" !important;
+  color: white !important;
+  box-shadow: 5px 5px rgba(24, 144, 255, 0.4), 10px 10px rgba(24, 144, 255, 0.3),
+    15px 15px rgba(24, 144, 255, 0.2), 20px 20px rgba(24, 144, 255, 0.1),
+    25px 25px rgba(24, 144, 255, 0.05) !important;
+  span {
+    vertical-align: 1px !important;
+  }
+}
+
+.socialButton:hover {
+  background: white !important;
+  color: #2f3545 !important;
+  box-shadow: 5px 5px rgba(47, 53, 69, 0.4), 10px 10px rgba(47, 53, 69, 0.3),
+    15px 15px rgba(47, 53, 69, 0.2), 20px 20px rgba(47, 53, 69, 0.1),
+    25px 25px rgba(47, 53, 69, 0.05) !important;
 }

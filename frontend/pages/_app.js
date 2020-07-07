@@ -8,7 +8,8 @@ import "public/style.scss";
 import { createStore, StoreProvider, useStoreActions } from "easy-peasy";
 import "remixicon/fonts/remixicon.css";
 import { storage } from "../store/store";
-
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/material.css";
 const store = createStore(storage);
 
 function MyApp({ Component, pageProps }) {

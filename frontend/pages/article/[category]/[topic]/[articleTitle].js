@@ -9,6 +9,7 @@ import {
   Drawer,
   List,
   Comment,
+  Skeleton,
   Card,
   Divider,
   Space,
@@ -19,6 +20,7 @@ import {
   message,
   Menu,
   Dropdown,
+  Checkbox,
 } from "antd";
 import { useRouter } from "next/router";
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -39,7 +41,10 @@ import {
 
 import withSession from "lib/session";
 import ProgressiveImage from "react-progressive-image";
-import lozad from "lozad";
+import LazyLoad from "react-lazyload";
+import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import dynamic from "next/dynamic";
+
 //
 //
 //
@@ -47,6 +52,16 @@ import lozad from "lozad";
 //
 //
 
+const Syntax = dynamic(() => import("react-syntax-highlighter"), {
+  ssr: false,
+});
+
+const CodeMirror = dynamic(
+  () => import("react-codemirror2").then((res) => res.UnControlled),
+  {
+    ssr: false,
+  }
+);
 const { Title, Paragraph, Text } = Typography;
 
 //
@@ -78,6 +93,7 @@ const Article = (props) => {
   const { category, topic, articleTitle } = router.query;
 
   const [reactionsModal, setReactionsModal] = useState(false);
+  var count = 0;
   //
   //
   //
@@ -274,26 +290,8 @@ const Article = (props) => {
   //
   //
 
-  useEffect(() => {
-    // const imageObserver = new IntersectionObserver((entries, imgObserver) => {
-    //   entries.forEach((entry) => {
-    //     const lazyImage = entry.target;
-    //     var source = lazyImage.src;
-    //     if (entry.isIntersecting) {
-    //       lazyImage.src = "/maxresdefault(1)-placeholder.webp";
-    //     } else {
-    //       lazyImage.src = "http://localhost:3000/images/maxresdefault.webp";
-    //     }
-    //   });
-    // });
-    // imageObserver.observe(document.querySelector("img"));
-    const el = document.querySelector("img");
-    const observer = lozad(el);
-    observer.observe();
-  });
-
   const reactionsMenu = (
-    <Menu className="pd-10">
+    <Menu className="pd-5" style={{ borderRadius: 35 }}>
       <Reactions>
         {getArticleData.reactions.map((reactions) => {
           return (
@@ -305,7 +303,9 @@ const Article = (props) => {
                     variables: {
                       articleId: getArticleData.articles[0].id,
                       reactionId: reactions.id,
-                      userId: props.user.id,
+                      userId:
+                        getArticleData.articles[0].users_to_articles.authors[0]
+                          .id,
                     },
                   });
                 }}
@@ -333,10 +333,7 @@ const Article = (props) => {
 
   return (
     <Wrapper user={props.user}>
-      <Head>
-        <link rel="stylesheet" type="text/css" href="/prism.css" />
-        <script src="/prism.js"></script>
-      </Head>
+      <Head></Head>
       {getArticleData && getArticleData.articles.length > 0 ? (
         <>
           <Row justify="center">
@@ -352,7 +349,7 @@ const Article = (props) => {
               <Title
                 level={3}
                 className="lh-1-5 pd-x-20 mt-30"
-                style={{ fontWeight: 400 }}
+                style={{ fontWeight: 600 }}
               >
                 {getArticleData.articles[0].title}
               </Title>
@@ -366,17 +363,41 @@ const Article = (props) => {
               <Card className="mg-x-5">
                 <Row>
                   <Space>
-                    <Avatar
-                      src={
-                        getArticleData.articles[0].users_to_articles[0].authors
-                          .profile_picture + ".webp"
+                    <Text strong>Read Time:</Text>
+                    {getArticleData.articles[0].temp_content.blocks.map(
+                      (blocks, index) => {
+                        if (
+                          blocks.type == "paragraph" ||
+                          blocks.type == "title"
+                        ) {
+                          count =
+                            count + blocks.data.text.split(" ").length - 1;
+                        }
+
+                        if (
+                          index ==
+                          getArticleData.articles[0].temp_content.blocks
+                            .length -
+                            1
+                        ) {
+                          return count < 200 ? (
+                            <>
+                              <Text className="lh-2-5" strong>
+                                {"< 1"}
+                              </Text>
+                              <Text className="lh-2-5">{"minute"}</Text>
+                            </>
+                          ) : (
+                            <>
+                              <Text className="lh-2-5 mr-5" strong>
+                                {Math.round(count / 200)}
+                              </Text>
+                              <Text className="lh-2-5">{"minute read"}</Text>
+                            </>
+                          );
+                        }
                       }
-                    />
-                    <Text>
-                      {getArticleData.articles[0].users_to_articles.map(
-                        (mapped) => mapped.authors.username
-                      )}
-                    </Text>
+                    )}
                   </Space>
                   <div className="ml-auto va-middle lh-2-5">
                     <Text className="mr-10" strong>
@@ -389,7 +410,7 @@ const Article = (props) => {
                 </Row>
               </Card>
             </Col>
-            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={10} className="">
+            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={8} className="">
               <ProgressiveImage
                 src={getArticleData.articles[0].featured_image + ".webp"}
                 placeholder={
@@ -402,20 +423,173 @@ const Article = (props) => {
                     width="100%"
                     className="o-fit-cover mt-30"
                     src={src}
-                    style={{ maxWidth: 800, maxHeight: 400 }}
+                    style={{ maxHeight: 400 }}
                   />
                 )}
               </ProgressiveImage>
             </Col>
           </Row>
-          <Row justify="center" className="mt-30 pd-10">
-            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={14}>
-              <div
-                className="content"
-                dangerouslySetInnerHTML={{
-                  __html: getArticleData.articles[0].content,
-                }}
-              />
+          <Row justify="center" className="mt-30">
+            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+              <div className="content">
+                {getArticleData.articles[0].temp_content.blocks.map(
+                  (blocks) => {
+                    return blocks.type == "paragraph" ? (
+                      <p
+                        className="pd-10"
+                        dangerouslySetInnerHTML={{ __html: blocks.data.text }}
+                      />
+                    ) : blocks.type == "header" ? (
+                      <Title
+                        level={blocks.data.level}
+                        className="pd-10 mg-y-10"
+                      >
+                        {blocks.data.text.replace(/&nbsp;/g, "")}
+                      </Title>
+                    ) : blocks.type == "image" ? (
+                      <ProgressiveImage
+                        src={blocks.data.file.url}
+                        placeholder={
+                          blocks.data.file.url.slice(
+                            0,
+                            blocks.data.file.url.length - 5
+                          ) + "-placeholder.webp"
+                        }
+                      >
+                        {(src) => (
+                          <figure>
+                            <img
+                              width="100%"
+                              className={
+                                (blocks.data.stretched ? "" : "pd-10") +
+                                "o-fit-cover mg-y-20"
+                              }
+                              src={src}
+                              style={{ maxWidth: 800, maxHeight: 400 }}
+                            />
+                            <Card>
+                              {blocks.data.caption ? (
+                                <figcaption className="mt-5 ml-10 fw-600">
+                                  Caption -- {blocks.data.caption}
+                                </figcaption>
+                              ) : null}
+                            </Card>
+                          </figure>
+                        )}
+                      </ProgressiveImage>
+                    ) : blocks.type == "checklist" ? (
+                      <div className="d-flex flex-column ai-center mt-30 mb-30">
+                        {blocks.data.items.map((item) => {
+                          return (
+                            <Checkbox checked={item.checked}>
+                              {item.text}
+                            </Checkbox>
+                          );
+                        })}
+                      </div>
+                    ) : blocks.type == "code" ? (
+                      <Syntax
+                        style={monokaiSublime}
+                        language="auto-detect"
+                        showLineNumbers
+                      >
+                        {blocks.data.code}
+                      </Syntax>
+                    ) : blocks.type == "list" ? (
+                      <Row className="">
+                        {blocks.data.style == "ordered" ? (
+                          <ol>
+                            {blocks.data.items.map((item) => (
+                              <li>{item}</li>
+                            ))}
+                          </ol>
+                        ) : (
+                          <ul>
+                            {blocks.data.items.map((item) => (
+                              <li>{item}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </Row>
+                    ) : blocks.type == "linkTool" ? (
+                      <Card className="mt-20 mg-x-10">
+                        <Row>
+                          <Col span={14}>
+                            <a href={blocks.data.link}>
+                              <Text className="fs-16" strong>
+                                {blocks.data.meta.title}
+                              </Text>
+                            </a>
+                            <Paragraph
+                              className="fs-14 mt-10"
+                              ellipsis={{ rows: 2 }}
+                            >
+                              {blocks.data.meta.description}
+                            </Paragraph>
+                          </Col>
+                          <Col span={10} className="d-flex jc-end">
+                            <a href={blocks.data.link}>
+                              <img
+                                width={100}
+                                height={100}
+                                src={blocks.data.meta.image.url}
+                                className="o-fit-cover"
+                              />
+                            </a>
+                          </Col>
+                        </Row>
+                      </Card>
+                    ) : blocks.type == "delimiter" ? (
+                      <Row className="pd-x-20 ">
+                        <Divider />
+                      </Row>
+                    ) : blocks.type == "quote" ? (
+                      <div className="pd-x-20 mg-y-10">
+                        <List.Item>
+                          <List.Item.Meta
+                            avatar={<i class="ri-double-quotes-l fs-30" />}
+                            title={blocks.data.caption}
+                            description={blocks.data.text}
+                          />
+                        </List.Item>
+                      </div>
+                    ) : blocks.type == "warning" ? (
+                      <div className="pd-x-20 mg-y-10">
+                        <List.Item>
+                          <List.Item.Meta
+                            avatar={
+                              <i
+                                class="ri-error-warning-fill fs-30"
+                                style={{
+                                  color: "#fbc500",
+                                }}
+                              />
+                            }
+                            title={blocks.data.title}
+                            description={blocks.data.message}
+                          />
+                        </List.Item>
+                      </div>
+                    ) : blocks.type == "embed" ? (
+                      <LazyLoad height={400} placeholder={<Skeleton loading />}>
+                        <iframe
+                          className="mg-y-20"
+                          width="100%"
+                          height={500}
+                          src={blocks.data.embed}
+                        />
+                        {blocks.data.caption ? (
+                          <Card>
+                            <Text className="pd-y-20 ml-10" strong>
+                              Caption -- {blocks.data.caption}
+                            </Text>
+                          </Card>
+                        ) : null}
+                      </LazyLoad>
+                    ) : null;
+                  }
+                )}
+              </div>
             </Col>
           </Row>
           <Row className="mt-10 mg-x-5 mb-20 mt-10" justify="center">
@@ -589,7 +763,8 @@ const Article = (props) => {
                   insertComment({
                     variables: {
                       articleId: getArticleData.articles[0].id,
-                      userId: props.user.id,
+                      userId:
+                        getArticleData.articles[0].users_to_articles.authors.id,
                       content: values.comment,
                     },
                   });
@@ -826,17 +1001,20 @@ const Article = (props) => {
                           insertReply({
                             variables: {
                               commentId: newData.comment.id,
-                              userId: props.user.id,
+                              userId:
+                                getArticleData.articles[0].users_to_articles
+                                  .authors.id,
                               content: values.reply,
                             },
                           });
                           setShowReply(false);
                         } else {
-                          console.log("replying to reply");
                           replyToReply({
                             variables: {
                               replyId: newData.reply.id,
-                              userId: props.user.id,
+                              userId:
+                                getArticleData.articles[0].users_to_articles
+                                  .authors.id,
                               content: values.reply,
                             },
                           });
@@ -850,7 +1028,9 @@ const Article = (props) => {
                             <Avatar
                               size={45}
                               className="mt-20"
-                              src={props.user.profilePicture}
+                              src={
+                                props.user ? props.user.profilePicture : null
+                              }
                             />
                             <Text className="mt-30 lh-1-5 ml-20">Dukesx</Text>
                           </div>

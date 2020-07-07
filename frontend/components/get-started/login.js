@@ -1,9 +1,12 @@
-import { Typography, Form, Input, Button, Alert } from "antd";
+import { Typography, Divider, Form, Input, Button, Alert } from "antd";
 import { useRouter } from "next/router";
 import gql from "graphql-tag";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { useState, useEffect } from "react";
 import { RotateSpinner } from "react-spinners-kit";
+// import FBLogin from "react-fb-signin";
+// import { GoogleLogin } from "react-google-login";
+import SocialButton from "components/global/social";
 
 const { Text, Title, Paragraph } = Typography;
 
@@ -89,6 +92,10 @@ const Login = () => {
       fetchPolicy: "network-only",
     }
   );
+
+  const responseFacebook = (response) => {
+    console.log(response);
+  };
 
   return (
     <>
@@ -182,6 +189,44 @@ const Login = () => {
           </Button>
         </Form.Item>
       </Form>
+      <Divider orientation="center">OR</Divider>
+      <div className="d-flex flex-column ai-center fs-14 fw-600">
+        {/* <FBLogin
+          appId="858231384644584"
+          fields="email,name,picture"
+          successCallback={(data) => console.log(data)}
+        >
+          Login with Facebook
+        </FBLogin>
+
+        <GoogleLogin
+          className="mt-20 fw-400"
+          style={{ boxShadow: "0px 0px 3px 1px #cecece" }}
+          clientId="886403154840-jfrd7a9so36jvmjk4qfuctp5sb796obb.apps.googleusercontent.com"
+          buttonText="Login With Google"
+          onSuccess={(data) => console.log(data)}
+          cookiePolicy={"single_host_origin"}
+        /> */}
+
+        <SocialButton
+          provider="facebook"
+          appId="858231384644584"
+          onLoginSuccess={(data) => console.log(data)}
+          icon={
+            <img src="/facebook.svg" className="mr-20 va-minus-6" width={23} />
+          }
+        >
+          Continue With Facebook
+        </SocialButton>
+        <SocialButton
+          provider="google"
+          appId="886403154840-jfrd7a9so36jvmjk4qfuctp5sb796obb.apps.googleusercontent.com"
+          onLoginSuccess={(data) => console.log(data)}
+          icon={<img src="/google.svg" className="mr-20" width={20} />}
+        >
+          Continue With Google
+        </SocialButton>
+      </div>
     </>
   );
 };

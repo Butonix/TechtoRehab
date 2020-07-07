@@ -8,21 +8,29 @@ const PublishedArticle = (props) => {
   const router = useRouter();
   return (
     <Wrapper user={props.user}>
-      <Row justify="center" className="pd-20">
+      <Row justify="center" className="pd-y-20">
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={10}>
-          <Card>
+          <Card
+            bodyStyle={{
+              padding: 0,
+            }}
+          >
             {props.id ? (
               <>
-                <Title className="mg-y-20 fs-18" level={4}>
-                  Congratulations! {props.title} has been Published.
+                <Title
+                  className=" ta-center mt-10 fs-20 mt-30 mb-30 lh-2 fw-400 pd-x-10"
+                  level={4}
+                >
+                  Awsum 😁😁💯 Your article has been published 👍👍
                 </Title>
+
                 <img
                   src="/create-done.svg"
                   width="100%"
-                  height={400}
+                  height={500}
                   className="o-fit-cover"
                 />
-                <Row justify="center" className="mt-30">
+                <Row justify="center" className="mt-30 mb-30">
                   <Button className="mr-20" type="primary">
                     <a
                       href={`/article/${props.category}/${
@@ -32,8 +40,10 @@ const PublishedArticle = (props) => {
                       <Text className="color-inherit">View Article</Text>
                     </a>
                   </Button>
-                  <Button className="compose-button2 fw-bold" type="secondary">
-                    Write Another
+                  <Button className="compose-button2" type="secondary">
+                    <a href="/create">
+                      <Text className="fw-bold">Write Another</Text>
+                    </a>
                   </Button>
                 </Row>
               </>

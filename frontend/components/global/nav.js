@@ -79,7 +79,7 @@ const Nav = styled.div`
 const { Text, Title, Paragraph } = Typography;
 
 const getUserProfilePictureQuery = gql`
-  query getUserProfilePicture($id: uuid!) {
+  query getUserProfilePicture($id: uuid) {
     users(where: { id: { _eq: $id } }) {
       profile_picture
     }
@@ -101,10 +101,11 @@ const Navigation = (props) => {
 
     {
       variables: {
-        id: props.user.id,
+        id: props.user ? props.user.id : null,
       },
     }
   );
+
   const UserDrop = (
     <Menu style={{ width: 200 }}>
       {props.user && props.user.id ? (
