@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export const getArticlesQuery = gql`
-  query MyQuery($offset: Int, $limit: Int) {
+  query MyQuery($offset: Int, $limit: Int, $id: uuid) {
     articles(offset: $offset, limit: $limit, order_by: { updated_at: desc }) {
       id
       title
@@ -39,9 +39,7 @@ export const getArticlesQuery = gql`
         }
       }
 
-      bookmarks_aggregate(
-        where: { userId: { _eq: "281ba274-1f2f-41d6-99d0-81c3b517fa03" } }
-      ) {
+      bookmarks_aggregate(where: { userId: { _eq: $id } }) {
         aggregate {
           count
         }
@@ -78,12 +76,9 @@ export const insertBookmarkQuery = gql`
 `;
 
 export const deleteBookmarkQuery = gql`
-  mutation deleteBookmark($articleId: uuid!) {
+  mutation deleteBookmark($articleId: uuid!, $id: uuid) {
     delete_articles_and_bookmarks(
-      where: {
-        articleId: { _eq: $articleId }
-        userId: { _eq: "281ba274-1f2f-41d6-99d0-81c3b517fa03" }
-      }
+      where: { articleId: { _eq: $articleId }, userId: { _eq: $id } }
     ) {
       affected_rows
     }

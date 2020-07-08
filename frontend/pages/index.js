@@ -59,7 +59,11 @@ export default function Home(props) {
   const { loading, error, data, fetchMore, refetch } = useQuery(
     getArticlesQuery,
     {
-      variables: { offset: 0, limit: 5 },
+      variables: {
+        offset: 0,
+        limit: 5,
+        id: props.user ? props.user.id : null,
+      },
       onError: () => {
         return (
           <Result
@@ -157,7 +161,9 @@ export default function Home(props) {
         variables: { articleId: objecto.id, id: props.user.id },
       });
     } else {
-      deleteBookmark({ variables: { articleId: objecto.id } });
+      deleteBookmark({
+        variables: { articleId: objecto.id, id: props.user.id },
+      });
     }
     refetch();
   };
@@ -333,6 +339,7 @@ export default function Home(props) {
                       </a>,
                       <Tooltip
                         title={
+                          props.user &&
                           item.bookmarks_aggregate.aggregate.count == 1
                             ? "Remove From Bookmarks"
                             : "Bookmark This"
@@ -341,6 +348,7 @@ export default function Home(props) {
                         <a>
                           <i
                             className={
+                              props.user &&
                               item.bookmarks_aggregate.aggregate.count == 1
                                 ? "ri-bookmark-fill fs-20 " + "ri-lg va-minus-6"
                                 : "ri-bookmark-line fs-20 " + "ri-lg va-minus-6"
@@ -595,12 +603,13 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
     variables: {
       offset: 0,
       limit: 5,
+      id: user ? user.id : null,
     },
   });
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
-      user: user ? user : {},
+      user: user ? user : null,
     },
   };
 });

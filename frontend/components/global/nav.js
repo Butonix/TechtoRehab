@@ -10,15 +10,17 @@ import {
   Avatar,
   Menu,
   Divider,
+  message,
 } from "antd";
 import styled from "styled-components";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { breakPoints } from "./responsive";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useState } from "react";
+import login from "pages/api/login";
 
 const Nav = styled.div`
   display: flex;
@@ -86,6 +88,21 @@ const getUserProfilePictureQuery = gql`
   }
 `;
 
+const loginQuery = gql`
+  query login($username: String!) {
+    users(where: { username: { _eq: $username } }) {
+      id
+      username
+      email
+      private_info {
+        password
+        status
+        role
+      }
+    }
+  }
+`;
+
 const Navigation = (props) => {
   const loginModal = useStoreState((state) => state.site.loginModal);
   const setLoginModal = useStoreActions(
@@ -94,6 +111,7 @@ const Navigation = (props) => {
   const setSidebar = useStoreActions((actions) => actions.site.setSidebar);
   const sidebar = useStoreState((state) => state.site.sidebar);
   const [userDp, setUserDp] = useState();
+  const [password, setPassword] = useState(null);
   const router = useRouter();
 
   const { data: getUserProfilePictureData } = useQuery(
@@ -105,6 +123,50 @@ const Navigation = (props) => {
       },
     }
   );
+
+  const [login, { data: loginData }] = useLazyQuery(loginQuery, {
+    onCompleted: (data) => {
+      console.log(data);
+      fetch("/api/checkPassword", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          accept: "application/json",
+        },
+        body: JSON.stringify({
+          password: password,
+          salt: data.users[0].private_info.password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.verify == "pass") {
+            fetch("/api/login", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                accept: "application/json",
+              },
+              body: JSON.stringify({
+                id: data.users[0].id,
+                username: data.users[0].username,
+                email: data.users[0].email,
+                status: data.users[0].private_info.status,
+                role: data.users[0].private_info.role,
+              }),
+            })
+              .then((res) => res.json())
+              .then((result) => {
+                message.success("Login Success");
+                router.reload();
+              });
+          } else {
+            message.error("Wrong Credentials");
+          }
+        });
+    },
+    fetchPolicy: "network-only",
+  });
 
   const UserDrop = (
     <Menu style={{ width: 200 }}>
@@ -233,19 +295,33 @@ const Navigation = (props) => {
             <Title level={4} className="mg-y-20 fs-18 ta-center">
               Please Sign In to continue
             </Title>
-            <Form layout="vertical">
+            <Form
+              layout="vertical"
+              onFinish={(obj) => {
+                login({
+                  variables: {
+                    username: obj.username,
+                  },
+                });
+              }}
+            >
               <Form.Item label="Username" name="username">
                 <Input placeholder="Your Username" />
               </Form.Item>
-              <Form.Item label="Password" name="username">
+              <Form.Item label="Password" name="password">
                 <Input.Password
                   placeholder="Your Password"
                   name="password"
                   autoComplete="new-password"
+                  onChange={(val) => {
+                    setPassword(val.target.value);
+                  }}
                 />
               </Form.Item>
               <Form.Item className="mt-30 mb-20">
-                <Button type="primary">Sign In</Button>
+                <Button type="primary" htmlType="submit">
+                  Sign In
+                </Button>
                 <Button type="link">Forgot Password ?</Button>
               </Form.Item>
             </Form>
