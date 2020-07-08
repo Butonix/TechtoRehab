@@ -54,8 +54,7 @@ const insertPostQuery = gql`
         title: $title
         excerpt: $excerpt
         featured_image: $featuredImage
-        content: "something"
-        temp_content: $content
+        content: $content
         category: $category
         topic: $topic
         slug: $slug
@@ -248,7 +247,7 @@ const createArticle = (props) => {
             config: {
               services: {
                 codesandbox: {
-                  regex: /https?:\/\/codesandbox.io\/s\/([^\/\?\&]*)/,
+                  regex: /https?:\/\/codesandbox.io\/([^\/\?\&]*)\/([^\/\?\&]*)/,
                   embedUrl: "https://codesandbox.io/embed/<%= remote_id %>",
                   html:
                     "<iframe height='500' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
@@ -480,7 +479,7 @@ const createArticle = (props) => {
                   },
                 ]}
               >
-                <Input.TextArea rows={4} />
+                <Input.TextArea rows={2} />
               </Form.Item>
             </Form>
           </Col>
@@ -504,7 +503,6 @@ const createArticle = (props) => {
                 var sendFeaturedImage = data.featuredImage.file.response.path;
                 var sendExcerpt = data.excerpt;
                 var sendContent = content;
-                console.log(sendContent);
                 var sendSlug = permalink;
                 insertArticle({
                   variables: {

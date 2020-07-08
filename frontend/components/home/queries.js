@@ -66,12 +66,9 @@ export const getArticlesQuery = gql`
 `;
 
 export const insertBookmarkQuery = gql`
-  mutation update($articleId: uuid!) {
+  mutation update($articleId: uuid!, $id: uuid!) {
     insert_articles_and_bookmarks_one(
-      object: {
-        articleId: $articleId
-        userId: "281ba274-1f2f-41d6-99d0-81c3b517fa03"
-      }
+      object: { articleId: $articleId, userId: $id }
     ) {
       bookmarkUser {
         username

@@ -9,7 +9,6 @@ import {
   Drawer,
   List,
   Comment,
-  Skeleton,
   Card,
   Divider,
   Space,
@@ -44,6 +43,9 @@ import ProgressiveImage from "react-progressive-image";
 import LazyLoad from "react-lazyload";
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import dynamic from "next/dynamic";
+import Skeleton from "@nejcm/react-skeleton";
+import { useStoreState, useStoreActions } from "easy-peasy";
+import { NextSeo } from "next-seo";
 
 //
 //
@@ -56,12 +58,6 @@ const Syntax = dynamic(() => import("react-syntax-highlighter"), {
   ssr: false,
 });
 
-const CodeMirror = dynamic(
-  () => import("react-codemirror2").then((res) => res.UnControlled),
-  {
-    ssr: false,
-  }
-);
 const { Title, Paragraph, Text } = Typography;
 
 //
@@ -91,7 +87,9 @@ const Article = (props) => {
   //
   //
   const { category, topic, articleTitle } = router.query;
-
+  const setLoginModal = useStoreActions(
+    (actions) => actions.site.setLoginModal
+  );
   const [reactionsModal, setReactionsModal] = useState(false);
   var count = 0;
   //
@@ -102,7 +100,7 @@ const Article = (props) => {
   //
 
   const {
-    loading: getArticleLoading,
+    loading,
     data: getArticleData,
     error: getArticleError,
     refetch: getArticleRefetch,
@@ -134,7 +132,7 @@ const Article = (props) => {
       onError: (err) => console.log(err),
       onCompleted: () => {
         getArticleRefetch();
-        return window.scrollTo(0, document.body.scrollHeight);
+        // return window.scrollTo(0, document.body.scrollHeight);
       },
     }
   );
@@ -295,19 +293,22 @@ const Article = (props) => {
       <Reactions>
         {getArticleData.reactions.map((reactions) => {
           return (
-            <div className="reaction-holder">
+            <div className="reaction-holder" key={reactions.id}>
               <div
                 className="reaction fs-26 mg-x-5 hoverable-reactions"
+                key={reactions.id}
                 onClick={() => {
-                  insertReaction({
-                    variables: {
-                      articleId: getArticleData.articles[0].id,
-                      reactionId: reactions.id,
-                      userId:
-                        getArticleData.articles[0].users_to_articles.authors[0]
-                          .id,
-                    },
-                  });
+                  props.user
+                    ? insertReaction({
+                        variables: {
+                          articleId: getArticleData.articles[0].id,
+                          reactionId: reactions.id,
+                          userId:
+                            getArticleData.articles[0].users_to_articles
+                              .authors[0].id,
+                        },
+                      })
+                    : setLoginModal(true);
                 }}
               >
                 <a>
@@ -329,11 +330,41 @@ const Article = (props) => {
   //
   //
   //
-  //
 
   return (
     <Wrapper user={props.user}>
-      <Head></Head>
+      <NextSeo
+        title={getArticleData.articles[0].title}
+        description={getArticleData.articles[0].excerpt}
+        canonical="https://www.canonical.ie/"
+        openGraph={{
+          url: "https://www.url.ie/a",
+          title: getArticleData.articles[0].title,
+          description: getArticleData.articles[0].excerpt,
+          images: [
+            {
+              url: "https://www.example.ie/og-image-01.jpg",
+              width: 800,
+              height: 600,
+              alt: "Og Image Alt",
+            },
+            {
+              url: "https://www.example.ie/og-image-02.jpg",
+              width: 900,
+              height: 800,
+              alt: "Og Image Alt Second",
+            },
+            { url: "https://www.example.ie/og-image-03.jpg" },
+            { url: "https://www.example.ie/og-image-04.jpg" },
+          ],
+          site_name: "SiteName",
+        }}
+        twitter={{
+          handle: "@handle",
+          site: "@site",
+          cardType: "summary_large_image",
+        }}
+      />
       {getArticleData && getArticleData.articles.length > 0 ? (
         <>
           <Row justify="center">
@@ -363,8 +394,8 @@ const Article = (props) => {
               <Card className="mg-x-5">
                 <Row>
                   <Space>
-                    <Text strong>Read Time:</Text>
-                    {getArticleData.articles[0].temp_content.blocks.map(
+                    {/* <Text strong>Read Time:</Text> */}
+                    {getArticleData.articles[0].content.blocks.map(
                       (blocks, index) => {
                         if (
                           blocks.type == "paragraph" ||
@@ -376,24 +407,22 @@ const Article = (props) => {
 
                         if (
                           index ==
-                          getArticleData.articles[0].temp_content.blocks
-                            .length -
-                            1
+                          getArticleData.articles[0].content.blocks.length - 1
                         ) {
                           return count < 200 ? (
-                            <>
+                            <div key={index}>
                               <Text className="lh-2-5" strong>
                                 {"< 1"}
                               </Text>
-                              <Text className="lh-2-5">{"minute"}</Text>
-                            </>
+                              <Text className="lh-2-5">{"Minute"}</Text>
+                            </div>
                           ) : (
-                            <>
+                            <div key={index}>
                               <Text className="lh-2-5 mr-5" strong>
                                 {Math.round(count / 200)}
                               </Text>
-                              <Text className="lh-2-5">{"minute read"}</Text>
-                            </>
+                              <Text className="lh-2-5">{"Minute read"}</Text>
+                            </div>
                           );
                         }
                       }
@@ -432,34 +461,76 @@ const Article = (props) => {
           <Row justify="center" className="mt-30">
             <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
               <div className="content">
-                {getArticleData.articles[0].temp_content.blocks.map(
-                  (blocks) => {
+                {getArticleData.articles[0].content.blocks.map(
+                  (blocks, index) => {
                     return blocks.type == "paragraph" ? (
                       <p
                         className="pd-10"
                         dangerouslySetInnerHTML={{ __html: blocks.data.text }}
+                        key={index + blocks.type}
                       />
                     ) : blocks.type == "header" ? (
                       <Title
                         level={blocks.data.level}
                         className="pd-10 mg-y-10"
+                        key={index + blocks.type}
                       >
                         {blocks.data.text.replace(/&nbsp;/g, "")}
                       </Title>
                     ) : blocks.type == "image" ? (
-                      <ProgressiveImage
-                        src={blocks.data.file.url}
+                      <LazyLoad
+                        height={230}
+                        key={index + blocks.type}
                         placeholder={
-                          blocks.data.file.url.slice(
-                            0,
-                            blocks.data.file.url.length - 5
-                          ) + "-placeholder.webp"
+                          <img
+                            src={
+                              blocks.data.file.url.slice(
+                                0,
+                                blocks.data.file.url.length - 5
+                              ) + "-placeholder.webp"
+                            }
+                            height={230}
+                            width="100%"
+                          />
                         }
                       >
+                        <figure>
+                          <img
+                            width="100%"
+                            key={index + blocks.type}
+                            className={
+                              (blocks.data.stretched ? "" : "pd-10") +
+                              "o-fit-cover mg-y-20"
+                            }
+                            src={blocks.data.file.url}
+                            style={{ maxWidth: 800, maxHeight: 400 }}
+                          />
+                          <Card key={index + blocks.type}>
+                            {blocks.data.caption ? (
+                              <figcaption
+                                className="mt-5 ml-10 fw-600"
+                                key={index + blocks.type}
+                              >
+                                Caption -- {blocks.data.caption}
+                              </figcaption>
+                            ) : null}
+                          </Card>
+                        </figure>
+                        {/* <ProgressiveImage
+                          key={index + blocks.type}
+                          src={blocks.data.file.url}
+                          placeholder={
+                            blocks.data.file.url.slice(
+                              0,
+                              blocks.data.file.url.length - 5
+                            ) + "-placeholder.webp"
+                          }
+                        >
                         {(src) => (
                           <figure>
                             <img
                               width="100%"
+                              key={index + blocks.type}
                               className={
                                 (blocks.data.stretched ? "" : "pd-10") +
                                 "o-fit-cover mg-y-20"
@@ -467,21 +538,31 @@ const Article = (props) => {
                               src={src}
                               style={{ maxWidth: 800, maxHeight: 400 }}
                             />
-                            <Card>
+                            <Card key={index + blocks.type}>
                               {blocks.data.caption ? (
-                                <figcaption className="mt-5 ml-10 fw-600">
+                                <figcaption
+                                  className="mt-5 ml-10 fw-600"
+                                  key={index + blocks.type}
+                                >
                                   Caption -- {blocks.data.caption}
                                 </figcaption>
                               ) : null}
                             </Card>
                           </figure>
-                        )}
-                      </ProgressiveImage>
+                        )} */}
+                        {/* </ProgressiveImage> */}
+                      </LazyLoad>
                     ) : blocks.type == "checklist" ? (
-                      <div className="d-flex flex-column ai-center mt-30 mb-30">
-                        {blocks.data.items.map((item) => {
+                      <div
+                        className="d-flex flex-column ai-center mt-30 mb-30"
+                        key={index + blocks.type}
+                      >
+                        {blocks.data.items.map((item, indexe) => {
                           return (
-                            <Checkbox checked={item.checked}>
+                            <Checkbox
+                              checked={item.checked}
+                              key={indexe + blocks.type}
+                            >
                               {item.text}
                             </Checkbox>
                           );
@@ -492,27 +573,38 @@ const Article = (props) => {
                         style={monokaiSublime}
                         language="auto-detect"
                         showLineNumbers
+                        key={index + blocks.type}
                       >
                         {blocks.data.code}
                       </Syntax>
                     ) : blocks.type == "list" ? (
-                      <Row className="">
+                      <Row
+                        className=""
+                        key={index + blocks.type}
+                        key={index + blocks.type}
+                      >
                         {blocks.data.style == "ordered" ? (
-                          <ol>
-                            {blocks.data.items.map((item) => (
-                              <li>{item}</li>
+                          <ol key={index + blocks.type}>
+                            {blocks.data.items.map((item, indexa) => (
+                              <li
+                                key={indexa + blocks.type}
+                                dangerouslySetInnerHTML={{ __html: item }}
+                              />
                             ))}
                           </ol>
                         ) : (
                           <ul>
-                            {blocks.data.items.map((item) => (
-                              <li>{item}</li>
+                            {blocks.data.items.map((item, indexo) => (
+                              <li
+                                key={indexo + blocks.type}
+                                dangerouslySetInnerHTML={{ __html: item }}
+                              />
                             ))}
                           </ul>
                         )}
                       </Row>
                     ) : blocks.type == "linkTool" ? (
-                      <Card className="mt-20 mg-x-10">
+                      <Card className="mt-20 mg-x-10" key={index + blocks.type}>
                         <Row>
                           <Col span={14}>
                             <a href={blocks.data.link}>
@@ -540,11 +632,14 @@ const Article = (props) => {
                         </Row>
                       </Card>
                     ) : blocks.type == "delimiter" ? (
-                      <Row className="pd-x-20 ">
+                      <Row className="pd-x-20" key={index + blocks.type}>
                         <Divider />
                       </Row>
                     ) : blocks.type == "quote" ? (
-                      <div className="pd-x-20 mg-y-10">
+                      <div
+                        className="pd-x-20 mg-y-10"
+                        key={index + blocks.type}
+                      >
                         <List.Item>
                           <List.Item.Meta
                             avatar={<i class="ri-double-quotes-l fs-30" />}
@@ -554,7 +649,10 @@ const Article = (props) => {
                         </List.Item>
                       </div>
                     ) : blocks.type == "warning" ? (
-                      <div className="pd-x-20 mg-y-10">
+                      <div
+                        className="pd-x-20 mg-y-10"
+                        key={index + blocks.type}
+                      >
                         <List.Item>
                           <List.Item.Meta
                             avatar={
@@ -571,10 +669,19 @@ const Article = (props) => {
                         </List.Item>
                       </div>
                     ) : blocks.type == "embed" ? (
-                      <LazyLoad height={400} placeholder={<Skeleton loading />}>
+                      <LazyLoad
+                        height={500}
+                        key={index + blocks.type}
+                        placeholder={
+                          <Skeleton className="pd-10" key={index + blocks.type}>
+                            <Skeleton.Rectangle height={500} />
+                          </Skeleton>
+                        }
+                      >
                         <iframe
                           className="mg-y-20"
                           width="100%"
+                          key={index + blocks.type}
                           height={500}
                           src={blocks.data.embed}
                         />
@@ -599,7 +706,7 @@ const Article = (props) => {
                 <Row>
                   <a>
                     <Reactions>
-                      {getArticleData.reactions.map((reactions) => {
+                      {getArticleData.reactions.map((reactions, indexx) => {
                         if (
                           getArticleData.articles[0].reactions_to_articles.find(
                             (elem) => elem.reaction.id == reactions.id
@@ -609,6 +716,7 @@ const Article = (props) => {
                             <div
                               className="reaction-holder"
                               onClick={() => setReactionsModal(true)}
+                              key={indexx + reactions.id}
                             >
                               <div className="reaction fs-22">
                                 <i
@@ -684,13 +792,16 @@ const Article = (props) => {
                           >
                             <div className="d-flex flex-column">
                               {getArticleData.articles[0].reactions_to_articles.map(
-                                (reactionsToArticles) => {
+                                (reactionsToArticles, index) => {
                                   if (
                                     reactionsToArticles.reaction.id ==
                                     reactions.id
                                   )
                                     return (
-                                      <Space className="mg-y-10">
+                                      <Space
+                                        className="mg-y-10"
+                                        key={reactions.id + key}
+                                      >
                                         <Avatar
                                           src={
                                             reactionsToArticles.user
@@ -721,7 +832,7 @@ const Article = (props) => {
                         className="lh-1"
                         type="text"
                         icon={
-                          <i class="ri-thumb-up-line fs-22 va-minus-4 mr-10"></i>
+                          <i className="ri-thumb-up-line fs-22 va-minus-4 mr-10"></i>
                         }
                       ></Button>
                     </a>
@@ -757,45 +868,57 @@ const Article = (props) => {
           <Row justify="center" className="pd-20">
             <Col xs={24} sm={24} md={24} lg={24} xl={12} xxl={10}>
               <Divider orientation="center">Comments</Divider>
-              <Form
-                wrapperCol={{ span: 24 }}
-                onFinish={(values) => {
-                  insertComment({
-                    variables: {
-                      articleId: getArticleData.articles[0].id,
-                      userId:
-                        getArticleData.articles[0].users_to_articles.authors.id,
-                      content: values.comment,
-                    },
-                  });
-                }}
-              >
-                <Form.Item
-                  label={"Write Comment"}
-                  name="comment"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
+              {props.user && props.user.id ? (
+                <Form
+                  wrapperCol={{ span: 24 }}
+                  onFinish={(values) => {
+                    return !props.user
+                      ? setLoginModal(true)
+                      : insertComment({
+                          variables: {
+                            articleId: getArticleData.articles[0].id,
+                            userId: props.user.id,
+                            content: values.comment,
+                          },
+                        });
+                  }}
                 >
-                  <Mentions rows={4} placeholder="Reply to article" />
-                </Form.Item>
-                <Form.Item name="submit">
-                  <div
-                    className="d-flex flex-column wd-100pc"
-                    style={{ justifyContent: "flex-end" }}
+                  <Form.Item
+                    label={"Write Comment"}
+                    name="comment"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
                   >
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      style={{ width: 120, marginLeft: "auto" }}
+                    <Mentions rows={4} placeholder="Reply to article" />
+                  </Form.Item>
+                  <Form.Item name="submit">
+                    <div
+                      className="d-flex flex-column wd-100pc"
+                      style={{ justifyContent: "flex-end" }}
                     >
-                      Add Comment
-                    </Button>
-                  </div>
-                </Form.Item>
-              </Form>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        style={{ width: 120, marginLeft: "auto" }}
+                      >
+                        Add Comment
+                      </Button>
+                    </div>
+                  </Form.Item>
+                </Form>
+              ) : (
+                <Card className="wd-100pc" bodyStyle={{ padding: 15 }}>
+                  <Row justify="center">
+                    <Text className="fs-14 ta-center" strong>
+                      Please Signin To Comment
+                    </Text>
+                  </Row>
+                </Card>
+              )}
+
               {/**   */
               /**   */
               /**   */
@@ -826,30 +949,46 @@ const Article = (props) => {
                           }
                           className="pd-10"
                           avatar={
-                            <Avatar src={comment.author.profile_picture} />
+                            <Avatar
+                              src={comment.author.profile_picture + ".webp"}
+                            />
                           }
                           author={comment.author.username}
                           content={comment.content}
                           actions={[
-                            <Space>
-                              <a
-                                className="t-transform-cpt mr-20"
-                                onClick={() => {
-                                  setReplyData({ comment: comment });
-                                  setShowReply(true);
-                                }}
-                              >
-                                Reply To {comment.author.username}
-                              </a>
-                              <a>
-                                <Text
-                                  type="danger"
-                                  onClick={() => deleteCommentFromTop(comment)}
+                            props.user ? (
+                              <>
+                                <a
+                                  className="t-transform-cpt mr-20"
+                                  onClick={() => {
+                                    return !props.user
+                                      ? setLoginModal(true)
+                                      : (setReplyData({ comment: comment }),
+                                        setShowReply(true));
+                                  }}
                                 >
-                                  Delete
-                                </Text>
-                              </a>
-                            </Space>,
+                                  Reply To{" "}
+                                  {comment.author.username ==
+                                  props.user.username
+                                    ? "Self"
+                                    : comment.author.username}
+                                </a>
+                                ,
+                                {props.user ? (
+                                  <a
+                                    onClick={() =>
+                                      comment.author.id == props.user.id
+                                        ? deleteCommentFromTop(comment)
+                                        : null
+                                    }
+                                  >
+                                    {comment.author.id == props.user.id ? (
+                                      <Text type="danger">Delete</Text>
+                                    ) : null}
+                                  </a>
+                                ) : null}
+                              </>
+                            ) : null,
                           ]}
                           children={
                             comment.replies
@@ -871,34 +1010,54 @@ const Article = (props) => {
                                       avatar={
                                         <Avatar
                                           src={
-                                            replies.replyAuthor.profile_picture
+                                            replies.replyAuthor
+                                              .profile_picture + ".webp"
                                           }
                                         />
                                       }
                                       author={replies.replyAuthor.username}
                                       actions={[
-                                        <div className="d-flex wd-100pc jc-end">
-                                          <a
-                                            className="t-transform-cpt mr-20"
-                                            onClick={() => {
-                                              setReplyData({ reply: replies });
-                                              setShowReply(true);
-                                            }}
-                                          >
-                                            Reply To {comment.author.username}
-                                          </a>
-                                          <a>
-                                            <Text
-                                              type="danger"
-                                              className="t-transform-cpt"
+                                        props.user ? (
+                                          <div className="d-flex wd-100pc">
+                                            <a
+                                              className="t-transform-cpt mr-20"
+                                              onClick={() => {
+                                                return !props.user
+                                                  ? setLoginModal(true)
+                                                  : (setReplyData({
+                                                      reply: replies,
+                                                    }),
+                                                    setShowReply(true));
+                                              }}
+                                            >
+                                              Reply To{" "}
+                                              {replies.replyAuthor.username ==
+                                              props.user.username
+                                                ? "Self"
+                                                : replies.replyAuthor.username}
+                                            </a>
+                                            <a
                                               onClick={() =>
-                                                DeleteCommentFromSecond(replies)
+                                                replies.replyAuthor.id ==
+                                                props.user.id
+                                                  ? DeleteCommentFromSecond(
+                                                      replies
+                                                    )
+                                                  : null
                                               }
                                             >
-                                              Report
-                                            </Text>
-                                          </a>
-                                        </div>,
+                                              {replies.replyAuthor.id ==
+                                              props.user.id ? (
+                                                <Text
+                                                  type="danger"
+                                                  className="t-transform-cpt"
+                                                >
+                                                  Delete
+                                                </Text>
+                                              ) : null}
+                                            </a>
+                                          </div>
+                                        ) : null,
                                       ]}
                                       children={
                                         replies.replies_to_reply
@@ -906,6 +1065,7 @@ const Article = (props) => {
                                               (repliesToReply) => {
                                                 return (
                                                   <Comment
+                                                    key={repliesToReply.id}
                                                     datetime={
                                                       new Date(
                                                         repliesToReply.updated_at
@@ -920,7 +1080,8 @@ const Article = (props) => {
                                                       <Avatar
                                                         src={
                                                           repliesToReply.author
-                                                            .profile_picture
+                                                            .profile_picture +
+                                                          ".webp"
                                                         }
                                                       />
                                                     }
@@ -932,17 +1093,27 @@ const Article = (props) => {
                                                         .username
                                                     }
                                                     actions={[
-                                                      <a
-                                                        onClick={() =>
-                                                          DeleteCommentFromThird(
+                                                      props.user ? (
+                                                        <a
+                                                          onClick={() =>
                                                             repliesToReply
-                                                          )
-                                                        }
-                                                      >
-                                                        <Text type="danger">
-                                                          Delete
-                                                        </Text>
-                                                      </a>,
+                                                              .author.id ==
+                                                            props.user.id
+                                                              ? DeleteCommentFromThird(
+                                                                  repliesToReply
+                                                                )
+                                                              : null
+                                                          }
+                                                        >
+                                                          {repliesToReply.author
+                                                            .id ==
+                                                          props.user.id ? (
+                                                            <Text type="danger">
+                                                              Delete
+                                                            </Text>
+                                                          ) : null}
+                                                        </a>
+                                                      ) : null,
                                                     ]}
                                                   />
                                                 );
@@ -1001,9 +1172,7 @@ const Article = (props) => {
                           insertReply({
                             variables: {
                               commentId: newData.comment.id,
-                              userId:
-                                getArticleData.articles[0].users_to_articles
-                                  .authors.id,
+                              userId: props.user.id,
                               content: values.reply,
                             },
                           });
@@ -1012,9 +1181,7 @@ const Article = (props) => {
                           replyToReply({
                             variables: {
                               replyId: newData.reply.id,
-                              userId:
-                                getArticleData.articles[0].users_to_articles
-                                  .authors.id,
+                              userId: props.user.id,
                               content: values.reply,
                             },
                           });
@@ -1029,7 +1196,9 @@ const Article = (props) => {
                               size={45}
                               className="mt-20"
                               src={
-                                props.user ? props.user.profilePicture : null
+                                props.user
+                                  ? props.user.profilePicture + ".webp"
+                                  : null
                               }
                             />
                             <Text className="mt-30 lh-1-5 ml-20">Dukesx</Text>

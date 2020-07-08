@@ -364,18 +364,31 @@ const UsersManager = () => {
           layout="vertical"
           form={form}
           onFinish={(values) => {
-            addUser({
-              variables: {
-                uName: values.uName,
-                fName: values.fName,
-                lName: values.lName,
-                password: values.password,
-                email: values.email,
+            fetch("/api/encryptPass", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                accept: "application/json",
               },
-            });
-            form.resetFields();
-            setAvailableUserName(null);
-            setAvailableUserEmail(null);
+              body: JSON.stringify({
+                password: values.password,
+              }),
+            })
+              .then((res) => res.json())
+              .then((result) => {
+                addUser({
+                  variables: {
+                    uName: values.uName,
+                    fName: values.fName,
+                    lName: values.lName,
+                    password: result.hash,
+                    email: values.email,
+                  },
+                });
+                form.resetFields();
+                setAvailableUserName(null);
+                setAvailableUserEmail(null);
+              });
           }}
         >
           <Form.Item label="First Name" name="fName">

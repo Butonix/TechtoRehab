@@ -108,6 +108,23 @@ const Navigation = (props) => {
 
   const UserDrop = (
     <Menu style={{ width: 200 }}>
+      <Menu.Item
+        className="pd-20"
+        key="2"
+        icon={
+          <i class="ri-edit-circle-fill ri-lg va-minus-6 fs-24 compose-gradient"></i>
+        }
+        onClick={() => {
+          props.user && props.user.id ? null : setLoginModal(true);
+        }}
+      >
+        <Divider type="vertical" style={{ height: 30 }} />
+
+        <a href={props.user && props.user.id ? "/create" : null}>
+          <Text>Start Writing</Text>
+        </a>
+      </Menu.Item>
+
       {props.user && props.user.id ? (
         <Menu.Item
           className="pd-20"
@@ -128,22 +145,27 @@ const Navigation = (props) => {
           </a>
         </Menu.Item>
       ) : null}
-      <Menu.Item
-        className="pd-20"
-        key="2"
-        icon={
-          <i class="ri-edit-circle-fill ri-lg va-minus-6 fs-24 compose-gradient"></i>
-        }
-        onClick={() => {
-          props.user && props.user.id ? null : setLoginModal(true);
-        }}
-      >
-        <Divider type="vertical" style={{ height: 30 }} />
 
-        <a href={props.user && props.user.id ? "/create" : null}>
-          <Text>Start Writing</Text>
-        </a>
-      </Menu.Item>
+      {props.user && props.user.id ? (
+        <Menu.Item
+          className="pd-20"
+          key="4"
+          icon={
+            <i class="ri-settings-fill fs-24 va-minus-6 user-settings-gradient"></i>
+          }
+        >
+          <Divider type="vertical" />
+          <a
+            href={
+              props.user && props.user.id
+                ? `/user/${props.user.username}/settings`
+                : null
+            }
+          >
+            <Text>Settings</Text>
+          </a>
+        </Menu.Item>
+      ) : null}
 
       <Menu.Item
         className="pd-20"
@@ -266,7 +288,7 @@ const Navigation = (props) => {
               ) : (
                 <Text>Error Loading Data</Text>
               )}
-              <i class="ri-arrow-down-s-line va-minus-4 fs-16 ml-5"></i>
+              <i className="ri-arrow-down-s-line va-minus-4 fs-16 ml-5"></i>
             </Button>
           </Dropdown>
         </div>

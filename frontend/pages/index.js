@@ -53,6 +53,9 @@ export default function Home(props) {
   //
   //
   //
+  const setLoginModal = useStoreActions(
+    (actions) => actions.site.setLoginModal
+  );
   const { loading, error, data, fetchMore, refetch } = useQuery(
     getArticlesQuery,
     {
@@ -151,7 +154,7 @@ export default function Home(props) {
   const addBookmark = (objecto, count) => {
     if (count == 0) {
       insertBookmark({
-        variables: { articleId: objecto.id },
+        variables: { articleId: objecto.id, id: props.user.id },
       });
     } else {
       deleteBookmark({ variables: { articleId: objecto.id } });
@@ -285,15 +288,6 @@ export default function Home(props) {
                     key={item.id}
                     className="article-list-item"
                     extra={
-                      // <img
-                      //   width={272}
-                      //   height={160}
-                      //   className="o-fit-cover"
-                      //   src={item.featured_image}
-                      //   style={{
-                      //     borderRadius: 5,
-                      //   }}
-                      // />
                       <ProgressiveImage
                         src={item.featured_image + ".webp"}
                         placeholder={item.featured_image + "-placeholder.webp"}
@@ -337,7 +331,6 @@ export default function Home(props) {
                               item.users_to_articles[0].authors.username}
                         </Text>
                       </a>,
-
                       <Tooltip
                         title={
                           item.bookmarks_aggregate.aggregate.count == 1
@@ -353,10 +346,12 @@ export default function Home(props) {
                                 : "ri-bookmark-line fs-20 " + "ri-lg va-minus-6"
                             }
                             onClick={() =>
-                              addBookmark(
-                                item,
-                                item.bookmarks_aggregate.aggregate.count
-                              )
+                              props.user && props.user.id
+                                ? addBookmark(
+                                    item,
+                                    item.bookmarks_aggregate.aggregate.count
+                                  )
+                                : setLoginModal(true)
                             }
                             style={{ color: "rgba(86, 85, 85, 0.65)" }}
                           ></i>
@@ -473,11 +468,14 @@ export default function Home(props) {
                   type == "Authors" ? (
                     sheetData.map((mapped, index) => (
                       <Space className="mt-20" key={index}>
-                        {console.log(mapped.authors.profile_picture)}
-                        <Avatar src={mapped.authors.profile_picture} />
-                        <Text className="t-transform-cpt">
-                          {mapped.authors.username}
-                        </Text>
+                        <Avatar
+                          src={mapped.authors.profile_picture + ".webp"}
+                        />
+                        <a href={`/user/${mapped.authors.username}`}>
+                          <Text className="t-transform-cpt">
+                            {mapped.authors.username}
+                          </Text>
+                        </a>
                       </Space>
                     ))
                   ) : (
@@ -530,9 +528,16 @@ export default function Home(props) {
                                       >
                                         <Avatar
                                           size={35}
-                                          src={mapped2.user.profile_picture}
+                                          src={
+                                            mapped2.user.profile_picture +
+                                            ".webp"
+                                          }
                                         />
-                                        <Text>{mapped2.user.username}</Text>
+                                        <a
+                                          href={`/user/${mapped2.authors.username}`}
+                                        >
+                                          <Text>{mapped2.user.username}</Text>
+                                        </a>
                                       </Space>
                                     );
                                   }

@@ -1,15 +1,13 @@
 import { ApolloProvider } from "@apollo/react-hooks";
 import { useApollo } from "../lib/apolloClient";
-import "public/dark.scss";
 import { DefaultSeo } from "next-seo";
-import "public/light.scss";
-// import "antd/dist/antd.css";
-import "public/style.scss";
-import { createStore, StoreProvider, useStoreActions } from "easy-peasy";
-import "remixicon/fonts/remixicon.css";
 import { storage } from "../store/store";
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/material.css";
+import { createStore, StoreProvider, useStoreActions } from "easy-peasy";
+import "public/light.scss";
+import "public/style.scss";
+import "remixicon/fonts/remixicon.css";
+// import "public/dark.scss";
+
 const store = createStore(storage);
 
 function MyApp({ Component, pageProps }) {
@@ -18,11 +16,13 @@ function MyApp({ Component, pageProps }) {
     <ApolloProvider client={apolloClient}>
       <StoreProvider store={store}>
         <DefaultSeo
+          title="Tech To Rehab"
+          description="The Open Source Collaboration Platform"
           openGraph={{
             type: "website",
             locale: "en_IE",
             url: "https://www.url.ie/",
-            site_name: "SiteName",
+            site_name: "Tech To Rehab",
           }}
           twitter={{
             handle: "@handle",

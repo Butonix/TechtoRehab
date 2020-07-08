@@ -32,6 +32,10 @@ const getUserQuery = gql`
       username
       created_at
       profile_picture
+      facebook
+      instagram
+      twitter
+      website
       cover
       private_info {
         blocked
@@ -258,15 +262,55 @@ const User = (props) => {
                 ></i>
               </Text>
             </Row>
-            <Row className="d-flex jc-center mt-5">
-              <Text className="fs-16 ta-center" strong>
-                Verified Author
-              </Text>
+
+            <Row justify="center" className="mg-y-20">
+              {getUserData.users[0].facebook &&
+              getUserData.users[0].facebook.length > 1 ? (
+                <div className="mg-x-10">
+                  <a
+                    href={getUserData.users[0].facebook}
+                    className="va-minus-2"
+                  >
+                    <img src="/facebook.svg" height={23} width={23} />
+                  </a>
+                </div>
+              ) : null}
+
+              {getUserData.users[0].instagram &&
+              getUserData.users[0].instagram.length > 1 ? (
+                <div className="mg-x-10">
+                  <a href={getUserData.users[0].instagram}>
+                    <img src="/instagram.svg" height={30} width={30} />
+                  </a>
+                </div>
+              ) : null}
+
+              {getUserData.users[0].twitter &&
+              getUserData.users[0].twitter.length > 1 ? (
+                <div className="mg-x-10">
+                  <a href={getUserData.users[0].twitter}>
+                    <img src="/twitter.svg" height={30} width={30} />
+                  </a>
+                </div>
+              ) : null}
+
+              {/* {getUserData.users[0].website &&
+              getUserData.users[0].website.length > 1 ? (
+                <div className="mg-x-10">
+                  <Text className="mr-10" strong>
+                    Website:
+                  </Text>
+                  <Text>{getUserData.users[0].website}</Text>
+                </div>
+              ) : null} */}
             </Row>
             <Card className="mg-y-20">
               <Row justify="center">
                 <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={24}>
-                  <Tabs defaultActiveKey={tab ? tab : "profile"}>
+                  <Tabs
+                    defaultActiveKey={tab ? tab : "profile"}
+                    className="fs-14"
+                  >
                     <Tabs.TabPane tab="Profile" key="profile">
                       <div className="mg-y-20">
                         <Text className="mr-10" strong>
@@ -300,66 +344,6 @@ const User = (props) => {
                             : "Not Specified"}
                         </Text>
                       </div>
-
-                      {getUserData.users[0].facebook &&
-                      getUserData.users[0].facebook.length > 1 ? (
-                        <div className="mg-y-20">
-                          <Text className="mr-10" strong>
-                            Facebook:
-                          </Text>
-                          <Text>
-                            <a href={getUserData.users[0].facebook}>
-                              <img src="/facebook.svg" height={30} width={30} />
-                            </a>
-                          </Text>
-                        </div>
-                      ) : null}
-
-                      {getUserData.users[0].instagram &&
-                      getUserData.users[0].instagram.length > 1 ? (
-                        <div className="mg-y-20">
-                          <Text className="mr-10" strong>
-                            Instagram:
-                          </Text>
-                          <Text>
-                            <a href={getUserData.users[0].instagram}>
-                              <img
-                                src="/instagram.svg"
-                                height={30}
-                                width={30}
-                              />
-                            </a>
-                          </Text>
-                        </div>
-                      ) : null}
-
-                      {getUserData.users[0].twitter &&
-                      getUserData.users[0].twitter.length > 1 ? (
-                        <div className="mg-y-20">
-                          <Text className="mr-10" strong>
-                            Twitter:
-                          </Text>
-                          <Text>
-                            <a href={getUserData.users[0].twitter}>
-                              <img
-                                src="/instagram.svg"
-                                height={30}
-                                width={30}
-                              />
-                            </a>
-                          </Text>
-                        </div>
-                      ) : null}
-
-                      {getUserData.users[0].website &&
-                      getUserData.users[0].website.length > 1 ? (
-                        <div className="mg-y-20">
-                          <Text className="mr-10" strong>
-                            Website:
-                          </Text>
-                          <Text>{getUserData.users[0].website}</Text>
-                        </div>
-                      ) : null}
                     </Tabs.TabPane>
                     <Tabs.TabPane tab="Contributions" key="contributions">
                       {getUserData &&

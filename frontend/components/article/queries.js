@@ -7,7 +7,6 @@ export const getArticleQuery = gql`
       title
       content
       excerpt
-      temp_content
       updated_at
       created_at
       featured_image
@@ -38,11 +37,12 @@ export const getArticleQuery = gql`
         title
       }
 
-      comments {
+      comments(order_by: { updated_at: desc }) {
         id
         content
         updated_at
         author {
+          id
           profile_picture
           username
         }
@@ -52,6 +52,7 @@ export const getArticleQuery = gql`
           updated_at
           commentId
           replyAuthor {
+            id
             profile_picture
             username
           }
@@ -61,6 +62,7 @@ export const getArticleQuery = gql`
             updated_at
             replyId
             author {
+              id
               profile_picture
               username
             }
