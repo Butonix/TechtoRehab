@@ -1138,12 +1138,12 @@ $black: #282936;
 
 .cover-imageUpload:hover {
   img {
-    filter: blur(4px) brightness(0.5);
+    filter: blur(7px) brightness(0.3);
   }
 
   i {
     visibility: visible !important;
-    color: rgb(255, 255, 255, 0.8) !important;
+    color: rgb(24, 144, 255, 0.7) !important;
   }
 }
 

@@ -1,11 +1,9 @@
-import { Typography, Divider, Form, Input, Button, Alert } from "antd";
+import { Typography, Divider, Form, Input, Button, Alert, message } from "antd";
 import { useRouter } from "next/router";
 import gql from "graphql-tag";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { useState, useEffect } from "react";
 import { RotateSpinner } from "react-spinners-kit";
-// import FBLogin from "react-fb-signin";
-// import { GoogleLogin } from "react-google-login";
 import SocialButton from "components/global/social";
 
 const { Text, Title, Paragraph } = Typography;
@@ -31,11 +29,50 @@ const loginQuery = gql`
   }
 `;
 
+const checkUserGoogleQuery = gql`
+  query checkUserSocial($id: String!) {
+    users_aggregate(where: { google_social_id: { _eq: $id } }) {
+      aggregate {
+        count
+      }
+      nodes {
+        username
+        email
+        id
+        settings {
+          status
+          role
+        }
+      }
+    }
+  }
+`;
+
+const checkUserFacebookQuery = gql`
+  query checkUserSocial($id: String!) {
+    users_aggregate(where: { facebook_social_id: { _eq: $id } }) {
+      aggregate {
+        count
+      }
+      nodes {
+        username
+        email
+        id
+        settings {
+          status
+          role
+        }
+      }
+    }
+  }
+`;
+
 const Login = () => {
   const [loginFailed, setLoginFailed] = useState(false);
   const [fetchingLogin, setFetchingLogin] = useState(false);
   const [enteredPassword, setEnteredPassword] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [socialData, setSocialdata] = useState(null);
   const [form] = Form.useForm();
   const router = useRouter();
 
@@ -93,9 +130,91 @@ const Login = () => {
     }
   );
 
-  const responseFacebook = (response) => {
-    console.log(response);
-  };
+  const [checkUserGoogle, { data: checkUserGoogleData }] = useLazyQuery(
+    checkUserGoogleQuery,
+    {
+      fetchPolicy: "network-only",
+      onCompleted: (data) => {
+        if (data.users_aggregate.aggregate.count == 1) {
+          fetch("/api/login", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              id: data.users_aggregate.nodes[0].id,
+              username: data.users_aggregate.nodes[0].username,
+              email: data.users_aggregate.nodes[0].email,
+              status: data.users_aggregate.nodes[0].settings.status,
+              role: data.users_aggregate.nodes[0].settings.role,
+            }),
+          })
+            .then((res) => res.json())
+            .then((result) => {
+              message.success("Success!");
+              router.push("/");
+            });
+        } else {
+          router.push({
+            pathname: "/social-login",
+            query: {
+              id: socialData.id,
+              first_name: socialData.firstName,
+              last_name: socialData.lastName,
+              profilePicUrl: socialData.profilePicUrl,
+              email: socialData.email,
+              provider: "google",
+            },
+          });
+        }
+      },
+      onError: (err) => console.log(err),
+    }
+  );
+
+  const [checkUserFacebook, { data: checkUserFacebookData }] = useLazyQuery(
+    checkUserFacebookQuery,
+    {
+      fetchPolicy: "network-only",
+      onCompleted: (data) => {
+        if (data.users_aggregate.aggregate.count == 1) {
+          fetch("/api/login", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              id: data.users_aggregate.nodes[0].id,
+              username: data.users_aggregate.nodes[0].username,
+              email: data.users_aggregate.nodes[0].email,
+              status: data.users_aggregate.nodes[0].settings.status,
+              role: data.users_aggregate.nodes[0].settings.role,
+            }),
+          })
+            .then((res) => res.json())
+            .then((result) => {
+              message.success("Success!");
+              router.push("/");
+            });
+        } else {
+          router.push({
+            pathname: "/social-login",
+            query: {
+              id: socialData.id,
+              first_name: socialData.firstName,
+              last_name: socialData.lastName,
+              profilePicUrl: socialData.profilePicUrl,
+              email: socialData.email,
+              provider: "facebook",
+            },
+          });
+        }
+      },
+      onError: (err) => console.log(err),
+    }
+  );
 
   return (
     <>
@@ -191,27 +310,26 @@ const Login = () => {
       </Form>
       <Divider orientation="center">OR</Divider>
       <div className="d-flex flex-column ai-center fs-14 fw-600">
-        {/* <FBLogin
-          appId="858231384644584"
-          fields="email,name,picture"
-          successCallback={(data) => console.log(data)}
-        >
-          Login with Facebook
-        </FBLogin>
-
-        <GoogleLogin
-          className="mt-20 fw-400"
-          style={{ boxShadow: "0px 0px 3px 1px #cecece" }}
-          clientId="886403154840-jfrd7a9so36jvmjk4qfuctp5sb796obb.apps.googleusercontent.com"
-          buttonText="Login With Google"
-          onSuccess={(data) => console.log(data)}
-          cookiePolicy={"single_host_origin"}
-        /> */}
-
         <SocialButton
           provider="facebook"
           appId="858231384644584"
-          onLoginSuccess={(data) => console.log(data)}
+          onLoginSuccess={(data) => {
+            setSocialdata({
+              id: data.profile.id,
+              email: data.profile.email,
+              profilePicUrl: data.profile.profilePicURL,
+              firstName: data.profile.firstName,
+              lastName: data.profile.lastName,
+            });
+            checkUserFacebook({
+              variables: {
+                id: data.profile.id,
+              },
+            });
+          }}
+          onLoginFailure={() => {
+            message.error("Unable to log in using Facebook");
+          }}
           icon={
             <img src="/facebook.svg" className="mr-20 va-minus-6" width={23} />
           }
@@ -221,8 +339,24 @@ const Login = () => {
         <SocialButton
           provider="google"
           appId="886403154840-jfrd7a9so36jvmjk4qfuctp5sb796obb.apps.googleusercontent.com"
-          onLoginSuccess={(data) => console.log(data)}
+          onLoginSuccess={(data) => {
+            setSocialdata({
+              id: data.profile.id,
+              email: data.profile.email,
+              profilePicUrl: data.profile.profilePicURL,
+              firstName: data.profile.firstName,
+              lastName: data.profile.lastName,
+            });
+            checkUserGoogle({
+              variables: {
+                id: data.profile.id,
+              },
+            });
+          }}
           icon={<img src="/google.svg" className="mr-20" width={20} />}
+          onLoginFailure={() => {
+            message.error("Unable to log in using Google");
+          }}
         >
           Continue With Google
         </SocialButton>

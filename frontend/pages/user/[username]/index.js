@@ -112,7 +112,10 @@ const User = (props) => {
   );
   const [dp, setDp] = useState(
     getUserData.users.length > 0
-      ? getUserData.users[0].profile_picture + ".webp"
+      ? getUserData.users[0].profile_picture.includes("http") ||
+        getUserData.users[0].profile_picture.includes("https")
+        ? getUserData.users[0].profile_picture
+        : getUserData.users[0].profile_picture + ".webp"
       : null
   );
 
@@ -179,10 +182,10 @@ const User = (props) => {
                     style={{
                       visibility: "hidden",
                       top: 20,
-                      left: 30,
+                      left: 50,
                       position: "absolute",
                       zIndex: 3,
-                      color: "rgba(255, 255, 255, 0.4)",
+                      // color: "red",
                       cursor: "pointer",
                     }}
                   ></i>
@@ -200,8 +203,12 @@ const User = (props) => {
                     effect="blur"
                   /> */}
                   <ProgressiveImage
-                    src={cover + ".webp"}
-                    placeholder={cover + "-placeholder.webp"}
+                    src={cover ? cover + ".webp" : "/cover.svg"}
+                    placeholder={
+                      cover
+                        ? cover + "-placeholder.webp"
+                        : "/cover-placeholder.webp"
+                    }
                   >
                     {(src) => (
                       <img
@@ -209,6 +216,10 @@ const User = (props) => {
                         height={400}
                         width="100%"
                         className="o-fit-cover"
+                        style={{
+                          position: "relative",
+                          zIndex: 1,
+                        }}
                       />
                     )}
                   </ProgressiveImage>

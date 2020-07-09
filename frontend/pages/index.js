@@ -477,7 +477,12 @@ export default function Home(props) {
                     sheetData.map((mapped, index) => (
                       <Space className="mt-20" key={index}>
                         <Avatar
-                          src={mapped.authors.profile_picture + ".webp"}
+                          src={
+                            mapped.authors.profile_picture.includes("http") ||
+                            mapped.authors.profile_picture.includes("https")
+                              ? mapped.authors.profile_picture
+                              : mapped.authors.profile_picture + ".webp"
+                          }
                         />
                         <a href={`/user/${mapped.authors.username}`}>
                           <Text className="t-transform-cpt">
@@ -537,8 +542,15 @@ export default function Home(props) {
                                         <Avatar
                                           size={35}
                                           src={
-                                            mapped2.user.profile_picture +
-                                            ".webp"
+                                            mapped2.user.profile_picture.includes(
+                                              "http"
+                                            ) ||
+                                            mapped2.user.profile_picture.icnludes(
+                                              "https"
+                                            )
+                                              ? mapped2.user.profile_picture
+                                              : mapped2.user.profile_picture +
+                                                ".webp"
                                           }
                                         />
                                         <a

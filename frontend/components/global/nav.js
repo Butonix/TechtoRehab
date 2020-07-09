@@ -349,8 +349,15 @@ const Navigation = (props) => {
                 <Avatar
                   src={
                     getUserProfilePictureData
-                      ? getUserProfilePictureData.users[0].profile_picture +
-                        ".webp"
+                      ? getUserProfilePictureData.users[0].profile_picture.includes(
+                          "http"
+                        ) ||
+                        getUserProfilePictureData.users[0].profile_picture.includes(
+                          "https"
+                        )
+                        ? getUserProfilePictureData.users[0].profile_picture
+                        : getUserProfilePictureData.users[0].profile_picture +
+                          ".webp"
                       : null
                   }
                   size={26}
@@ -371,19 +378,17 @@ const Navigation = (props) => {
       ) : (
         <div className="navigation">
           <Button type="primary" className="compose-button2">
-            <Link href="/get-started">
-              <a>
-                <Text
-                  className="fw-bold"
-                  style={{
-                    marginTop: 2,
-                    color: "inherit",
-                  }}
-                >
-                  Get Started
-                </Text>
-              </a>
-            </Link>
+            <a href="/get-started">
+              <Text
+                className="fw-bold"
+                style={{
+                  marginTop: 2,
+                  color: "inherit",
+                }}
+              >
+                Get Started
+              </Text>
+            </a>
           </Button>
         </div>
       )}

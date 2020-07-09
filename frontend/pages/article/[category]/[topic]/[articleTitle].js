@@ -43,7 +43,7 @@ import ProgressiveImage from "react-progressive-image";
 import LazyLoad from "react-lazyload";
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import dynamic from "next/dynamic";
-import Skeleton from "@nejcm/react-skeleton";
+import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { NextSeo } from "next-seo";
 
@@ -394,7 +394,6 @@ const Article = (props) => {
               <Card className="mg-x-5">
                 <Row>
                   <Space>
-                    {/* <Text strong>Read Time:</Text> */}
                     {getArticleData.articles[0].content.blocks.map(
                       (blocks, index) => {
                         if (
@@ -480,6 +479,8 @@ const Article = (props) => {
                     ) : blocks.type == "image" ? (
                       <LazyLoad
                         height={230}
+                        unmountIfInvisible
+                        once
                         key={index + blocks.type}
                         placeholder={
                           <img
@@ -489,8 +490,8 @@ const Article = (props) => {
                                 blocks.data.file.url.length - 5
                               ) + "-placeholder.webp"
                             }
-                            height={230}
                             width="100%"
+                            style={{ maxWidth: 800, maxHeight: 400 }}
                           />
                         }
                       >
@@ -569,14 +570,26 @@ const Article = (props) => {
                         })}
                       </div>
                     ) : blocks.type == "code" ? (
-                      <Syntax
-                        style={monokaiSublime}
-                        language="auto-detect"
-                        showLineNumbers
+                      <LazyLoad
+                        height={300}
+                        once
                         key={index + blocks.type}
+                        unmountIfInvisible
+                        placeholder={
+                          <Skeleton>
+                            <Skeleton.Rectangle height={300} />
+                          </Skeleton>
+                        }
                       >
-                        {blocks.data.code}
-                      </Syntax>
+                        <Syntax
+                          style={monokaiSublime}
+                          language="auto-detect"
+                          showLineNumbers
+                          key={index + blocks.type}
+                        >
+                          {blocks.data.code}
+                        </Syntax>
+                      </LazyLoad>
                     ) : blocks.type == "list" ? (
                       <Row
                         className=""
@@ -670,6 +683,7 @@ const Article = (props) => {
                       </div>
                     ) : blocks.type == "embed" ? (
                       <LazyLoad
+                        unmountIfInvisible
                         height={500}
                         key={index + blocks.type}
                         placeholder={
@@ -804,8 +818,16 @@ const Article = (props) => {
                                       >
                                         <Avatar
                                           src={
-                                            reactionsToArticles.user
-                                              .profile_picture
+                                            reactionsToArticles.user.profile_picture.includes(
+                                              "http"
+                                            ) ||
+                                            reactionsToArticles.user.profile_picture.includes(
+                                              "https"
+                                            )
+                                              ? reactionsToArticles.user
+                                                  .profile_picture
+                                              : reactionsToArticles.user
+                                                  .profile_picture + ".webp"
                                           }
                                         />
                                         <Text>
@@ -934,221 +956,261 @@ const Article = (props) => {
               /**   */
               /**   */
               /**   */}
-              {getArticleData.articles[0].comments.length !== 0 ? (
-                <List
-                  dataSource={getArticleData.articles[0].comments}
-                  renderItem={(comment) => {
-                    return (
-                      <List.Item>
-                        <Comment
-                          key={comment.id}
-                          datetime={
-                            new Date(comment.updated_at).toLocaleDateString() +
-                            " at " +
-                            new Date(comment.updated_at).toLocaleTimeString()
-                          }
-                          className="pd-10"
-                          avatar={
-                            <Avatar
-                              src={comment.author.profile_picture + ".webp"}
-                            />
-                          }
-                          author={comment.author.username}
-                          content={comment.content}
-                          actions={[
-                            props.user ? (
-                              <>
-                                <a
-                                  className="t-transform-cpt mr-20"
-                                  onClick={() => {
-                                    return !props.user
-                                      ? setLoginModal(true)
-                                      : (setReplyData({ comment: comment }),
-                                        setShowReply(true));
-                                  }}
-                                >
-                                  Reply To{" "}
-                                  {comment.author.username ==
-                                  props.user.username
-                                    ? "Self"
-                                    : comment.author.username}
-                                </a>
-                                ,
-                                {props.user ? (
+              <LazyLoad
+                once
+                unmountIfInvisible
+                placeholder={
+                  <Skeleton>
+                    <Comments />
+                  </Skeleton>
+                }
+              >
+                {getArticleData.articles[0].comments.length !== 0 ? (
+                  <List
+                    dataSource={getArticleData.articles[0].comments}
+                    renderItem={(comment) => {
+                      return (
+                        <List.Item>
+                          <Comment
+                            key={comment.id}
+                            datetime={
+                              new Date(
+                                comment.updated_at
+                              ).toLocaleDateString() +
+                              " at " +
+                              new Date(comment.updated_at).toLocaleTimeString()
+                            }
+                            className="pd-10"
+                            avatar={
+                              <Avatar
+                                src={
+                                  comment.author.profile_picture.includes(
+                                    "http"
+                                  ) ||
+                                  comment.author.profile_picture.includes(
+                                    "https"
+                                  )
+                                    ? comment.author.profile_picture
+                                    : comment.author.profile_picture + ".webp"
+                                }
+                              />
+                            }
+                            author={comment.author.username}
+                            content={comment.content}
+                            actions={[
+                              props.user ? (
+                                <>
                                   <a
-                                    onClick={() =>
-                                      comment.author.id == props.user.id
-                                        ? deleteCommentFromTop(comment)
-                                        : null
-                                    }
+                                    className="t-transform-cpt mr-20"
+                                    onClick={() => {
+                                      return !props.user
+                                        ? setLoginModal(true)
+                                        : (setReplyData({ comment: comment }),
+                                          setShowReply(true));
+                                    }}
                                   >
-                                    {comment.author.id == props.user.id ? (
-                                      <Text type="danger">Delete</Text>
-                                    ) : null}
+                                    Reply To{" "}
+                                    {comment.author.username ==
+                                    props.user.username
+                                      ? "Self"
+                                      : comment.author.username}
                                   </a>
-                                ) : null}
-                              </>
-                            ) : null,
-                          ]}
-                          children={
-                            comment.replies
-                              ? comment.replies.map((replies) => {
-                                  return replies.commentId == comment.id ? (
-                                    <Comment
-                                      className="pd-10"
-                                      datetime={
-                                        new Date(
-                                          replies.updated_at
-                                        ).toLocaleDateString() +
-                                        " at " +
-                                        new Date(
-                                          replies.updated_at
-                                        ).toLocaleTimeString()
-                                      }
-                                      content={replies.content}
-                                      key={replies.id}
-                                      avatar={
-                                        <Avatar
-                                          src={
-                                            replies.replyAuthor
-                                              .profile_picture + ".webp"
-                                          }
-                                        />
-                                      }
-                                      author={replies.replyAuthor.username}
-                                      actions={[
-                                        props.user ? (
-                                          <div className="d-flex wd-100pc">
-                                            <a
-                                              className="t-transform-cpt mr-20"
-                                              onClick={() => {
-                                                return !props.user
-                                                  ? setLoginModal(true)
-                                                  : (setReplyData({
-                                                      reply: replies,
-                                                    }),
-                                                    setShowReply(true));
-                                              }}
-                                            >
-                                              Reply To{" "}
-                                              {replies.replyAuthor.username ==
-                                              props.user.username
-                                                ? "Self"
-                                                : replies.replyAuthor.username}
-                                            </a>
-                                            <a
-                                              onClick={() =>
-                                                replies.replyAuthor.id ==
-                                                props.user.id
-                                                  ? DeleteCommentFromSecond(
-                                                      replies
-                                                    )
-                                                  : null
-                                              }
-                                            >
-                                              {replies.replyAuthor.id ==
-                                              props.user.id ? (
-                                                <Text
-                                                  type="danger"
-                                                  className="t-transform-cpt"
-                                                >
-                                                  Delete
-                                                </Text>
-                                              ) : null}
-                                            </a>
-                                          </div>
-                                        ) : null,
-                                      ]}
-                                      children={
-                                        replies.replies_to_reply
-                                          ? replies.replies_to_reply.map(
-                                              (repliesToReply) => {
-                                                return (
-                                                  <Comment
-                                                    key={repliesToReply.id}
-                                                    datetime={
-                                                      new Date(
-                                                        repliesToReply.updated_at
-                                                      ).toLocaleDateString() +
-                                                      " at " +
-                                                      new Date(
-                                                        repliesToReply.updated_at
-                                                      ).toLocaleTimeString()
-                                                    }
-                                                    className="pd-10"
-                                                    avatar={
-                                                      <Avatar
-                                                        src={
-                                                          repliesToReply.author
-                                                            .profile_picture +
-                                                          ".webp"
-                                                        }
-                                                      />
-                                                    }
-                                                    content={
-                                                      repliesToReply.content
-                                                    }
-                                                    author={
-                                                      repliesToReply.author
-                                                        .username
-                                                    }
-                                                    actions={[
-                                                      props.user ? (
-                                                        <a
-                                                          onClick={() =>
-                                                            repliesToReply
-                                                              .author.id ==
-                                                            props.user.id
-                                                              ? DeleteCommentFromThird(
-                                                                  repliesToReply
-                                                                )
-                                                              : null
-                                                          }
-                                                        >
-                                                          {repliesToReply.author
-                                                            .id ==
-                                                          props.user.id ? (
-                                                            <Text type="danger">
-                                                              Delete
-                                                            </Text>
-                                                          ) : null}
-                                                        </a>
-                                                      ) : null,
-                                                    ]}
-                                                  />
-                                                );
-                                              }
-                                            )
+                                  ,
+                                  {props.user ? (
+                                    <a
+                                      onClick={() =>
+                                        comment.author.id == props.user.id
+                                          ? deleteCommentFromTop(comment)
                                           : null
                                       }
-                                    />
-                                  ) : null;
-                                })
-                              : null
-                          }
-                        />
-                      </List.Item>
-                    );
-                  }}
-                />
-              ) : (
-                <Row justify="center" className="mt-30 pd-10">
-                  <Col
-                    className="d-flex flex-column"
-                    xs={24}
-                    sm={24}
-                    md={16}
-                    lg={12}
-                    xl={12}
-                    xxl={10}
-                  >
-                    <Text className="ta-center fs-18" strong>
-                      No comments found
-                    </Text>
-                    <img src="/no-comment.svg" />
-                  </Col>
-                </Row>
-              )}
+                                    >
+                                      {comment.author.id == props.user.id ? (
+                                        <Text type="danger">Delete</Text>
+                                      ) : null}
+                                    </a>
+                                  ) : null}
+                                </>
+                              ) : null,
+                            ]}
+                            children={
+                              comment.replies
+                                ? comment.replies.map((replies) => {
+                                    return replies.commentId == comment.id ? (
+                                      <Comment
+                                        className="pd-10"
+                                        datetime={
+                                          new Date(
+                                            replies.updated_at
+                                          ).toLocaleDateString() +
+                                          " at " +
+                                          new Date(
+                                            replies.updated_at
+                                          ).toLocaleTimeString()
+                                        }
+                                        content={replies.content}
+                                        key={replies.id}
+                                        avatar={
+                                          <Avatar
+                                            src={
+                                              replies.replyAuthor.profile_picture.includes(
+                                                "http"
+                                              ) ||
+                                              replies.replyAuthor.profile_picture.includes(
+                                                "https"
+                                              )
+                                                ? replies.replyAuthor
+                                                    .profile_picture
+                                                : replies.replyAuthor
+                                                    .profile_picture + ".webp"
+                                            }
+                                          />
+                                        }
+                                        author={replies.replyAuthor.username}
+                                        actions={[
+                                          props.user ? (
+                                            <div className="d-flex wd-100pc">
+                                              <a
+                                                className="t-transform-cpt mr-20"
+                                                onClick={() => {
+                                                  return !props.user
+                                                    ? setLoginModal(true)
+                                                    : (setReplyData({
+                                                        reply: replies,
+                                                      }),
+                                                      setShowReply(true));
+                                                }}
+                                              >
+                                                Reply To{" "}
+                                                {replies.replyAuthor.username ==
+                                                props.user.username
+                                                  ? "Self"
+                                                  : replies.replyAuthor
+                                                      .username}
+                                              </a>
+                                              <a
+                                                onClick={() =>
+                                                  replies.replyAuthor.id ==
+                                                  props.user.id
+                                                    ? DeleteCommentFromSecond(
+                                                        replies
+                                                      )
+                                                    : null
+                                                }
+                                              >
+                                                {replies.replyAuthor.id ==
+                                                props.user.id ? (
+                                                  <Text
+                                                    type="danger"
+                                                    className="t-transform-cpt"
+                                                  >
+                                                    Delete
+                                                  </Text>
+                                                ) : null}
+                                              </a>
+                                            </div>
+                                          ) : null,
+                                        ]}
+                                        children={
+                                          replies.replies_to_reply
+                                            ? replies.replies_to_reply.map(
+                                                (repliesToReply) => {
+                                                  return (
+                                                    <Comment
+                                                      key={repliesToReply.id}
+                                                      datetime={
+                                                        new Date(
+                                                          repliesToReply.updated_at
+                                                        ).toLocaleDateString() +
+                                                        " at " +
+                                                        new Date(
+                                                          repliesToReply.updated_at
+                                                        ).toLocaleTimeString()
+                                                      }
+                                                      className="pd-10"
+                                                      avatar={
+                                                        <Avatar
+                                                          src={
+                                                            repliesToReply.author.profile_picture.includes(
+                                                              "http"
+                                                            ) ||
+                                                            repliesToReply.author.profile_picture.includes(
+                                                              "https"
+                                                            )
+                                                              ? repliesToReply
+                                                                  .author
+                                                                  .profile_picture
+                                                              : repliesToReply
+                                                                  .author
+                                                                  .profile_picture +
+                                                                ".webp"
+                                                          }
+                                                        />
+                                                      }
+                                                      content={
+                                                        repliesToReply.content
+                                                      }
+                                                      author={
+                                                        repliesToReply.author
+                                                          .username
+                                                      }
+                                                      actions={[
+                                                        props.user ? (
+                                                          <a
+                                                            onClick={() =>
+                                                              repliesToReply
+                                                                .author.id ==
+                                                              props.user.id
+                                                                ? DeleteCommentFromThird(
+                                                                    repliesToReply
+                                                                  )
+                                                                : null
+                                                            }
+                                                          >
+                                                            {repliesToReply
+                                                              .author.id ==
+                                                            props.user.id ? (
+                                                              <Text type="danger">
+                                                                Delete
+                                                              </Text>
+                                                            ) : null}
+                                                          </a>
+                                                        ) : null,
+                                                      ]}
+                                                    />
+                                                  );
+                                                }
+                                              )
+                                            : null
+                                        }
+                                      />
+                                    ) : null;
+                                  })
+                                : null
+                            }
+                          />
+                        </List.Item>
+                      );
+                    }}
+                  />
+                ) : (
+                  <Row justify="center" className="mt-30 pd-10">
+                    <Col
+                      className="d-flex flex-column"
+                      xs={24}
+                      sm={24}
+                      md={16}
+                      lg={12}
+                      xl={12}
+                      xxl={10}
+                    >
+                      <Text className="ta-center fs-18" strong>
+                        No comments found
+                      </Text>
+                      <img src="/no-comment.svg" />
+                    </Col>
+                  </Row>
+                )}
+              </LazyLoad>
 
               <Drawer
                 visible={showReply}
@@ -1197,7 +1259,13 @@ const Article = (props) => {
                               className="mt-20"
                               src={
                                 props.user
-                                  ? props.user.profilePicture + ".webp"
+                                  ? // ? props.user.profilePicture.includes(
+                                    //     "http"
+                                    //   ) ||
+                                    //   props.user.profilePicture.includes("https")
+                                    //   ?
+
+                                    props.user.profilePicture + ".webp"
                                   : null
                               }
                             />
