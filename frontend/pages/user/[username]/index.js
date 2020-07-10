@@ -169,39 +169,87 @@ const User = (props) => {
               bordered={false}
               className="wd-100pc"
               cover={
-                <Upload
-                  name="imageUpload"
-                  action="/api/imageUpload"
-                  onChange={handleCoverPreview}
-                  showUploadList={false}
-                  className="cover-imageUpload"
-                  style={{ width: "100%" }}
-                >
-                  <i
-                    class="ri-upload-cloud-2-line fs-22 uploadIcon"
-                    style={{
-                      visibility: "hidden",
-                      top: 20,
-                      left: 50,
-                      position: "absolute",
-                      zIndex: 3,
-                      // color: "red",
-                      cursor: "pointer",
-                    }}
-                  ></i>
-                  {/* <img
+                props.user ? (
+                  props.user.username == router.query.username ? (
+                    <Upload
+                      name="imageUpload"
+                      action="/api/imageUpload"
+                      onChange={handleCoverPreview}
+                      showUploadList={false}
+                      className="cover-imageUpload"
+                      style={{ width: "100%" }}
+                    >
+                      <i
+                        class="ri-upload-cloud-2-line fs-22 uploadIcon"
+                        style={{
+                          visibility: "hidden",
+                          top: 20,
+                          left: 50,
+                          position: "absolute",
+                          zIndex: 3,
+                          // color: "red",
+                          cursor: "pointer",
+                        }}
+                      ></i>
+                      {/* <img
                     src={cover}
                     width="100%"
                     className="o-fit-cover"
                     height={400}
                   /> */}
-                  {/* <LazyLoadImage
+                      {/* <LazyLoadImage
                     className="o-fit-cover"
                     src={cover + ".webp"}
                     height={400}
                     width="`100%"
                     effect="blur"
                   /> */}
+                      <ProgressiveImage
+                        src={cover ? cover + ".webp" : "/cover.svg"}
+                        placeholder={
+                          cover
+                            ? cover + "-placeholder.webp"
+                            : "/cover-placeholder.webp"
+                        }
+                      >
+                        {(src) => (
+                          <img
+                            src={src}
+                            height={400}
+                            width="100%"
+                            className="o-fit-cover"
+                            style={{
+                              position: "relative",
+                              zIndex: 1,
+                            }}
+                          />
+                        )}
+                      </ProgressiveImage>
+                    </Upload>
+                  ) : (
+                    <ProgressiveImage
+                      src={cover ? cover + ".webp" : "/cover.svg"}
+                      placeholder={
+                        cover
+                          ? cover + "-placeholder.webp"
+                          : "/cover-placeholder.webp"
+                      }
+                    >
+                      {(src) => (
+                        <img
+                          src={src}
+                          height={400}
+                          width="100%"
+                          className="o-fit-cover"
+                          style={{
+                            position: "relative",
+                            zIndex: 1,
+                          }}
+                        />
+                      )}
+                    </ProgressiveImage>
+                  )
+                ) : (
                   <ProgressiveImage
                     src={cover ? cover + ".webp" : "/cover.svg"}
                     placeholder={
@@ -223,29 +271,55 @@ const User = (props) => {
                       />
                     )}
                   </ProgressiveImage>
-                </Upload>
+                )
               }
             >
               <Row className="d-flex jc-center">
-                <Upload
-                  action="/api/imageUpload"
-                  name="imageUpload"
-                  onChange={handleDpPreview}
-                  showUploadList={false}
-                  className="dp-imageUpload"
-                >
-                  <i
-                    class="ri-upload-cloud-2-line fs-22 uploadIcon"
-                    style={{
-                      visibility: "hidden",
-                      bottom: -10,
-                      zIndex: 4,
-                      position: "relative",
-                      color: "rgb(0,0,0,0.2)",
-                      left: 63,
-                      cursor: "pointer",
-                    }}
-                  ></i>
+                {props.user ? (
+                  props.user.username == router.query.username ? (
+                    <Upload
+                      action="/api/imageUpload"
+                      name="imageUpload"
+                      onChange={handleDpPreview}
+                      showUploadList={false}
+                      className="dp-imageUpload"
+                    >
+                      <i
+                        class="ri-upload-cloud-2-line fs-22 uploadIcon"
+                        style={{
+                          visibility: "hidden",
+                          bottom: -10,
+                          zIndex: 4,
+                          position: "relative",
+                          color: "rgb(0,0,0,0.2)",
+                          left: 63,
+                          cursor: "pointer",
+                        }}
+                      ></i>
+                      <Avatar
+                        size={100}
+                        src={dp}
+                        style={{
+                          margin: "auto",
+                          marginTop: -70,
+                          zIndex: 3,
+                          position: "relative",
+                        }}
+                      />
+                    </Upload>
+                  ) : (
+                    <Avatar
+                      size={100}
+                      src={dp}
+                      style={{
+                        margin: "auto",
+                        marginTop: -70,
+                        zIndex: 3,
+                        position: "relative",
+                      }}
+                    />
+                  )
+                ) : (
                   <Avatar
                     size={100}
                     src={dp}
@@ -256,13 +330,13 @@ const User = (props) => {
                       position: "relative",
                     }}
                   />
-                </Upload>
+                )}
               </Row>
               <Row className="d-flex jc-center"></Row>
             </Card>
             <Row className="d-flex jc-center">
               <Text className="ta-center fs-18 mt-20" strong>
-                Dukesx
+                {router.query.username}
                 <i
                   class="ri-checkbox-circle-fill fs-16"
                   style={{

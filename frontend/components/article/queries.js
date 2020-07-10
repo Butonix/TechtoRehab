@@ -2,7 +2,10 @@ import gql from "graphql-tag";
 
 export const getArticleQuery = gql`
   query getArticle($articleSlug: String!) {
-    articles(where: { slug: { _eq: $articleSlug } }) {
+    articles(
+      where: { slug: { _eq: $articleSlug } }
+      order_by: { views_aggregate: { count: desc } }
+    ) {
       id
       title
       content
@@ -35,6 +38,12 @@ export const getArticleQuery = gql`
       }
       article_category {
         title
+      }
+
+      views_aggregate {
+        aggregate {
+          count
+        }
       }
 
       comments(order_by: { updated_at: desc }) {
@@ -160,6 +169,14 @@ export const deleteReplyToReplyQuery = gql`
       where: { id: { _eq: $id }, replyId: { _eq: $replyId } }
     ) {
       affected_rows
+    }
+  }
+`;
+
+export const updateViewsQuery = gql`
+  mutation updateViews($id: uuid!, $ip: String!) {
+    insert_articles_and_views_one(object: { articleId: $id, ip: $ip }) {
+      ip
     }
   }
 `;

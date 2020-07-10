@@ -293,21 +293,28 @@ export const getServerSideProps = withSession(async function ({
   const { username } = query;
   const user = req.session.get(["session"]);
   if (user) {
-    const apolloClient = initializeApollo();
-    await apolloClient.query({
-      query: getUserSettingsQuery,
-      variables: {
-        id: user.id,
-      },
-    });
+    if (user.username == username) {
+      const apolloClient = initializeApollo();
+      await apolloClient.query({
+        query: getUserSettingsQuery,
+        variables: {
+          id: user.id,
+        },
+      });
 
-    return {
-      props: {
-        username: username ? username : null,
-        initialApolloState: apolloClient.cache.extract(),
-        user: user ? user : null,
-      },
-    };
+      return {
+        props: {
+          username: username ? username : null,
+          initialApolloState: apolloClient.cache.extract(),
+          user: user ? user : null,
+        },
+      };
+    } else {
+      res.writeHead(301, {
+        Location: "/",
+      });
+      res.end();
+    }
   } else {
     res.writeHead(301, {
       Location: "/",

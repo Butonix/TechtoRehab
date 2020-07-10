@@ -44,6 +44,12 @@ export const getArticlesQuery = gql`
           count
         }
       }
+
+      views_aggregate {
+        aggregate {
+          count
+        }
+      }
     }
 
     reactions {

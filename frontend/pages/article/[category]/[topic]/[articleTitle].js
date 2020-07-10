@@ -36,6 +36,7 @@ import {
   insertCommentQuery,
   insertReplyQuery,
   insertReactionQuery,
+  updateViewsQuery,
 } from "components/article/queries";
 
 import withSession from "lib/session";
@@ -46,6 +47,7 @@ import dynamic from "next/dynamic";
 import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { NextSeo } from "next-seo";
+const publicIp = require("public-ip");
 
 //
 //
@@ -91,7 +93,48 @@ const Article = (props) => {
     (actions) => actions.site.setLoginModal
   );
   const [reactionsModal, setReactionsModal] = useState(false);
+  var time = 0;
   var count = 0;
+
+  useEffect(() => {
+    if (!JSON.parse(localStorage.getItem(getArticleData.articles[0].id))) {
+      var a = new Date();
+      localStorage.setItem(
+        getArticleData.articles[0].id,
+        JSON.stringify({
+          ip: props.ip,
+          expire: a.setDate(a.getDate() + 1),
+        })
+      );
+      updateViews({
+        variables: {
+          id: getArticleData.articles[0].id,
+          ip: props.ip,
+        },
+      });
+    } else {
+      var item = JSON.parse(
+        localStorage.getItem(getArticleData.articles[0].id)
+      );
+      if (new Date() > new Date(item.expire)) {
+        var a = new Date();
+        localStorage.setItem(
+          getArticleData.articles[0].id,
+          JSON.stringify({
+            ip: props.ip,
+            expire: a.setDate(a.getDate() + 1),
+          })
+        );
+        updateViews({
+          variables: {
+            id: getArticleData.articles[0].id,
+            ip: props.ip,
+          },
+        });
+      }
+    }
+  }, []);
+
   //
   //
   //
@@ -113,6 +156,11 @@ const Article = (props) => {
   //
   //
   //
+
+  const [updateViews, { data: updateViewsData }] = useMutation(
+    updateViewsQuery,
+    {}
+  );
 
   const [insertReaction, { data: insertReactionData }] = useMutation(
     insertReactionQuery,
@@ -303,9 +351,7 @@ const Article = (props) => {
                         variables: {
                           articleId: getArticleData.articles[0].id,
                           reactionId: reactions.id,
-                          userId:
-                            getArticleData.articles[0].users_to_articles
-                              .authors[0].id,
+                          userId: props.user.id,
                         },
                       })
                     : setLoginModal(true);
@@ -377,13 +423,17 @@ const Article = (props) => {
               xxl={6}
               className="d-flex flex-column mg-x-30 t-transform-cpt jc-center"
             >
-              <Title
-                level={3}
-                className="lh-1-5 pd-x-20 mt-30"
-                style={{ fontWeight: 600 }}
-              >
+              <Title level={3} className="lh-1-5 pd-x-20 mt-30">
                 {getArticleData.articles[0].title}
               </Title>
+              {/* <div>
+                <i class="ri-eye-line fs-16 mr-10 ml-20 va-minus-4"></i>
+
+                <Text className="fs-14">
+                  {getArticleData.articles[0].views_aggregate.aggregate.count}{" "}
+                  views
+                </Text>
+              </div> */}
 
               <Paragraph
                 className="pd-x-20 lh-2 mt-10 fs-14"
@@ -479,7 +529,6 @@ const Article = (props) => {
                     ) : blocks.type == "image" ? (
                       <LazyLoad
                         height={230}
-                        unmountIfInvisible
                         once
                         key={index + blocks.type}
                         placeholder={
@@ -574,7 +623,6 @@ const Article = (props) => {
                         height={300}
                         once
                         key={index + blocks.type}
-                        unmountIfInvisible
                         placeholder={
                           <Skeleton>
                             <Skeleton.Rectangle height={300} />
@@ -713,6 +761,58 @@ const Article = (props) => {
               </div>
             </Col>
           </Row>
+          <Row justify="center">
+            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+              <Card className="mt-20">
+                <Row>
+                  <Text className="fs-18 mb-20" strong>
+                    Authors
+                  </Text>
+                </Row>
+                {getArticleData
+                  ? getArticleData.articles[0].users_to_articles.map(
+                      (authors) => (
+                        <Col>
+                          <div className="d-flex">
+                            {getArticleData.articles[0].users_to_articles
+                              .length > 1 ? (
+                              <Divider
+                                style={{
+                                  width: 50,
+                                  minWidth: 50,
+                                  margin: "12px 15px",
+                                }}
+                              />
+                            ) : null}
+
+                            <Avatar
+                              src={
+                                authors.authors.profile_picture
+                                  ? authors.authors.profile_picture.includes(
+                                      "http"
+                                    ) ||
+                                    authors.authors.profile_picture.includes(
+                                      "https"
+                                    )
+                                    ? authors.authors.profile_picture
+                                    : authors.authors.profile_picture + ".webp"
+                                  : null
+                              }
+                              style={{
+                                marginTop: -5,
+                              }}
+                            />
+                            <Text className="t-transform-cpt mg-x-10" strong>
+                              {authors.authors.username}
+                            </Text>
+                          </div>
+                        </Col>
+                      )
+                    )
+                  : null}
+              </Card>
+            </Col>
+          </Row>
           <Row className="mt-10 mg-x-5 mb-20 mt-10" justify="center">
             <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
               <Divider orientation="left">React To This</Divider>
@@ -814,7 +914,7 @@ const Article = (props) => {
                                     return (
                                       <Space
                                         className="mg-y-10"
-                                        key={reactions.id + key}
+                                        key={reactions.id + index}
                                       >
                                         <Avatar
                                           src={
@@ -958,7 +1058,6 @@ const Article = (props) => {
               /**   */}
               <LazyLoad
                 once
-                unmountIfInvisible
                 placeholder={
                   <Skeleton>
                     <Comments />
@@ -995,7 +1094,11 @@ const Article = (props) => {
                                 }
                               />
                             }
-                            author={comment.author.username}
+                            author={
+                              <a href={`/user/${comment.author.username}`}>
+                                {comment.author.username}
+                              </a>
+                            }
                             content={comment.content}
                             actions={[
                               props.user ? (
@@ -1065,7 +1168,13 @@ const Article = (props) => {
                                             }
                                           />
                                         }
-                                        author={replies.replyAuthor.username}
+                                        author={
+                                          <a
+                                            href={`/user/${replies.replyAuthor.username}`}
+                                          >
+                                            {replies.replyAuthor.username}
+                                          </a>
+                                        }
                                         actions={[
                                           props.user ? (
                                             <div className="d-flex wd-100pc">
@@ -1150,8 +1259,14 @@ const Article = (props) => {
                                                         repliesToReply.content
                                                       }
                                                       author={
-                                                        repliesToReply.author
-                                                          .username
+                                                        <a
+                                                          href={`/user/${repliesToReply.author.username}`}
+                                                        >
+                                                          {
+                                                            repliesToReply
+                                                              .author.username
+                                                          }
+                                                        </a>
                                                       }
                                                       actions={[
                                                         props.user ? (
@@ -1362,6 +1477,7 @@ export const getServerSideProps = withSession(async function ({
 }) {
   const user = req.session.get(["session"]);
   const apolloClient = initializeApollo();
+
   await apolloClient.query({
     query: getArticleQuery,
     variables: {
@@ -1373,6 +1489,7 @@ export const getServerSideProps = withSession(async function ({
     props: {
       initialApolloState: apolloClient.cache.extract(),
       user: user ? user : null,
+      ip: await publicIp.v4(),
     },
   };
 });
