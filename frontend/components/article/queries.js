@@ -15,6 +15,7 @@ export const getArticleQuery = gql`
       featured_image
       reactions_to_articles {
         user {
+          id
           username
           profile_picture
         }
@@ -177,6 +178,25 @@ export const updateViewsQuery = gql`
   mutation updateViews($id: uuid!, $ip: String!) {
     insert_articles_and_views_one(object: { articleId: $id, ip: $ip }) {
       ip
+    }
+  }
+`;
+
+export const updateReactionQuery = gql`
+  mutation updateReaction($userId: uuid!, $reactionId: uuid!) {
+    update_reactions_to_articles(
+      where: { user_id: { _eq: $userId } }
+      _set: { reaction_id: $reactionId }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+export const removeReactionQuery = gql`
+  mutation removeReaction($id: uuid!) {
+    delete_reactions_to_articles(where: { user_id: { _eq: $id } }) {
+      affected_rows
     }
   }
 `;

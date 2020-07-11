@@ -37,6 +37,8 @@ import {
   insertReplyQuery,
   insertReactionQuery,
   updateViewsQuery,
+  updateReactionQuery,
+  removeReactionQuery,
 } from "components/article/queries";
 
 import withSession from "lib/session";
@@ -93,6 +95,7 @@ const Article = (props) => {
     (actions) => actions.site.setLoginModal
   );
   const [reactionsModal, setReactionsModal] = useState(false);
+  const [reacted, setReacted] = useState(false);
   var time = 0;
   var count = 0;
 
@@ -133,6 +136,11 @@ const Article = (props) => {
         });
       }
     }
+    getArticleData.articles[0].reactions_to_articles.map((item) => {
+      if (item.user.id == props.user.id) {
+        setReacted(true);
+      }
+    });
   }, []);
 
   //
@@ -329,6 +337,14 @@ const Article = (props) => {
     });
   };
 
+  const [updateReaction] = useMutation(updateReactionQuery, {
+    onCompleted: () => getArticleRefetch(),
+  });
+
+  const [removeReaction] = useMutation(removeReactionQuery, {
+    onCompleted: () => getArticleRefetch(),
+  });
+
   //
   //
   //
@@ -337,7 +353,7 @@ const Article = (props) => {
   //
 
   const reactionsMenu = (
-    <Menu className="pd-5" style={{ borderRadius: 35 }}>
+    <Menu className="pd-5 d-flex" style={{ borderRadius: 35 }}>
       <Reactions>
         {getArticleData.reactions.map((reactions) => {
           return (
@@ -347,13 +363,21 @@ const Article = (props) => {
                 key={reactions.id}
                 onClick={() => {
                   props.user
-                    ? insertReaction({
-                        variables: {
-                          articleId: getArticleData.articles[0].id,
-                          reactionId: reactions.id,
-                          userId: props.user.id,
-                        },
-                      })
+                    ? reacted
+                      ? updateReaction({
+                          variables: {
+                            userId: props.user.id,
+                            reactionId: reactions.id,
+                          },
+                        })
+                      : (setReacted(true),
+                        insertReaction({
+                          variables: {
+                            articleId: getArticleData.articles[0].id,
+                            reactionId: reactions.id,
+                            userId: props.user.id,
+                          },
+                        }))
                     : setLoginModal(true);
                 }}
               >
@@ -951,14 +975,75 @@ const Article = (props) => {
                   >
                     <a onClick={(e) => e.preventDefault()}>
                       <Button
-                        className="lh-1"
+                        className="lh-1 wd-100pc"
                         type="text"
                         icon={
-                          <i className="ri-thumb-up-line fs-22 va-minus-4 mr-10"></i>
+                          getArticleData.articles[0].reactions_to_articles
+                            .length >= 1 ? (
+                            getArticleData.articles[0].reactions_to_articles.map(
+                              (items) => {
+                                if (
+                                  props.user &&
+                                  props.user.id == items.user.id
+                                ) {
+                                  return (
+                                    <div className="d-flex">
+                                      <Reactions>
+                                        <div className="reaction-holder">
+                                          <div className="reaction">
+                                            <i
+                                              className={`${items.reaction.code} va-minus-6 lh-1-5 fs-22`}
+                                              style={
+                                                items.reaction.color
+                                                  ? color
+                                                  : items.reaction.gradient
+                                              }
+                                            ></i>
+                                          </div>
+                                        </div>
+                                      </Reactions>
+                                      <Text
+                                        className="fs-14 lh-1-5 mt-5 ml-20"
+                                        strong
+                                      >
+                                        {items.reaction.name == "love"
+                                          ? "Loved it!"
+                                          : items.reaction.name == "sux"
+                                          ? "Hate it!"
+                                          : items.reaction.name == "awsum"
+                                          ? "Wow Mate!"
+                                          : null}
+                                      </Text>
+                                    </div>
+                                  );
+                                }
+                                // return (
+                                //   <i className="ri-thumb-up-line fs-22 va-minus-4 mr-10 lh-1-5"></i>
+                                // );
+                              }
+                            )
+                          ) : (
+                            <i className="ri-thumb-up-line fs-22 lh-1-5 mt-5 mr-10"></i>
+                          )
                         }
                       ></Button>
                     </a>
                   </Dropdown>
+                  {reacted ? (
+                    <Typography.Link
+                      className="mr-5 mt-5 ml-20 lh-2"
+                      onClick={() => {
+                        setReacted(false);
+                        removeReaction({
+                          variables: {
+                            id: props.user.id,
+                          },
+                        });
+                      }}
+                    >
+                      Remove
+                    </Typography.Link>
+                  ) : null}
                 </Row>
               </Card>
               <Divider orientation="center">Meta Information</Divider>
