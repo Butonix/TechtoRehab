@@ -194,8 +194,10 @@ export const updateReactionQuery = gql`
 `;
 
 export const removeReactionQuery = gql`
-  mutation removeReaction($id: uuid!) {
-    delete_reactions_to_articles(where: { user_id: { _eq: $id } }) {
+  mutation removeReaction($id: uuid!, $articleId: uuid!) {
+    delete_reactions_to_articles(
+      where: { article_id: { _eq: $articleId }, user_id: { _eq: $id } }
+    ) {
       affected_rows
     }
   }

@@ -579,41 +579,6 @@ const Article = (props) => {
                             ) : null}
                           </Card>
                         </figure>
-                        {/* <ProgressiveImage
-                          key={index + blocks.type}
-                          src={blocks.data.file.url}
-                          placeholder={
-                            blocks.data.file.url.slice(
-                              0,
-                              blocks.data.file.url.length - 5
-                            ) + "-placeholder.webp"
-                          }
-                        >
-                        {(src) => (
-                          <figure>
-                            <img
-                              width="100%"
-                              key={index + blocks.type}
-                              className={
-                                (blocks.data.stretched ? "" : "pd-10") +
-                                "o-fit-cover mg-y-20"
-                              }
-                              src={src}
-                              style={{ maxWidth: 800, maxHeight: 400 }}
-                            />
-                            <Card key={index + blocks.type}>
-                              {blocks.data.caption ? (
-                                <figcaption
-                                  className="mt-5 ml-10 fw-600"
-                                  key={index + blocks.type}
-                                >
-                                  Caption -- {blocks.data.caption}
-                                </figcaption>
-                              ) : null}
-                            </Card>
-                          </figure>
-                        )} */}
-                        {/* </ProgressiveImage> */}
                       </LazyLoad>
                     ) : blocks.type == "checklist" ? (
                       <div
@@ -1067,6 +1032,7 @@ const Article = (props) => {
                         removeReaction({
                           variables: {
                             id: props.user.id,
+                            articleId: getArticleData.articles[0].id,
                           },
                         });
                       }}
