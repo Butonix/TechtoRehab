@@ -975,7 +975,7 @@ const Article = (props) => {
                   >
                     <a onClick={(e) => e.preventDefault()}>
                       <Button
-                        className="lh-1 wd-100pc"
+                        className="wd-100pc"
                         type="text"
                         icon={
                           getArticleData.articles[0].reactions_to_articles
@@ -992,7 +992,7 @@ const Article = (props) => {
                                         <div className="reaction-holder">
                                           <div className="reaction">
                                             <i
-                                              className={`${items.reaction.code} va-minus-6 lh-1-5 fs-22`}
+                                              className={`${items.reaction.code}  va-middle fs-22`}
                                               style={
                                                 items.reaction.color
                                                   ? color
@@ -1002,10 +1002,7 @@ const Article = (props) => {
                                           </div>
                                         </div>
                                       </Reactions>
-                                      <Text
-                                        className="fs-14 lh-1-5 mt-5 ml-20"
-                                        strong
-                                      >
+                                      <Text className="fs-14 lh-3 ml-20" strong>
                                         {items.reaction.name == "love"
                                           ? "Loved it!"
                                           : items.reaction.name == "sux"
@@ -1023,7 +1020,7 @@ const Article = (props) => {
                               }
                             )
                           ) : (
-                            <i className="ri-thumb-up-line fs-22 lh-1-5 mt-5 mr-10"></i>
+                            <i className="ri-thumb-up-line fs-22 lh-2 mt-5 mr-10"></i>
                           )
                         }
                       ></Button>
@@ -1031,7 +1028,10 @@ const Article = (props) => {
                   </Dropdown>
                   {reacted ? (
                     <Typography.Link
-                      className="mr-5 mt-5 ml-20 lh-2"
+                      className="mr-5 mt-5 ml-20"
+                      style={{
+                        lineHeight: 2.6,
+                      }}
                       onClick={() => {
                         setReacted(false);
                         removeReaction({
