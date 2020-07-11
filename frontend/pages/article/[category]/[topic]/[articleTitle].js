@@ -441,23 +441,15 @@ const Article = (props) => {
             <Col
               xs={24}
               sm={24}
-              md={16}
-              lg={12}
-              xl={12}
+              md={18}
+              lg={16}
+              xl={7}
               xxl={6}
               className="d-flex flex-column mg-x-30 t-transform-cpt jc-center"
             >
               <Title level={3} className="lh-1-5 pd-x-20 mt-30">
                 {getArticleData.articles[0].title}
               </Title>
-              {/* <div>
-                <i class="ri-eye-line fs-16 mr-10 ml-20 va-minus-4"></i>
-
-                <Text className="fs-14">
-                  {getArticleData.articles[0].views_aggregate.aggregate.count}{" "}
-                  views
-                </Text>
-              </div> */}
 
               <Paragraph
                 className="pd-x-20 lh-2 mt-10 fs-14"
@@ -465,54 +457,51 @@ const Article = (props) => {
               >
                 {getArticleData.articles[0].excerpt}
               </Paragraph>
-              <Card className="mg-x-5">
-                <Row>
-                  <Space>
-                    {getArticleData.articles[0].content.blocks.map(
-                      (blocks, index) => {
-                        if (
-                          blocks.type == "paragraph" ||
-                          blocks.type == "title"
-                        ) {
-                          count =
-                            count + blocks.data.text.split(" ").length - 1;
-                        }
-
-                        if (
-                          index ==
-                          getArticleData.articles[0].content.blocks.length - 1
-                        ) {
-                          return count < 200 ? (
-                            <div key={index}>
-                              <Text className="lh-2-5" strong>
-                                {"< 1"}
-                              </Text>
-                              <Text className="lh-2-5">{"Minute"}</Text>
-                            </div>
-                          ) : (
-                            <div key={index}>
-                              <Text className="lh-2-5 mr-5" strong>
-                                {Math.round(count / 200)}
-                              </Text>
-                              <Text className="lh-2-5">{"Minute read"}</Text>
-                            </div>
-                          );
-                        }
+              <Row className="pd-x-20">
+                <Space>
+                  {getArticleData.articles[0].content.blocks.map(
+                    (blocks, index) => {
+                      if (
+                        blocks.type == "paragraph" ||
+                        blocks.type == "title"
+                      ) {
+                        count = count + blocks.data.text.split(" ").length - 1;
                       }
-                    )}
-                  </Space>
-                  <div className="ml-auto va-middle lh-2-5">
-                    <Text className="mr-10" strong>
-                      Published:
-                    </Text>
-                    {new Date(
-                      getArticleData.articles[0].created_at
-                    ).toDateString()}
-                  </div>
-                </Row>
-              </Card>
+
+                      if (
+                        index ==
+                        getArticleData.articles[0].content.blocks.length - 1
+                      ) {
+                        return count < 200 ? (
+                          <div key={index}>
+                            <Text className="lh-2-5" strong>
+                              {"< 1 "}
+                            </Text>
+                            <Text className="lh-2-5">{"Minute Read"}</Text>
+                          </div>
+                        ) : (
+                          <div key={index}>
+                            <Text className="lh-2-5 mr-5" strong>
+                              {Math.round(count / 200)}
+                            </Text>
+                            <Text className="lh-2-5">{"Minute read"}</Text>
+                          </div>
+                        );
+                      }
+                    }
+                  )}
+                </Space>
+                <div className="ml-auto va-middle lh-2-5">
+                  <Text className="mr-10" strong>
+                    Published:
+                  </Text>
+                  {new Date(
+                    getArticleData.articles[0].created_at
+                  ).toDateString()}
+                </div>
+              </Row>
             </Col>
-            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={8} className="">
+            <Col xs={24} sm={24} md={24} lg={24} xl={8} xxl={8} className="">
               <ProgressiveImage
                 src={getArticleData.articles[0].featured_image + ".webp"}
                 placeholder={
@@ -532,20 +521,20 @@ const Article = (props) => {
             </Col>
           </Row>
           <Row justify="center" className="mt-30">
-            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+            <Col xs={24} sm={24} md={24} lg={18} xl={12} xxl={12}>
               <div className="content">
                 {getArticleData.articles[0].content.blocks.map(
                   (blocks, index) => {
                     return blocks.type == "paragraph" ? (
                       <p
-                        className="pd-10"
+                        className="pd-20"
                         dangerouslySetInnerHTML={{ __html: blocks.data.text }}
                         key={index + blocks.type}
                       />
                     ) : blocks.type == "header" ? (
                       <Title
                         level={blocks.data.level}
-                        className="pd-10 mg-y-10"
+                        className="pd-20 mg-y-10"
                         key={index + blocks.type}
                       >
                         {blocks.data.text.replace(/&nbsp;/g, "")}
@@ -689,7 +678,10 @@ const Article = (props) => {
                         )}
                       </Row>
                     ) : blocks.type == "linkTool" ? (
-                      <Card className="mt-20 mg-x-10" key={index + blocks.type}>
+                      <Card
+                        className="mt-20 mb-20 mg-x-10"
+                        key={index + blocks.type}
+                      >
                         <Row>
                           <Col span={14}>
                             <a href={blocks.data.link}>
@@ -786,14 +778,14 @@ const Article = (props) => {
             </Col>
           </Row>
           <Row justify="center">
-            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+            <Col xs={24} sm={24} md={20} lg={18} xl={12} xxl={12}>
               <Card className="mt-20">
                 <Row>
                   <Text className="fs-18 mb-20" strong>
                     Authors
                   </Text>
                 </Row>
-                {getArticleData
+                {/* {getArticleData
                   ? getArticleData.articles[0].users_to_articles.map(
                       (authors) => (
                         <Col>
@@ -833,12 +825,50 @@ const Article = (props) => {
                         </Col>
                       )
                     )
-                  : null}
+                  : null} */}
+                <List
+                  dataSource={getArticleData.articles[0].users_to_articles}
+                  renderItem={(item) => {
+                    return (
+                      <List.Item
+                        actions={[
+                          <a href={`/user/${item.authors.username}`}>
+                            View Profile
+                          </a>,
+                        ]}
+                      >
+                        <List.Item.Meta
+                          avatar={
+                            <Avatar
+                              src={
+                                item.authors.profile_picture
+                                  ? item.authors.profile_picture.includes(
+                                      "http"
+                                    ) ||
+                                    item.authors.profile_picture.includes(
+                                      "https"
+                                    )
+                                    ? item.authors.profile_picture
+                                    : item.authors.profile_picture + ".webp"
+                                  : null
+                              }
+                            />
+                          }
+                          title={
+                            <Text className="t-transform-cpt lh-2-5">
+                              {item.authors.username}
+                            </Text>
+                          }
+                        />
+                      </List.Item>
+                    );
+                  }}
+                />
               </Card>
             </Col>
           </Row>
           <Row className="mt-10 mg-x-5 mb-20 mt-10" justify="center">
-            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+            <Col xs={24} sm={24} md={20} lg={18} xl={12} xxl={12}>
               <Divider orientation="left">React To This</Divider>
               <Card>
                 <Row>
@@ -1028,9 +1058,9 @@ const Article = (props) => {
                   </Dropdown>
                   {reacted ? (
                     <Typography.Link
-                      className="mr-5 mt-5 ml-20"
+                      className="mr-5 ml-20"
                       style={{
-                        lineHeight: 2.6,
+                        lineHeight: 3.5,
                       }}
                       onClick={() => {
                         setReacted(false);
@@ -1073,7 +1103,7 @@ const Article = (props) => {
           </Row>
 
           <Row justify="center" className="pd-20">
-            <Col xs={24} sm={24} md={24} lg={24} xl={12} xxl={10}>
+            <Col xs={24} sm={24} md={20} lg={18} xl={12} xxl={10}>
               <Divider orientation="center">Comments</Divider>
               {props.user && props.user.id ? (
                 <Form
