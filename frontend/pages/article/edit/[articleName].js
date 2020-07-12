@@ -44,6 +44,9 @@ const checkTitleQuery = gql`
       aggregate {
         count
       }
+      nodes {
+        title
+      }
     }
   }
 `;
@@ -51,13 +54,47 @@ const checkTitleQuery = gql`
 const getArticleQuery = gql`
   query getArticle($id: uuid!) {
     articles(where: { id: { _eq: $id } }) {
-      category
       content
       excerpt
       featured_image
-      topic
       slug
       title
+      article_category {
+        title
+        id
+      }
+      article_topic {
+        title
+        id
+      }
+    }
+  }
+`;
+
+const updateArticleQuery = gql`
+  mutation updateArticle(
+    $id: uuid!
+    $category: uuid!
+    $topic: uuid!
+    $content: jsonb!
+    $excerpt: String!
+    $slug: String!
+    $featuredImage: String!
+    $title: String!
+  ) {
+    update_articles(
+      where: { id: { _eq: $id } }
+      _set: {
+        category: $category
+        content: $content
+        excerpt: $excerpt
+        featured_image: $featuredImage
+        slug: $slug
+        title: $title
+        topic: $topic
+      }
+    ) {
+      affected_rows
     }
   }
 `;
@@ -75,23 +112,6 @@ const EditArticle = (props) => {
   const [titleApprove, setTitleApprove] = useState(null);
   const [content, setContent] = useState(null);
   const router = useRouter();
-
-  useEffect(() => {
-    if (checkTitleData && checkTitleData.articles_aggregate) {
-      if (checkTitleData.articles_aggregate.aggregate.count == 1) {
-        setTitleApprove("unavailable");
-        setPermalink("Enter A Title");
-      } else {
-        setTitleApprove("available");
-        var titlo = title;
-        var permalink;
-
-        setTitle(titlo);
-        permalink = urlSlug(titlo).toLowerCase();
-        setPermalink(permalink);
-      }
-    }
-  });
 
   const { data: getArticleData, loading: getArticleLoading } = useQuery(
     getArticleQuery,
@@ -134,6 +154,31 @@ const EditArticle = (props) => {
       },
     });
   };
+
+  const [updateArticle] = useMutation(updateArticleQuery, {
+    onCompleted: () => message.success("Article Updated!", 3),
+  });
+
+  useEffect(() => {
+    if (checkTitleData && checkTitleData.articles_aggregate) {
+      if (checkTitleData.articles_aggregate.aggregate.count == 1) {
+        if (checkTitleData.articles_aggregate.nodes[0].title == title) {
+          setTitleApprove("available");
+        } else {
+          setTitleApprove("unavailable");
+          setPermalink("Enter A Title");
+        }
+      } else {
+        setTitleApprove("available");
+        var titlo = title;
+        var permalink;
+
+        setTitle(titlo);
+        permalink = urlSlug(titlo).toLowerCase();
+        setPermalink(permalink);
+      }
+    }
+  }, [checkTitleData]);
 
   useEffect(() => {
     if (count < 1) {
@@ -265,6 +310,19 @@ const EditArticle = (props) => {
     }
   }, [getArticleData]);
 
+  useEffect(() => {
+    if (getArticleData) {
+      setPermalink(
+        `${getArticleData.articles[0].article_category.title + "/"}` +
+          `${getArticleData.articles[0].article_topic.title + "/"}` +
+          `${getArticleData.articles[0].slug}`
+      );
+      setTitle(getArticleData.articles[0].title);
+      setTitleApprove("available");
+      setContent(getArticleData.articles[0].content);
+    }
+  }, [getArticleData]);
+
   return (
     <Wrapper user={props.user}>
       {props.user && props.user.id ? (
@@ -280,7 +338,7 @@ const EditArticle = (props) => {
           >
             <Form layout="vertical" form={form} wrapperCol={24}>
               {getArticleLoading ? (
-                <Skeleton.Input className="mt-5" />
+                <Skeleton.Input className="mt-5" active />
               ) : (
                 <Form.Item
                   label="Title"
@@ -346,31 +404,35 @@ const EditArticle = (props) => {
               >
                 <div id="content" />
               </Form.Item>
-
-              <Form.Item
-                label="Excerpt"
-                name="excerpt"
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: "Excerpt/Summary is Required",
-                  },
-                  {
-                    validator: (rule, val) => {
-                      val = val.split(" ");
-                      if (val.length < 20 || val.length > 50) {
-                        return Promise.reject(
-                          "Excerpt Should Be Min 20 Words and Maximum 50 "
-                        );
-                      }
-                      return Promise.resolve();
+              {getArticleLoading ? (
+                <Skeleton />
+              ) : (
+                <Form.Item
+                  label="Excerpt"
+                  name="excerpt"
+                  hasFeedback
+                  initialValue={getArticleData.articles[0].excerpt}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Excerpt/Summary is Required",
                     },
-                  },
-                ]}
-              >
-                <Input.TextArea rows={2} />
-              </Form.Item>
+                    {
+                      validator: (rule, val) => {
+                        val = val.split(" ");
+                        if (val.length < 20 || val.length > 50) {
+                          return Promise.reject(
+                            "Excerpt Should Be Min 20 Words and Maximum 50 "
+                          );
+                        }
+                        return Promise.resolve();
+                      },
+                    },
+                  ]}
+                >
+                  <Input.TextArea rows={2} />
+                </Form.Item>
+              )}
             </Form>
           </Col>
           <Col
@@ -390,12 +452,15 @@ const EditArticle = (props) => {
                 var sendTitle = data.title;
                 var sendCategory = data.category;
                 var sendTopic = data.topic;
-                var sendFeaturedImage = data.featuredImage.file.response.path;
+                var sendFeaturedImage = data.featuredImage.file
+                  ? data.featuredImage.file.response.path
+                  : getArticleData.articles[0].featured_image;
                 var sendExcerpt = data.excerpt;
                 var sendContent = content;
                 var sendSlug = permalink;
-                insertArticle({
+                updateArticle({
                   variables: {
+                    id: props.id,
                     title: sendTitle,
                     category: sendCategory,
                     topic: sendTopic,
@@ -403,108 +468,132 @@ const EditArticle = (props) => {
                     content: sendContent,
                     slug: sendSlug,
                     featuredImage: sendFeaturedImage,
-                    userId: props.user.id,
                   },
                 });
               }}
             >
-              <Form.Item
-                label="Category"
-                name="category"
-                rules={[
-                  {
-                    required: true,
-                    message: "Category Is Required",
-                  },
-                ]}
-              >
-                <Select
-                  className="ml-auto va-middle"
-                  onChange={(val) => {
-                    var category = getCatsAndTopicsData.category.filter(
-                      (filtered) => filtered.id == val
-                    );
-                    setCategory(category[0].slug);
-                  }}
+              {getArticleLoading ? (
+                <Skeleton.Input />
+              ) : (
+                <Form.Item
+                  label="Category"
+                  name="category"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Category Is Required",
+                    },
+                  ]}
+                  initialValue={getArticleData.articles[0].article_category.id}
                 >
-                  {getCatsAndTopicsData && getCatsAndTopicsData.category ? (
-                    getCatsAndTopicsData.category.map((category) => {
-                      return (
-                        <Select.Option key={category.id} value={category.id}>
-                          {category.title}
-                        </Select.Option>
+                  <Select
+                    className="ml-auto va-middle"
+                    onChange={(val) => {
+                      var category = getCatsAndTopicsData.category.filter(
+                        (filtered) => filtered.id == val
                       );
-                    })
-                  ) : (
-                    <Select.Option>Error Loading Categories</Select.Option>
-                  )}
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Topic"
-                name="topic"
-                rules={[
-                  {
-                    required: true,
-                    message: "Topic Is Required",
-                  },
-                ]}
-              >
-                <Select
-                  className="ml-auto va-middle"
-                  onChange={(val) => {
-                    var topic = getCatsAndTopicsData.topic.filter(
-                      (filtered) => filtered.id == val
-                    );
-                    setTopic(topic[0].slug);
-                  }}
+                      setCategory(category[0].slug);
+                    }}
+                  >
+                    {getCatsAndTopicsData && getCatsAndTopicsData.category ? (
+                      getCatsAndTopicsData.category.map((category) => {
+                        return (
+                          <Select.Option key={category.id} value={category.id}>
+                            {category.title}
+                          </Select.Option>
+                        );
+                      })
+                    ) : (
+                      <Select.Option>Error Loading Categories</Select.Option>
+                    )}
+                  </Select>
+                </Form.Item>
+              )}
+
+              {getArticleLoading ? (
+                <Skeleton.Input className="mt-20" />
+              ) : (
+                <Form.Item
+                  label="Topic"
+                  name="topic"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Topic Is Required",
+                    },
+                  ]}
+                  initialValue={getArticleData.articles[0].article_topic.id}
                 >
-                  {getCatsAndTopicsData && getCatsAndTopicsData.topic ? (
-                    getCatsAndTopicsData.topic.map((topic) => {
-                      return (
-                        <Select.Option key={topic.id} value={topic.id}>
-                          {topic.title}
-                        </Select.Option>
+                  <Select
+                    className="ml-auto va-middle"
+                    onChange={(val) => {
+                      var topic = getCatsAndTopicsData.topic.filter(
+                        (filtered) => filtered.id == val
                       );
-                    })
-                  ) : (
-                    <Select.Option>Error Loading Categories</Select.Option>
-                  )}
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Featured Image"
-                className="featured-image-uploader d-flex"
-                name="featuredImage"
-                rules={[
-                  {
-                    required: true,
-                    message: "Article Cannot Be Without Featured Image",
-                  },
-                ]}
-                valuePropName="file"
-              >
-                <Upload
-                  name="imageUpload"
-                  listType="picture-card"
-                  className="large-upload-picture-card mg-y-10 ml-auto"
-                  showUploadList={false}
-                  action="/api/imageUpload"
-                  onChange={handleImagePreview}
-                  accept=".jpeg, .jpg"
+                      setTopic(topic[0].slug);
+                    }}
+                  >
+                    {getCatsAndTopicsData && getCatsAndTopicsData.topic ? (
+                      getCatsAndTopicsData.topic.map((topic) => {
+                        return (
+                          <Select.Option key={topic.id} value={topic.id}>
+                            {topic.title}
+                          </Select.Option>
+                        );
+                      })
+                    ) : (
+                      <Select.Option>Error Loading Categories</Select.Option>
+                    )}
+                  </Select>
+                </Form.Item>
+              )}
+
+              {getArticleLoading ? (
+                <Skeleton />
+              ) : (
+                <Form.Item
+                  label="Featured Image"
+                  className="featured-image-uploader d-flex"
+                  name="featuredImage"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Article Cannot Be Without Featured Image",
+                    },
+                  ]}
+                  valuePropName="file"
+                  initialValue={
+                    getArticleData.articles[0].featured_image + ".webp"
+                  }
                 >
-                  {image ? (
-                    <img
-                      className="o-fit-cover"
-                      width="200px"
-                      height="200px"
-                      src={image + ".webp"}
-                    />
-                  ) : (
-                    <Text>Upload</Text>
-                  )}
-                </Upload>
-              </Form.Item>
+                  <Upload
+                    name="imageUpload"
+                    listType="picture-card"
+                    className="large-upload-picture-card mg-y-10 ml-auto"
+                    showUploadList={false}
+                    action="/api/imageUpload"
+                    onChange={handleImagePreview}
+                    accept=".jpeg, .jpg"
+                  >
+                    {image || getArticleData.articles[0].featured_image ? (
+                      <img
+                        className="o-fit-cover"
+                        width="200px"
+                        height="200px"
+                        src={
+                          image
+                            ? image + ".webp"
+                            : getArticleData.articles[0].featured_image +
+                              ".webp"
+                        }
+                      />
+                    ) : (
+                      <Text>Upload</Text>
+                    )}
+                  </Upload>
+                </Form.Item>
+              )}
+
               {image ? (
                 <Form.Item className="d-flex flex-column ai-center ta-center">
                   <Button
@@ -544,7 +633,7 @@ const EditArticle = (props) => {
                     className="mt-10 wd-100-pc mg-x-20"
                     htmlType="submit"
                   >
-                    Publish Article
+                    Update Article
                   </Button>
                 ) : title == null ? (
                   <Text strong type="danger" className="ta-center lh-2">
