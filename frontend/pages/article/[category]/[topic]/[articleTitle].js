@@ -370,14 +370,14 @@ const Article = (props) => {
                             reactionId: reactions.id,
                           },
                         })
-                      : (setReacted(true),
-                        insertReaction({
+                      : (insertReaction({
                           variables: {
                             articleId: getArticleData.articles[0].id,
                             reactionId: reactions.id,
                             userId: props.user.id,
                           },
-                        }))
+                        }),
+                        setReacted(true))
                     : setLoginModal(true);
                 }}
               >
@@ -527,7 +527,7 @@ const Article = (props) => {
                   (blocks, index) => {
                     return blocks.type == "paragraph" ? (
                       <p
-                        className="pd-20"
+                        className="pd-x-20 mt-10 mb-5"
                         dangerouslySetInnerHTML={{ __html: blocks.data.text }}
                         key={index + blocks.type}
                       />
@@ -660,6 +660,7 @@ const Article = (props) => {
                             >
                               {blocks.data.meta.description}
                             </Paragraph>
+                            <Text>{blocks.data.meta.site_name}</Text>
                           </Col>
                           <Col span={10} className="d-flex jc-end">
                             <a href={blocks.data.link}>
@@ -1009,9 +1010,6 @@ const Article = (props) => {
                                     </div>
                                   );
                                 }
-                                // return (
-                                //   <i className="ri-thumb-up-line fs-22 va-minus-4 mr-10 lh-1-5"></i>
-                                // );
                               }
                             )
                           ) : (

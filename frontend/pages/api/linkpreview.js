@@ -10,6 +10,7 @@ export default async (req, res) => {
       meta: {
         title: previewData.title,
         description: previewData.description,
+        site_name: previewData.domain,
         image: {
           url: previewData.img,
         },

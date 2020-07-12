@@ -64,7 +64,7 @@ export default function Home(props) {
         limit: 5,
         id: props.user ? props.user.id : null,
       },
-      onError: () => {
+      onError: (err) => {
         return (
           <Result
             status="error"
@@ -83,6 +83,7 @@ export default function Home(props) {
           />
         );
       },
+      onCompleted: (data) => console.log(data),
     }
   );
 
@@ -119,7 +120,6 @@ export default function Home(props) {
   //
   //
 
-  // const sidebar = useStoreState((state) => state.site.sidebar);
   const [drawer, setDrawer] = useState(false);
   const [type, setType] = useState("");
   const [sheetData, setSheetData] = useState([]);
@@ -130,13 +130,34 @@ export default function Home(props) {
   //
   //
 
+  if (error) {
+    return (
+      <Result
+        status="error"
+        title="Error Fetching Data"
+        subTitle="Please try again in a few minutes"
+        icon={<img src="/500.svg" />}
+        style={{ margin: "10%" }}
+        extra={[
+          <Button type="primary" onClick={() => router.reload()}>
+            Reload Page
+          </Button>,
+          <Button type="link" onClick={() => router.reload()}>
+            Contact Support
+            {console.log(error)}
+          </Button>,
+        ]}
+      />
+    );
+  }
+
   //
   //
   //
   //
   //
 
-  // var settings = data.site_settings;
+  var settings = data.site_settings;
   var articles = data.articles;
   var reactions = data.reactions;
 
@@ -173,26 +194,7 @@ export default function Home(props) {
   //
   //
   //
-  if (error) {
-    return (
-      <Result
-        status="error"
-        title="Error Fetching Data"
-        subTitle="Please try again in a few minutes"
-        icon={<img src="/500.svg" />}
-        style={{ margin: "10%" }}
-        extra={[
-          <Button type="primary" onClick={() => router.reload()}>
-            Reload Page
-          </Button>,
-          <Button type="link" onClick={() => router.reload()}>
-            Contact Support
-            {console.log(error)}
-          </Button>,
-        ]}
-      />
-    );
-  }
+
   return (
     <>
       <Head>
@@ -276,16 +278,35 @@ export default function Home(props) {
                     <Title level={4} className="mt-10">
                       News Feed
                     </Title>
-                    <Space className="ml-auto">
-                      <Text>Filter by:</Text>
-                      <Select
-                        defaultValue={["1"]}
-                        dropdownMatchSelectWidth={100}
-                      >
-                        <Select.Option key="1">Latest</Select.Option>
-                        <Select.Option key="2">Trending</Select.Option>
-                      </Select>
-                    </Space>
+                    {/* <Space className="ml-auto">
+                        <Text>Filter by:</Text>
+                        <Select
+                          defaultValue={["0"]}
+                          dropdownMatchSelectWidth={100}
+                          onChange={(val) => {
+                            if (val == 2) {
+                              refetch({
+                                views: "desc",
+                              });
+                            } else if (val == 1) {
+                              refetch({
+                                views: "asc",
+                              });
+                            } else {
+                            }
+                          }}
+                        >
+                          <Select.Option key="0" value="0">
+                            Choose
+                          </Select.Option>
+                          <Select.Option key="1" value="1">
+                            Latest
+                          </Select.Option>
+                          <Select.Option key="2" value="2">
+                            Trending
+                          </Select.Option>
+                        </Select>
+                      </Space> */}
                   </div>
                 }
                 dataSource={articles}
@@ -444,6 +465,7 @@ export default function Home(props) {
                 )}
               />
             </InfiniteScroll>
+
             {/**           */
             /**            */
             /**            */

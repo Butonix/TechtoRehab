@@ -7,6 +7,7 @@ export default function withSession(handler) {
     ttl: 172800,
     cookieOptions: {
       secure: false,
+      maxAge: 172800 - 60,
     },
   });
 }
