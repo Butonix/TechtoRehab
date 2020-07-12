@@ -49,6 +49,7 @@ import dynamic from "next/dynamic";
 import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { NextSeo } from "next-seo";
+import Error404 from "pages/404";
 const publicIp = require("public-ip");
 
 //
@@ -100,26 +101,8 @@ const Article = (props) => {
   var count = 0;
 
   useEffect(() => {
-    if (!JSON.parse(localStorage.getItem(getArticleData.articles[0].id))) {
-      var a = new Date();
-      localStorage.setItem(
-        getArticleData.articles[0].id,
-        JSON.stringify({
-          ip: props.ip,
-          expire: a.setDate(a.getDate() + 1),
-        })
-      );
-      updateViews({
-        variables: {
-          id: getArticleData.articles[0].id,
-          ip: props.ip,
-        },
-      });
-    } else {
-      var item = JSON.parse(
-        localStorage.getItem(getArticleData.articles[0].id)
-      );
-      if (new Date() > new Date(item.expire)) {
+    if (getArticleData && getArticleData.articles[0]) {
+      if (!JSON.parse(localStorage.getItem(getArticleData.articles[0].id))) {
         var a = new Date();
         localStorage.setItem(
           getArticleData.articles[0].id,
@@ -134,13 +117,33 @@ const Article = (props) => {
             ip: props.ip,
           },
         });
+      } else {
+        var item = JSON.parse(
+          localStorage.getItem(getArticleData.articles[0].id)
+        );
+        if (new Date() > new Date(item.expire)) {
+          var a = new Date();
+          localStorage.setItem(
+            getArticleData.articles[0].id,
+            JSON.stringify({
+              ip: props.ip,
+              expire: a.setDate(a.getDate() + 1),
+            })
+          );
+          updateViews({
+            variables: {
+              id: getArticleData.articles[0].id,
+              ip: props.ip,
+            },
+          });
+        }
       }
+      getArticleData.articles[0].reactions_to_articles.map((item) => {
+        if (item.user.id == props.user.id) {
+          setReacted(true);
+        }
+      });
     }
-    getArticleData.articles[0].reactions_to_articles.map((item) => {
-      if (item.user.id == props.user.id) {
-        setReacted(true);
-      }
-    });
   }, []);
 
   //
@@ -403,40 +406,40 @@ const Article = (props) => {
 
   return (
     <Wrapper user={props.user}>
-      <NextSeo
-        title={getArticleData.articles[0].title}
-        description={getArticleData.articles[0].excerpt}
-        canonical="https://www.canonical.ie/"
-        openGraph={{
-          url: "https://www.url.ie/a",
-          title: getArticleData.articles[0].title,
-          description: getArticleData.articles[0].excerpt,
-          images: [
-            {
-              url: "https://www.example.ie/og-image-01.jpg",
-              width: 800,
-              height: 600,
-              alt: "Og Image Alt",
-            },
-            {
-              url: "https://www.example.ie/og-image-02.jpg",
-              width: 900,
-              height: 800,
-              alt: "Og Image Alt Second",
-            },
-            { url: "https://www.example.ie/og-image-03.jpg" },
-            { url: "https://www.example.ie/og-image-04.jpg" },
-          ],
-          site_name: "SiteName",
-        }}
-        twitter={{
-          handle: "@handle",
-          site: "@site",
-          cardType: "summary_large_image",
-        }}
-      />
-      {getArticleData && getArticleData.articles.length > 0 ? (
+      {getArticleData.articles[0] ? (
         <>
+          <NextSeo
+            title={getArticleData.articles[0].title}
+            description={getArticleData.articles[0].excerpt}
+            canonical="https://www.canonical.ie/"
+            openGraph={{
+              url: "https://www.url.ie/a",
+              title: getArticleData.articles[0].title,
+              description: getArticleData.articles[0].excerpt,
+              images: [
+                {
+                  url: "https://www.example.ie/og-image-01.jpg",
+                  width: 800,
+                  height: 600,
+                  alt: "Og Image Alt",
+                },
+                {
+                  url: "https://www.example.ie/og-image-02.jpg",
+                  width: 900,
+                  height: 800,
+                  alt: "Og Image Alt Second",
+                },
+                { url: "https://www.example.ie/og-image-03.jpg" },
+                { url: "https://www.example.ie/og-image-04.jpg" },
+              ],
+              site_name: "SiteName",
+            }}
+            twitter={{
+              handle: "@handle",
+              site: "@site",
+              cardType: "summary_large_image",
+            }}
+          />
           <Row justify="center">
             <Col
               xs={24}
@@ -568,16 +571,16 @@ const Article = (props) => {
                             src={blocks.data.file.url}
                             style={{ maxWidth: 800, maxHeight: 400 }}
                           />
-                          <Card key={index + blocks.type}>
-                            {blocks.data.caption ? (
+                          {blocks.data.caption.length > 0 ? (
+                            <Card key={index + blocks.type}>
                               <figcaption
                                 className="mt-5 ml-10 fw-600"
                                 key={index + blocks.type}
                               >
                                 Caption -- {blocks.data.caption}
                               </figcaption>
-                            ) : null}
-                          </Card>
+                            </Card>
+                          ) : null}
                         </figure>
                       </LazyLoad>
                     ) : blocks.type == "checklist" ? (
@@ -751,47 +754,7 @@ const Article = (props) => {
                     Authors
                   </Text>
                 </Row>
-                {/* {getArticleData
-                  ? getArticleData.articles[0].users_to_articles.map(
-                      (authors) => (
-                        <Col>
-                          <div className="d-flex">
-                            {getArticleData.articles[0].users_to_articles
-                              .length > 1 ? (
-                              <Divider
-                                style={{
-                                  width: 50,
-                                  minWidth: 50,
-                                  margin: "12px 15px",
-                                }}
-                              />
-                            ) : null}
 
-                            <Avatar
-                              src={
-                                authors.authors.profile_picture
-                                  ? authors.authors.profile_picture.includes(
-                                      "http"
-                                    ) ||
-                                    authors.authors.profile_picture.includes(
-                                      "https"
-                                    )
-                                    ? authors.authors.profile_picture
-                                    : authors.authors.profile_picture + ".webp"
-                                  : null
-                              }
-                              style={{
-                                marginTop: -5,
-                              }}
-                            />
-                            <Text className="t-transform-cpt mg-x-10" strong>
-                              {authors.authors.username}
-                            </Text>
-                          </div>
-                        </Col>
-                      )
-                    )
-                  : null} */}
                 <List
                   dataSource={getArticleData.articles[0].users_to_articles}
                   renderItem={(item) => {
@@ -1515,33 +1478,39 @@ const Article = (props) => {
           </Row>
         </>
       ) : (
-        <Row justify="center">
-          <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={10}>
-            <Result
-              title="Ooops - Article not found"
-              subTitle={
-                <Text strong>
-                  Sorry, The article has either been removed or you followed a
-                  broken link
-                </Text>
-              }
-              status="warning"
-              icon={
-                <img
-                  src="/article-not-found.svg"
-                  height={400}
-                  width="100%"
-                  className="o-fit-cover"
-                />
-              }
-              extra={
-                <Button type="primary" onClick={() => router.back()}>
-                  Go Back
-                </Button>
-              }
-            />
-          </Col>
-        </Row>
+        <>
+          <NextSeo
+            title="404 - Article Not Found!"
+            description="The article you are looking for either doesn't exist or has been removed"
+          />
+          <Row justify="center">
+            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={10}>
+              <Result
+                title="Ooops - Article not found"
+                subTitle={
+                  <Text strong>
+                    Sorry, The article has either been removed or you followed a
+                    broken link
+                  </Text>
+                }
+                status="warning"
+                icon={
+                  <img
+                    src="/article-not-found.svg"
+                    height={400}
+                    width="100%"
+                    className="o-fit-cover"
+                  />
+                }
+                extra={
+                  <Button type="primary" onClick={() => router.back()}>
+                    Go Back
+                  </Button>
+                }
+              />
+            </Col>
+          </Row>
+        </>
       )}
     </Wrapper>
   );
