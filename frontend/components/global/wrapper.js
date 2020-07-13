@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import {
   Menu,
-  Divider,
   Typography,
   Layout,
   Drawer,
@@ -16,11 +15,11 @@ import {
 } from "antd";
 import Navbar from "./nav";
 import Link from "next/link";
-import withSession from "lib/session";
 import gql from "graphql-tag";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { useRouter } from "next/router";
-import { useSwipeable, Swipeable } from "react-swipeable";
+import { Swipeable } from "react-swipeable";
+import { NextSeo } from "next-seo";
 
 const checkTokenQuery = gql`
   query checkToken($userId: uuid!) {
@@ -61,7 +60,6 @@ const wrapper = (props) => {
     onCompleted: () => {
       setTokenFail(false);
       setTokenSuccess(true);
-      // setTimeout(router.reload(), 3000);
       fetch("/api/login", {
         method: "POST",
         headers: {
@@ -122,37 +120,37 @@ const wrapper = (props) => {
     /**                  */
     /**                  */
 
-    var mql = window.matchMedia("(prefers-color-scheme: dark)");
-    mql.addEventListener("change", () => {
-      if (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-      ) {
-        setDark(true);
-      }
+    // var mql = window.matchMedia("(prefers-color-scheme: dark)");
+    // mql.addEventListener("change", () => {
+    //   if (
+    //     window.matchMedia &&
+    //     window.matchMedia("(prefers-color-scheme: dark)").matches
+    //   ) {
+    //     setDark(true);
+    //   }
 
-      if (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: light)").matches
-      ) {
-        setDark(false);
-      }
-    });
+    //   if (
+    //     window.matchMedia &&
+    //     window.matchMedia("(prefers-color-scheme: light)").matches
+    //   ) {
+    //     setDark(false);
+    //   }
+    // });
 
-    if (darkState) {
-      if (hotml.classList.contains("light")) {
-        hotml.classList.remove("light");
-      }
-      if (hotml.classList.contains("dark")) {
-        hotml.classList.remove("dark");
-      }
-      hotml.classList.add("dark");
-    } else {
-      if (hotml.classList.contains("dark")) {
-        hotml.classList.remove("dark");
-      }
-      hotml.classList.add("light");
-    }
+    // if (darkState) {
+    //   if (hotml.classList.contains("light")) {
+    //     hotml.classList.remove("light");
+    //   }
+    //   if (hotml.classList.contains("dark")) {
+    //     hotml.classList.remove("dark");
+    //   }
+    //   hotml.classList.add("dark");
+    // } else {
+    //   if (hotml.classList.contains("dark")) {
+    //     hotml.classList.remove("dark");
+    //   }
+    //   hotml.classList.add("light");
+    // }
 
     // var cont = document.getElementsByClassName("mainLayout")[0];
     // var listener = SwipeListener(cont);
@@ -170,187 +168,212 @@ const wrapper = (props) => {
   const { Text, Paragraph, Title } = Typography;
 
   return (
-    <Layout>
-      <Navbar user={props.user} />
+    <>
+      <NextSeo
+        title={props.seo ? props.seo.title : "Tech To Rehab"}
+        description={
+          props.seo
+            ? props.seo.description
+            : "The Open Source Collaboration Platform"
+        }
+        canonical={props.seo ? props.seo.url : "https://techtorehab.com"}
+        openGraph={{
+          url: props.seo ? props.seo.url : "https://techtorehab.com",
+          title: props.seo ? props.seo.title : "Tech To Rehab",
+          description: props.seo
+            ? props.seo.description
+            : "The Open Source Collaboration Platform",
+          site_name: "Tech To Rehab",
+        }}
+        twitter={{
+          handle: "@handle",
+          site: "@site",
+          cardType: "summary_large_image",
+        }}
+      />
       <Layout>
-        <Drawer
-          placement="left"
-          visible={sidebar}
-          closable={false}
-          onClose={() => setSidebar(false)}
-          bodyStyle={{ padding: 0 }}
-        >
-          {props.admin ? (
-            <Menu
-              theme="light"
-              className="mt-20"
-              defaultSelectedKeys={props.route ? `${props.route}` : ["home"]}
-              style={{
-                position: "sticky",
-                height: "100vh",
-                top: 10,
-                borderRight: 0,
-              }}
-            >
-              <Menu.Item
-                key="home"
-                icon={
-                  <i
-                    class="ri-dashboard-2-line ri-lg va-minus-4 mr-10"
-                    style={{ color: "inherit" }}
-                  ></i>
-                }
+        <Navbar user={props.user} />
+        <Layout>
+          <Drawer
+            placement="left"
+            visible={sidebar}
+            closable={false}
+            onClose={() => setSidebar(false)}
+            bodyStyle={{ padding: 0 }}
+          >
+            {props.admin ? (
+              <Menu
+                theme="light"
+                className="mt-20"
+                defaultSelectedKeys={props.route ? `${props.route}` : ["home"]}
+                style={{
+                  position: "sticky",
+                  height: "100vh",
+                  top: 10,
+                  borderRight: 0,
+                }}
               >
-                <Link href="/admin">
-                  <a>Dashboard</a>
-                </Link>
-              </Menu.Item>
-              <Menu.Item
-                key="articles"
-                icon={
-                  <i
-                    class="ri-book-open-line ri-lg va-minus-4 mr-10"
-                    style={{ color: "inherit" }}
-                  ></i>
-                }
-              >
-                <Link href="/admin/articles">
-                  <a>Articles</a>
-                </Link>
-              </Menu.Item>
-              <Menu.Item
-                key="users"
-                icon={
-                  <i
-                    class="ri-user-smile-line ri-lg va-minus-4 mr-10"
-                    style={{ color: "inherit" }}
-                  ></i>
-                }
-              >
-                <Link href="/admin/users">
-                  <a>Users</a>
-                </Link>
-              </Menu.Item>
-              <Menu.Item
-                key="comments"
-                icon={
-                  <i
-                    class="ri-question-answer-line ri-lg va-minus-4 mr-10"
-                    style={{ color: "inherit" }}
-                  ></i>
-                }
-              >
-                <Link href="/admin/comments">
-                  <a>Comments</a>
-                </Link>
-              </Menu.Item>
-            </Menu>
-          ) : null}
-        </Drawer>
+                <Menu.Item
+                  key="home"
+                  icon={
+                    <i
+                      class="ri-dashboard-2-line ri-lg va-minus-4 mr-10"
+                      style={{ color: "inherit" }}
+                    ></i>
+                  }
+                >
+                  <Link href="/admin">
+                    <a>Dashboard</a>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item
+                  key="articles"
+                  icon={
+                    <i
+                      class="ri-book-open-line ri-lg va-minus-4 mr-10"
+                      style={{ color: "inherit" }}
+                    ></i>
+                  }
+                >
+                  <Link href="/admin/articles">
+                    <a>Articles</a>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item
+                  key="users"
+                  icon={
+                    <i
+                      class="ri-user-smile-line ri-lg va-minus-4 mr-10"
+                      style={{ color: "inherit" }}
+                    ></i>
+                  }
+                >
+                  <Link href="/admin/users">
+                    <a>Users</a>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item
+                  key="comments"
+                  icon={
+                    <i
+                      class="ri-question-answer-line ri-lg va-minus-4 mr-10"
+                      style={{ color: "inherit" }}
+                    ></i>
+                  }
+                >
+                  <Link href="/admin/comments">
+                    <a>Comments</a>
+                  </Link>
+                </Menu.Item>
+              </Menu>
+            ) : null}
+          </Drawer>
 
-        <Layout className="mainLayout">
-          <Content className="site-layout">
-            <Swipeable onSwipedRight={(eventData) => setSidebar(true)}>
-              {props.user ? (
-                props.user.status == "pending" ? (
-                  <Row justify="center" className="pd-20">
-                    <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
-                      <Result
-                        status="warning"
-                        title="Activation Pending"
-                        icon={
-                          <img
-                            src="/email-confirm.svg"
-                            width="100%"
-                            height={400}
-                          />
-                        }
-                        subTitle={
-                          <div className="pd-10 d-flex flex-column ai-center">
-                            <div>
-                              <Paragraph
-                                ellipsis={{ rows: 2 }}
-                                className="fs-16"
-                                style={{ width: "380px" }}
-                                strong
-                              >
-                                Your Account Doesn't Seems To Be Confirmed.
-                                Please check your inbox for a confirmation token
-                              </Paragraph>
+          <Layout className="mainLayout">
+            <Content className="site-layout">
+              <Swipeable onSwipedRight={(eventData) => setSidebar(true)}>
+                {props.user ? (
+                  props.user.status == "pending" ? (
+                    <Row justify="center" className="pd-20">
+                      <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
+                        <Result
+                          status="warning"
+                          title="Activation Pending"
+                          icon={
+                            <img
+                              src="/email-confirm.svg"
+                              width="100%"
+                              height={400}
+                            />
+                          }
+                          subTitle={
+                            <div className="pd-10 d-flex flex-column ai-center">
+                              <div>
+                                <Paragraph
+                                  ellipsis={{ rows: 2 }}
+                                  className="fs-16"
+                                  style={{ width: "380px" }}
+                                  strong
+                                >
+                                  Your Account Doesn't Seems To Be Confirmed.
+                                  Please check your inbox for a confirmation
+                                  token
+                                </Paragraph>
+                              </div>
                             </div>
-                          </div>
-                        }
-                        extra={
-                          <>
-                            {tokenFail ? (
-                              <Alert
-                                message="Error"
-                                description="TWrong Token, Please Retry"
-                                type="error"
-                                showIcon
-                                style={{ textAlign: "left" }}
-                                className="mg-y-20"
-                              />
-                            ) : tokenSuccess ? (
-                              <Alert
-                                message="Success!"
-                                description="Token Verified, Now Redirecting..."
-                                type="success"
-                                showIcon
-                                style={{ textAlign: "left" }}
-                                className="mg-y-20"
-                              />
-                            ) : null}
-                            <Form
-                              layout="vertical"
-                              onFinish={(obj) => {
-                                return checkToken({
-                                  variables: {
-                                    userId: props.user.id,
-                                  },
-                                });
-                              }}
-                            >
-                              <Form.Item
-                                label="Confirmation Token"
-                                name="token"
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: "Token Cannot be empty!",
-                                  },
-                                ]}
-                              >
-                                <Input
-                                  placeholder="Confirmation Token From Email"
-                                  onChange={(val) => {
-                                    setToken(val.target.value);
-                                  }}
+                          }
+                          extra={
+                            <>
+                              {tokenFail ? (
+                                <Alert
+                                  message="Error"
+                                  description="TWrong Token, Please Retry"
+                                  type="error"
+                                  showIcon
+                                  style={{ textAlign: "left" }}
+                                  className="mg-y-20"
                                 />
-                              </Form.Item>
-                              <Form.Item>
-                                <Button type="primary" htmlType="submit">
-                                  Submit
-                                </Button>
-                                <Button type="link">Resend Token</Button>
-                              </Form.Item>
-                            </Form>
-                          </>
-                        }
-                      />
-                    </Col>
-                  </Row>
+                              ) : tokenSuccess ? (
+                                <Alert
+                                  message="Success!"
+                                  description="Token Verified, Now Redirecting..."
+                                  type="success"
+                                  showIcon
+                                  style={{ textAlign: "left" }}
+                                  className="mg-y-20"
+                                />
+                              ) : null}
+                              <Form
+                                layout="vertical"
+                                onFinish={(obj) => {
+                                  return checkToken({
+                                    variables: {
+                                      userId: props.user.id,
+                                    },
+                                  });
+                                }}
+                              >
+                                <Form.Item
+                                  label="Confirmation Token"
+                                  name="token"
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Token Cannot be empty!",
+                                    },
+                                  ]}
+                                >
+                                  <Input
+                                    placeholder="Confirmation Token From Email"
+                                    onChange={(val) => {
+                                      setToken(val.target.value);
+                                    }}
+                                  />
+                                </Form.Item>
+                                <Form.Item>
+                                  <Button type="primary" htmlType="submit">
+                                    Submit
+                                  </Button>
+                                  <Button type="link">Resend Token</Button>
+                                </Form.Item>
+                              </Form>
+                            </>
+                          }
+                        />
+                      </Col>
+                    </Row>
+                  ) : (
+                    props.children
+                  )
                 ) : (
                   props.children
-                )
-              ) : (
-                props.children
-              )}
-            </Swipeable>
-          </Content>
+                )}
+              </Swipeable>
+            </Content>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    </>
   );
 };
 

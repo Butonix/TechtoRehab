@@ -48,7 +48,6 @@ import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import dynamic from "next/dynamic";
 import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import { NextSeo } from "next-seo";
 import Error404 from "pages/404";
 const publicIp = require("public-ip");
 
@@ -408,38 +407,6 @@ const Article = (props) => {
     <Wrapper user={props.user}>
       {getArticleData.articles[0] ? (
         <>
-          <NextSeo
-            title={getArticleData.articles[0].title}
-            description={getArticleData.articles[0].excerpt}
-            canonical="https://www.canonical.ie/"
-            openGraph={{
-              url: "https://www.url.ie/a",
-              title: getArticleData.articles[0].title,
-              description: getArticleData.articles[0].excerpt,
-              images: [
-                {
-                  url: "https://www.example.ie/og-image-01.jpg",
-                  width: 800,
-                  height: 600,
-                  alt: "Og Image Alt",
-                },
-                {
-                  url: "https://www.example.ie/og-image-02.jpg",
-                  width: 900,
-                  height: 800,
-                  alt: "Og Image Alt Second",
-                },
-                { url: "https://www.example.ie/og-image-03.jpg" },
-                { url: "https://www.example.ie/og-image-04.jpg" },
-              ],
-              site_name: "SiteName",
-            }}
-            twitter={{
-              handle: "@handle",
-              site: "@site",
-              cardType: "summary_large_image",
-            }}
-          />
           <Row justify="center">
             <Col
               xs={24}
