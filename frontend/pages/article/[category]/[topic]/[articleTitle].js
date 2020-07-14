@@ -516,9 +516,15 @@ const Article = (props) => {
                         alt={"alt"}
                         height={400}
                         src={blocks.data.file.url}
-                        threshold={0}
-                        effect="blur"
+                        threshold={-400}
+                        // effect="blur"
                         width="100%"
+                        placeholderSrc={
+                          blocks.data.file.url.slice(
+                            0,
+                            blocks.data.file.url.length - 5
+                          ) + "-placeholder.webp"
+                        }
                       />
                     ) : // <LazyLoad
                     //   once
@@ -651,6 +657,7 @@ const Article = (props) => {
                                 threshold={0}
                                 effect="blur"
                                 width={100}
+                                threshold={-100}
                               />
                             </a>
                           </Col>
@@ -747,7 +754,23 @@ const Article = (props) => {
                       >
                         <List.Item.Meta
                           avatar={
-                            <Avatar
+                            // <Avatar
+                            //   src={
+                            //     item.authors.profile_picture
+                            //       ? item.authors.profile_picture.includes(
+                            //           "http"
+                            //         ) ||
+                            //         item.authors.profile_picture.includes(
+                            //           "https"
+                            //         )
+                            //         ? item.authors.profile_picture
+                            //         : item.authors.profile_picture + ".webp"
+                            //       : null
+                            //   }
+                            // />
+                            <LazyLoadImage
+                              alt={"alt"}
+                              height={50}
                               src={
                                 item.authors.profile_picture
                                   ? item.authors.profile_picture.includes(
@@ -760,6 +783,10 @@ const Article = (props) => {
                                     : item.authors.profile_picture + ".webp"
                                   : null
                               }
+                              threshold={0}
+                              effect="blur"
+                              width={50}
+                              threshold={-50}
                             />
                           }
                           title={
