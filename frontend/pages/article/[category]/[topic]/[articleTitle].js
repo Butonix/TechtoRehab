@@ -770,7 +770,8 @@ const Article = (props) => {
                             // />
                             <LazyLoadImage
                               alt={"alt"}
-                              height={50}
+                              style={{ borderRadius: "50%", marginTop: 2 }}
+                              height={35}
                               src={
                                 item.authors.profile_picture
                                   ? item.authors.profile_picture.includes(
@@ -785,8 +786,8 @@ const Article = (props) => {
                               }
                               threshold={0}
                               effect="blur"
-                              width={50}
-                              threshold={-50}
+                              width={35}
+                              threshold={-35}
                             />
                           }
                           title={

@@ -25,7 +25,7 @@ export default async (req, res) => {
       name = files.image.name.replace(".svg", "");
     }
     sharp(files.image.path)
-      .resize(1288, 1288, {
+      .resize(600, 600, {
         position: "top",
         fit: "inside",
         withoutEnlargement: true,
@@ -35,14 +35,14 @@ export default async (req, res) => {
       .toFile(`public/images/${name}.webp`)
       .then((info) => {
         sharp(files.image.path)
-          .resize(50, 50, {
+          .resize(100, 100, {
             position: "top",
-            fit: "cover",
+            fit: "inside",
             withoutEnlargement: true,
           })
           .toFormat("jpeg")
-          .webp({ quality: 90 })
-          .blur(57)
+          .webp({ quality: 100 })
+          .blur(10)
           .toFile(`public/images/${name}-placeholder.webp`)
           .then((info) => {
             res.status(200);
