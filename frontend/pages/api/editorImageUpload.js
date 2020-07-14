@@ -24,23 +24,22 @@ export default async (req, res) => {
     if (files.image.name.includes(".svg")) {
       name = files.image.name.replace(".svg", "");
     }
+    name = files.image.name.replace(/ /g, "");
     sharp(files.image.path)
-      .resize(600, 600, {
+      .resize(800, 800, {
         position: "top",
         fit: "inside",
         withoutEnlargement: true,
       })
-      .toFormat("jpeg")
       .webp({ quality: 90 })
       .toFile(`public/images/${name}.webp`)
       .then((info) => {
         sharp(files.image.path)
-          .resize(100, 100, {
+          .resize(120, 120, {
             position: "top",
             fit: "inside",
             withoutEnlargement: true,
           })
-          .toFormat("jpeg")
           .webp({ quality: 100 })
           .blur(10)
           .toFile(`public/images/${name}-placeholder.webp`)

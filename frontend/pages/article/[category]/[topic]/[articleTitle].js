@@ -25,7 +25,6 @@ import { useRouter } from "next/router";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { initializeApollo } from "lib/apolloClient";
 import { Reactions } from "components/home/sub/reactions-holder";
-import Head from "next/head";
 import { useState, useEffect } from "react";
 import {
   deleteCommentQuery,
@@ -40,18 +39,17 @@ import {
   updateReactionQuery,
   removeReactionQuery,
 } from "components/article/queries";
-
 import withSession from "lib/session";
-import ProgressiveImage from "react-progressive-image";
-import LazyLoad from "react-lazyload";
 import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import dynamic from "next/dynamic";
 import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
-import { useStoreState, useStoreActions } from "easy-peasy";
-import Error404 from "pages/404";
+import { useStoreActions } from "easy-peasy";
 const publicIp = require("public-ip");
 import { NextSeo } from "next-seo";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import {
+  LazyLoadImage,
+  LazyLoadComponent,
+} from "react-lazy-load-image-component";
 
 //
 //
@@ -473,100 +471,80 @@ const Article = (props) => {
                 </div>
               </Row>
             </Col>
-            <Col xs={24} sm={24} md={24} lg={24} xl={8} xxl={8} className="">
-              <ProgressiveImage
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={18}
+              xl={8}
+              xxl={8}
+              className="pd-y-30"
+            >
+              <LazyLoadImage
+                alt={"alt"}
+                height={350}
                 src={getArticleData.articles[0].featured_image + ".webp"}
-                placeholder={
+                threshold={0}
+                effect="opacity"
+                width="100%"
+                threshold={-350}
+                placeholderSrc={
                   getArticleData.articles[0].featured_image +
                   "-placeholder.webp"
                 }
-              >
-                {(src) => (
-                  <img
-                    width="100%"
-                    className="o-fit-cover mt-30"
-                    src={src}
-                    style={{ maxHeight: 400 }}
-                  />
-                )}
-              </ProgressiveImage>
+              />
             </Col>
           </Row>
-          <Row justify="center" className="mt-30">
+          <Row justify="center">
             <Col xs={24} sm={24} md={24} lg={18} xl={12} xxl={12}>
               <div className="content">
                 {getArticleData.articles[0].content.blocks.map(
                   (blocks, index) => {
                     return blocks.type == "paragraph" ? (
                       <p
-                        className="pd-x-20 mt-10 mb-5"
+                        className="pd-x-20 mt-10 mb-10"
                         dangerouslySetInnerHTML={{ __html: blocks.data.text }}
                         key={index + blocks.type}
                       />
                     ) : blocks.type == "header" ? (
                       <Title
                         level={blocks.data.level}
-                        className="pd-20 mg-y-10"
+                        className="pd-20 mt-10 mb-10"
                         key={index + blocks.type}
                       >
                         {blocks.data.text.replace(/&nbsp;/g, "")}
                       </Title>
                     ) : blocks.type == "image" ? (
-                      <LazyLoadImage
-                        alt={"alt"}
-                        height={400}
-                        src={blocks.data.file.url}
-                        threshold={-400}
-                        // effect="blur"
-                        width="100%"
-                        placeholderSrc={
-                          blocks.data.file.url.slice(
-                            0,
-                            blocks.data.file.url.length - 5
-                          ) + "-placeholder.webp"
-                        }
-                      />
-                    ) : // <LazyLoad
-                    //   once
-                    //   key={index + blocks.type}
-                    //   offset={-400}
-                    //   placeholder={
-                    //     <img
-                    //       src={
-                    //         blocks.data.file.url.slice(
-                    //           0,
-                    //           blocks.data.file.url.length - 5
-                    //         ) + "-placeholder.webp"
-                    //       }
-                    //       width="100%"
-                    //       style={{ maxWidth: 800, maxHeight: 400 }}
-                    //     />
-                    //   }
-                    // >
-                    //   <figure>
-                    //     <img
-                    //       width="100%"
-                    //       key={index + blocks.type}
-                    //       className={
-                    //         (blocks.data.stretched ? "" : "pd-10") +
-                    //         "o-fit-cover mg-y-20"
-                    //       }
-                    //       src={blocks.data.file.url}
-                    //       style={{ maxWidth: 800, maxHeight: 400 }}
-                    //     />
-                    //     {blocks.data.caption.length > 0 ? (
-                    //       <Card key={index + blocks.type}>
-                    //         <figcaption
-                    //           className="mt-5 ml-10 fw-600"
-                    //           key={index + blocks.type}
-                    //         >
-                    //           Caption -- {blocks.data.caption}
-                    //         </figcaption>
-                    //       </Card>
-                    //     ) : null}
-                    //   </figure>
-                    // </LazyLoad>
-                    blocks.type == "checklist" ? (
+                      <Row justify="center">
+                        <figure className="mg-y-10">
+                          <LazyLoadImage
+                            className="o-fit-cover"
+                            alt={"alt"}
+                            height={400}
+                            src={blocks.data.file.url}
+                            threshold={-400}
+                            effect="opacity"
+                            placeholderSrc={
+                              blocks.data.file.url.slice(
+                                0,
+                                blocks.data.file.url.length - 5
+                              ) + "-placeholder.webp"
+                            }
+                            style={{ width: 600, maxWidth: "100%" }}
+                          ></LazyLoadImage>
+                          {blocks.data.caption.length > 0 ? (
+                            <Card key={index + blocks.type}>
+                              <figcaption
+                                className="mt-5 ml-10 fw-600"
+                                key={index + blocks.type}
+                              >
+                                Caption -- {blocks.data.caption}
+                              </figcaption>
+                            </Card>
+                          ) : null}
+                        </figure>
+                      </Row>
+                    ) : blocks.type == "checklist" ? (
                       <div
                         className="d-flex flex-column ai-center mt-30 mb-30"
                         key={index + blocks.type}
@@ -754,20 +732,6 @@ const Article = (props) => {
                       >
                         <List.Item.Meta
                           avatar={
-                            // <Avatar
-                            //   src={
-                            //     item.authors.profile_picture
-                            //       ? item.authors.profile_picture.includes(
-                            //           "http"
-                            //         ) ||
-                            //         item.authors.profile_picture.includes(
-                            //           "https"
-                            //         )
-                            //         ? item.authors.profile_picture
-                            //         : item.authors.profile_picture + ".webp"
-                            //       : null
-                            //   }
-                            // />
                             <LazyLoadImage
                               alt={"alt"}
                               style={{ borderRadius: "50%", marginTop: 2 }}
@@ -1105,12 +1069,15 @@ const Article = (props) => {
               /**   */
               /**   */
               /**   */}
-              <LazyLoad
-                once
+
+              <LazyLoadComponent
+                threshold={-100}
                 placeholder={
-                  <Skeleton>
-                    <Comments />
-                  </Skeleton>
+                  <span className="mt-30 lh-3">
+                    <Skeleton>
+                      <Comments />
+                    </Skeleton>
+                  </span>
                 }
               >
                 {getArticleData.articles[0].comments.length !== 0 ? (
@@ -1374,7 +1341,7 @@ const Article = (props) => {
                     </Col>
                   </Row>
                 )}
-              </LazyLoad>
+              </LazyLoadComponent>
 
               <Drawer
                 visible={showReply}

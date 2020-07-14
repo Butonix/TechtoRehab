@@ -61,10 +61,12 @@ const getArticleQuery = gql`
       title
       article_category {
         title
+        slug
         id
       }
       article_topic {
         title
+        slug
         id
       }
     }
@@ -312,14 +314,12 @@ const EditArticle = (props) => {
 
   useEffect(() => {
     if (getArticleData) {
-      setPermalink(
-        `${getArticleData.articles[0].article_category.title + "/"}` +
-          `${getArticleData.articles[0].article_topic.title + "/"}` +
-          `${getArticleData.articles[0].slug}`
-      );
+      setPermalink(getArticleData.articles[0].slug);
       setTitle(getArticleData.articles[0].title);
       setTitleApprove("available");
       setContent(getArticleData.articles[0].content);
+      setCategory(getArticleData.articles[0].article_category.slug);
+      setTopic(getArticleData.articles[0].article_topic.slug);
     }
   }, [getArticleData]);
 
@@ -386,9 +386,18 @@ const EditArticle = (props) => {
                 </Form.Item>
               )}
 
-              <Link className="mt-10 lh-1">
-                {process.env.NEXT_PUBLIC_WEB_ADDRESS +
-                  "/" +
+              <Link
+                className="mt-10 lh-1"
+                href={
+                  "http://localhost:3000" +
+                  "/article/" +
+                  (category ? category + "/" : "") +
+                  (topic ? topic + "/" : "") +
+                  permalink
+                }
+              >
+                {"http://localhost:3000" +
+                  "/article/" +
                   (category ? category + "/" : "") +
                   (topic ? topic + "/" : "") +
                   permalink}

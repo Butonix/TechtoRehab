@@ -24,8 +24,11 @@ export default async (req, res) => {
     if (files.imageUpload.name.includes(".svg")) {
       name = files.imageUpload.name.replace(".svg", "");
     }
+
+    name = files.imageUpload.name.replace(/ /g, "");
+
     sharp(files.imageUpload.path)
-      .resize(600, 600, {
+      .resize(800, 800, {
         position: "top",
         fit: "inside",
         withoutEnlargement: true,
@@ -34,7 +37,7 @@ export default async (req, res) => {
       .toFile(`public/images/${name}.webp`)
       .then((info) => {
         sharp(files.imageUpload.path)
-          .resize(100, 100, {
+          .resize(120, 120, {
             position: "top",
             fit: "inside",
             withoutEnlargement: true,
