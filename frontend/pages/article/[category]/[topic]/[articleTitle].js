@@ -50,6 +50,8 @@ import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import Error404 from "pages/404";
 const publicIp = require("public-ip");
+import { NextSeo } from "next-seo";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 //
 //
@@ -510,47 +512,55 @@ const Article = (props) => {
                         {blocks.data.text.replace(/&nbsp;/g, "")}
                       </Title>
                     ) : blocks.type == "image" ? (
-                      <LazyLoad
-                        height={230}
-                        once
-                        key={index + blocks.type}
-                        placeholder={
-                          <img
-                            src={
-                              blocks.data.file.url.slice(
-                                0,
-                                blocks.data.file.url.length - 5
-                              ) + "-placeholder.webp"
-                            }
-                            width="100%"
-                            style={{ maxWidth: 800, maxHeight: 400 }}
-                          />
-                        }
-                      >
-                        <figure>
-                          <img
-                            width="100%"
-                            key={index + blocks.type}
-                            className={
-                              (blocks.data.stretched ? "" : "pd-10") +
-                              "o-fit-cover mg-y-20"
-                            }
-                            src={blocks.data.file.url}
-                            style={{ maxWidth: 800, maxHeight: 400 }}
-                          />
-                          {blocks.data.caption.length > 0 ? (
-                            <Card key={index + blocks.type}>
-                              <figcaption
-                                className="mt-5 ml-10 fw-600"
-                                key={index + blocks.type}
-                              >
-                                Caption -- {blocks.data.caption}
-                              </figcaption>
-                            </Card>
-                          ) : null}
-                        </figure>
-                      </LazyLoad>
-                    ) : blocks.type == "checklist" ? (
+                      <LazyLoadImage
+                        alt={"alt"}
+                        height={400}
+                        src={blocks.data.file.url}
+                        threshold={0}
+                        effect="blur"
+                        width="100%"
+                      />
+                    ) : // <LazyLoad
+                    //   once
+                    //   key={index + blocks.type}
+                    //   offset={-400}
+                    //   placeholder={
+                    //     <img
+                    //       src={
+                    //         blocks.data.file.url.slice(
+                    //           0,
+                    //           blocks.data.file.url.length - 5
+                    //         ) + "-placeholder.webp"
+                    //       }
+                    //       width="100%"
+                    //       style={{ maxWidth: 800, maxHeight: 400 }}
+                    //     />
+                    //   }
+                    // >
+                    //   <figure>
+                    //     <img
+                    //       width="100%"
+                    //       key={index + blocks.type}
+                    //       className={
+                    //         (blocks.data.stretched ? "" : "pd-10") +
+                    //         "o-fit-cover mg-y-20"
+                    //       }
+                    //       src={blocks.data.file.url}
+                    //       style={{ maxWidth: 800, maxHeight: 400 }}
+                    //     />
+                    //     {blocks.data.caption.length > 0 ? (
+                    //       <Card key={index + blocks.type}>
+                    //         <figcaption
+                    //           className="mt-5 ml-10 fw-600"
+                    //           key={index + blocks.type}
+                    //         >
+                    //           Caption -- {blocks.data.caption}
+                    //         </figcaption>
+                    //       </Card>
+                    //     ) : null}
+                    //   </figure>
+                    // </LazyLoad>
+                    blocks.type == "checklist" ? (
                       <div
                         className="d-flex flex-column ai-center mt-30 mb-30"
                         key={index + blocks.type}
@@ -634,11 +644,13 @@ const Article = (props) => {
                           </Col>
                           <Col span={10} className="d-flex jc-end">
                             <a href={blocks.data.link}>
-                              <img
-                                width={100}
+                              <LazyLoadImage
+                                alt={"alt"}
                                 height={100}
                                 src={blocks.data.meta.image.url}
-                                className="o-fit-cover"
+                                threshold={0}
+                                effect="blur"
+                                width={100}
                               />
                             </a>
                           </Col>

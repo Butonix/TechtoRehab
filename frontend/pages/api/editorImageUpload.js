@@ -35,7 +35,7 @@ export default async (req, res) => {
       .toFile(`public/images/${name}.webp`)
       .then((info) => {
         sharp(files.image.path)
-          .resize(1288, 1288, {
+          .resize(50, 50, {
             position: "top",
             fit: "cover",
             withoutEnlargement: true,

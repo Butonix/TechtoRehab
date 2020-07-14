@@ -7,8 +7,13 @@ import "public/light.scss";
 import "public/style.scss";
 import "remixicon/fonts/remixicon.css";
 // import "public/dark.scss";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const store = createStore(storage);
+
+export function reportWebVitals(metric) {
+  console.log(metric);
+}
 
 function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState);

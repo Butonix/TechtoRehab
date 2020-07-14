@@ -679,11 +679,11 @@ export const getServerSideProps = withSession(async function ({
   //   });
   // }
 
-  if (!user) {
-    res.writeHead(302, {
-      location: "/",
-    });
-  }
+  // if (!user) {
+  //   res.writeHead(302, {
+  //     location: "/",
+  //   });
+  // }
 
   return {
     props: {
