@@ -334,7 +334,7 @@ const Navigation = (props) => {
         </a>
       </div>
       <div className="navigation desktop-link">
-        <a>
+        <a href="/categories">
           <Text>Categories</Text>
         </a>
       </div>

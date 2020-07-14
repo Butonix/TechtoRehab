@@ -1,11 +1,25 @@
-import { Row, Col, Card, Typography, Button, List, Skeleton } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Typography,
+  Button,
+  List,
+  Skeleton,
+  Avatar,
+} from "antd";
 import Wrapper from "components/global/wrapper";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import Head from "next/head";
 import { initializeApollo } from "lib/apolloClient";
 import withSession from "lib/session";
-
+import gradient from "random-gradient";
+import {
+  LazyLoadImage,
+  LazyLoadComponent,
+  trackWindowScroll,
+} from "react-lazy-load-image-component";
 const getCategoryQuery = gql`
   query getCategories($slug: String!) {
     category(where: { slug: { _eq: $slug } }) {
@@ -14,6 +28,20 @@ const getCategoryQuery = gql`
       title
       description
       cover
+      articles_to_categories {
+        title
+        excerpt
+        featured_image
+        article_category {
+          title
+          slug
+        }
+        article_topic {
+          title
+          slug
+        }
+        slug
+      }
     }
   }
 `;
@@ -26,7 +54,8 @@ const getCategory2Query = gql`
     }
   }
 `;
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
+
 const Categories = (props) => {
   const { data: getCategoryData, loading: getCategoryLoading } = useQuery(
     getCategoryQuery,
@@ -43,6 +72,7 @@ const Categories = (props) => {
       slug: props.slug,
     },
   });
+
   return (
     <>
       <Wrapper
@@ -69,9 +99,10 @@ const Categories = (props) => {
                   >
                     <div
                       style={{
-                        backgroundColor: "#7f53ac",
-                        backgroundImage:
-                          "linear-gradient(315deg, #7f53ac 0%, #647dee 74%)",
+                        background: gradient(
+                          getCategory2Data.category[0].title
+                        ),
+
                         height: 300,
                         position: "relative",
                         zIndex: 1,
@@ -99,7 +130,108 @@ const Categories = (props) => {
                 <Skeleton active />
               ) : (
                 <Row>
-                  <Col>Column</Col>
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={24}
+                    lg={15}
+                    xl={14}
+                    xxl={13}
+                    className="mr-30"
+                  >
+                    <List
+                      dataSource={
+                        getCategoryData.category[0].articles_to_categories
+                      }
+                      itemLayout="vertical"
+                      renderItem={(item) => (
+                        <List.Item
+                          extra={[
+                            <a
+                              href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
+                            >
+                              <LazyLoadImage
+                                className="o-fit-cover list-image"
+                                placeholder={
+                                  <img
+                                    src={
+                                      item.featured_image + "-placeholder.webp"
+                                    }
+                                  />
+                                }
+                                src={item.featured_image + ".webp"}
+                              />
+                            </a>,
+                          ]}
+                        >
+                          <List.Item.Meta
+                            title={
+                              <a
+                                href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
+                              >
+                                <Paragraph
+                                  ellipsis={{ rows: 2 }}
+                                  className="mg-x-10"
+                                >
+                                  {item.title}
+                                </Paragraph>
+                              </a>
+                            }
+                            description={
+                              <Paragraph
+                                ellipsis={{ rows: 2 }}
+                                className="mg-x-10"
+                              >
+                                {item.excerpt}
+                              </Paragraph>
+                            }
+                          />
+                        </List.Item>
+                      )}
+                    />
+                  </Col>
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={24}
+                    lg={8}
+                    xl={9}
+                    xxl={9}
+                    className="ml-30"
+                  >
+                    <Card
+                      bordered={false}
+                      title={
+                        <div className="d-flex">
+                          <i class="ri-trophy-line mr-10 va-minus-4 fs-20"></i>
+                          <Text>Top 5</Text>
+                        </div>
+                      }
+                    >
+                      <List.Item actions={[<a>View</a>]}>
+                        <List.Item.Meta
+                          title={
+                            getCategoryData.category[0]
+                              .articles_to_categories[0].title
+                          }
+                          avatar={
+                            <Avatar
+                              style={{
+                                marginTop: 5,
+                              }}
+                              shape="square"
+                              size={40}
+                              src={
+                                getCategoryData.category[0]
+                                  .articles_to_categories[0].featured_image +
+                                ".webp"
+                              }
+                            />
+                          }
+                        />
+                      </List.Item>
+                    </Card>
+                  </Col>
                 </Row>
               )}
             </Card>

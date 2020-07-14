@@ -2,6 +2,7 @@ import { Row, Col, Card, Typography, Button, List, Skeleton } from "antd";
 import Wrapper from "components/global/wrapper";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import withSession from "lib/session";
 
 const getCategoriesQuery = gql`
   query getCategories {
@@ -15,12 +16,19 @@ const getCategoriesQuery = gql`
   }
 `;
 const { Title, Text } = Typography;
-const Categories = () => {
+const Categories = (props) => {
   const { data: getCategoriesData, loading: getCategoriesLoading } = useQuery(
     getCategoriesQuery
   );
   return (
-    <Wrapper>
+    <Wrapper
+      user={props.user}
+      seo={{
+        title: "Categories",
+        description:
+          "Choose from a variety of categories, from tech all the way to rehab, we have it all",
+      }}
+    >
       <Row justify="center" className="mg-y-20">
         <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={16}>
           <Card>
@@ -81,3 +89,12 @@ const Categories = () => {
 };
 
 export default Categories;
+
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = req.session.get(["session"]);
+  return {
+    props: {
+      user: user ? user : null,
+    },
+  };
+});

@@ -4,8 +4,8 @@ import {
   Col,
   Button,
   Tooltip,
+  Divider,
   message,
-  Select,
   Tabs,
   Result,
   Menu,
@@ -16,13 +16,9 @@ import {
   Modal,
 } from "antd";
 import Wrapper from "components/global/wrapper";
-import { useState } from "react";
-import obj from "../config.json";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { initializeApollo } from "lib/apolloClient";
-import Head from "next/head";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroller";
 import {
   insertBookmarkQuery,
@@ -50,6 +46,10 @@ const { Text, Paragraph, Title } = Typography;
 //
 //
 export default function Home(props) {
+  var settings;
+  var articles;
+  var reactions;
+  //
   //
   //
   //
@@ -90,7 +90,7 @@ export default function Home(props) {
   //
   //
   //
-  const router = useRouter();
+  // const router = useRouter();
   //
   //
   //
@@ -157,9 +157,14 @@ export default function Home(props) {
   //
   //
 
-  var settings = data.site_settings;
-  var articles = data.articles;
-  var reactions = data.reactions;
+  useEffect(() => {
+    if (data) {
+      settings = data.site_settings;
+      articles = data.articles;
+      reactions = data.reactions;
+      console.log(reactions);
+    }
+  }, [data]);
 
   //
   //
@@ -197,10 +202,13 @@ export default function Home(props) {
 
   return (
     <>
-      <Head>
-        <title>Title</title>
-      </Head>
-      <Wrapper user={props.user}>
+      <Wrapper
+        user={props.user}
+        seo={{
+          title: "Tech To Rehab",
+          description: "The Open Source Collaboration Platform",
+        }}
+      >
         <Row>
           <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-r-20">
             <Menu
@@ -225,246 +233,231 @@ export default function Home(props) {
             xxl={12}
             className="mg-x-auto pd-x-20"
           >
-            <InfiniteScroll
-              initialLoad={false}
-              pageStart={0}
-              hasMore={
-                articles.length === data.articles_aggregate.aggregate.count
-                  ? false
-                  : true
-              }
-              loadMore={() =>
-                fetchMore({
-                  variables: {
-                    offset: data.articles.length,
-                  },
-                  updateQuery: (previous, { fetchMoreResult }) => {
-                    if (!fetchMoreResult) return previous;
-                    return Object.assign({}, previous, {
-                      articles: [
-                        ...previous.articles,
-                        ...fetchMoreResult.articles,
-                      ],
-                    });
-                  },
-                })
-              }
-              loader={
-                <>
-                  <Skeleton
-                    className="mt-20"
-                    avatar
-                    title
-                    paragraph={{ rows: 1 }}
-                    active
-                    key="sk-1"
-                  />
-                  <Skeleton
-                    className="mt-20"
-                    avatar
-                    title
-                    paragraph={{ rows: 1 }}
-                    active
-                    key="sk-2"
-                  />
-                </>
-              }
-              useWindow={true}
-            >
-              <List
-                itemLayout="vertical"
-                header={
-                  <div className="wd-100-pc d-flex">
-                    <Title level={4} className="mt-10">
-                      News Feed
-                    </Title>
-                    {/* <Space className="ml-auto">
-                        <Text>Filter by:</Text>
-                        <Select
-                          defaultValue={["0"]}
-                          dropdownMatchSelectWidth={100}
-                          onChange={(val) => {
-                            if (val == 2) {
-                              refetch({
-                                views: "desc",
-                              });
-                            } else if (val == 1) {
-                              refetch({
-                                views: "asc",
-                              });
-                            } else {
-                            }
-                          }}
-                        >
-                          <Select.Option key="0" value="0">
-                            Choose
-                          </Select.Option>
-                          <Select.Option key="1" value="1">
-                            Latest
-                          </Select.Option>
-                          <Select.Option key="2" value="2">
-                            Trending
-                          </Select.Option>
-                        </Select>
-                      </Space> */}
-                  </div>
+            <div className="wd-100-pc mt-30">
+              <Title level={4} className="">
+                News Feed
+              </Title>
+              <Divider />
+            </div>
+            {loading || !data ? (
+              <>
+                <Skeleton avatar className="mt-10 mb-20" active />
+                <Skeleton avatar className="mg-y-20" active />
+                <Skeleton avatar className="mg-y-20" active />
+              </>
+            ) : (
+              <InfiniteScroll
+                initialLoad={false}
+                pageStart={0}
+                hasMore={
+                  data
+                    ? data.articles.length ===
+                      data.articles_aggregate.aggregate.count
+                      ? false
+                      : true
+                    : null
                 }
-                dataSource={articles}
-                renderItem={(item) => (
-                  <List.Item
-                    key={item.id}
-                    className="article-list-item"
-                    extra={
-                      <ProgressiveImage
-                        src={item.featured_image + ".webp"}
-                        placeholder={item.featured_image + "-placeholder.webp"}
-                      >
-                        {(src) => (
-                          <img
-                            width={272}
-                            height={160}
-                            className="o-fit-cover"
-                            src={src}
-                            style={{
-                              borderRadius: 5,
-                            }}
-                          />
-                        )}
-                      </ProgressiveImage>
-                    }
-                    actions={[
-                      <a
-                        onClick={() => {
-                          setType("Authors");
-                          setDrawer(true);
-                          setSheetData(item.users_to_articles);
-                        }}
-                      >
-                        <Text
-                          className="t-transform-cpt fs-12 article-list-item-author"
-                          style={{
-                            border: "1px solid #cecece",
-                            borderRadius: 25,
-                            padding: "5px 10px",
-                          }}
-                        >
-                          {item.users_to_articles.length > 1
-                            ? " By " +
-                              item.users_to_articles[0].authors.username +
-                              " + " +
-                              (item.users_to_articles.length - 1) +
-                              " More "
-                            : " By " +
-                              item.users_to_articles[0].authors.username}
-                        </Text>
-                      </a>,
-                      <Tooltip
-                        title={
-                          props.user &&
-                          item.bookmarks_aggregate.aggregate.count == 1
-                            ? "Remove From Bookmarks"
-                            : "Bookmark This"
-                        }
-                      >
-                        <a>
-                          <i
-                            className={
-                              props.user &&
-                              item.bookmarks_aggregate.aggregate.count == 1
-                                ? "ri-bookmark-fill fs-20 " + "ri-lg va-minus-6"
-                                : "ri-bookmark-line fs-20 " + "ri-lg va-minus-6"
-                            }
-                            onClick={() =>
-                              props.user && props.user.id
-                                ? addBookmark(
-                                    item,
-                                    item.bookmarks_aggregate.aggregate.count
-                                  )
-                                : setLoginModal(true)
-                            }
-                            style={{ color: "rgba(86, 85, 85, 0.65)" }}
-                          ></i>
-                        </a>
-                      </Tooltip>,
-                      item.reactions_to_articles.length > 0 ? (
-                        <a
-                          onClick={() => {
-                            setType("Reactions");
-                            setDrawer(true);
-                            setSheetData(item.reactions_to_articles);
-                          }}
-                        >
-                          <Reactions>
-                            {reactions.map((reaction) => {
-                              if (
-                                item.reactions_to_articles.find(
-                                  (elem) => elem.reaction.id == reaction.id
-                                )
-                              ) {
-                                return (
-                                  <div
-                                    className="reaction-holder"
-                                    key={reaction.name}
-                                  >
-                                    <div
-                                      className="reaction fs-22"
-                                      key={reaction.name}
-                                    >
-                                      <i
-                                        className={`${reaction.code} va-middle`}
-                                        style={reaction.gradient}
-                                      ></i>
-                                    </div>
-                                  </div>
-                                );
-                              }
-                            })}
-                            <div className="reaction-total">
-                              <Text className="lh-2-5 fs-16" strong>
-                                {getReactionTotal(item.reactions_to_articles)}
-                              </Text>
-                            </div>
-                          </Reactions>
-                        </a>
-                      ) : null,
-                    ]}
-                  >
-                    <List.Item.Meta
+                loadMore={() =>
+                  fetchMore({
+                    variables: {
+                      offset: data.articles.length,
+                    },
+                    updateQuery: (previous, { fetchMoreResult }) => {
+                      if (!fetchMoreResult) return previous;
+                      return Object.assign({}, previous, {
+                        articles: [
+                          ...previous.articles,
+                          ...fetchMoreResult.articles,
+                        ],
+                      });
+                    },
+                  })
+                }
+                loader={
+                  <>
+                    <Skeleton
+                      className="mt-20"
+                      avatar
+                      title
+                      paragraph={{ rows: 1 }}
+                      active
+                      key="sk-1"
+                    />
+                    <Skeleton
+                      className="mt-20"
+                      avatar
+                      title
+                      paragraph={{ rows: 1 }}
+                      active
+                      key="sk-2"
+                    />
+                  </>
+                }
+                useWindow={true}
+              >
+                <List
+                  itemLayout="vertical"
+                  dataSource={data ? data.articles : null}
+                  renderItem={(item) => (
+                    <List.Item
                       key={item.id}
-                      title={
-                        <a
-                          href={
-                            "/article/" +
-                            item.article_category.slug +
-                            (item.article_topic
-                              ? "/" + item.article_topic.slug
-                              : "") +
-                            "/" +
-                            item.slug
+                      className="article-list-item"
+                      extra={
+                        <ProgressiveImage
+                          src={item.featured_image + ".webp"}
+                          placeholder={
+                            item.featured_image + "-placeholder.webp"
                           }
                         >
-                          <Paragraph
-                            ellipsis={{ rows: 2 }}
-                            className="mr-20 article-list-item-title"
-                          >
-                            {item.title}
-                          </Paragraph>
-                        </a>
+                          {(src) => (
+                            <img
+                              width={272}
+                              height={160}
+                              className="o-fit-cover"
+                              src={src}
+                              style={{
+                                borderRadius: 5,
+                              }}
+                            />
+                          )}
+                        </ProgressiveImage>
                       }
-                      description={
-                        <Paragraph
-                          className="mr-20"
-                          ellipsis={{ rows: 2 }}
-                          key={item.id}
+                      actions={[
+                        <a
+                          onClick={() => {
+                            setType("Authors");
+                            setDrawer(true);
+                            setSheetData(item.users_to_articles);
+                          }}
                         >
-                          {item.excerpt}
-                        </Paragraph>
-                      }
-                    />
-                  </List.Item>
-                )}
-              />
-            </InfiniteScroll>
+                          <Text
+                            className="t-transform-cpt fs-12 article-list-item-author"
+                            style={{
+                              border: "1px solid #cecece",
+                              borderRadius: 25,
+                              padding: "5px 10px",
+                            }}
+                          >
+                            {item.users_to_articles.length > 1
+                              ? " By " +
+                                item.users_to_articles[0].authors.username +
+                                " + " +
+                                (item.users_to_articles.length - 1) +
+                                " More "
+                              : " By " +
+                                item.users_to_articles[0].authors.username}
+                          </Text>
+                        </a>,
+                        <Tooltip
+                          title={
+                            props.user &&
+                            item.bookmarks_aggregate.aggregate.count == 1
+                              ? "Remove From Bookmarks"
+                              : "Bookmark This"
+                          }
+                        >
+                          <a>
+                            <i
+                              className={
+                                props.user &&
+                                item.bookmarks_aggregate.aggregate.count == 1
+                                  ? "ri-bookmark-fill fs-20 " +
+                                    "ri-lg va-minus-6"
+                                  : "ri-bookmark-line fs-20 " +
+                                    "ri-lg va-minus-6"
+                              }
+                              onClick={() =>
+                                props.user && props.user.id
+                                  ? addBookmark(
+                                      item,
+                                      item.bookmarks_aggregate.aggregate.count
+                                    )
+                                  : setLoginModal(true)
+                              }
+                              style={{ color: "rgba(86, 85, 85, 0.65)" }}
+                            ></i>
+                          </a>
+                        </Tooltip>,
+                        item.reactions_to_articles.length > 0 ? (
+                          <a
+                            onClick={() => {
+                              setType("Reactions");
+                              setDrawer(true);
+                              setSheetData(item.reactions_to_articles);
+                            }}
+                          >
+                            <Reactions>
+                              {reactions.map((reaction) => {
+                                if (
+                                  item.reactions_to_articles.find(
+                                    (elem) => elem.reaction.id == reaction.id
+                                  )
+                                ) {
+                                  return (
+                                    <div
+                                      className="reaction-holder"
+                                      key={reaction.name}
+                                    >
+                                      <div
+                                        className="reaction fs-22"
+                                        key={reaction.name}
+                                      >
+                                        <i
+                                          className={`${reaction.code} va-middle`}
+                                          style={reaction.gradient}
+                                        ></i>
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                              })}
+                              <div className="reaction-total">
+                                <Text className="lh-2-5 fs-16" strong>
+                                  {getReactionTotal(item.reactions_to_articles)}
+                                </Text>
+                              </div>
+                            </Reactions>
+                          </a>
+                        ) : null,
+                      ]}
+                    >
+                      <List.Item.Meta
+                        key={item.id}
+                        title={
+                          <a
+                            href={
+                              "/article/" +
+                              item.article_category.slug +
+                              (item.article_topic
+                                ? "/" + item.article_topic.slug
+                                : "") +
+                              "/" +
+                              item.slug
+                            }
+                          >
+                            <Paragraph
+                              ellipsis={{ rows: 2 }}
+                              className="mr-20 article-list-item-title"
+                            >
+                              {item.title}
+                            </Paragraph>
+                          </a>
+                        }
+                        description={
+                          <Paragraph
+                            className="mr-20"
+                            ellipsis={{ rows: 2 }}
+                            key={item.id}
+                          >
+                            {item.excerpt}
+                          </Paragraph>
+                        }
+                      />
+                    </List.Item>
+                  )}
+                />
+              </InfiniteScroll>
+            )}
 
             {/**           */
             /**            */
@@ -631,18 +624,18 @@ export default function Home(props) {
 
 export const getServerSideProps = withSession(async function ({ req, res }) {
   const user = req.session.get(["session"]);
-  const apolloClient = initializeApollo();
-  await apolloClient.query({
-    query: getArticlesQuery,
-    variables: {
-      offset: 0,
-      limit: 5,
-      id: user ? user.id : null,
-    },
-  });
+  // const apolloClient = initializeApollo();
+  // await apolloClient.query({
+  //   query: getArticlesQuery,
+  //   variables: {
+  //     offset: 0,
+  //     limit: 5,
+  //     id: user ? user.id : null,
+  //   },
+  // });
   return {
     props: {
-      initialApolloState: apolloClient.cache.extract(),
+      // initialApolloState: apolloClient.cache.extract(),
       user: user ? user : null,
     },
   };

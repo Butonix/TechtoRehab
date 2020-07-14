@@ -402,6 +402,54 @@ $High-Desktop: 2000px;
   padding-right: 30px !important;
 }
 
+.pd-t-5 {
+  padding-top: 5px !important;
+}
+
+.pd-t-10 {
+  padding-top: 10px !important;
+}
+
+.pd-t-15 {
+  padding-top: 15px !important;
+}
+
+.pd-t-20 {
+  padding-top: 20px !important;
+}
+
+.pd-t-25 {
+  padding-top: 25px !important;
+}
+
+.pd-t-30 {
+  padding-top: 30px !important;
+}
+
+.pd-b-5 {
+  padding-top: 5px !important;
+}
+
+.pd-b-10 {
+  padding-top: 10px !important;
+}
+
+.pd-b-15 {
+  padding-top: 15px !important;
+}
+
+.pd-b-20 {
+  padding-top: 20px !important;
+}
+
+.pd-b-25 {
+  padding-top: 25px !important;
+}
+
+.pd-b-30 {
+  padding-top: 30px !important;
+}
+
 //
 //
 //
@@ -1155,11 +1203,29 @@ img {
   }
 }
 
+.title-image-placeholder {
+  // // width: 550px !important;
+  // min-width: "100%" !important;
+  // min-height: 400px !important;
+  @include mobile {
+    //   width: 400px !important;
+    //   max-width: 100% !important;
+    //   min-width: "100%" !important;
+    max-width: "100%";
+  }
+}
+
 .content {
+  :first-child {
+    margin-top: 30px !important;
+  }
   font-size: 16px;
   img {
+    width: 600px;
+    @include mobile {
+      width: 400px;
+    }
     max-width: 100% !important;
-    // object-fit: cover;
     max-height: 600px !important;
   }
 
@@ -1202,4 +1268,10 @@ img {
   box-shadow: 5px 5px rgba(47, 53, 69, 0.4), 10px 10px rgba(47, 53, 69, 0.3),
     15px 15px rgba(47, 53, 69, 0.2), 20px 20px rgba(47, 53, 69, 0.1),
     25px 25px rgba(47, 53, 69, 0.05) !important;
+}
+
+.list-image {
+  min-width: 70px;
+  min-height: 70px;
+  max-height: 120px;
 }

@@ -43,6 +43,7 @@
     "nodemailer": "^6.4.10",
     "prop-types": "^15.7.2",
     "public-ip": "^4.0.1",
+    "random-gradient": "0.0.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-infinite-scroller": "^1.2.4",

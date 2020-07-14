@@ -49,7 +49,9 @@ import { NextSeo } from "next-seo";
 import {
   LazyLoadImage,
   LazyLoadComponent,
+  trackWindowScroll,
 } from "react-lazy-load-image-component";
+import { nanoid } from "nanoid";
 
 //
 //
@@ -478,20 +480,34 @@ const Article = (props) => {
               lg={18}
               xl={8}
               xxl={8}
-              className="pd-y-30"
+              className="pd-t-30 pb-b-10"
             >
               <LazyLoadImage
                 alt={"alt"}
-                height={350}
                 src={getArticleData.articles[0].featured_image + ".webp"}
-                threshold={0}
-                effect="opacity"
-                width="100%"
-                threshold={-350}
-                placeholderSrc={
-                  getArticleData.articles[0].featured_image +
-                  "-placeholder.webp"
+                scrollPosition={props.scrollPosition}
+                effect="blur"
+                placeholder={
+                  <span>
+                    <img
+                      className="title-image-placeholder"
+                      src={
+                        getArticleData.articles[0].featured_image +
+                        "-placeholder.webp"
+                      }
+                      style={{
+                        maxWidth: "100%",
+                        minWidth: 400,
+                        minHeight: 400,
+                      }}
+                    />
+                  </span>
                 }
+                style={{
+                  maxWidth: "100%",
+                  minWidth: 400,
+                  minHeight: 400,
+                }}
               />
             </Col>
           </Row>
@@ -509,28 +525,45 @@ const Article = (props) => {
                     ) : blocks.type == "header" ? (
                       <Title
                         level={blocks.data.level}
-                        className="pd-20 mt-10 mb-10"
+                        className="pd-x-20 mt-10 mb-10"
                         key={index + blocks.type}
                       >
                         {blocks.data.text.replace(/&nbsp;/g, "")}
                       </Title>
                     ) : blocks.type == "image" ? (
-                      <Row justify="center">
-                        <figure className="mg-y-10">
+                      <Row justify="center" key={blocks.type + nanoid()}>
+                        <figure
+                          className="mg-y-10"
+                          style={{ maxWidth: "100%" }}
+                        >
                           <LazyLoadImage
                             className="o-fit-cover"
                             alt={"alt"}
-                            height={400}
                             src={blocks.data.file.url}
                             threshold={-400}
-                            effect="opacity"
-                            placeholderSrc={
-                              blocks.data.file.url.slice(
-                                0,
-                                blocks.data.file.url.length - 5
-                              ) + "-placeholder.webp"
+                            scrollPosition={props.scrollPosition}
+                            placeholder={
+                              <span>
+                                <img
+                                  src={
+                                    blocks.data.file.url.slice(
+                                      0,
+                                      blocks.data.file.url.length - 5
+                                    ) + "-placeholder.webp"
+                                  }
+                                  style={{
+                                    maxWidth: "100%",
+                                    minWidth: 400,
+                                    minHeight: 400,
+                                  }}
+                                />
+                              </span>
                             }
-                            style={{ width: 600, maxWidth: "100%" }}
+                            style={{
+                              maxWidth: "100%",
+                              minWidth: 400,
+                              minHeight: 400,
+                            }}
                           ></LazyLoadImage>
                           {blocks.data.caption.length > 0 ? (
                             <Card key={index + blocks.type}>
@@ -679,8 +712,7 @@ const Article = (props) => {
                         </List.Item>
                       </div>
                     ) : blocks.type == "embed" ? (
-                      <LazyLoad
-                        unmountIfInvisible
+                      <LazyLoadComponent
                         height={500}
                         key={index + blocks.type}
                         placeholder={
@@ -703,7 +735,7 @@ const Article = (props) => {
                             </Text>
                           </Card>
                         ) : null}
-                      </LazyLoad>
+                      </LazyLoadComponent>
                     ) : null;
                   }
                 )}
@@ -1490,7 +1522,7 @@ const Article = (props) => {
   );
 };
 
-export default Article;
+export default trackWindowScroll(Article);
 
 export const getServerSideProps = withSession(async function ({
   req,
