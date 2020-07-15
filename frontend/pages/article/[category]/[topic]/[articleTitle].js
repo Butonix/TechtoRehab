@@ -49,7 +49,6 @@ import { NextSeo } from "next-seo";
 import {
   LazyLoadImage,
   LazyLoadComponent,
-  trackWindowScroll,
 } from "react-lazy-load-image-component";
 import { nanoid } from "nanoid";
 
@@ -539,6 +538,7 @@ const Article = (props) => {
                           <LazyLoadImage
                             className="o-fit-cover"
                             alt={"alt"}
+                            effect="blur"
                             src={blocks.data.file.url}
                             threshold={-200}
                             placeholder={
@@ -1515,7 +1515,7 @@ const Article = (props) => {
   );
 };
 
-export default trackWindowScroll(Article);
+export default Article;
 
 export const getServerSideProps = withSession(async function ({
   req,
