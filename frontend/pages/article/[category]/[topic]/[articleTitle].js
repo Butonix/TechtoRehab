@@ -666,14 +666,20 @@ const Article = (props) => {
                           </Col>
                           <Col span={10} className="d-flex jc-end">
                             <a href={blocks.data.link}>
-                              <LazyLoadImage
-                                alt={"alt"}
-                                height={100}
+                              <ProgressiveImage
                                 src={blocks.data.meta.image.url}
-                                effect="blur"
-                                width={100}
-                                threshold={-100}
-                              />
+                                placeholder={
+                                  blocks.data.meta.image.url.slice(
+                                    0,
+                                    blocks.data.meta.image.url.length - 5
+                                  ) + "-placeholder.webp"
+                                }
+                                threshold={1}
+                              >
+                                {(src) => (
+                                  <img src={src} alt="an alternative text" />
+                                )}
+                              </ProgressiveImage>
                             </a>
                           </Col>
                         </Row>
@@ -768,10 +774,7 @@ const Article = (props) => {
                       >
                         <List.Item.Meta
                           avatar={
-                            <LazyLoadImage
-                              alt={"alt"}
-                              style={{ borderRadius: "50%", marginTop: 2 }}
-                              height={35}
+                            <ProgressiveImage
                               src={
                                 item.authors.profile_picture
                                   ? item.authors.profile_picture.includes(
@@ -784,11 +787,27 @@ const Article = (props) => {
                                     : item.authors.profile_picture + ".webp"
                                   : null
                               }
-                              threshold={0}
-                              effect="blur"
-                              width={35}
-                              threshold={-35}
-                            />
+                              placeholder={
+                                item.authors.profile_picture
+                                  ? item.authors.profile_picture.includes(
+                                      "http"
+                                    ) ||
+                                    item.authors.profile_picture.includes(
+                                      "https"
+                                    )
+                                    ? item.authors.profile_picture
+                                    : item.authors.profile_picture.slice(
+                                        0,
+                                        item.authors.profile_picture.length - 5
+                                      ) + "-placeholder.webp"
+                                  : null
+                              }
+                              threshold={1}
+                            >
+                              {(src) => (
+                                <img src={src} alt="an alternative text" />
+                              )}
+                            </ProgressiveImage>
                           }
                           title={
                             <Text className="t-transform-cpt lh-2-5">
