@@ -540,7 +540,7 @@ const Article = (props) => {
                             alt={"alt"}
                             effect="blur"
                             src={blocks.data.file.url}
-                            threshold={-200}
+                            threshold={-100}
                             placeholder={
                               <span>
                                 <img
@@ -554,7 +554,6 @@ const Article = (props) => {
                                 />
                               </span>
                             }
-                            style={{}}
                           ></LazyLoadImage>
                           {blocks.data.caption.length > 0 ? (
                             <Card key={index + blocks.type}>
