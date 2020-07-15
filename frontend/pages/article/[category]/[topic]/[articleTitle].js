@@ -563,6 +563,7 @@ const Article = (props) => {
                                 blocks.data.file.url.length - 5
                               ) + "-placeholder.webp"
                             }
+                            threshold={1}
                           >
                             {(src) => (
                               <img src={src} alt="an alternative text" />
