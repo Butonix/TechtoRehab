@@ -566,7 +566,11 @@ const Article = (props) => {
                             threshold={1}
                           >
                             {(src) => (
-                              <img src={src} alt="an alternative text" />
+                              <img
+                                className="image-placeholder"
+                                src={src}
+                                alt="an alternative text"
+                              />
                             )}
                           </ProgressiveImage>
 
