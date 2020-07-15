@@ -16,7 +16,7 @@ import {
 } from "antd";
 import { useState } from "react";
 import Error404 from "components/global/404";
-import ProgressiveImage from "react-progressive-image";
+import ProgressiveImage from "react-progressive-graceful-image";
 
 const { Text, Title, Paragraph } = Typography;
 
@@ -185,25 +185,13 @@ const User = (props) => {
                           left: 50,
                           position: "absolute",
                           zIndex: 3,
-                          // color: "red",
                           cursor: "pointer",
                         }}
                       ></i>
-                      {/* <img
-                    src={cover}
-                    width="100%"
-                    className="o-fit-cover"
-                    height={400}
-                  /> */}
-                      {/* <LazyLoadImage
-                    className="o-fit-cover"
-                    src={cover + ".webp"}
-                    height={400}
-                    width="`100%"
-                    effect="blur"
-                  /> */}
+
                       <ProgressiveImage
                         src={cover ? cover + ".webp" : "/cover.svg"}
+                        threshold={1}
                         placeholder={
                           cover
                             ? cover + "-placeholder.webp"
@@ -226,6 +214,7 @@ const User = (props) => {
                     </Upload>
                   ) : (
                     <ProgressiveImage
+                      threshold={1}
                       src={cover ? cover + ".webp" : "/cover.svg"}
                       placeholder={
                         cover
