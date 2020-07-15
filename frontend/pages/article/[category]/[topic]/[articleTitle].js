@@ -542,7 +542,7 @@ const Article = (props) => {
                             src={blocks.data.file.url}
                             threshold={-100}
                             placeholder={
-                              <span>
+                              <span className="image-holder">
                                 <img
                                   className="image-placeholder"
                                   src={
