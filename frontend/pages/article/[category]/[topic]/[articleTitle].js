@@ -540,7 +540,7 @@ const Article = (props) => {
                             alt={"alt"}
                             effect="blur"
                             src={blocks.data.file.url}
-                            threshold={-100}
+                            threshold={-400}
                             placeholder={
                               <div className="image-holder">
                                 <img
