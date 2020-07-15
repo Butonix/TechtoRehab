@@ -542,7 +542,7 @@ const Article = (props) => {
                             src={blocks.data.file.url}
                             threshold={-100}
                             placeholder={
-                              <span className="image-holder">
+                              <div className="image-holder">
                                 <img
                                   className="image-placeholder"
                                   src={
@@ -552,7 +552,7 @@ const Article = (props) => {
                                     ) + "-placeholder.webp"
                                   }
                                 />
-                              </span>
+                              </div>
                             }
                           ></LazyLoadImage>
                           {blocks.data.caption.length > 0 ? (
