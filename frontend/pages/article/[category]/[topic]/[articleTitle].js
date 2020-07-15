@@ -541,21 +541,19 @@ const Article = (props) => {
                             alt={"alt"}
                             effect="blur"
                             src={blocks.data.file.url}
-                            threshold={-400}
+                            threshold={-200}
                             placeholder={
-                              <img
-                                className="image-placeholder"
-                                src={
-                                  blocks.data.file.url.slice(
-                                    0,
-                                    blocks.data.file.url.length - 5
-                                  ) + "-placeholder.webp"
-                                }
-                                style={{
-                                  maxWidth: "100%",
-                                  minWidth: 400,
-                                }}
-                              />
+                              <span>
+                                <img
+                                  className="image-placeholder"
+                                  src={
+                                    blocks.data.file.url.slice(
+                                      0,
+                                      blocks.data.file.url.length - 5
+                                    ) + "-placeholder.webp"
+                                  }
+                                />
+                              </span>
                             }
                             style={{
                               maxWidth: "100%",
