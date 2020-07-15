@@ -539,7 +539,6 @@ const Article = (props) => {
                           <LazyLoadImage
                             className="o-fit-cover"
                             alt={"alt"}
-                            effect="blur"
                             src={blocks.data.file.url}
                             threshold={-200}
                             placeholder={
