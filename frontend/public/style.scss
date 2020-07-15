@@ -1228,8 +1228,8 @@ img {
 .content {
   font-size: 16px;
   img {
-    max-width: 600px !important;
-    max-height: 600px !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
 
     @include mobile {
       max-width: 100%;
