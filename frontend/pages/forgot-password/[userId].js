@@ -11,8 +11,7 @@ import {
 } from "antd";
 import Wrapper from "components/global/wrapper";
 import { useRouter } from "next/router";
-import gql from "graphql-tag";
-import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
+import { gql, useQuery, useMutation } from "@apollo/client";
 import { initializeApollo } from "lib/apolloClient";
 import Link from "next/link";
 import { useState } from "react";

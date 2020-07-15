@@ -14,8 +14,7 @@ import {
   Space,
   message,
 } from "antd";
-import gql from "graphql-tag";
-import { useQuery, useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { gql, useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 

@@ -1,8 +1,7 @@
 import { Typography, Form, Input, Button, Alert } from "antd";
 import { useRouter } from "next/router";
-import gql from "graphql-tag";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import { useState, useEffect } from "react";
+import { gql, useMutation, useLazyQuery } from "@apollo/client";
+import { useState } from "react";
 import { nanoid } from "nanoid";
 
 const checkEmailQuery = gql`

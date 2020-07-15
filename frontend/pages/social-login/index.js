@@ -10,8 +10,7 @@ import {
   Checkbox,
   Typography,
 } from "antd";
-import gql from "graphql-tag";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 

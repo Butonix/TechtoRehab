@@ -1,5 +1,5 @@
-import { ApolloProvider } from "@apollo/react-hooks";
-import { useApollo } from "../lib/apolloClient";
+import { ApolloProvider } from "@apollo/client";
+import { useApollo } from "lib/apolloClient";
 import { DefaultSeo } from "next-seo";
 import { storage } from "../store/store";
 import { createStore, StoreProvider, useStoreActions } from "easy-peasy";

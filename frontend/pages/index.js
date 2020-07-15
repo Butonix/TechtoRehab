@@ -17,8 +17,8 @@ import {
 } from "antd";
 import Wrapper from "components/global/wrapper";
 import { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import { useStoreState, useStoreActions } from "easy-peasy";
+import { useQuery, useMutation } from "@apollo/client";
+import { useStoreActions } from "easy-peasy";
 import InfiniteScroll from "react-infinite-scroller";
 import {
   insertBookmarkQuery,
@@ -27,7 +27,7 @@ import {
 } from "components/home/queries";
 import { Reactions } from "components/home/sub/reactions-holder";
 import withSession from "lib/session";
-import ProgressiveImage from "react-progressive-image";
+import ProgressiveImage from "react-progressive-graceful-image";
 
 //
 //
@@ -308,15 +308,15 @@ export default function Home(props) {
                           placeholder={
                             item.featured_image + "-placeholder.webp"
                           }
+                          delay={600}
+                          threshold={1}
                         >
                           {(src) => (
                             <img
-                              width={272}
-                              height={160}
-                              className="o-fit-cover"
                               src={src}
+                              alt="an alternative text"
                               style={{
-                                borderRadius: 5,
+                                height: 150,
                               }}
                             />
                           )}

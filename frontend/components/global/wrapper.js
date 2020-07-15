@@ -15,8 +15,7 @@ import {
 } from "antd";
 import Navbar from "./nav";
 import Link from "next/link";
-import gql from "graphql-tag";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { Swipeable } from "react-swipeable";
 import { NextSeo } from "next-seo";

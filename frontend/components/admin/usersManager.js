@@ -11,9 +11,8 @@ import {
   Avatar,
   message,
 } from "antd";
-import gql from "graphql-tag";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import { useState, useEffect, useReducer, useCallback } from "react";
+import { gql, useMutation, useLazyQuery } from "@apollo/client";
+import { useEffect, useReducer } from "react";
 
 const getUser = gql`
   query MyQuery($username: String!) {

@@ -13,11 +13,8 @@ import {
   message,
 } from "antd";
 import Wrapper from "components/global/wrapper";
-import { initializeApollo } from "lib/apolloClient";
-import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
-import gql from "graphql-tag";
-import { useQuery, useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { gql, useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import withSession from "lib/session";
 import urlSlug from "url-slug";
 import { useRouter } from "next/router";

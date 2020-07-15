@@ -9,17 +9,11 @@ import {
   Avatar,
 } from "antd";
 import Wrapper from "components/global/wrapper";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
-import Head from "next/head";
+import { gql, useQuery } from "@apollo/client";
 import { initializeApollo } from "lib/apolloClient";
 import withSession from "lib/session";
 import gradient from "random-gradient";
-import {
-  LazyLoadImage,
-  LazyLoadComponent,
-  trackWindowScroll,
-} from "react-lazy-load-image-component";
+import ProgressiveImage from "react-progressive-graceful-image";
 const getCategoryQuery = gql`
   query getCategories($slug: String!) {
     category(where: { slug: { _eq: $slug } }) {
@@ -85,6 +79,9 @@ const Categories = (props) => {
         <Row justify="center" className="mg-y-20">
           <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={16}>
             <Card
+              bodyStyle={{
+                padding: 10,
+              }}
               cover={
                 getCategoryData &&
                 getCategoryData.category[0] &&
@@ -150,17 +147,25 @@ const Categories = (props) => {
                             <a
                               href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
                             >
-                              <LazyLoadImage
-                                className="o-fit-cover list-image"
-                                placeholder={
-                                  <img
-                                    src={
-                                      item.featured_image + "-placeholder.webp"
-                                    }
-                                  />
-                                }
+                              <ProgressiveImage
                                 src={item.featured_image + ".webp"}
-                              />
+                                placeholder={
+                                  item.featured_image + "-placeholder.webp"
+                                }
+                                threshold={1}
+                                delay={600}
+                              >
+                                {(src) => (
+                                  <img
+                                    src={src}
+                                    alt="an alternative text"
+                                    style={{
+                                      maxWidth: 200,
+                                      maxHeight: 200,
+                                    }}
+                                  />
+                                )}
+                              </ProgressiveImage>
                             </a>,
                           ]}
                         >
@@ -215,18 +220,32 @@ const Categories = (props) => {
                               .articles_to_categories[0].title
                           }
                           avatar={
-                            <Avatar
-                              style={{
-                                marginTop: 5,
-                              }}
-                              shape="square"
-                              size={40}
+                            <ProgressiveImage
                               src={
                                 getCategoryData.category[0]
                                   .articles_to_categories[0].featured_image +
                                 ".webp"
                               }
-                            />
+                              placeholder={
+                                getCategoryData.category[0]
+                                  .articles_to_categories[0].featured_image +
+                                "-placeholder.webp"
+                              }
+                              threshold={1}
+                              delay={600}
+                            >
+                              {(src) => (
+                                <img
+                                  src={src}
+                                  alt="an alternative text"
+                                  style={{
+                                    height: 35,
+                                    width: 35,
+                                    borderRadius: "50%",
+                                  }}
+                                />
+                              )}
+                            </ProgressiveImage>
                           }
                         />
                       </List.Item>

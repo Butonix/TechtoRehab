@@ -1212,10 +1212,10 @@ img {
 }
 
 .article-title-image {
-  max-width: 600px;
-  max-height: 600px;
+  max-width: 100%;
+  max-height: 400px;
   min-height: 350px;
-  min-width: 600px;
+  min-width: 100%;
 
   @include mobile {
     max-width: 100%;

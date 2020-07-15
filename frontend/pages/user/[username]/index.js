@@ -1,9 +1,8 @@
 import withSession from "lib/session";
 import { useRouter } from "next/router";
 import Wrapper from "components/global/wrapper";
-import Error from "components/global/401";
 import { initializeApollo } from "lib/apolloClient";
-import gql from "graphql-tag";
+import { gql, useQuery, useMutation } from "@apollo/client";
 import {
   Row,
   Col,
@@ -16,7 +15,6 @@ import {
   Badge,
 } from "antd";
 import { useState } from "react";
-import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import Error404 from "components/global/404";
 import ProgressiveImage from "react-progressive-image";
 

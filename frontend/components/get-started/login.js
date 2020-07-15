@@ -1,8 +1,7 @@
 import { Typography, Divider, Form, Input, Button, Alert, message } from "antd";
 import { useRouter } from "next/router";
-import gql from "graphql-tag";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { useState, useEffect } from "react";
+import { gql, useLazyQuery } from "@apollo/client";
+import { useState } from "react";
 import { RotateSpinner } from "react-spinners-kit";
 import SocialButton from "components/global/social";
 

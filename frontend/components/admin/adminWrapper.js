@@ -1,7 +1,6 @@
 import Wrapper from "components/global/wrapper";
 import { Typography, Row, Col, Layout, Menu } from "antd";
 import Link from "next/link";
-import { useStoreActions } from "easy-peasy";
 
 const { Text } = Typography;
 const { Sider } = Layout;

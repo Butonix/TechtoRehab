@@ -1,7 +1,6 @@
 import { Row, Col, Card, Typography, Button, List, Skeleton } from "antd";
 import Wrapper from "components/global/wrapper";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import { gql, useQuery } from "@apollo/client";
 import withSession from "lib/session";
 
 const getCategoriesQuery = gql`

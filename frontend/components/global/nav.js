@@ -16,11 +16,8 @@ import styled from "styled-components";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { breakPoints } from "./responsive";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { useState } from "react";
-import login from "pages/api/login";
 
 const Nav = styled.div`
   display: flex;

@@ -1,5 +1,4 @@
 import withSession from "lib/session";
-import { useRouter } from "next/router";
 import Wrapper from "components/global/wrapper";
 import {
   Row,
@@ -14,8 +13,7 @@ import {
   Input,
 } from "antd";
 import { initializeApollo } from "lib/apolloClient";
-import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { gql, useQuery, useMutation } from "@apollo/client";
 
 const { Text, Paragraph, Title } = Typography;
 

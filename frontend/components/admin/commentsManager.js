@@ -9,8 +9,7 @@ import {
   List,
   Space,
 } from "antd";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { gql, useQuery, useMutation, useLazyQuery } from "@apollo/client";
 
 const getCommentsQuery = gql`
   query getComments {

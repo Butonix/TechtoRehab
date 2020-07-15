@@ -22,7 +22,7 @@ import {
   Checkbox,
 } from "antd";
 import { useRouter } from "next/router";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/client";
 import { initializeApollo } from "lib/apolloClient";
 import { Reactions } from "components/home/sub/reactions-holder";
 import { useState, useEffect } from "react";
@@ -46,10 +46,7 @@ import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreActions } from "easy-peasy";
 const publicIp = require("public-ip");
 import { NextSeo } from "next-seo";
-import {
-  LazyLoadImage,
-  LazyLoadComponent,
-} from "react-lazy-load-image-component";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { nanoid } from "nanoid";
 import ProgressiveImage from "react-progressive-graceful-image";
 
