@@ -480,7 +480,7 @@ const Article = (props) => {
               lg={18}
               xl={8}
               xxl={8}
-              className="pd-t-30 pb-b-10"
+              className="pd-t-30 pb-b-10 mb-20"
             >
               <LazyLoadImage
                 alt={"alt"}
@@ -525,7 +525,7 @@ const Article = (props) => {
                     ) : blocks.type == "header" ? (
                       <Title
                         level={blocks.data.level}
-                        className="pd-x-20 mt-10 mb-10"
+                        className="pd-x-20 mt-10 mb-20"
                         key={index + blocks.type}
                       >
                         {blocks.data.text.replace(/&nbsp;/g, "")}
@@ -665,7 +665,6 @@ const Article = (props) => {
                                 alt={"alt"}
                                 height={100}
                                 src={blocks.data.meta.image.url}
-                                threshold={0}
                                 effect="blur"
                                 width={100}
                                 threshold={-100}
