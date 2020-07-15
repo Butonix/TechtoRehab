@@ -537,7 +537,7 @@ const Article = (props) => {
                           style={{ maxWidth: "100%" }}
                         >
                           <LazyLoadImage
-                            className="o-fit-cover"
+                            className="o-fit-cover image-placeholder"
                             alt={"alt"}
                             src={blocks.data.file.url}
                             threshold={-400}
