@@ -1213,7 +1213,7 @@ img {
   min-height: 400px !important;
   min-width: 400px !important;
   max-width: 600px !important;
-
+  max-height: 600px !important;
   @include mobile {
     max-width: "100%";
   }
@@ -1223,6 +1223,8 @@ img {
   font-size: 16px;
   img {
     max-width: 600px !important;
+    max-height: 600px !important;
+
     @include mobile {
       max-width: 100%;
     }
