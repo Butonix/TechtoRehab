@@ -554,10 +554,7 @@ const Article = (props) => {
                                 />
                               </span>
                             }
-                            style={{
-                              maxWidth: "100%",
-                              minWidth: 400,
-                            }}
+                            style={{}}
                           ></LazyLoadImage>
                           {blocks.data.caption.length > 0 ? (
                             <Card key={index + blocks.type}>
