@@ -482,33 +482,22 @@ const Article = (props) => {
               xxl={8}
               className="pd-t-30 pb-b-10 mb-20"
             >
-              <LazyLoadImage
-                alt={"alt"}
+              <ProgressiveImage
                 src={getArticleData.articles[0].featured_image + ".webp"}
-                scrollPosition={props.scrollPosition}
-                effect="blur"
                 placeholder={
-                  <span>
-                    <img
-                      className="title-image-placeholder"
-                      src={
-                        getArticleData.articles[0].featured_image +
-                        "-placeholder.webp"
-                      }
-                      style={{
-                        maxWidth: "100%",
-                        minWidth: 400,
-                        minHeight: 400,
-                      }}
-                    />
-                  </span>
+                  getArticleData.articles[0].featured_image +
+                  "-placeholder.webp"
                 }
-                style={{
-                  maxWidth: "100%",
-                  minWidth: 400,
-                  minHeight: 400,
-                }}
-              />
+                threshold={1}
+              >
+                {(src) => (
+                  <img
+                    src={src}
+                    className="article-title-image"
+                    alt="an alternative text"
+                  />
+                )}
+              </ProgressiveImage>
             </Col>
           </Row>
           <Row justify="center">
@@ -536,25 +525,6 @@ const Article = (props) => {
                           className="mg-y-10"
                           style={{ maxWidth: "100%" }}
                         >
-                          {/* <LazyLoadImage
-                            className="o-fit-cover"
-                            alt={"alt"}
-                            src={blocks.data.file.url}
-                            threshold={-400}
-                            placeholder={
-                              <div className="image-holder">
-                                <img
-                                  className="image-placeholder"
-                                  src={
-                                    blocks.data.file.url.slice(
-                                      0,
-                                      blocks.data.file.url.length - 5
-                                    ) + "-placeholder.webp"
-                                  }
-                                />
-                              </div>
-                            }
-                          ></LazyLoadImage> */}
                           <ProgressiveImage
                             src={blocks.data.file.url}
                             placeholder={
@@ -679,9 +649,8 @@ const Article = (props) => {
                                 {(src) => (
                                   <img
                                     src={src}
-                                    width={100}
-                                    height={100}
                                     alt="an alternative text"
+                                    className="link-image"
                                   />
                                 )}
                               </ProgressiveImage>
@@ -803,14 +772,18 @@ const Article = (props) => {
                                     ? item.authors.profile_picture
                                     : item.authors.profile_picture.slice(
                                         0,
-                                        item.authors.profile_picture.length - 5
+                                        item.authors.profile_picture.length - 4
                                       ) + "-placeholder.webp"
                                   : null
                               }
                               threshold={1}
                             >
                               {(src) => (
-                                <img src={src} alt="an alternative text" />
+                                <img
+                                  src={src}
+                                  className="content-author-img"
+                                  alt="an alternative text"
+                                />
                               )}
                             </ProgressiveImage>
                           }

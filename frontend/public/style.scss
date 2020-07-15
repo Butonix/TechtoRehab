@@ -1207,7 +1207,19 @@ img {
   width: 600px;
   height: 600px;
   @include mobile {
-    max-width: "100%";
+    max-width: 100%;
+  }
+}
+
+.article-title-image {
+  max-width: 600px;
+  max-height: 600px;
+  min-height: 350px;
+  min-width: 600px;
+
+  @include mobile {
+    max-width: 100%;
+    min-width: 400px;
   }
 }
 
@@ -1221,6 +1233,20 @@ img {
 
     @include mobile {
       max-width: 100%;
+      min-width: 400px;
+    }
+  }
+
+  .link-image {
+    max-width: 100px;
+    min-width: 100px;
+    max-height: 100px;
+    min-height: 100px;
+    @include mobile {
+      max-width: 50px;
+      min-width: 50px;
+      max-height: 50px;
+      min-height: 50px;
     }
   }
 
@@ -1269,4 +1295,13 @@ img {
   min-width: 70px;
   min-height: 70px;
   max-height: 120px;
+}
+
+.content-author-img {
+  margin-top: 3px;
+  max-width: 30px;
+  min-width: 30px;
+  max-height: 30px;
+  min-height: 30px;
+  border-radius: 50%;
 }
