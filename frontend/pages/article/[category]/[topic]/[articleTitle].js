@@ -51,6 +51,7 @@ import {
   LazyLoadComponent,
 } from "react-lazy-load-image-component";
 import { nanoid } from "nanoid";
+import ProgressiveImage from "react-progressive-graceful-image";
 
 //
 //
@@ -535,7 +536,7 @@ const Article = (props) => {
                           className="mg-y-10"
                           style={{ maxWidth: "100%" }}
                         >
-                          <LazyLoadImage
+                          {/* <LazyLoadImage
                             className="o-fit-cover"
                             alt={"alt"}
                             src={blocks.data.file.url}
@@ -553,7 +554,21 @@ const Article = (props) => {
                                 />
                               </div>
                             }
-                          ></LazyLoadImage>
+                          ></LazyLoadImage> */}
+                          <ProgressiveImage
+                            src={blocks.data.file.url}
+                            placeholder={
+                              blocks.data.file.url.slice(
+                                0,
+                                blocks.data.file.url.length - 5
+                              ) + "-placeholder.webp"
+                            }
+                          >
+                            {(src) => (
+                              <img src={src} alt="an alternative text" />
+                            )}
+                          </ProgressiveImage>
+
                           {blocks.data.caption.length > 0 ? (
                             <Card key={index + blocks.type}>
                               <figcaption
