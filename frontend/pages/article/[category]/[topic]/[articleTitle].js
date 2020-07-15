@@ -552,14 +552,12 @@ const Article = (props) => {
                                 style={{
                                   maxWidth: "100%",
                                   minWidth: 400,
-                                  minHeight: 400,
                                 }}
                               />
                             }
                             style={{
                               maxWidth: "100%",
                               minWidth: 400,
-                              minHeight: 400,
                             }}
                           ></LazyLoadImage>
                           {blocks.data.caption.length > 0 ? (
