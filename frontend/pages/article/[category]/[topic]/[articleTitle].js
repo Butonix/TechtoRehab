@@ -542,7 +542,6 @@ const Article = (props) => {
                             src={blocks.data.file.url}
                             threshold={-400}
                             effect="blur"
-                            // scrollPosition={props.scrollPosition}
                             placeholder={
                               <span>
                                 <img
