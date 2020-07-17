@@ -137,8 +137,10 @@ const Article = (props) => {
         }
       }
       getArticleData.articles[0].reactions_to_articles.map((item) => {
-        if (item.user.id == props.user.id) {
-          setReacted(true);
+        if (props.user) {
+          if (item.user.id == props.user.id) {
+            setReacted(true);
+          }
         }
       });
     }
