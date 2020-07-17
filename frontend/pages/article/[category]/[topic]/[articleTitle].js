@@ -24,7 +24,7 @@ import {
 import { useRouter } from "next/router";
 import { useQuery, useMutation } from "@apollo/client";
 import { initializeApollo } from "lib/apolloClient";
-import { Reactions } from "components/home/sub/reactions-holder";
+import { Reactions } from "components/global/reactions";
 import { useState, useEffect } from "react";
 import {
   deleteCommentQuery,

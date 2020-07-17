@@ -132,7 +132,6 @@ const Login = () => {
   const [checkUserGoogle, { data: checkUserGoogleData }] = useLazyQuery(
     checkUserGoogleQuery,
     {
-      fetchPolicy: "network-only",
       onCompleted: (data) => {
         if (data.users_aggregate.aggregate.count == 1) {
           fetch("/api/login", {
@@ -175,7 +174,6 @@ const Login = () => {
   const [checkUserFacebook, { data: checkUserFacebookData }] = useLazyQuery(
     checkUserFacebookQuery,
     {
-      fetchPolicy: "network-only",
       onCompleted: (data) => {
         if (data.users_aggregate.aggregate.count == 1) {
           fetch("/api/login", {

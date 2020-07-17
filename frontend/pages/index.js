@@ -25,7 +25,7 @@ import {
   getArticlesQuery,
   deleteBookmarkQuery,
 } from "components/home/queries";
-import { Reactions } from "components/home/sub/reactions-holder";
+import { Reactions } from "components/global/reactions";
 import withSession from "lib/session";
 import ProgressiveImage from "react-progressive-graceful-image";
 
@@ -386,7 +386,7 @@ export default function Home(props) {
                             }}
                           >
                             <Reactions>
-                              {reactions.map((reaction) => {
+                              {data.reactions.map((reaction) => {
                                 if (
                                   item.reactions_to_articles.find(
                                     (elem) => elem.reaction.id == reaction.id
@@ -508,7 +508,7 @@ export default function Home(props) {
                   ) : (
                     <>
                       <Tabs>
-                        {reactions.map((mapped) => {
+                        {data.reactions.map((mapped) => {
                           sheetData.map((mapped2) => {
                             if (mapped2.reaction.name == mapped.name) {
                               return;
@@ -559,7 +559,7 @@ export default function Home(props) {
                                             mapped2.user.profile_picture.includes(
                                               "http"
                                             ) ||
-                                            mapped2.user.profile_picture.icnludes(
+                                            mapped2.user.profile_picture.includes(
                                               "https"
                                             )
                                               ? mapped2.user.profile_picture
@@ -568,7 +568,7 @@ export default function Home(props) {
                                           }
                                         />
                                         <a
-                                          href={`/user/${mapped2.authors.username}`}
+                                          href={`/user/${mapped2.user.username}`}
                                         >
                                           <Text>{mapped2.user.username}</Text>
                                         </a>

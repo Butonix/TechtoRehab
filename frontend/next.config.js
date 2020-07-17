@@ -38,7 +38,7 @@ module.exports = compose([
   [
     withBundleAnalyzer,
     {
-      enabled: true,
+      enabled: false,
     },
   ],
 ]);

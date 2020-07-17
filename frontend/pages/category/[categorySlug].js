@@ -3,6 +3,7 @@ import {
   Col,
   Card,
   Typography,
+  Divider,
   Button,
   List,
   Skeleton,
@@ -14,6 +15,8 @@ import { initializeApollo } from "lib/apolloClient";
 import withSession from "lib/session";
 import gradient from "random-gradient";
 import ProgressiveImage from "react-progressive-graceful-image";
+import { Reactions } from "components/global/reactions";
+
 const getCategoryQuery = gql`
   query getCategories($slug: String!) {
     category(where: { slug: { _eq: $slug } }) {
@@ -35,7 +38,23 @@ const getCategoryQuery = gql`
           slug
         }
         slug
+        reactions_to_articles {
+          reaction_id
+        }
+        reactions_to_articles_aggregate {
+          aggregate {
+            count
+          }
+        }
       }
+    }
+    reactions {
+      id
+      code
+      color
+      gradient
+      name
+      type
     }
   }
 `;
@@ -77,7 +96,7 @@ const Categories = (props) => {
         user={props.user}
       >
         <Row justify="center" className="mg-y-20">
-          <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={16}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={20} xxl={16}>
             <Card
               bodyStyle={{
                 padding: 10,
@@ -126,16 +145,16 @@ const Categories = (props) => {
               {getCategoryLoading ? (
                 <Skeleton active />
               ) : (
-                <Row>
-                  <Col
-                    xs={24}
-                    sm={24}
-                    md={24}
-                    lg={15}
-                    xl={14}
-                    xxl={13}
-                    className="mr-30"
-                  >
+                <Row justify="space-between">
+                  <Col xs={24} sm={24} md={24} lg={15} xl={14} xxl={13}>
+                    <Divider
+                      orientation="left"
+                      style={{
+                        fontSize: 18,
+                      }}
+                    >
+                      Latest Entries
+                    </Divider>
                     <List
                       dataSource={
                         getCategoryData.category[0].articles_to_categories
@@ -161,6 +180,8 @@ const Categories = (props) => {
                                     alt="an alternative text"
                                     style={{
                                       maxWidth: 200,
+                                      minWidth: 200,
+                                      minHeight: 100,
                                       maxHeight: 200,
                                     }}
                                   />
@@ -176,7 +197,7 @@ const Categories = (props) => {
                               >
                                 <Paragraph
                                   ellipsis={{ rows: 2 }}
-                                  className="mg-x-10"
+                                  className="mr-20 ml-10"
                                 >
                                   {item.title}
                                 </Paragraph>
@@ -185,31 +206,96 @@ const Categories = (props) => {
                             description={
                               <Paragraph
                                 ellipsis={{ rows: 2 }}
-                                className="mg-x-10"
+                                className="mr-20 ml-10"
                               >
                                 {item.excerpt}
                               </Paragraph>
                             }
                           />
+                          <Reactions>
+                            {getCategoryData.reactions.map((reactions) => {
+                              if (
+                                getCategoryData.category[0].articles_to_categories[0].reactions_to_articles.find(
+                                  (elem) => elem.reaction_id == reactions.id
+                                )
+                              ) {
+                                return (
+                                  <div
+                                    className="reaction-holder"
+                                    key={reactions.name}
+                                  >
+                                    <div
+                                      className="reaction fs-22"
+                                      key={reactions.name}
+                                    >
+                                      <i
+                                        className={`${reactions.code} va-middle`}
+                                        style={reactions.gradient}
+                                      ></i>
+                                    </div>
+                                  </div>
+                                );
+                              }
+                            })}
+                          </Reactions>
                         </List.Item>
                       )}
                     />
                   </Col>
-                  <Col
-                    xs={24}
-                    sm={24}
-                    md={24}
-                    lg={8}
-                    xl={9}
-                    xxl={9}
-                    className="ml-30"
-                  >
+                  <Col xs={24} sm={24} md={24} lg={8} xl={9} xxl={9}>
                     <Card
                       bordered={false}
                       title={
                         <div className="d-flex">
+                          <i class="ri-star-line mr-10 va-minus-4 fs-20"></i>
+                          <Text>Featured</Text>
+                        </div>
+                      }
+                    >
+                      <List.Item actions={[<a>View</a>]}>
+                        <List.Item.Meta
+                          title={
+                            getCategoryData.category[0]
+                              .articles_to_categories[0].title
+                          }
+                          avatar={
+                            <ProgressiveImage
+                              src={
+                                getCategoryData.category[0]
+                                  .articles_to_categories[0].featured_image +
+                                ".webp"
+                              }
+                              placeholder={
+                                getCategoryData.category[0]
+                                  .articles_to_categories[0].featured_image +
+                                "-placeholder.webp"
+                              }
+                              threshold={1}
+                              delay={600}
+                            >
+                              {(src) => (
+                                <img
+                                  src={src}
+                                  alt="an alternative text"
+                                  style={{
+                                    height: 35,
+                                    width: 35,
+                                    borderRadius: "50%",
+                                  }}
+                                />
+                              )}
+                            </ProgressiveImage>
+                          }
+                        />
+                      </List.Item>
+                    </Card>
+                    <Card
+                      bordered={false}
+                      className="mt-30"
+                      title={
+                        <div className="d-flex">
                           <i class="ri-trophy-line mr-10 va-minus-4 fs-20"></i>
-                          <Text>Top 5</Text>
+                          <Text>Top</Text>
                         </div>
                       }
                     >
