@@ -802,6 +802,7 @@ const Article = (props) => {
           <Row className="mt-10 mg-x-5 mb-20 mt-10" justify="center">
             <Col xs={24} sm={24} md={20} lg={18} xl={12} xxl={12}>
               <Divider orientation="left">React To This</Divider>
+
               <Card>
                 <Row>
                   <a>
@@ -929,62 +930,70 @@ const Article = (props) => {
                       })}
                     </Tabs>
                   </Modal>
-
-                  <Dropdown
-                    placement="topCenter"
-                    className="ml-auto"
-                    overlay={reactionsMenu}
-                  >
-                    <a onClick={(e) => e.preventDefault()}>
-                      <Button
-                        className="wd-100pc"
-                        type="text"
-                        icon={
-                          getArticleData.articles[0].reactions_to_articles
-                            .length >= 1 ? (
-                            getArticleData.articles[0].reactions_to_articles.map(
-                              (items) => {
-                                if (
-                                  props.user &&
-                                  props.user.id == items.user.id
-                                ) {
-                                  return (
-                                    <div className="d-flex">
-                                      <Reactions>
-                                        <div className="reaction-holder">
-                                          <div className="reaction">
-                                            <i
-                                              className={`${items.reaction.code}  va-middle fs-22`}
-                                              style={
-                                                items.reaction.color
-                                                  ? color
-                                                  : items.reaction.gradient
-                                              }
-                                            ></i>
+                  {props.user && props.user.id ? (
+                    <Dropdown
+                      placement="topCenter"
+                      className="ml-auto"
+                      overlay={reactionsMenu}
+                    >
+                      <a onClick={(e) => e.preventDefault()}>
+                        <Button
+                          className="wd-100pc"
+                          type="text"
+                          icon={
+                            getArticleData.articles[0].reactions_to_articles ? (
+                              getArticleData.articles[0].reactions_to_articles.map(
+                                (items) => {
+                                  if (
+                                    props.user &&
+                                    props.user.id == items.user.id
+                                  ) {
+                                    return (
+                                      <div className="d-flex">
+                                        <Reactions className="ml-10">
+                                          <div className="reaction-holder">
+                                            <div className="reaction">
+                                              <i
+                                                className={`${items.reaction.code} va-middle fs-22`}
+                                                style={
+                                                  items.reaction.color
+                                                    ? color
+                                                    : items.reaction.gradient
+                                                }
+                                              ></i>
+                                            </div>
                                           </div>
-                                        </div>
-                                      </Reactions>
-                                      <Text className="fs-14 lh-3 ml-20" strong>
-                                        {items.reaction.name == "love"
-                                          ? "Loved it!"
-                                          : items.reaction.name == "sux"
-                                          ? "Hate it!"
-                                          : items.reaction.name == "awsum"
-                                          ? "Wow Mate!"
-                                          : null}
-                                      </Text>
-                                    </div>
-                                  );
+                                        </Reactions>
+                                        <Text
+                                          className="fs-14 lh-3 ml-20"
+                                          strong
+                                        >
+                                          {items.reaction.name == "love"
+                                            ? "Loved it!"
+                                            : items.reaction.name == "sux"
+                                            ? "Hate it!"
+                                            : items.reaction.name == "awsum"
+                                            ? "Wow Mate!"
+                                            : null}
+                                        </Text>
+                                      </div>
+                                    );
+                                  }
                                 }
-                              }
+                              )
+                            ) : (
+                              <i className="ri-thumb-up-line fs-22 lh-2 mt-5 mr-10"></i>
                             )
-                          ) : (
-                            <i className="ri-thumb-up-line fs-22 lh-2 mt-5 mr-10"></i>
-                          )
-                        }
-                      ></Button>
-                    </a>
-                  </Dropdown>
+                          }
+                        ></Button>
+                      </a>
+                    </Dropdown>
+                  ) : (
+                    <Text strong className="ml-auto lh-3">
+                      Please Sign in To Vote
+                    </Text>
+                  )}
+
                   {reacted ? (
                     <Typography.Link
                       className="mr-5 ml-20"
