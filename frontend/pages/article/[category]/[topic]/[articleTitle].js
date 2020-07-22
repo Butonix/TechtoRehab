@@ -19,6 +19,7 @@ import {
   message,
   Menu,
   Dropdown,
+  Skeleton as Skeleton2,
   Checkbox,
 } from "antd";
 import { useRouter } from "next/router";
@@ -355,6 +356,12 @@ const Article = (props) => {
   //
   //
 
+  const placeholder = (
+    <Skeleton>
+      <Comments />
+    </Skeleton>
+  );
+
   const reactionsMenu = (
     <Menu className="pd-5 d-flex" style={{ borderRadius: 35 }}>
       <Reactions>
@@ -526,14 +533,14 @@ const Article = (props) => {
                   (blocks, index) => {
                     return blocks.type == "paragraph" ? (
                       <p
-                        className="pd-x-20 mt-10 mb-10"
+                        className="pd-x-10 mt-10 mb-10"
                         dangerouslySetInnerHTML={{ __html: blocks.data.text }}
                         key={index + blocks.type}
                       />
                     ) : blocks.type == "header" ? (
                       <Title
                         level={1}
-                        className="pd-x-20 mt-10 mb-20"
+                        className="pd-x-10 mt-10 mb-20"
                         key={index + blocks.type}
                         style={
                           index == "0" ? { marginTop: "20px !important" } : null
@@ -543,10 +550,7 @@ const Article = (props) => {
                       </Title>
                     ) : blocks.type == "image" ? (
                       <Row justify="center" key={blocks.type + nanoid()}>
-                        <figure
-                          className="mg-y-10"
-                          style={{ maxWidth: "100%" }}
-                        >
+                        <figure className="mg-y-10 figure">
                           <ProgressiveImage
                             src={blocks.data.file.url}
                             placeholder={
@@ -647,21 +651,25 @@ const Article = (props) => {
                               <a href={blocks.data.link}>
                                 <ProgressiveImage
                                   src={blocks.data.meta.image.url}
-                                  placeholder={
-                                    blocks.data.meta.image.url.slice(
-                                      0,
-                                      blocks.data.meta.image.url.length - 5
-                                    ) + "-placeholder.webp"
-                                  }
                                   threshold={1}
                                 >
-                                  {(src) => (
-                                    <img
-                                      src={src}
-                                      alt="an alternative text"
-                                      className="link-image"
-                                    />
-                                  )}
+                                  {(src, loading) => {
+                                    return loading ? (
+                                      <div
+                                        className="shine"
+                                        style={{
+                                          width: "100%",
+                                          height: 400,
+                                        }}
+                                      />
+                                    ) : (
+                                      <img
+                                        src={src}
+                                        alt="an alternative text"
+                                        className="link-image"
+                                      />
+                                    );
+                                  }}
                                 </ProgressiveImage>
                               </a>
                             }
