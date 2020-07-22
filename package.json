@@ -5,12 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "argon2": "^0.26.2",
-    "pm2": "^4.4.0"
+    "argon2": "^0.26.2"
   }
 }
