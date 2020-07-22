@@ -308,6 +308,7 @@ export default function Home(props) {
                           placeholder={
                             item.featured_image + "-placeholder.webp"
                           }
+                          delay={500}
                           threshold={1}
                         >
                           {(src) => (
@@ -315,7 +316,10 @@ export default function Home(props) {
                               src={src}
                               alt="an alternative text"
                               style={{
-                                height: 150,
+                                minWidth: 60,
+                                minHeight: 60,
+                                maxWidth: 150,
+                                maxHeight: 150,
                               }}
                             />
                           )}
