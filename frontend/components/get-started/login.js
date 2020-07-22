@@ -330,6 +330,7 @@ const Login = () => {
           icon={
             <img src="/facebook.svg" className="mr-20 va-minus-6" width={23} />
           }
+          autoLogin={false}
         >
           Continue With Facebook
         </SocialButton>
@@ -354,6 +355,7 @@ const Login = () => {
           onLoginFailure={() => {
             message.error("Unable to log in using Google");
           }}
+          autoLogin={false}
         >
           Continue With Google
         </SocialButton>
