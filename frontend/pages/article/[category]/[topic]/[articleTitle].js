@@ -1043,13 +1043,17 @@ const Article = (props) => {
                       <List.Item
                         actions={[<a key="list-loadmore-edit">View Source</a>]}
                       >
-                        <List.Item.Meta title="Hello" />
+                        <List.Item.Meta
+                          title={<Text className="fs-14">Hello</Text>}
+                        />
                       </List.Item>
 
                       <List.Item
                         actions={[<a key="list-loadmore-edit">View Source</a>]}
                       >
-                        <List.Item.Meta title="Hello" />
+                        <List.Item.Meta
+                          title={<Text className="fs-14">Hello</Text>}
+                        />
                       </List.Item>
                     </List>
                   </div>
