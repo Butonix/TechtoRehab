@@ -314,13 +314,8 @@ export default function Home(props) {
                           {(src) => (
                             <img
                               src={src}
+                              className="home-list-image"
                               alt="an alternative text"
-                              style={{
-                                minWidth: 60,
-                                minHeight: 60,
-                                maxWidth: 150,
-                                maxHeight: 150,
-                              }}
                             />
                           )}
                         </ProgressiveImage>

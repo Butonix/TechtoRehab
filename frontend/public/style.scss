@@ -1258,6 +1258,8 @@ img {
     @include mobile {
       max-width: 100%;
       min-width: 400px;
+      min-height: 350px;
+      max-height: 350px;
     }
   }
 
@@ -1356,5 +1358,18 @@ img {
 .mobile-bottom-bar-heading {
   @include mobile {
     display: none !important;
+  }
+}
+
+.home-list-image {
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+  @include mobile {
+    min-width: 80px;
+    min-height: 80px;
+    max-width: 80px;
+    max-height: 80px;
   }
 }
