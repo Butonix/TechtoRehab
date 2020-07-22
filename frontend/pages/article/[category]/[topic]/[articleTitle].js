@@ -512,11 +512,14 @@ const Article = (props) => {
                       />
                     ) : blocks.type == "header" ? (
                       <Title
-                        level={blocks.data.level}
+                        level={1}
                         className="pd-x-20 mt-10 mb-20"
                         key={index + blocks.type}
+                        style={
+                          index == "0" ? { marginTop: "20px !important" } : null
+                        }
                       >
-                        {blocks.data.text.replace(/&nbsp;/g, "")}
+                        {blocks.data.text.replace(/&nbsp;/gi, "")}
                       </Title>
                     ) : blocks.type == "image" ? (
                       <Row justify="center" key={blocks.type + nanoid()}>
@@ -545,7 +548,8 @@ const Article = (props) => {
                                 className="mt-5 ml-10 fw-600"
                                 key={index + blocks.type}
                               >
-                                Caption -- {blocks.data.caption}
+                                Caption --{" "}
+                                {blocks.data.caption.replace(/&nbsp;/gi, "")}
                               </figcaption>
                             </Card>
                           ) : null}
@@ -801,9 +805,10 @@ const Article = (props) => {
           </Row>
           <Row className="mt-10 mg-x-5 mb-20 mt-10" justify="center">
             <Col xs={24} sm={24} md={20} lg={18} xl={12} xxl={12}>
-              <Divider orientation="left">React To This</Divider>
-
-              <Card>
+              <Divider orientation="left" className="mobile-bottom-bar-heading">
+                React To This
+              </Divider>
+              <Card className="mobile-bottom-bar">
                 <Row>
                   <a>
                     <Reactions>
@@ -941,7 +946,9 @@ const Article = (props) => {
                           className="wd-100pc"
                           type="text"
                           icon={
-                            getArticleData.articles[0].reactions_to_articles ? (
+                            getArticleData.articles[0].reactions_to_articles &&
+                            getArticleData.articles[0].reactions_to_articles
+                              .length > 0 ? (
                               getArticleData.articles[0].reactions_to_articles.map(
                                 (items) => {
                                   if (

@@ -289,6 +289,9 @@ const SocialLogin = (props) => {
                 label="Repeat Password"
                 name="rPassword"
                 rules={[
+                  {
+                    required: true,
+                  },
                   ({ getFieldValue }) => ({
                     validator: (_, val) => {
                       if (val !== getFieldValue("password")) {

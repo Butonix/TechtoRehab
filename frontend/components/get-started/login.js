@@ -38,7 +38,7 @@ const checkUserGoogleQuery = gql`
         username
         email
         id
-        settings {
+        private_info {
           status
           role
         }
@@ -57,7 +57,7 @@ const checkUserFacebookQuery = gql`
         username
         email
         id
-        settings {
+        private_info {
           status
           role
         }
@@ -144,8 +144,8 @@ const Login = () => {
               id: data.users_aggregate.nodes[0].id,
               username: data.users_aggregate.nodes[0].username,
               email: data.users_aggregate.nodes[0].email,
-              status: data.users_aggregate.nodes[0].settings.status,
-              role: data.users_aggregate.nodes[0].settings.role,
+              status: data.users_aggregate.nodes[0].private_info.status,
+              role: data.users_aggregate.nodes[0].private_info.role,
             }),
           })
             .then((res) => res.json())
@@ -186,8 +186,8 @@ const Login = () => {
               id: data.users_aggregate.nodes[0].id,
               username: data.users_aggregate.nodes[0].username,
               email: data.users_aggregate.nodes[0].email,
-              status: data.users_aggregate.nodes[0].settings.status,
-              role: data.users_aggregate.nodes[0].settings.role,
+              status: data.users_aggregate.nodes[0].private_info.status,
+              role: data.users_aggregate.nodes[0].private_info.role,
             }),
           })
             .then((res) => res.json())
