@@ -385,10 +385,20 @@ const Article = (props) => {
                 }}
               >
                 <a>
-                  <i
-                    className={`${reactions.code} va-minus-4`}
-                    style={reactions.color ? color : reactions.gradient}
-                  ></i>
+                  <Dropdown
+                    arrow
+                    overlay={
+                      <Text strong className="t-transform-cpt fs-16">
+                        {reactions.name}
+                      </Text>
+                    }
+                    placement="topCenter"
+                  >
+                    <i
+                      className={`${reactions.code} va-minus-4`}
+                      style={reactions.color ? color : reactions.gradient}
+                    ></i>
+                  </Dropdown>
                 </a>
               </div>
             </div>
@@ -950,6 +960,7 @@ const Article = (props) => {
                       placement="topCenter"
                       className="ml-auto"
                       overlay={reactionsMenu}
+                      arrow
                     >
                       <a onClick={(e) => e.preventDefault()}>
                         <Button
