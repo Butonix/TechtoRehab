@@ -405,7 +405,17 @@ const Article = (props) => {
   //
 
   return (
-    <Wrapper user={props.user}>
+    <Wrapper
+      user={props.user}
+      seo={{
+        title: getArticleData.articles[0]
+          ? getArticleData.articles[0].title
+          : "Tech To Rehab",
+        description: getArticleData.articles[0]
+          ? getArticleData.articles[0].excerpt
+          : "The Open Source Collaboration Platform",
+      }}
+    >
       {getArticleData.articles[0] ? (
         <>
           <Row justify="center">
@@ -791,7 +801,7 @@ const Article = (props) => {
                             </ProgressiveImage>
                           }
                           title={
-                            <Text className="t-transform-cpt lh-2-5">
+                            <Text className="t-transform-cpt lh-2-5 fs-14">
                               {item.authors.username}
                             </Text>
                           }
