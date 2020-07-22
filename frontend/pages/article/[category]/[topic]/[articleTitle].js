@@ -638,49 +638,55 @@ const Article = (props) => {
                         )}
                       </Row>
                     ) : blocks.type == "linkTool" ? (
-                      <Card
-                        className="mt-20 mb-20 mg-x-10"
-                        key={index + blocks.type}
-                      >
-                        <Row>
-                          <Col span={14}>
-                            <a href={blocks.data.link}>
-                              <Text className="fs-16" strong>
-                                {blocks.data.meta.title}
-                              </Text>
-                            </a>
-                            <Paragraph
-                              className="fs-14 mt-10"
-                              ellipsis={{ rows: 2 }}
-                            >
-                              {blocks.data.meta.description}
-                            </Paragraph>
-                            <Text>{blocks.data.meta.site_name}</Text>
-                          </Col>
-                          <Col span={10} className="d-flex jc-end">
-                            <a href={blocks.data.link}>
-                              <ProgressiveImage
-                                src={blocks.data.meta.image.url}
-                                placeholder={
-                                  blocks.data.meta.image.url.slice(
-                                    0,
-                                    blocks.data.meta.image.url.length - 5
-                                  ) + "-placeholder.webp"
-                                }
-                                threshold={1}
+                      <Row justify="center">
+                        <Col xs={24} sm={24} md={22} lg={18} xl={18} xxl={16}>
+                          <Card
+                            className="mt-20 mb-20"
+                            key={index + blocks.type}
+                            cover={
+                              <a href={blocks.data.link}>
+                                <ProgressiveImage
+                                  src={blocks.data.meta.image.url}
+                                  placeholder={
+                                    blocks.data.meta.image.url.slice(
+                                      0,
+                                      blocks.data.meta.image.url.length - 5
+                                    ) + "-placeholder.webp"
+                                  }
+                                  threshold={1}
+                                >
+                                  {(src) => (
+                                    <img
+                                      src={src}
+                                      alt="an alternative text"
+                                      className="link-image"
+                                    />
+                                  )}
+                                </ProgressiveImage>
+                              </a>
+                            }
+                          >
+                            <Col>
+                              <a href={blocks.data.link}>
+                                <Paragraph
+                                  className="fs-16"
+                                  strong
+                                  ellipsis={{ rows: 2 }}
+                                >
+                                  {blocks.data.meta.title}
+                                </Paragraph>
+                              </a>
+                              <Paragraph
+                                className="fs-14 mt-10"
+                                ellipsis={{ rows: 2 }}
                               >
-                                {(src) => (
-                                  <img
-                                    src={src}
-                                    alt="an alternative text"
-                                    className="link-image"
-                                  />
-                                )}
-                              </ProgressiveImage>
-                            </a>
-                          </Col>
-                        </Row>
-                      </Card>
+                                {blocks.data.meta.description}
+                              </Paragraph>
+                              <Text>{blocks.data.meta.site_name}</Text>
+                            </Col>
+                          </Card>
+                        </Col>
+                      </Row>
                     ) : blocks.type == "delimiter" ? (
                       <Row className="pd-x-20" key={index + blocks.type}>
                         <Divider />

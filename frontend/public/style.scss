@@ -1262,16 +1262,20 @@ img {
   }
 
   .link-image {
-    max-width: 100px;
-    min-width: 100px;
-    max-height: 100px;
-    min-height: 100px;
-    @include mobile {
-      max-width: 50px;
-      min-width: 50px;
-      max-height: 50px;
-      min-height: 50px;
-    }
+    max-width: 100% !important;
+    max-height: 400px !important;
+    min-width: 100% !important;
+    min-height: 300px !important;
+    // max-width: 100px;
+    // min-width: 100px;
+    // max-height: 100px;
+    // min-height: 100px;
+    // @include mobile {
+    //   max-width: 70px;
+    //   min-width: 70px;
+    //   max-height: 70px;
+    //   min-height: 70px;
+    // }
   }
 
   pre {
