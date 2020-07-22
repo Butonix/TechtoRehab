@@ -25,11 +25,13 @@ const addSocialUserQuery = gql`
     $firstName: String!
     $lastName: String!
     $status: String!
+    $password: String!
   ) {
     insert_users_private_info(
       objects: {
         provider: $provider
         status: $status
+        password: $password
         user: {
           data: {
             username: $username
@@ -162,6 +164,7 @@ const SocialLogin = (props) => {
           });
       },
       onError: (err) => {
+        console.log(err);
         if (err.graphQLErrors[0].message.includes("Uniqueness violation")) {
           if (props.provider === "google") {
             updateExistingUser({
@@ -213,6 +216,7 @@ const SocialLogin = (props) => {
                       provider: props.provider,
                       firstName: props.first_name,
                       lastName: props.last_name,
+                      password: data.rPassword,
                       status: "confirmed",
                     },
                   });
@@ -225,6 +229,7 @@ const SocialLogin = (props) => {
                       profilePicture: props.profilePicUrl,
                       provider: props.provider,
                       firstName: props.first_name,
+                      password: data.rPassword,
                       lastName: props.last_name,
                       status: "confirmed",
                     },
@@ -263,6 +268,40 @@ const SocialLogin = (props) => {
               >
                 <Input disabled />
               </Form.Item>
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                  },
+                  {
+                    pattern: /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$£¥%^&*])[\w!@#$£¥%^&*]{12,}$/,
+                    message:
+                      "Password - Atleast - 12 - Characters - 1 Capital Letter - 1 Special Character - One Number",
+                  },
+                ]}
+              >
+                <Input.Password autoComplete="new-password" />
+              </Form.Item>
+
+              <Form.Item
+                label="Repeat Password"
+                name="rPassword"
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator: (_, val) => {
+                      if (val !== getFieldValue("password")) {
+                        return Promise.reject("Passwords don't match");
+                      } else {
+                        return Promise.resolve();
+                      }
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
 
               <Form.Item
                 label="Profile Photo"
@@ -271,6 +310,7 @@ const SocialLogin = (props) => {
               >
                 <img src={props.profilePicUrl} width={200} height={200} />
               </Form.Item>
+
               <Form.Item
                 name="terms"
                 label="Terms & Conditions"
