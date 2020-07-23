@@ -108,7 +108,7 @@ const Categories = (props) => {
                   <img src={getCategoryData.category[0].cover} height={300} />
                 ) : (
                   <div
-                    className="d-flex jc-center flex-column"
+                    className="d-flex jc-center flex-column ai-center"
                     style={{
                       height: 300,
                     }}
@@ -118,30 +118,31 @@ const Categories = (props) => {
                         background: gradient(
                           getCategory2Data.category[0].title
                         ),
-
                         height: 300,
                         position: "relative",
                         zIndex: 1,
+                        width: "100%",
                       }}
                     />
-                    <Text
-                      className="ta-center fs-26 fw-bold"
+                    <Paragraph
+                      className="ta-center fs-26 fw-bold t-transform-cpt"
+                      ellipsis={{
+                        rows: 2,
+                      }}
                       style={{
-                        position: "relative",
+                        position: "absolute",
                         zIndex: 2,
-                        marginTop: -170,
+                        top: 130,
+
                         color: "white",
                       }}
                     >
                       {getCategory2Data.category[0].title}
-                    </Text>
+                    </Paragraph>
                   </div>
                 )
               }
             >
-              <Title level={4} className="mt-10 mb-30">
-                {getCategory2Data.category[0].title}
-              </Title>
               {getCategoryLoading ? (
                 <Skeleton active />
               ) : (
@@ -162,6 +163,7 @@ const Categories = (props) => {
                       itemLayout="vertical"
                       renderItem={(item) => (
                         <List.Item
+                          className="article-list-item"
                           extra={[
                             <a
                               href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
@@ -176,14 +178,9 @@ const Categories = (props) => {
                               >
                                 {(src) => (
                                   <img
+                                    className="list-image"
                                     src={src}
                                     alt="an alternative text"
-                                    style={{
-                                      maxWidth: 100,
-                                      minWidth: 50,
-                                      minHeight: 100,
-                                      maxHeight: 100,
-                                    }}
                                   />
                                 )}
                               </ProgressiveImage>
@@ -221,20 +218,28 @@ const Categories = (props) => {
                               ) {
                                 console.log(item);
                                 return (
-                                  <div
-                                    className="reaction-holder"
-                                    key={reaction.name}
-                                  >
+                                  <>
                                     <div
-                                      className="reaction fs-22"
+                                      className="reaction-holder"
                                       key={reaction.name}
                                     >
-                                      <i
-                                        className={`${reaction.code} va-middle`}
-                                        style={reaction.gradient}
-                                      ></i>
+                                      <div
+                                        className="reaction fs-22"
+                                        key={reaction.name}
+                                      >
+                                        <i
+                                          className={`${reaction.code} va-middle`}
+                                          style={reaction.gradient}
+                                        ></i>
+                                      </div>
                                     </div>
-                                  </div>
+                                    <div className="reaction-total mt-10">
+                                      {
+                                        item.reactions_to_articles_aggregate
+                                          .aggregate.count
+                                      }
+                                    </div>
+                                  </>
                                 );
                               }
                             })}
@@ -253,51 +258,56 @@ const Categories = (props) => {
                         </div>
                       }
                     >
-                      <List.Item actions={[<a>View</a>]}>
-                        <List.Item.Meta
-                          title={
-                            <Paragraph
-                              className="fs-14"
-                              ellipsis={{
-                                rows: 2,
-                              }}
-                            >
-                              {
-                                getCategoryData.category[0]
-                                  .articles_to_categories[0].title
-                              }
-                            </Paragraph>
-                          }
-                          avatar={
-                            <ProgressiveImage
-                              src={
-                                getCategoryData.category[0]
-                                  .articles_to_categories[0].featured_image +
-                                ".webp"
-                              }
-                              placeholder={
-                                getCategoryData.category[0]
-                                  .articles_to_categories[0].featured_image +
-                                "-placeholder.webp"
-                              }
-                              threshold={1}
-                              delay={600}
-                            >
-                              {(src) => (
-                                <img
-                                  src={src}
-                                  alt="an alternative text"
-                                  style={{
-                                    height: 35,
-                                    width: 35,
-                                    borderRadius: "50%",
+                      <List
+                        dataSource={
+                          getCategoryData.category[0].articles_to_categories
+                        }
+                        renderItem={(item) => (
+                          <List.Item>
+                            <List.Item.Meta
+                              title={
+                                <Paragraph
+                                  className="fs-14"
+                                  ellipsis={{
+                                    rows: 2,
                                   }}
-                                />
-                              )}
-                            </ProgressiveImage>
-                          }
-                        />
-                      </List.Item>
+                                >
+                                  <a
+                                    href={`/article/${item.article_category.title}/${item.article_topic.title}/${item.slug}`}
+                                    style={{
+                                      color: "inherit",
+                                    }}
+                                  >
+                                    {item.title}
+                                  </a>
+                                </Paragraph>
+                              }
+                              avatar={
+                                <ProgressiveImage
+                                  src={item.featured_image + ".webp"}
+                                  placeholder={
+                                    item.featured_image + "-placeholder.webp"
+                                  }
+                                  threshold={1}
+                                  delay={600}
+                                >
+                                  {(src) => (
+                                    <img
+                                      src={src}
+                                      alt="an alternative text"
+                                      style={{
+                                        height: 35,
+                                        width: 35,
+                                        borderRadius: "50%",
+                                      }}
+                                    />
+                                  )}
+                                </ProgressiveImage>
+                              }
+                            />
+                          </List.Item>
+                        )}
+                      />
                     </Card>
                     <Card
                       bordered={false}
@@ -309,51 +319,56 @@ const Categories = (props) => {
                         </div>
                       }
                     >
-                      <List.Item actions={[<a>View</a>]}>
-                        <List.Item.Meta
-                          title={
-                            <Paragraph
-                              className="fs-14"
-                              ellipsis={{
-                                rows: 2,
-                              }}
-                            >
-                              {
-                                getCategoryData.category[0]
-                                  .articles_to_categories[0].title
-                              }
-                            </Paragraph>
-                          }
-                          avatar={
-                            <ProgressiveImage
-                              src={
-                                getCategoryData.category[0]
-                                  .articles_to_categories[0].featured_image +
-                                ".webp"
-                              }
-                              placeholder={
-                                getCategoryData.category[0]
-                                  .articles_to_categories[0].featured_image +
-                                "-placeholder.webp"
-                              }
-                              threshold={1}
-                              delay={600}
-                            >
-                              {(src) => (
-                                <img
-                                  src={src}
-                                  alt="an alternative text"
-                                  style={{
-                                    height: 35,
-                                    width: 35,
-                                    borderRadius: "50%",
+                      <List
+                        dataSource={
+                          getCategoryData.category[0].articles_to_categories
+                        }
+                        renderItem={(item) => (
+                          <List.Item>
+                            <List.Item.Meta
+                              title={
+                                <Paragraph
+                                  className="fs-14"
+                                  ellipsis={{
+                                    rows: 2,
                                   }}
-                                />
-                              )}
-                            </ProgressiveImage>
-                          }
-                        />
-                      </List.Item>
+                                >
+                                  <a
+                                    href={`/article/${item.article_category.title}/${item.article_topic.title}/${item.slug}`}
+                                    style={{
+                                      color: "inherit",
+                                    }}
+                                  >
+                                    {item.title}
+                                  </a>
+                                </Paragraph>
+                              }
+                              avatar={
+                                <ProgressiveImage
+                                  src={item.featured_image + ".webp"}
+                                  placeholder={
+                                    item.featured_image + "-placeholder.webp"
+                                  }
+                                  threshold={1}
+                                  delay={600}
+                                >
+                                  {(src) => (
+                                    <img
+                                      src={src}
+                                      alt="an alternative text"
+                                      style={{
+                                        height: 35,
+                                        width: 35,
+                                        borderRadius: "50%",
+                                      }}
+                                    />
+                                  )}
+                                </ProgressiveImage>
+                              }
+                            />
+                          </List.Item>
+                        )}
+                      />
                     </Card>
                   </Col>
                 </Row>

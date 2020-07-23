@@ -2,6 +2,7 @@ import { Row, Col, Card, Typography, Button, List, Skeleton } from "antd";
 import Wrapper from "components/global/wrapper";
 import { gql, useQuery } from "@apollo/client";
 import withSession from "lib/session";
+import gradient from "random-gradient";
 
 const getCategoriesQuery = gql`
   query getCategories {
@@ -14,7 +15,7 @@ const getCategoriesQuery = gql`
     }
   }
 `;
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 const Categories = (props) => {
   const { data: getCategoriesData, loading: getCategoriesLoading } = useQuery(
     getCategoriesQuery
@@ -51,24 +52,57 @@ const Categories = (props) => {
                   <List.Item className="mr-10">
                     <Card
                       cover={
-                        <a href={`/category/${item.slug}`}>
-                          <img
-                            alt="example"
-                            width={300}
-                            height={300}
-                            src={
-                              item.cover ? item.cover : "/image-placeholder.svg"
-                            }
-                          />
-                        </a>
+                        item.cover ? (
+                          <img src={`${item.cover}`} />
+                        ) : (
+                          <div
+                            className="d-flex jc-center flex-column ai-center"
+                            style={{
+                              height: 300,
+                            }}
+                          >
+                            <div
+                              style={{
+                                background: gradient(item.title),
+                                height: 300,
+                                position: "relative",
+                                zIndex: 1,
+                                width: "100%",
+                              }}
+                            />
+
+                            <Paragraph
+                              className="ta-center fs-26 fw-bold t-transform-cpt"
+                              ellipsis={{
+                                rows: 2,
+                              }}
+                              style={{
+                                position: "absolute",
+                                zIndex: 2,
+                                top: 130,
+
+                                color: "white",
+                              }}
+                            >
+                              <a
+                                href={`/category/${item.slug}`}
+                                style={{
+                                  color: "inherit",
+                                }}
+                              >
+                                {item.title}
+                              </a>
+                            </Paragraph>
+                          </div>
+                        )
                       }
                     >
                       <Card.Meta
-                        title={
-                          <a href={`/category/${item.slug}`}>
-                            <Text>{item.title}</Text>
-                          </a>
-                        }
+                        // title={
+                        //   <a href={`/category/${item.slug}`}>
+                        //     <Text>{item.title}</Text>
+                        //   </a>
+                        // }
                         description={
                           item.description
                             ? item.description

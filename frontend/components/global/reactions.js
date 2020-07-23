@@ -25,7 +25,6 @@ export const Reactions = styled.div`
   }
 
   .reaction-total {
-    line-height: 2.5;
     margin-left: 25px;
   }
 

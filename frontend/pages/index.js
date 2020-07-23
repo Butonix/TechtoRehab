@@ -314,7 +314,7 @@ export default function Home(props) {
                           {(src) => (
                             <img
                               src={src}
-                              className="home-list-image"
+                              className="list-image"
                               alt="an alternative text"
                             />
                           )}

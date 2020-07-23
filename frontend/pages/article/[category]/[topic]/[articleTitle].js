@@ -356,12 +356,6 @@ const Article = (props) => {
   //
   //
 
-  const placeholder = (
-    <Skeleton>
-      <Comments />
-    </Skeleton>
-  );
-
   const reactionsMenu = (
     <Menu className="pd-5 d-flex" style={{ borderRadius: 35 }}>
       <Reactions>
@@ -787,7 +781,8 @@ const Article = (props) => {
                           avatar={
                             <ProgressiveImage
                               src={
-                                item.authors.profile_picture
+                                item.authors.profile_picture &&
+                                item.authors.profile_picture.length > 0
                                   ? item.authors.profile_picture.includes(
                                       "http"
                                     ) ||
@@ -796,10 +791,11 @@ const Article = (props) => {
                                     )
                                     ? item.authors.profile_picture
                                     : item.authors.profile_picture + ".webp"
-                                  : null
+                                  : "/blank.svg"
                               }
                               placeholder={
-                                item.authors.profile_picture
+                                item.authors.profile_picture &&
+                                item.authors.profile_picture.length > 0
                                   ? item.authors.profile_picture.includes(
                                       "http"
                                     ) ||
@@ -811,7 +807,7 @@ const Article = (props) => {
                                         0,
                                         item.authors.profile_picture.length - 4
                                       ) + "-placeholder.webp"
-                                  : null
+                                  : "/blank.svg"
                               }
                               threshold={1}
                             >
@@ -944,16 +940,21 @@ const Article = (props) => {
                                       >
                                         <Avatar
                                           src={
-                                            reactionsToArticles.user.profile_picture.includes(
-                                              "http"
-                                            ) ||
-                                            reactionsToArticles.user.profile_picture.includes(
-                                              "https"
-                                            )
-                                              ? reactionsToArticles.user
-                                                  .profile_picture
-                                              : reactionsToArticles.user
-                                                  .profile_picture + ".webp"
+                                            reactionsToArticles.user
+                                              .profile_picture &&
+                                            reactionsToArticles.user
+                                              .profile_picture.length > 0
+                                              ? reactionsToArticles.user.profile_picture.includes(
+                                                  "http"
+                                                ) ||
+                                                reactionsToArticles.user.profile_picture.includes(
+                                                  "https"
+                                                )
+                                                ? reactionsToArticles.user
+                                                    .profile_picture
+                                                : reactionsToArticles.user
+                                                    .profile_picture + ".webp"
+                                              : "/blank.svg"
                                           }
                                         />
                                         <Text>
