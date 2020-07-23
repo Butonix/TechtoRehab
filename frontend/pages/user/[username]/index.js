@@ -106,10 +106,12 @@ const User = (props) => {
   });
 
   const [cover, setCover] = useState(
-    getUserData.users.length > 0 ? getUserData.users[0].cover : null
+    getUserData.users.length > 0 && getUserData.users[0].cover
+      ? getUserData.users[0].cover
+      : null
   );
   const [dp, setDp] = useState(
-    getUserData.users.length > 0
+    getUserData.users.length > 0 && getUserData.users[0].profile_picture
       ? getUserData.users[0].profile_picture.includes("http") ||
         getUserData.users[0].profile_picture.includes("https")
         ? getUserData.users[0].profile_picture
@@ -156,7 +158,6 @@ const User = (props) => {
 
   return (
     <Wrapper user={props.user}>
-      {console.log(getUserData)}
       {props.username == null || getUserData.users.length < 1 ? (
         <Error404 />
       ) : (
@@ -193,9 +194,7 @@ const User = (props) => {
                         src={cover ? cover + ".webp" : "/cover.svg"}
                         threshold={1}
                         placeholder={
-                          cover
-                            ? cover + "-placeholder.webp"
-                            : "/cover-placeholder.webp"
+                          cover ? cover + "-placeholder.webp" : "/cover.svg"
                         }
                       >
                         {(src) => (
@@ -217,9 +216,7 @@ const User = (props) => {
                       threshold={1}
                       src={cover ? cover + ".webp" : "/cover.svg"}
                       placeholder={
-                        cover
-                          ? cover + "-placeholder.webp"
-                          : "/cover-placeholder.webp"
+                        cover ? cover + "-placeholder.webp" : "/cover.svg"
                       }
                     >
                       {(src) => (
@@ -240,9 +237,7 @@ const User = (props) => {
                   <ProgressiveImage
                     src={cover ? cover + ".webp" : "/cover.svg"}
                     placeholder={
-                      cover
-                        ? cover + "-placeholder.webp"
-                        : "/cover-placeholder.webp"
+                      cover ? cover + "-placeholder.webp" : "/cover.svg"
                     }
                   >
                     {(src) => (
@@ -285,7 +280,7 @@ const User = (props) => {
                       ></i>
                       <Avatar
                         size={100}
-                        src={dp}
+                        src={dp ? dp : "/cover.svg"}
                         style={{
                           margin: "auto",
                           marginTop: -70,
@@ -297,7 +292,7 @@ const User = (props) => {
                   ) : (
                     <Avatar
                       size={100}
-                      src={dp}
+                      src={dp ? dp : "/cover.svg"}
                       style={{
                         margin: "auto",
                         marginTop: -70,
@@ -309,7 +304,7 @@ const User = (props) => {
                 ) : (
                   <Avatar
                     size={100}
-                    src={dp}
+                    src={dp ? dp : "/cover.svg"}
                     style={{
                       margin: "auto",
                       marginTop: -70,

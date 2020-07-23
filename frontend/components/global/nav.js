@@ -345,7 +345,8 @@ const Navigation = (props) => {
               icon={
                 <Avatar
                   src={
-                    getUserProfilePictureData
+                    getUserProfilePictureData &&
+                    getUserProfilePictureData.users[0].profile_picture
                       ? getUserProfilePictureData.users[0].profile_picture.includes(
                           "http"
                         ) ||
