@@ -179,10 +179,10 @@ const Categories = (props) => {
                                     src={src}
                                     alt="an alternative text"
                                     style={{
-                                      maxWidth: 200,
-                                      minWidth: 200,
+                                      maxWidth: 100,
+                                      minWidth: 50,
                                       minHeight: 100,
-                                      maxHeight: 200,
+                                      maxHeight: 100,
                                     }}
                                   />
                                 )}
@@ -197,7 +197,7 @@ const Categories = (props) => {
                               >
                                 <Paragraph
                                   ellipsis={{ rows: 2 }}
-                                  className="mr-20 ml-10"
+                                  className="mr-20 ml-10 fs-16"
                                 >
                                   {item.title}
                                 </Paragraph>
@@ -213,24 +213,25 @@ const Categories = (props) => {
                             }
                           />
                           <Reactions>
-                            {getCategoryData.reactions.map((reactions) => {
+                            {getCategoryData.reactions.map((reaction) => {
                               if (
-                                getCategoryData.category[0].articles_to_categories[0].reactions_to_articles.find(
-                                  (elem) => elem.reaction_id == reactions.id
+                                item.reactions_to_articles.find(
+                                  (elem) => elem.reaction_id == reaction.id
                                 )
                               ) {
+                                console.log(item);
                                 return (
                                   <div
                                     className="reaction-holder"
-                                    key={reactions.name}
+                                    key={reaction.name}
                                   >
                                     <div
                                       className="reaction fs-22"
-                                      key={reactions.name}
+                                      key={reaction.name}
                                     >
                                       <i
-                                        className={`${reactions.code} va-middle`}
-                                        style={reactions.gradient}
+                                        className={`${reaction.code} va-middle`}
+                                        style={reaction.gradient}
                                       ></i>
                                     </div>
                                   </div>
@@ -255,8 +256,17 @@ const Categories = (props) => {
                       <List.Item actions={[<a>View</a>]}>
                         <List.Item.Meta
                           title={
-                            getCategoryData.category[0]
-                              .articles_to_categories[0].title
+                            <Paragraph
+                              className="fs-14"
+                              ellipsis={{
+                                rows: 2,
+                              }}
+                            >
+                              {
+                                getCategoryData.category[0]
+                                  .articles_to_categories[0].title
+                              }
+                            </Paragraph>
                           }
                           avatar={
                             <ProgressiveImage
@@ -302,8 +312,17 @@ const Categories = (props) => {
                       <List.Item actions={[<a>View</a>]}>
                         <List.Item.Meta
                           title={
-                            getCategoryData.category[0]
-                              .articles_to_categories[0].title
+                            <Paragraph
+                              className="fs-14"
+                              ellipsis={{
+                                rows: 2,
+                              }}
+                            >
+                              {
+                                getCategoryData.category[0]
+                                  .articles_to_categories[0].title
+                              }
+                            </Paragraph>
                           }
                           avatar={
                             <ProgressiveImage
