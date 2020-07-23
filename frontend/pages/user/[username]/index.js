@@ -444,7 +444,7 @@ const User = (props) => {
                             Hmmm... Seems Empty
                           </Title>
                           <img
-                            src="/empty.svg"
+                            src="/Empty.svg"
                             className="o-fit-cover mg-y-20"
                             height={400}
                           />
