@@ -36,7 +36,34 @@ const Categories = (props) => {
               Categories
             </Title>
             {getCategoriesLoading ? (
-              <Skeleton active />
+              <div className="d-flex jc-space-around">
+                <Skeleton.Input
+                  className="mg-x-10 mg-y-10"
+                  style={{
+                    width: 350,
+                    height: 300,
+                  }}
+                  active
+                />
+
+                <Skeleton.Input
+                  className="mg-x-10 mg-y-10"
+                  style={{
+                    width: 350,
+                    height: 300,
+                  }}
+                  active
+                />
+
+                <Skeleton.Input
+                  className="mg-x-10 mg-y-10"
+                  style={{
+                    width: 350,
+                    height: 300,
+                  }}
+                  active
+                />
+              </div>
             ) : (
               <List
                 grid={{

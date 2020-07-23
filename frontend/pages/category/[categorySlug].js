@@ -10,7 +10,7 @@ import {
   Avatar,
 } from "antd";
 import Wrapper from "components/global/wrapper";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useLazyQuery } from "@apollo/client";
 import { initializeApollo } from "lib/apolloClient";
 import withSession from "lib/session";
 import gradient from "random-gradient";
@@ -59,6 +59,47 @@ const getCategoryQuery = gql`
   }
 `;
 
+const getTopArticlesQuery = gql`
+  query getTopArticles {
+    articles(order_by: { views_aggregate: { count: desc } }) {
+      title
+      featured_image
+      article_category {
+        title
+        slug
+      }
+      article_topic {
+        title
+        slug
+      }
+      slug
+      views_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+`;
+
+const getFeaturedArticlesQuery = gql`
+  query getFeaturedArticles {
+    articles(where: { featured: { _eq: true } }) {
+      title
+      article_topic {
+        title
+        slug
+      }
+      slug
+      featured_image
+      article_category {
+        title
+        slug
+      }
+    }
+  }
+`;
+
 const getCategory2Query = gql`
   query getCategories($slug: String!) {
     category(where: { slug: { _eq: $slug } }) {
@@ -85,6 +126,15 @@ const Categories = (props) => {
       slug: props.slug,
     },
   });
+
+  const { data: getTopArticlesData, loading: getTopArticlesLoading } = useQuery(
+    getTopArticlesQuery
+  );
+
+  const {
+    data: getFeaturedArticlesData,
+    loading: getFeaturedArticlesLoading,
+  } = useQuery(getFeaturedArticlesQuery);
 
   return (
     <>
@@ -143,19 +193,38 @@ const Categories = (props) => {
                 )
               }
             >
-              {getCategoryLoading ? (
-                <Skeleton active />
-              ) : (
-                <Row justify="space-between">
-                  <Col xs={24} sm={24} md={24} lg={15} xl={14} xxl={13}>
-                    <Divider
-                      orientation="left"
-                      style={{
-                        fontSize: 18,
-                      }}
-                    >
-                      Latest Entries
-                    </Divider>
+              <Row justify="space-between">
+                <Col xs={24} sm={24} md={24} lg={15} xl={14} xxl={13}>
+                  <Divider
+                    orientation="left"
+                    style={{
+                      fontSize: 18,
+                    }}
+                  >
+                    Latest Entries
+                  </Divider>
+                  {getCategoryLoading ? (
+                    <div className="mt-30">
+                      <Skeleton
+                        className="mt-30"
+                        active
+                        avatar
+                        round
+                        paragraph={{
+                          rows: 1,
+                        }}
+                      />
+                      <Skeleton
+                        className="mt-30"
+                        active
+                        avatar
+                        round
+                        paragraph={{
+                          rows: 1,
+                        }}
+                      />
+                    </div>
+                  ) : (
                     <List
                       dataSource={
                         getCategoryData.category[0].articles_to_categories
@@ -247,20 +316,32 @@ const Categories = (props) => {
                         </List.Item>
                       )}
                     />
-                  </Col>
-                  <Col xs={24} sm={24} md={24} lg={8} xl={9} xxl={9}>
-                    <Card
-                      bordered={false}
-                      title={
-                        <div className="d-flex">
-                          <i class="ri-star-line mr-10 va-minus-4 fs-20"></i>
-                          <Text>Featured</Text>
-                        </div>
-                      }
-                    >
+                  )}
+                </Col>
+                <Col xs={24} sm={24} md={24} lg={8} xl={9} xxl={9}>
+                  <Card
+                    bordered={false}
+                    title={
+                      <div className="d-flex">
+                        <i class="ri-star-line mr-10 va-minus-4 fs-20"></i>
+                        <Text
+                          style={{
+                            marginTop: 2,
+                          }}
+                        >
+                          Featured
+                        </Text>
+                      </div>
+                    }
+                  >
+                    {getFeaturedArticlesLoading ? (
+                      <Skeleton active avatar paragraph={false} title round />
+                    ) : (
                       <List
                         dataSource={
-                          getCategoryData.category[0].articles_to_categories
+                          getFeaturedArticlesData
+                            ? getFeaturedArticlesData.articles
+                            : null
                         }
                         renderItem={(item) => (
                           <List.Item>
@@ -308,20 +389,32 @@ const Categories = (props) => {
                           </List.Item>
                         )}
                       />
-                    </Card>
-                    <Card
-                      bordered={false}
-                      className="mt-30"
-                      title={
-                        <div className="d-flex">
-                          <i class="ri-trophy-line mr-10 va-minus-4 fs-20"></i>
-                          <Text>Top</Text>
-                        </div>
-                      }
-                    >
+                    )}
+                  </Card>
+                  <Card
+                    bordered={false}
+                    className="mt-30"
+                    title={
+                      <div className="d-flex">
+                        <i class="ri-trophy-line mr-10 va-minus-4 fs-20"></i>
+                        <Text
+                          style={{
+                            marginTop: 2,
+                          }}
+                        >
+                          Top
+                        </Text>
+                      </div>
+                    }
+                  >
+                    {getTopArticlesLoading ? (
+                      <Skeleton active avatar paragraph={false} title round />
+                    ) : (
                       <List
                         dataSource={
-                          getCategoryData.category[0].articles_to_categories
+                          getTopArticlesData
+                            ? getTopArticlesData.articles
+                            : null
                         }
                         renderItem={(item) => (
                           <List.Item>
@@ -369,10 +462,10 @@ const Categories = (props) => {
                           </List.Item>
                         )}
                       />
-                    </Card>
-                  </Col>
-                </Row>
-              )}
+                    )}
+                  </Card>
+                </Col>
+              </Row>
             </Card>
           </Col>
         </Row>

@@ -241,9 +241,24 @@ export default function Home(props) {
             </div>
             {loading || !data ? (
               <>
-                <Skeleton avatar className="mt-10 mb-20" active />
-                <Skeleton avatar className="mg-y-20" active />
-                <Skeleton avatar className="mg-y-20" active />
+                <Skeleton
+                  avatar
+                  className="mt-10 mb-20"
+                  avatar
+                  title
+                  paragraph={{ rows: 1 }}
+                  active
+                  round
+                />
+                <Skeleton
+                  avatar
+                  className="mg-y-20"
+                  avatar
+                  title
+                  paragraph={{ rows: 1 }}
+                  active
+                  round
+                />
               </>
             ) : (
               <InfiniteScroll
@@ -289,6 +304,7 @@ export default function Home(props) {
                       title
                       paragraph={{ rows: 1 }}
                       active
+                      round
                       key="sk-2"
                     />
                   </>
