@@ -731,10 +731,17 @@ const Article = (props) => {
                         height={500}
                         key={index + blocks.type}
                         placeholder={
-                          <Skeleton className="pd-10" key={index + blocks.type}>
-                            <Skeleton.Rectangle height={500} />
-                          </Skeleton>
+                          <span>
+                            <div
+                              className="shine"
+                              style={{
+                                width: "100%",
+                                height: 500,
+                              }}
+                            />
+                          </span>
                         }
+                        threshold={400}
                       >
                         <iframe
                           className="mg-y-20"
