@@ -841,7 +841,11 @@ const Article = (props) => {
               <Card className="mobile-bottom-bar">
                 <Row>
                   <a>
-                    <Reactions>
+                    <Reactions
+                      style={{
+                        marginTop: 2,
+                      }}
+                    >
                       {getArticleData.reactions.map((reactions, indexx) => {
                         if (
                           getArticleData.articles[0].reactions_to_articles.find(
