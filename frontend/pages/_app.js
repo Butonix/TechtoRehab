@@ -4,7 +4,7 @@ import { DefaultSeo } from "next-seo";
 import { storage } from "../store/store";
 import { createStore, StoreProvider, useStoreActions } from "easy-peasy";
 // import "public/light.scss";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import "public/style.scss";
 import "remixicon/fonts/remixicon.css";
 // import "public/dark.scss";
