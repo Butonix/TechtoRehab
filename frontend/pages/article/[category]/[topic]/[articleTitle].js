@@ -41,7 +41,7 @@ import {
   removeReactionQuery,
 } from "components/article/queries";
 import withSession from "lib/session";
-// import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import dynamic from "next/dynamic";
 import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreActions } from "easy-peasy";
@@ -58,9 +58,9 @@ import ProgressiveImage from "react-progressive-graceful-image";
 //
 //
 
-// const Syntax = dynamic(() => import("react-syntax-highlighter"), {
-//   ssr: false,
-// });
+const Syntax = dynamic(() => import("react-syntax-highlighter"), {
+  ssr: false,
+});
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -590,26 +590,25 @@ const Article = (props) => {
                         })}
                       </div>
                     ) : blocks.type == "code" ? (
-                      // <LazyLoad
-                      //   height={300}
-                      //   once
-                      //   key={index + blocks.type}
-                      //   placeholder={
-                      //     <Skeleton>
-                      //       <Skeleton.Rectangle height={300} />
-                      //     </Skeleton>
-                      //   }
-                      // >
-                      //   <Syntax
-                      //     style={monokaiSublime}
-                      //     language="auto-detect"
-                      //     showLineNumbers
-                      //     key={index + blocks.type}
-                      //   >
-                      //     {blocks.data.code}
-                      //   </Syntax>
-                      // </LazyLoad>
-                      <p />
+                      <LazyLoad
+                        height={300}
+                        once
+                        key={index + blocks.type}
+                        placeholder={
+                          <Skeleton>
+                            <Skeleton.Rectangle height={300} />
+                          </Skeleton>
+                        }
+                      >
+                        <Syntax
+                          style={monokaiSublime}
+                          language="auto-detect"
+                          showLineNumbers
+                          key={index + blocks.type}
+                        >
+                          {blocks.data.code}
+                        </Syntax>
+                      </LazyLoad>
                     ) : blocks.type == "list" ? (
                       <Row
                         className=""
