@@ -1019,6 +1019,19 @@ h6 {
   }
 }
 
+.medium-upload-picture-card {
+  width: unset !important;
+
+  .ant-upload-select-picture-card {
+    width: 150px !important;
+    height: 150px !important;
+    @include mobile {
+      width: 150px !important;
+      height: 150px !important;
+    }
+  }
+}
+
 .hoverable-reactions:hover {
   transform: scale3d(5);
   -webkit-transform: scale3d(2, 2, 2);

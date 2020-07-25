@@ -80,7 +80,7 @@ const Categories = (props) => {
                     <Card
                       cover={
                         item.cover ? (
-                          <img src={`${item.cover}`} />
+                          <img src={`${item.cover + ".webp"}`} height={300} />
                         ) : (
                           <div
                             className="d-flex jc-center flex-column ai-center"
@@ -125,11 +125,14 @@ const Categories = (props) => {
                       }
                     >
                       <Card.Meta
-                        // title={
-                        //   <a href={`/category/${item.slug}`}>
-                        //     <Text>{item.title}</Text>
-                        //   </a>
-                        // }
+                        title={
+                          <a
+                            className="t-transform-cpt"
+                            href={`/category/${item.slug}`}
+                          >
+                            <Text>{item.title}</Text>
+                          </a>
+                        }
                         description={
                           item.description
                             ? item.description

@@ -23,7 +23,6 @@ const getCategoryQuery = gql`
       slug
       title
       description
-      cover
       articles_to_categories {
         title
         excerpt
@@ -104,6 +103,7 @@ const getCategory2Query = gql`
     category(where: { slug: { _eq: $slug } }) {
       title
       description
+      cover
     }
   }
 `;
@@ -151,10 +151,28 @@ const Categories = (props) => {
                 padding: 10,
               }}
               cover={
-                getCategoryData &&
-                getCategoryData.category[0] &&
-                getCategoryData.category[0].cover ? (
-                  <img src={getCategoryData.category[0].cover} height={300} />
+                getCategory2Data &&
+                getCategory2Data.category[0].cover.length > 0 ? (
+                  <ProgressiveImage
+                    src={getCategory2Data.category[0].cover + ".webp"}
+                    placeholder={
+                      getCategory2Data.category[0].cover + "-placeholder.webp"
+                    }
+                    threshold={1}
+                    delay={600}
+                  >
+                    {(src) => (
+                      <img
+                        src={src}
+                        height={300}
+                        width="100%"
+                        style={{
+                          objectPosition: "top",
+                        }}
+                        alt="an alternative text"
+                      />
+                    )}
+                  </ProgressiveImage>
                 ) : (
                   <div
                     className="d-flex jc-center flex-column ai-center"
@@ -334,7 +352,15 @@ const Categories = (props) => {
                     }
                   >
                     {getFeaturedArticlesLoading ? (
-                      <Skeleton active avatar paragraph={false} title round />
+                      <Skeleton
+                        active
+                        avatar={{
+                          shape: "circle",
+                        }}
+                        paragraph={false}
+                        title
+                        round
+                      />
                     ) : (
                       <List
                         dataSource={
@@ -392,7 +418,6 @@ const Categories = (props) => {
                   </Card>
                   <Card
                     bordered={false}
-                    className="mt-30"
                     title={
                       <div className="d-flex">
                         <i class="ri-trophy-line mr-10 va-minus-4 fs-20"></i>
@@ -407,7 +432,15 @@ const Categories = (props) => {
                     }
                   >
                     {getTopArticlesLoading ? (
-                      <Skeleton active avatar paragraph={false} title round />
+                      <Skeleton
+                        active
+                        avatar={{
+                          shape: "circle",
+                        }}
+                        paragraph={false}
+                        title
+                        round
+                      />
                     ) : (
                       <List
                         dataSource={

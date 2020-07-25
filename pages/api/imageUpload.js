@@ -25,7 +25,7 @@ export default async (req, res) => {
       name = files.imageUpload.name.replace(".svg", "");
     }
 
-    name = files.imageUpload.name.replace(/ /g, "");
+    name = name.replace(/ /g, "");
 
     sharp(files.imageUpload.path)
       .resize(800, 800, {

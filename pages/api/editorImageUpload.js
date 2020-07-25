@@ -24,7 +24,7 @@ export default async (req, res) => {
     if (files.image.name.includes(".svg")) {
       name = files.image.name.replace(".svg", "");
     }
-    name = files.image.name.replace(/ /g, "");
+    name = name.replace(/ /g, "");
     sharp(files.image.path)
       .resize(800, 800, {
         position: "top",

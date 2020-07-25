@@ -14,27 +14,67 @@ const AdminWrapper = (props) => {
             mode="inline"
             style={{ position: "sticky", height: "100vh", top: 10 }}
           >
-            <Menu.Item key="home">
+            <Menu.Item
+              key="home"
+              icon={
+                <i
+                  class="ri-dashboard-2-line ri-lg va-minus-4 mr-10"
+                  style={{ color: "inherit" }}
+                ></i>
+              }
+            >
               <Link href="/admin">
                 <a>Dashboard</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="articles">
+            <Menu.Item
+              key="articles"
+              icon={
+                <i
+                  class="ri-book-open-line ri-lg va-minus-4 mr-10"
+                  style={{ color: "inherit" }}
+                ></i>
+              }
+            >
               <Link href="/admin/articles">
                 <a>Articles</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="categories">
+            <Menu.Item
+              key="categories"
+              icon={
+                <i
+                  class="ri-node-tree ri-lg va-minus-4 mr-10"
+                  style={{ color: "inherit" }}
+                ></i>
+              }
+            >
               <Link href="/admin/categories">
                 <a>Categories</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="users">
+            <Menu.Item
+              key="users"
+              icon={
+                <i
+                  class="ri-user-smile-line ri-lg va-minus-4 mr-10"
+                  style={{ color: "inherit" }}
+                ></i>
+              }
+            >
               <Link href="/admin/users">
                 <a>Users</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="comments">
+            <Menu.Item
+              key="comments"
+              icon={
+                <i
+                  class="ri-question-answer-line ri-lg va-minus-4 mr-10"
+                  style={{ color: "inherit" }}
+                ></i>
+              }
+            >
               <Link href="/admin/comments">
                 <a>Comments</a>
               </Link>
