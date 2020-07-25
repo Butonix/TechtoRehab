@@ -636,7 +636,7 @@ export default function Home(props) {
   );
 }
 
-export const getStaticProps = withSession(async function ({ req, res }) {
+export const getServerSideProps = withSession(async function ({ req, res }) {
   const user = req.session.get(["session"]);
   return {
     props: {
