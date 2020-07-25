@@ -238,6 +238,20 @@ const wrapper = (props) => {
                     <a>Articles</a>
                   </Link>
                 </Menu.Item>
+
+                <Menu.Item
+                  key="categories"
+                  icon={
+                    <i
+                      class="ri-node-tree ri-lg va-minus-4 mr-10"
+                      style={{ color: "inherit" }}
+                    ></i>
+                  }
+                >
+                  <Link href="/admin/categories">
+                    <a>Categories</a>
+                  </Link>
+                </Menu.Item>
                 <Menu.Item
                   key="users"
                   icon={

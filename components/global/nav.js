@@ -268,16 +268,17 @@ const Navigation = (props) => {
   return (
     <Nav>
       <div className="navigation sidebar">
-        <a onClick={(e) => e.preventDefault()}>
-          <i
-            className={
-              sidebar
-                ? "ri-menu-2-line " + "ri-lg  lh-2"
-                : "ri-menu-3-line " + "ri-lg  lh-2"
-            }
-            onClick={() => setSidebar(!sidebar)}
-          ></i>
-        </a>
+        <i
+          className={
+            sidebar
+              ? "ri-menu-2-line " + "ri-lg  lh-2"
+              : "ri-menu-3-line " + "ri-lg  lh-2"
+          }
+          onClick={() => setSidebar(!sidebar)}
+          style={{
+            color: "unset",
+          }}
+        ></i>
       </div>
       <Modal
         closable

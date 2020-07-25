@@ -334,17 +334,22 @@ const ArticlesManager = () => {
                               item.slug
                             }
                           >
-                            <Paragraph ellipsis={{ rows: 2 }}>
+                            <Paragraph ellipsis={{ rows: 2 }} className="fs-14">
                               {item.title}
                             </Paragraph>
                           </a>
                         }
                         description={
-                          <Paragraph ellipsis={{ rows: 2 }}>
+                          <Paragraph ellipsis={{ rows: 2 }} className="fs-14">
                             {item.excerpt}
                           </Paragraph>
                         }
-                        avatar={<Avatar size={45} src={item.featured_image} />}
+                        avatar={
+                          <Avatar
+                            size={45}
+                            src={item.featured_image + ".webp"}
+                          />
+                        }
                       />
                       <i className="ri-more-fill ri-lg va-minus-6 mg-x-10"></i>
                       <Button
@@ -379,7 +384,7 @@ const ArticlesManager = () => {
                 <Card
                   cover={
                     <img
-                      src={articleManagerDrawerData.featured_image}
+                      src={articleManagerDrawerData.featured_image + ".webp"}
                       className="o-fit-cover"
                       width="100%"
                     />

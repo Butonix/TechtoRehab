@@ -21,9 +21,6 @@ const getUser = gql`
       username
       profile_picture
       created_at
-      settings {
-        blocked
-      }
       articles_to_users {
         article_id
       }
@@ -205,9 +202,8 @@ const UsersManager = () => {
   );
 
   const [sendUser, { loading, data, refetch }] = useLazyQuery(getUser, {
-    onError: () => message.error("Couldn't Fetch Users"),
+    onError: (err) => console.log(err),
     errorPolicy: "all",
-    fetchPolicy: "network",
   });
 
   const [
@@ -285,76 +281,82 @@ const UsersManager = () => {
                 }
               }}
             />
-            {data && data.users.length > 0 ? (
-              <List
-                dataSource={data ? data.users : []}
-                className="mt-20"
-                renderItem={(item) => (
-                  <List.Item
-                    actions={[
+          </Form.Item>
+          {data && data.users.length > 0 ? (
+            <List
+              dataSource={data ? data.users : []}
+              className="mt-20"
+              renderItem={(item) => (
+                <List.Item
+                  actions={[
+                    <Button
+                      type="primary"
+                      danger
+                      onClick={() => deleteUser({ variables: { id: item.id } })}
+                    >
+                      Delete
+                    </Button>,
+                    item.blocked ? (
                       <Button
-                        type="primary"
+                        type="link"
                         danger
                         onClick={() =>
-                          deleteUser({ variables: { id: item.id } })
+                          userBlockToggle({
+                            variables: { id: item.id, blockedStatus: false },
+                          })
                         }
                       >
-                        Delete
-                      </Button>,
-                      item.blocked ? (
-                        <Button
-                          type="link"
-                          danger
-                          onClick={() =>
-                            userBlockToggle({
-                              variables: { id: item.id, blockedStatus: false },
-                            })
-                          }
-                        >
-                          UnBlock
-                        </Button>
-                      ) : (
-                        <Button
-                          type="link"
-                          danger
-                          onClick={() =>
-                            userBlockToggle({
-                              variables: { id: item.id, blockedStatus: true },
-                            })
-                          }
-                        >
-                          Block
-                        </Button>
-                      ),
-                    ]}
-                  >
-                    <List.Item.Meta
-                      title={
-                        <Text className="t-transform-cpt">{item.username}</Text>
-                      }
-                      description={
-                        <Paragraph ellipsis={{ rows: 2 }}>
-                          {Date(item.created_at)}
-                        </Paragraph>
-                      }
-                      avatar={<Avatar size={40} src={item.profile_picture} />}
-                    />
-                  </List.Item>
-                )}
-              />
-            ) : (
-              <Row className="mt-30">
-                <Col xs={24} sm={24} md={24} lg={24} xl={12} xxl={14}>
-                  <Skeleton
-                    avatar
-                    title={false}
-                    style={{ width: 400 }}
-                    paragraph={1}
+                        UnBlock
+                      </Button>
+                    ) : (
+                      <Button
+                        type="link"
+                        danger
+                        onClick={() =>
+                          userBlockToggle({
+                            variables: { id: item.id, blockedStatus: true },
+                          })
+                        }
+                      >
+                        Block
+                      </Button>
+                    ),
+                  ]}
+                >
+                  <List.Item.Meta
+                    title={
+                      <Text className="t-transform-cpt fs-14">
+                        {item.username}
+                      </Text>
+                    }
+                    description={
+                      <Paragraph className="fs-14" ellipsis={{ rows: 2 }}>
+                        {Date(item.created_at)}
+                      </Paragraph>
+                    }
+                    avatar={
+                      <Avatar
+                        className="mt-10"
+                        size={35}
+                        src={item.profile_picture + ".webp"}
+                      />
+                    }
                   />
-                </Col>
-              </Row>
-            )}
-          </Form.Item>
+                </List.Item>
+              )}
+            />
+          ) : (
+            <Row className="mt-30">
+              <Col xs={24} sm={24} md={24} lg={24} xl={12} xxl={14}>
+                <Skeleton
+                  avatar
+                  title={false}
+                  style={{ width: 400 }}
+                  paragraph={1}
+                />
+              </Col>
+            </Row>
+          )}
         </Form>
         <Title level={4} className="mt-30 mb-20">
           Create User

@@ -24,6 +24,11 @@ const AdminWrapper = (props) => {
                 <a>Articles</a>
               </Link>
             </Menu.Item>
+            <Menu.Item key="categories">
+              <Link href="/admin/categories">
+                <a>Categories</a>
+              </Link>
+            </Menu.Item>
             <Menu.Item key="users">
               <Link href="/admin/users">
                 <a>Users</a>
