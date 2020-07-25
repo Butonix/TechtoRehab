@@ -14,7 +14,7 @@ import {
   Space,
   message,
 } from "antd";
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, gql, useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 

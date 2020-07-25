@@ -636,20 +636,10 @@ export default function Home(props) {
   );
 }
 
-export const getServerSideProps = withSession(async function ({ req, res }) {
+export const getStaticProps = withSession(async function ({ req, res }) {
   const user = req.session.get(["session"]);
-  // const apolloClient = initializeApollo();
-  // await apolloClient.query({
-  //   query: getArticlesQuery,
-  //   variables: {
-  //     offset: 0,
-  //     limit: 5,
-  //     id: user ? user.id : null,
-  //   },
-  // });
   return {
     props: {
-      // initialApolloState: apolloClient.cache.extract(),
       user: user ? user : null,
     },
   };

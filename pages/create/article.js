@@ -606,7 +606,6 @@ export default createArticle;
 
 export const getServerSideProps = withSession(async function ({ req, res }) {
   const user = req.session.get(["session"]);
-
   if (user) {
     const apolloClient = initializeApollo();
     await apolloClient.query({

@@ -1,9 +1,6 @@
 import Wrapper from "components/global/wrapper";
-import { Typography, Row, Col, Layout, Menu } from "antd";
+import { Typography, Row, Col, Menu } from "antd";
 import Link from "next/link";
-
-const { Text } = Typography;
-const { Sider } = Layout;
 
 const AdminWrapper = (props) => {
   return (

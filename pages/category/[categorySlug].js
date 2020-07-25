@@ -7,10 +7,9 @@ import {
   Button,
   List,
   Skeleton,
-  Avatar,
 } from "antd";
 import Wrapper from "components/global/wrapper";
-import { gql, useQuery, useLazyQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { initializeApollo } from "lib/apolloClient";
 import withSession from "lib/session";
 import gradient from "random-gradient";

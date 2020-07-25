@@ -19,7 +19,6 @@ import {
   message,
   Menu,
   Dropdown,
-  Skeleton as Skeleton2,
   Checkbox,
 } from "antd";
 import { useRouter } from "next/router";
@@ -45,7 +44,6 @@ import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import dynamic from "next/dynamic";
 import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreActions } from "easy-peasy";
-const publicIp = require("public-ip");
 import { NextSeo } from "next-seo";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { nanoid } from "nanoid";
@@ -57,6 +55,7 @@ import ProgressiveImage from "react-progressive-graceful-image";
 //
 //
 //
+const publicIp = require("public-ip");
 
 const Syntax = dynamic(() => import("react-syntax-highlighter"), {
   ssr: false,
