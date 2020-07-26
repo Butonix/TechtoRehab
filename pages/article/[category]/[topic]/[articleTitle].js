@@ -442,10 +442,7 @@ const Article = (props) => {
                 {getArticleData.articles[0].title}
               </Title>
 
-              <Paragraph
-                className="pd-x-20 lh-2 mt-10 fs-14"
-                ellipsis={{ rows: 2 }}
-              >
+              <Paragraph className="pd-x-20 lh-2 mt-10 fs-14 line-clamp">
                 {getArticleData.articles[0].excerpt}
               </Paragraph>
               <Row className="pd-x-20">
@@ -508,6 +505,7 @@ const Article = (props) => {
                   "-placeholder.webp"
                 }
                 threshold={1}
+                delay={600}
               >
                 {(src) => (
                   <img

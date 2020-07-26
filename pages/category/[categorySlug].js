@@ -192,10 +192,7 @@ const Categories = (props) => {
                       }}
                     />
                     <Paragraph
-                      className="ta-center fs-26 fw-bold t-transform-cpt"
-                      ellipsis={{
-                        rows: 2,
-                      }}
+                      className="ta-center fs-26 fw-bold t-transform-cpt line-clamp"
                       style={{
                         position: "absolute",
                         zIndex: 2,
@@ -278,19 +275,13 @@ const Categories = (props) => {
                               <a
                                 href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
                               >
-                                <Paragraph
-                                  ellipsis={{ rows: 2 }}
-                                  className="mr-20 ml-10 fs-16"
-                                >
+                                <Paragraph className="mr-20 ml-10 fs-16 line-clamp">
                                   {item.title}
                                 </Paragraph>
                               </a>
                             }
                             description={
-                              <Paragraph
-                                ellipsis={{ rows: 2 }}
-                                className="mr-20 ml-10"
-                              >
+                              <Paragraph className="mr-20 ml-10 line-clamp">
                                 {item.excerpt}
                               </Paragraph>
                             }
@@ -372,12 +363,7 @@ const Categories = (props) => {
                           <List.Item>
                             <List.Item.Meta
                               title={
-                                <Paragraph
-                                  className="fs-14"
-                                  ellipsis={{
-                                    rows: 2,
-                                  }}
-                                >
+                                <Paragraph className="fs-14 line-clamp">
                                   <a
                                     href={`/article/${item.article_category.title}/${item.article_topic.title}/${item.slug}`}
                                     style={{
@@ -452,12 +438,7 @@ const Categories = (props) => {
                           <List.Item>
                             <List.Item.Meta
                               title={
-                                <Paragraph
-                                  className="fs-14"
-                                  ellipsis={{
-                                    rows: 2,
-                                  }}
-                                >
+                                <Paragraph className="fs-14 line-clamp">
                                   <a
                                     href={`/article/${item.article_category.title}/${item.article_topic.title}/${item.slug}`}
                                     style={{

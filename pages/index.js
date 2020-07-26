@@ -243,7 +243,7 @@ export default function Home(props) {
               <>
                 <Skeleton
                   avatar
-                  className="mt-10 mb-20"
+                  className="mt-10 mb-30"
                   avatar
                   title
                   paragraph={{ rows: 1 }}
@@ -252,7 +252,7 @@ export default function Home(props) {
                 />
                 <Skeleton
                   avatar
-                  className="mg-y-20"
+                  className="mg-y-30"
                   avatar
                   title
                   paragraph={{ rows: 1 }}
@@ -298,6 +298,36 @@ export default function Home(props) {
                       active
                       key="sk-1"
                     />
+                    <Skeleton
+                      className="mt-20"
+                      avatar
+                      title
+                      paragraph={{ rows: 1 }}
+                      active
+                      round
+                      key="sk-2"
+                    />
+
+                    <Skeleton
+                      className="mt-20"
+                      avatar
+                      title
+                      paragraph={{ rows: 1 }}
+                      active
+                      round
+                      key="sk-2"
+                    />
+
+                    <Skeleton
+                      className="mt-20"
+                      avatar
+                      title
+                      paragraph={{ rows: 1 }}
+                      active
+                      round
+                      key="sk-2"
+                    />
+
                     <Skeleton
                       className="mt-20"
                       avatar
@@ -449,20 +479,13 @@ export default function Home(props) {
                               item.slug
                             }
                           >
-                            <Paragraph
-                              ellipsis={{ rows: 2 }}
-                              className="mr-20 article-list-item-title"
-                            >
+                            <Paragraph className="mr-20 article-list-item-title line-clamp">
                               {item.title}
                             </Paragraph>
                           </a>
                         }
                         description={
-                          <Paragraph
-                            className="mr-20"
-                            ellipsis={{ rows: 2 }}
-                            key={item.id}
-                          >
+                          <Paragraph className="mr-20 line-clamp" key={item.id}>
                             {item.excerpt}
                           </Paragraph>
                         }
