@@ -8,13 +8,13 @@ export default (req, res) => {
     )
     .then(function (response) {
       if (response.data.success == true) {
-        res.send(
+        res.end(
           JSON.stringify({
             response: "ok",
           })
         );
       } else {
-        res.send(
+        res.end(
           JSON.stringify({
             response: "fail",
           })
@@ -23,7 +23,7 @@ export default (req, res) => {
     })
     .catch(function (error) {
       console.log(error);
-      res.send(
+      res.end(
         JSON.stringify({
           response: "fail",
         })
