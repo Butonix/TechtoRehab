@@ -4,16 +4,20 @@ import {
   Typography,
   Tabs,
   Form,
+  Drawer,
   Upload,
   Input,
   List,
   Skeleton,
+  Card,
   Avatar,
   Button,
   message,
 } from "antd";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { useState } from "react";
+import gradient from "random-gradient";
+import { useEffect } from "react";
 
 const { Text, Paragraph, Title } = Typography;
 
@@ -51,6 +55,16 @@ const addCategoryQuery = gql`
 const categoryManager = () => {
   const [cover, setCover] = useState(null);
   const [slug, setSlug] = useState(null);
+  const [drawer, setDrawer] = useState(false);
+  const [drawerData, setDrawerData] = useState(null);
+  const [form] = Form.useForm();
+  const [form2] = Form.useForm();
+
+  useEffect(() => {
+    if (drawerData) {
+      form2.setFieldsValue({ title: drawerData.title });
+    }
+  }, [drawerData]);
 
   const { data: getCategoriesData, loading: getCategoriesLoading } = useQuery(
     getCategoriesQuery
@@ -59,7 +73,12 @@ const categoryManager = () => {
   const [addCategory, { loading: addCategoryLoading }] = useMutation(
     addCategoryQuery,
     {
-      onCompleted: () => message.success("Category Added!"),
+      onCompleted: () => {
+        setSlug(null);
+        setCover(null);
+        form.resetFields();
+        message.success("Category Added!");
+      },
       onError: (err) => console.log(err),
     }
   );
@@ -106,6 +125,10 @@ const categoryManager = () => {
                             ></i>
                           }
                           className="ml-10"
+                          onClick={() => {
+                            setDrawerData(item);
+                            setDrawer(true);
+                          }}
                         />,
                         <a href={`/category/${item.slug}`}>
                           <Button
@@ -129,7 +152,52 @@ const categoryManager = () => {
                             {item.title}
                           </Text>
                         }
-                        avatar={<Avatar size={40} src={item.cover + ".webp"} />}
+                        avatar={
+                          item.cover ? (
+                            <Avatar size={40} src={item.cover + ".webp"} />
+                          ) : (
+                            <div
+                              className="d-flex jc-center flex-column ai-center"
+                              style={{
+                                height: 40,
+                                width: 40,
+                              }}
+                            >
+                              <div
+                                className="br-circle"
+                                style={{
+                                  background: gradient(item.title),
+                                  height: 40,
+                                  position: "relative",
+                                  zIndex: 1,
+                                  width: "100%",
+                                }}
+                              />
+
+                              <Paragraph
+                                className="ta-center fs-22 lh-1 fw-bold t-transform-cpt"
+                                ellipsis={{
+                                  rows: 2,
+                                }}
+                                style={{
+                                  position: "absolute",
+                                  zIndex: 2,
+
+                                  color: "white",
+                                }}
+                              >
+                                <a
+                                  href={`/category/${item.slug}`}
+                                  style={{
+                                    color: "inherit",
+                                  }}
+                                >
+                                  J
+                                </a>
+                              </Paragraph>
+                            </div>
+                          )
+                        }
                       />
                     </List.Item>
                   )}
@@ -138,10 +206,9 @@ const categoryManager = () => {
             </Tabs.TabPane>
             <Tabs.TabPane tab="Create" key="createCat">
               <Form
+                form={form}
                 layout="vertical"
                 onFinish={(finish) => {
-                  console.log(finish);
-                  console.log(slug);
                   addCategory({
                     variables: {
                       title: finish.title,
@@ -221,7 +288,7 @@ const categoryManager = () => {
                       <img
                         src={cover + ".webp"}
                         alt="avatar"
-                        style={{ width: "200px", height: 200 }}
+                        style={{ width: "100%", height: 200 }}
                       />
                     ) : (
                       <Text>Upload</Text>
@@ -243,6 +310,101 @@ const categoryManager = () => {
             </Tabs.TabPane>
           </Tabs>
         </Row>
+        <Drawer
+          placement="right"
+          closable={false}
+          maskClosable
+          onClose={() => setDrawer(false)}
+          visible={drawer}
+          bodyStyle={{
+            padding: 0,
+          }}
+          width={300}
+        >
+          {drawerData ? (
+            <Card
+              bordered={false}
+              cover={
+                drawerData.cover ? (
+                  <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    showUploadList={false}
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    className="upload-zero-padding"
+                  >
+                    {drawerData.cover ? (
+                      <img
+                        src={
+                          drawerData.cover ? drawerData.cover + ".webp" : null
+                        }
+                        height={300}
+                        width="100%"
+                      />
+                    ) : null}
+                  </Upload>
+                ) : (
+                  <div
+                    className="d-flex jc-center flex-column ai-center"
+                    style={{
+                      height: 300,
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: gradient(drawerData.title),
+                        height: 300,
+                        position: "relative",
+                        zIndex: 1,
+                        width: "100%",
+                      }}
+                    />
+
+                    <Paragraph
+                      className="ta-center fs-26 fw-bold t-transform-cpt"
+                      ellipsis={{
+                        rows: 2,
+                      }}
+                      style={{
+                        position: "absolute",
+                        zIndex: 2,
+                        top: 130,
+
+                        color: "white",
+                      }}
+                    >
+                      <a
+                        href={`/category/${drawerData.slug}`}
+                        style={{
+                          color: "inherit",
+                        }}
+                      >
+                        {drawerData.title}
+                      </a>
+                    </Paragraph>
+                  </div>
+                )
+              }
+            >
+              <Form layout="vertical" form={form2}>
+                <Form.Item
+                  label="Title"
+                  name="title"
+                  initialValue={drawerData.title}
+                >
+                  <Input placeholder="Title" />
+                </Form.Item>
+              </Form>
+
+              <div className="mg-y-20 d-flex flex-column">
+                <Button className="mg-y-20" danger>
+                  Remove Cover
+                </Button>
+                <Button type="primary">Replace Cover</Button>
+              </div>
+            </Card>
+          ) : null}
+        </Drawer>
       </Col>
     </Row>
   );

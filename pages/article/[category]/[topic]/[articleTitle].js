@@ -40,7 +40,6 @@ import {
   removeReactionQuery,
 } from "components/article/queries";
 import withSession from "lib/session";
-import { monokaiSublime } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import dynamic from "next/dynamic";
 import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreActions } from "easy-peasy";
@@ -598,7 +597,7 @@ const Article = (props) => {
                         }
                       >
                         <Syntax
-                          style={monokaiSublime}
+                          style={props.theme}
                           language="auto-detect"
                           showLineNumbers
                           key={index + blocks.type}
@@ -1595,6 +1594,9 @@ export const getServerSideProps = withSession(async function ({
 }) {
   const user = req.session.get(["session"]);
   const apolloClient = initializeApollo();
+  const monokai = (
+    await import("react-syntax-highlighter/dist/cjs/styles/hljs")
+  ).monokaiSublime;
 
   await apolloClient.query({
     query: getArticleQuery,
@@ -1608,6 +1610,7 @@ export const getServerSideProps = withSession(async function ({
       initialApolloState: apolloClient.cache.extract(),
       user: user ? user : null,
       ip: await publicIp.v4(),
+      theme: monokai,
     },
   };
 });

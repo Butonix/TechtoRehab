@@ -1005,8 +1005,6 @@ h6 {
 
 .featured-image-uploader {
   .large-upload-picture-card {
-    width: unset !important;
-
     .ant-upload-select-picture-card {
       width: 200px !important;
       height: 200px !important;
@@ -1027,8 +1025,6 @@ h6 {
 }
 
 .medium-upload-picture-card {
-  width: unset !important;
-
   .ant-upload-select-picture-card {
     width: 150px !important;
     height: 150px !important;
@@ -1036,6 +1032,16 @@ h6 {
       width: 150px !important;
       height: 150px !important;
     }
+  }
+}
+
+.ant-upload.ant-upload-select-picture-card {
+  width: 100% !important;
+}
+
+.upload-zero-padding {
+  .ant-upload {
+    padding: 0 !important;
   }
 }
 

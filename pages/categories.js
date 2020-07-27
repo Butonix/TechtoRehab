@@ -36,7 +36,7 @@ const Categories = (props) => {
               Categories
             </Title>
             {getCategoriesLoading ? (
-              <div className="d-flex jc-space-around">
+              <div className="d-flex jc-space-around flex-wrap">
                 <Skeleton.Input
                   className="mg-x-10 mg-y-10"
                   style={{
