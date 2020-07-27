@@ -5,6 +5,7 @@ import {
   Tabs,
   Form,
   Drawer,
+  Select,
   Upload,
   Input,
   List,
@@ -21,31 +22,43 @@ import { useEffect } from "react";
 
 const { Text, Paragraph, Title } = Typography;
 
-const getCategoriesQuery = gql`
-  query getCategories {
-    category {
+const getTopicsQuery = gql`
+  query getTopics {
+    topic {
       id
       title
       slug
       description
       cover
+      parent_category
     }
   }
 `;
 
-const addCategoryQuery = gql`
+const getCategoriesQuery = gql`
+  query getCategories {
+    category {
+      id
+      title
+    }
+  }
+`;
+
+const addTopicQuery = gql`
   mutation addCategory(
     $title: String!
     $cover: String
     $slug: String!
     $description: String!
+    $pCategory: uuid!
   ) {
-    insert_category_one(
+    insert_topic_one(
       object: {
         cover: $cover
         description: $description
         title: $title
         slug: $slug
+        parent_category: $pCategory
       }
     ) {
       slug
@@ -53,21 +66,23 @@ const addCategoryQuery = gql`
   }
 `;
 
-const updateCategoryQuery = gql`
-  mutation updateCateogory(
+const updateTopicQuery = gql`
+  mutation updateTopic(
     $id: uuid!
     $title: String!
     $cover: String
     $description: String!
     $slug: String!
+    $pCategory: uuid!
   ) {
-    update_category(
+    update_topic(
       where: { id: { _eq: $id } }
       _set: {
         title: $title
         slug: $slug
         description: $description
         cover: $cover
+        parent_category: $pCategory
       }
     ) {
       affected_rows
@@ -75,7 +90,7 @@ const updateCategoryQuery = gql`
   }
 `;
 
-const categoryManager = () => {
+const topicsManager = () => {
   const [cover, setCover] = useState(null);
   const [slug, setSlug] = useState(null);
   const [drawer, setDrawer] = useState(false);
@@ -88,36 +103,41 @@ const categoryManager = () => {
     if (drawerData) {
       form2.setFieldsValue({ title: drawerData.title });
       form2.setFieldsValue({ description: drawerData.description });
+      form2.setFieldsValue({
+        pCategory: drawerData.parent_category,
+      });
       setForm2Slug(drawerData.slug);
     }
   }, [drawerData]);
 
   const {
-    data: getCategoriesData,
-    refetch: getCategoriesRefetech,
-    loading: getCategoriesLoading,
-  } = useQuery(getCategoriesQuery);
+    data: getTopicsData,
+    refetch: getTopicsRefetech,
+    loading: getTopicsLoading,
+  } = useQuery(getTopicsQuery);
 
-  const [addCategory, { loading: addCategoryLoading }] = useMutation(
-    addCategoryQuery,
-    {
-      onCompleted: () => {
-        setSlug(null);
-        setCover(null);
-        form.resetFields();
-        message.success("Category Added!");
-      },
-      onError: (err) => console.log(err),
-    }
+  const [addTopic, { loading: addTopicLoading }] = useMutation(addTopicQuery, {
+    onCompleted: () => {
+      setSlug(null);
+      setCover(null);
+      form.resetFields();
+      getTopicsRefetech();
+      message.success("Category Added!");
+    },
+    onError: (err) => console.log(err),
+  });
+
+  const { data: getCategoriesData, loading: getCategoriesLoading } = useQuery(
+    getCategoriesQuery
   );
 
-  const [updateCategory] = useMutation(updateCategoryQuery, {
+  const [updateTopic] = useMutation(updateTopicQuery, {
     onCompleted: () => {
-      message.success("Category updated");
-      getCategoriesRefetech();
+      message.success("Topic updated");
+      getTopicsRefetech();
     },
     onError: (err) => {
-      message.error("Error updating category");
+      message.error("Error updating topic");
       console.log(err);
     },
   });
@@ -126,7 +146,7 @@ const categoryManager = () => {
     <Row justify="center">
       <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={14} className="pd-10">
         <Title className="mt-20 mb-20" level={4}>
-          Category Manager
+          Topics Manager
         </Title>
         <Row>
           <Tabs
@@ -135,8 +155,8 @@ const categoryManager = () => {
               width: "100%",
             }}
           >
-            <Tabs.TabPane tab="Categories" key="cats">
-              {getCategoriesLoading ? (
+            <Tabs.TabPane tab="Topics" key="cats">
+              {getTopicsLoading ? (
                 <Skeleton
                   className="mt-10"
                   active
@@ -149,7 +169,7 @@ const categoryManager = () => {
                 />
               ) : (
                 <List
-                  dataSource={getCategoriesData.category}
+                  dataSource={getTopicsData.topic}
                   renderItem={(item) => (
                     <List.Item
                       actions={[
@@ -169,7 +189,7 @@ const categoryManager = () => {
                             setDrawer(true);
                           }}
                         />,
-                        <a href={`/category/${item.slug}`}>
+                        <a href={`/topic/${item.slug}`}>
                           <Button
                             type="link"
                             icon={
@@ -248,19 +268,20 @@ const categoryManager = () => {
                 form={form}
                 layout="vertical"
                 onFinish={(finish) => {
-                  addCategory({
+                  addTopic({
                     variables: {
                       title: finish.title,
                       description: finish.description,
                       cover: finish.cover.fileList[0].response.path,
                       slug: slug,
+                      pCategory: finish.pCategory,
                     },
                   });
                 }}
               >
                 <Form.Item
                   name="title"
-                  label="Category Title"
+                  label="Topic Title"
                   rules={[
                     {
                       required: true,
@@ -268,7 +289,7 @@ const categoryManager = () => {
                   ]}
                 >
                   <Input
-                    placeholder="Category Title"
+                    placeholder="Topic Title"
                     onChange={(input) => {
                       if (input.target.value.length > 4) {
                         setSlug(input.target.value);
@@ -286,11 +307,8 @@ const categoryManager = () => {
                     strong
                   >
                     Permalink:{" "}
-                    <a
-                      className="fw-400"
-                      href={`/category/${slug.toLowerCase()}`}
-                    >
-                      {"/category/" + slug.toLowerCase()}
+                    <a className="fw-400" href={`/topic/${slug.toLowerCase()}`}>
+                      {"/topic/" + slug.toLowerCase()}
                     </a>
                   </Text>
                 ) : null}
@@ -304,11 +322,24 @@ const categoryManager = () => {
                     },
                   ]}
                 >
-                  <Input placeholder="Category Description" />
+                  <Input placeholder="Topic Description" />
+                </Form.Item>
+                <Form.Item label="Parent Category" name="pCategory">
+                  <Select showSearch placeholder="Select a parent category">
+                    {getCategoriesLoading ? (
+                      <Skeleton round paragraph={false} title avatar={false} />
+                    ) : (
+                      getCategoriesData.category.map((category) => (
+                        <Select.Option value={category.id}>
+                          {category.title}
+                        </Select.Option>
+                      ))
+                    )}
+                  </Select>
                 </Form.Item>
                 <Form.Item
                   name="cover"
-                  label="Category Cover"
+                  label="Topic Cover"
                   valuePropName="cover"
                 >
                   <Upload
@@ -447,13 +478,14 @@ const categoryManager = () => {
                 layout="vertical"
                 form={form2}
                 onFinish={(data) => {
-                  updateCategory({
+                  updateTopic({
                     variables: {
                       id: drawerData.id,
                       title: data.title,
                       description: data.description,
                       cover: drawerData.cover,
                       slug: form2Slug,
+                      pCategory: data.pCategory,
                     },
                   });
                 }}
@@ -485,9 +517,9 @@ const categoryManager = () => {
                     Permalink:{" "}
                     <a
                       className="fw-400"
-                      href={`/category/${form2Slug.toLowerCase()}`}
+                      href={`/topic/${form2Slug.toLowerCase()}`}
                     >
-                      {"/category/" + form2Slug.toLowerCase()}
+                      {"/topic/" + form2Slug.toLowerCase()}
                     </a>
                   </Text>
                 ) : null}
@@ -504,6 +536,24 @@ const categoryManager = () => {
                   <Input placeholder="Description" />
                 </Form.Item>
 
+                <Form.Item
+                  label="Parent Category"
+                  name="pCategory"
+                  initialValue={drawerData.parent_category}
+                >
+                  <Select showSearch placeholder="Select a parent category">
+                    {getCategoriesLoading ? (
+                      <Skeleton round paragraph={false} title avatar={false} />
+                    ) : (
+                      getCategoriesData.category.map((category) => (
+                        <Select.Option value={category.id}>
+                          {category.title}
+                        </Select.Option>
+                      ))
+                    )}
+                  </Select>
+                </Form.Item>
+
                 <Form.Item>
                   <div className="d-flex">
                     {drawerData.cover ? (
@@ -512,7 +562,7 @@ const categoryManager = () => {
                         danger
                         onClick={() => {
                           setDrawerData({ ...drawerData, cover: null });
-                          updateCategory({
+                          updateTopic({
                             variables: {
                               id: drawerData.id,
                               slug: form2Slug,
@@ -540,4 +590,4 @@ const categoryManager = () => {
   );
 };
 
-export default categoryManager;
+export default topicsManager;

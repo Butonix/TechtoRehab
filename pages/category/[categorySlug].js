@@ -151,8 +151,7 @@ const Categories = (props) => {
                 padding: 10,
               }}
               cover={
-                getCategory2Data &&
-                getCategory2Data.category[0].cover.length > 0 ? (
+                getCategory2Data && getCategory2Data.category[0].cover ? (
                   <ProgressiveImage
                     src={getCategory2Data.category[0].cover + ".webp"}
                     placeholder={

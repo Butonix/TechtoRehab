@@ -5,6 +5,7 @@ import ArticlesManager from "components/admin/articlesManager";
 import { useRouter } from "next/router";
 import CommentsManager from "components/admin/commentsManager";
 import CategoryManager from "components/admin/categoryManager";
+import TopicsManager from "components/admin/topicsManager";
 import withSession from "lib/session";
 
 const AdminRoutePage = (props) => {
@@ -20,6 +21,8 @@ const AdminRoutePage = (props) => {
         <CommentsManager />
       ) : adminRoute === "categories" ? (
         <CategoryManager />
+      ) : adminRoute === "topics" ? (
+        <TopicsManager />
       ) : (
         <Result
           status="404"

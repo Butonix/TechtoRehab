@@ -54,6 +54,19 @@ const AdminWrapper = (props) => {
               </Link>
             </Menu.Item>
             <Menu.Item
+              key="topics"
+              icon={
+                <i
+                  class="ri-git-merge-fill ri-lg va-minus-4 mr-10"
+                  style={{ color: "inherit" }}
+                ></i>
+              }
+            >
+              <Link href="/admin/topics">
+                <a>Topics</a>
+              </Link>
+            </Menu.Item>
+            <Menu.Item
               key="users"
               icon={
                 <i

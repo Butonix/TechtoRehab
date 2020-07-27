@@ -354,7 +354,7 @@ export default function Home(props) {
                           placeholder={
                             item.featured_image + "-placeholder.webp"
                           }
-                          delay={500}
+                          delay={300}
                           threshold={1}
                         >
                           {(src) => (
