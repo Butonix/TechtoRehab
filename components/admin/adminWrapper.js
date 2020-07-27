@@ -67,6 +67,19 @@ const AdminWrapper = (props) => {
               </Link>
             </Menu.Item>
             <Menu.Item
+              key="reactions"
+              icon={
+                <i
+                  class="ri-emotion-laugh-line ri-lg va-minus-4 mr-10"
+                  style={{ color: "inherit" }}
+                ></i>
+              }
+            >
+              <Link href="/admin/reactions">
+                <a>Reactions</a>
+              </Link>
+            </Menu.Item>
+            <Menu.Item
               key="users"
               icon={
                 <i

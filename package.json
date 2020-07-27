@@ -37,6 +37,7 @@
     "prop-types": "^15.7.2",
     "public-ip": "^4.0.1",
     "random-gradient": "0.0.2",
+    "randomcolor": "^0.6.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-infinite-scroller": "^1.2.4",
@@ -50,6 +51,7 @@
     "remixicon": "^2.5.0",
     "sass": "^1.26.5",
     "sharp": "^0.25.4",
+    "simple-random-number-generator": "^1.2.0",
     "styled-components": "^5.1.0",
     "url-slug": "^2.3.1"
   },

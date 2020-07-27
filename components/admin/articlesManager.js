@@ -356,7 +356,7 @@ const ArticlesManager = () => {
                         type="link"
                         icon={
                           <i
-                            className="ri-share-box-line ri-lg va-minus-2 fs-20"
+                            className="ri-edit-line ri-lg va-minus-2 fs-20"
                             style={{
                               color: "inherit",
                             }}
