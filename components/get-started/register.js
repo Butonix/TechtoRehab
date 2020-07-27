@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { gql, useMutation, useLazyQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
+import { loadReCaptcha, ReCaptcha } from "react-recaptcha-v3";
 
 const { Text, Title } = Typography;
 
@@ -144,6 +145,23 @@ const Register = () => {
       }
     }
   });
+
+  useEffect(() => {
+    loadReCaptcha("6LcJ9bYZAAAAAECa36w3pftOs0j8OlXl0Eer2tjH", () => {});
+  }, []);
+
+  const verifyCallback = (recaptchaToken) => {
+    // Here you will get the final recaptchaToken!!!
+    console.log(recaptchaToken);
+    fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=6LcJ9bYZAAAAAFSCttCzd0Fx7dakjpc4o3bPIj80&response=${recaptchaToken}`
+    ).then((res) => res.json().then((result) => console.log(result)));
+  };
+
+  const updateToken = () => {
+    // you will get a new token in verifyCallback
+    this.recaptcha.execute();
+  };
 
   return (
     <>
@@ -389,6 +407,13 @@ const Register = () => {
           hasFeedback
         >
           <Input.Password placeholder="Repeat the above password" />
+        </Form.Item>
+        <Form.Item>
+          <ReCaptcha
+            sitekey="6LcJ9bYZAAAAAECa36w3pftOs0j8OlXl0Eer2tjH"
+            action="challengeBot"
+            verifyCallback={verifyCallback}
+          />
         </Form.Item>
         <Form.Item className="mt-20">
           <Button htmlType="submit" type="primary" className="mr-20">
