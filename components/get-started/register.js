@@ -61,6 +61,7 @@ const Register = () => {
   const [emailStatus, setEmailStatus] = useState(null);
   const [registeringUser, setRegisteringUser] = useState(false);
   const [username, setUsername] = useState(null);
+  const [recaptcha, setRecaptcha] = useState(false);
   const [form2] = Form.useForm();
   const router = useRouter();
 
@@ -151,11 +152,23 @@ const Register = () => {
   }, []);
 
   const verifyCallback = (recaptchaToken) => {
-    // Here you will get the final recaptchaToken!!!
     console.log(recaptchaToken);
-    fetch(
-      `https://www.google.com/recaptcha/api/siteverify?secret=6LcJ9bYZAAAAAFSCttCzd0Fx7dakjpc4o3bPIj80&response=${recaptchaToken}`
-    ).then((res) => res.json().then((result) => console.log(result)));
+    fetch("/api/recaptcha", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify({
+        token: recaptchaToken,
+      }),
+    }).then((res) =>
+      res.json().then((result) => {
+        if (result.response == "ok") {
+          setRecaptcha(true);
+        }
+      })
+    );
   };
 
   const updateToken = () => {
@@ -408,17 +421,22 @@ const Register = () => {
         >
           <Input.Password placeholder="Repeat the above password" />
         </Form.Item>
-        <Form.Item>
-          <ReCaptcha
-            sitekey="6LcJ9bYZAAAAAECa36w3pftOs0j8OlXl0Eer2tjH"
-            action="challengeBot"
-            verifyCallback={verifyCallback}
-          />
-        </Form.Item>
+        <ReCaptcha
+          sitekey="6LcJ9bYZAAAAAECa36w3pftOs0j8OlXl0Eer2tjH"
+          action="challengeBot"
+          verifyCallback={verifyCallback}
+        />
         <Form.Item className="mt-20">
-          <Button htmlType="submit" type="primary" className="mr-20">
-            Submit
-          </Button>
+          {recaptcha ? (
+            <Button htmlType="submit" type="primary" className="mr-20">
+              Submit
+            </Button>
+          ) : (
+            <Text type="danger" className="mr-20" strong>
+              Please Solve Recaptcha
+            </Text>
+          )}
+
           <Button
             type="Reset"
             onClick={() => {
