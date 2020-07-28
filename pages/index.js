@@ -25,8 +25,8 @@ import {
   getArticlesQuery,
   deleteBookmarkQuery,
 } from "components/home/queries";
-import { Reactions } from "components/global/reactions";
 import withSession from "lib/session";
+import Reactions from "components/global/reactions/reacts";
 import ProgressiveImage from "react-progressive-graceful-image";
 
 //
@@ -83,7 +83,6 @@ export default function Home(props) {
           />
         );
       },
-      onCompleted: (data) => console.log(data),
     }
   );
 
@@ -144,7 +143,6 @@ export default function Home(props) {
           </Button>,
           <Button type="link" onClick={() => router.reload()}>
             Contact Support
-            {console.log(error)}
           </Button>,
         ]}
       />
@@ -162,7 +160,6 @@ export default function Home(props) {
       settings = data.site_settings;
       articles = data.articles;
       reactions = data.reactions;
-      console.log(reactions);
     }
   }, [data]);
 
@@ -423,44 +420,11 @@ export default function Home(props) {
                           </a>
                         </Tooltip>,
                         item.reactions_to_articles.length > 0 ? (
-                          <a
-                            onClick={() => {
-                              setType("Reactions");
-                              setDrawer(true);
-                              setSheetData(item.reactions_to_articles);
-                            }}
-                          >
-                            <Reactions>
-                              {data.reactions.map((reaction) => {
-                                if (
-                                  item.reactions_to_articles.find(
-                                    (elem) => elem.reaction.id == reaction.id
-                                  )
-                                ) {
-                                  return (
-                                    <div
-                                      className="reaction-holder"
-                                      key={reaction.name}
-                                    >
-                                      <div
-                                        className="reaction fs-22"
-                                        key={reaction.name}
-                                      >
-                                        <i
-                                          className={`${reaction.code} va-middle`}
-                                          style={reaction.gradient}
-                                        ></i>
-                                      </div>
-                                    </div>
-                                  );
-                                }
-                              })}
-                              <div className="reaction-total">
-                                <Text className="lh-2-5 fs-16" strong>
-                                  {getReactionTotal(item.reactions_to_articles)}
-                                </Text>
-                              </div>
-                            </Reactions>
+                          <a>
+                            <Reactions
+                              data={item.reactions_to_articles}
+                              reactions={data.reactions}
+                            />
                           </a>
                         ) : null,
                       ]}

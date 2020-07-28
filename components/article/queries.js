@@ -26,6 +26,11 @@ export const getArticleQuery = gql`
           color
           gradient
           type
+          reactions_to_reactions_aggregate {
+            aggregate {
+              count
+            }
+          }
         }
       }
       users_to_articles {

@@ -89,8 +89,7 @@ const wrapper = (props) => {
     },
   ] = useLazyQuery(checkTokenQuery, {
     onCompleted: (data) => {
-      console.log(data);
-      if (data.users[0].private_info.confirm_token == token) {
+      if (data.users[0].private_info[0].confirm_token == token) {
         activateUser({
           variables: {
             id: props.user.id,
@@ -103,7 +102,6 @@ const wrapper = (props) => {
       }
     },
     onError: (err) => console.log(err),
-    fetchPolicy: "network-only",
   });
 
   useEffect(() => {

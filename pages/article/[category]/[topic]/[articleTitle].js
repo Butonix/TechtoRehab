@@ -24,7 +24,6 @@ import {
 import { useRouter } from "next/router";
 import { useQuery, useMutation } from "@apollo/client";
 import { initializeApollo } from "lib/apolloClient";
-import { Reactions } from "components/global/reactions";
 import { useState, useEffect } from "react";
 import {
   deleteCommentQuery,
@@ -47,7 +46,8 @@ import { NextSeo } from "next-seo";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { nanoid } from "nanoid";
 import ProgressiveImage from "react-progressive-graceful-image";
-
+import Reactions from "components/global/reactions/reacts";
+import ReactionsOverlay from "components/global/reactions/reacts-dropdown";
 //
 //
 //
@@ -842,227 +842,17 @@ const Article = (props) => {
                 React To This
               </Divider>
               <Card className="mobile-bottom-bar">
-                <Row>
-                  <a>
-                    <Reactions
-                      style={{
-                        marginTop: 2,
-                      }}
-                    >
-                      {getArticleData.reactions.map((reactions, indexx) => {
-                        if (
-                          getArticleData.articles[0].reactions_to_articles.find(
-                            (elem) => elem.reaction.id == reactions.id
-                          )
-                        ) {
-                          return (
-                            <div
-                              className="reaction-holder"
-                              onClick={() => setReactionsModal(true)}
-                              key={indexx + reactions.id}
-                            >
-                              <div className="reaction fs-22">
-                                <i
-                                  className={`${reactions.code} va-middle`}
-                                  style={
-                                    reactions.color ? color : reactions.gradient
-                                  }
-                                ></i>
-                              </div>
-                            </div>
-                          );
-                        }
-                      })}
-                      <div className="reaction-total">
-                        <Text className="lh-2-5 fs-16" strong>
-                          {
-                            getArticleData.articles[0].reactions_to_articles
-                              .length
-                          }
-                        </Text>
-                      </div>
-                    </Reactions>
-                  </a>
-                  <Modal
-                    visible={reactionsModal}
-                    footer={false}
-                    closable
-                    maskClosable
-                    onCancel={() => setReactionsModal(false)}
-                    title="Reactions"
-                    bodyStyle={{
-                      padding: "15px 15px",
-                      paddingBottom: "45px",
-                      paddingTop: 5,
-                      height: 300,
-                      overflowY: "auto",
-                    }}
-                  >
-                    <Tabs>
-                      {getArticleData.reactions.map((reactions) => {
-                        return (
-                          <Tabs.TabPane
-                            key={reactions.id}
-                            tab={
-                              <Reactions>
-                                <div className="reaction-holder">
-                                  <div className="reaction fs-22">
-                                    <i
-                                      className={`${reactions.code} va-minus-4`}
-                                      style={
-                                        reactions.color
-                                          ? color
-                                          : reactions.gradient
-                                      }
-                                    ></i>
-                                  </div>
-                                  <div className="reaction-count">
-                                    <Text className="lh-2-5" strong>
-                                      {getCount(
-                                        getArticleData.articles[0]
-                                          .reactions_to_articles,
-                                        reactions.id
-                                      )}
-                                    </Text>
-                                  </div>
-                                </div>
-
-                                <div class="reaction-name">
-                                  <Text>{reactions.name}</Text>
-                                </div>
-                              </Reactions>
-                            }
-                          >
-                            <div className="d-flex flex-column">
-                              {getArticleData.articles[0].reactions_to_articles.map(
-                                (reactionsToArticles, index) => {
-                                  if (
-                                    reactionsToArticles.reaction.id ==
-                                    reactions.id
-                                  )
-                                    return (
-                                      <Space
-                                        className="mg-y-10"
-                                        key={reactions.id + index}
-                                      >
-                                        <Avatar
-                                          src={
-                                            reactionsToArticles.user
-                                              .profile_picture &&
-                                            reactionsToArticles.user
-                                              .profile_picture.length > 0
-                                              ? reactionsToArticles.user.profile_picture.includes(
-                                                  "http"
-                                                ) ||
-                                                reactionsToArticles.user.profile_picture.includes(
-                                                  "https"
-                                                )
-                                                ? reactionsToArticles.user
-                                                    .profile_picture
-                                                : reactionsToArticles.user
-                                                    .profile_picture + ".webp"
-                                              : "/blank.svg"
-                                          }
-                                        />
-                                        <Text>
-                                          {reactionsToArticles.user.username}
-                                        </Text>
-                                      </Space>
-                                    );
-                                }
-                              )}
-                            </div>
-                          </Tabs.TabPane>
-                        );
-                      })}
-                    </Tabs>
-                  </Modal>
-                  {props.user && props.user.id ? (
-                    <Dropdown
-                      placement="topCenter"
-                      className="ml-auto"
-                      overlay={reactionsMenu}
-                      arrow
-                    >
-                      <a onClick={(e) => e.preventDefault()}>
-                        <Button
-                          className="wd-100pc"
-                          type="text"
-                          icon={
-                            getArticleData.articles[0].reactions_to_articles &&
-                            getArticleData.articles[0].reactions_to_articles
-                              .length > 0 ? (
-                              getArticleData.articles[0].reactions_to_articles.map(
-                                (items) => {
-                                  if (
-                                    props.user &&
-                                    props.user.id == items.user.id
-                                  ) {
-                                    return (
-                                      <div className="d-flex">
-                                        <Reactions className="ml-10">
-                                          <div className="reaction-holder">
-                                            <div className="reaction">
-                                              <i
-                                                className={`${items.reaction.code} va-middle fs-22`}
-                                                style={
-                                                  items.reaction.color
-                                                    ? color
-                                                    : items.reaction.gradient
-                                                }
-                                              ></i>
-                                            </div>
-                                          </div>
-                                        </Reactions>
-                                        <Text
-                                          className="fs-14 lh-3 ml-20"
-                                          strong
-                                        >
-                                          {items.reaction.name == "love"
-                                            ? "Loved it!"
-                                            : items.reaction.name == "sux"
-                                            ? "Hate it!"
-                                            : items.reaction.name == "awsum"
-                                            ? "Wow Mate!"
-                                            : null}
-                                        </Text>
-                                      </div>
-                                    );
-                                  }
-                                }
-                              )
-                            ) : (
-                              <i className="ri-thumb-up-line fs-22 lh-2 mt-5 mr-10"></i>
-                            )
-                          }
-                        ></Button>
-                      </a>
-                    </Dropdown>
-                  ) : (
-                    <Text strong className="ml-auto lh-3">
-                      Please Sign in To Vote
-                    </Text>
-                  )}
-
-                  {reacted ? (
-                    <Typography.Link
-                      className="mr-5 ml-20"
-                      style={{
-                        lineHeight: 3.5,
-                      }}
-                      onClick={() => {
-                        setReacted(false);
-                        removeReaction({
-                          variables: {
-                            id: props.user.id,
-                            articleId: getArticleData.articles[0].id,
-                          },
-                        });
-                      }}
-                    >
-                      Remove
-                    </Typography.Link>
-                  ) : null}
+                <Row justify="space-between">
+                  <Reactions
+                    data={getArticleData.articles[0].reactions_to_articles}
+                    reactions={getArticleData.reactions}
+                  />
+                  <ReactionsOverlay
+                    id={props.user ? props.user.id : null}
+                    data={getArticleData.articles[0].reactions_to_articles}
+                    reactions={getArticleData.reactions}
+                    reacted={true}
+                  />
                 </Row>
               </Card>
               <Divider orientation="center">Meta Information</Divider>

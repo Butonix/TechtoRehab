@@ -14,7 +14,7 @@ import { initializeApollo } from "lib/apolloClient";
 import withSession from "lib/session";
 import gradient from "random-gradient";
 import ProgressiveImage from "react-progressive-graceful-image";
-import { Reactions } from "components/global/reactions";
+import { Reactions } from "components/global/reaction";
 
 const getCategoryQuery = gql`
   query getCategories($slug: String!) {
