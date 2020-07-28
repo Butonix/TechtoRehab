@@ -21,6 +21,7 @@ import withSession from "lib/session";
 import urlSlug from "url-slug";
 import { useRouter } from "next/router";
 import Error from "components/global/401";
+var Gist = require("react-gist");
 
 const getCatsandTopicsQuery = gql`
   query catsAndTopics {

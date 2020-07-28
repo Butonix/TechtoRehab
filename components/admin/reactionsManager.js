@@ -22,11 +22,65 @@ import icons from "public/icons.json";
 import { useState } from "react";
 import gradients from "public/gradients.json";
 
+const getReactionsQuery = gql`
+  query getReactions {
+    reactions {
+      id
+      code
+      gradient
+      name
+    }
+  }
+`;
+
+const addReactionQuery = gql`
+  mutation addReaction($code: String!, $gradient: jsonb!, $name: String!) {
+    insert_reactions_one(
+      object: { code: $code, gradient: $gradient, name: $name }
+    ) {
+      gradient
+    }
+  }
+`;
+
+const deleteReactionQuery = gql`
+  mutation deleteReaction($id: uuid!) {
+    delete_reactions_to_articles(where: { reaction_id: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_reactions(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;
+
 const { Text, Paragraph, Title } = Typography;
 const random = require("simple-random-number-generator");
 const ReactionsManager = () => {
+  const [form] = Form.useForm();
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [gradient, setGradient] = useState(null);
+
+  const {
+    data: getReactionsData,
+    loading: getReactionsLoading,
+    refetch: getReactionsRefetch,
+  } = useQuery(getReactionsQuery);
+  const [addReaction] = useMutation(addReactionQuery, {
+    onCompleted: () => {
+      message.success("Reaction Added");
+      getReactionsRefetch();
+    },
+    onError: (err) => console.log(err),
+  });
+
+  const [deleteReaction] = useMutation(deleteReactionQuery, {
+    onCompleted: () => {
+      message.success("Reaction Deleted");
+      getReactionsRefetch();
+    },
+    onError: () => message.error("Couldnt Delete Reaction"),
+  });
   return (
     <Row justify="center">
       <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={14} className="pd-10">
@@ -34,7 +88,55 @@ const ReactionsManager = () => {
           Reactions Manager
         </Title>
         <Tabs>
-          <Tabs.TabPane tab="Reactions" key="reactions"></Tabs.TabPane>
+          <Tabs.TabPane tab="Reactions" key="reactions">
+            {getReactionsLoading ? (
+              <Skeleton
+                avatar={{
+                  shape: "circle",
+                  size: 40,
+                }}
+                paragraph={false}
+                title
+                round
+                active
+              />
+            ) : (
+              <List
+                dataSource={getReactionsData ? getReactionsData.reactions : []}
+                renderItem={(item) => (
+                  <List.Item
+                    actions={[
+                      <a
+                        onClick={() => {
+                          deleteReaction({
+                            variables: {
+                              id: item.id,
+                            },
+                          });
+                        }}
+                      >
+                        <i class="ri-delete-bin-line va-middle fs-20"></i>
+                      </a>,
+                    ]}
+                  >
+                    <List.Item.Meta
+                      title={
+                        <Text className="fs-16 t-transform-cpt">
+                          {item.name}
+                        </Text>
+                      }
+                      avatar={
+                        <i
+                          className={`${item.code} fs-22 va-middle mr-10 text-enable-gradient`}
+                          style={item.gradient}
+                        />
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            )}
+          </Tabs.TabPane>
           <Tabs.TabPane tab="Create" key="create">
             <Row justify="space-between">
               <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={14}>
@@ -42,6 +144,19 @@ const ReactionsManager = () => {
                   layout="vertical"
                   wrapperCol={{
                     span: 24,
+                  }}
+                  form={form}
+                  onFinish={(data) => {
+                    addReaction({
+                      variables: {
+                        name: data.rName,
+                        code: selectedIcon,
+                        gradient: {
+                          backgroundColor: gradient[0],
+                          backgroundImage: `linear-gradient(180deg, ${gradient[0]} 0%, ${gradient[1]} 74%)`,
+                        },
+                      },
+                    });
                   }}
                 >
                   <Form.Item
@@ -73,31 +188,7 @@ const ReactionsManager = () => {
                       ))}
                     </Select>
                   </Form.Item>
-                  <Form.Item>
-                    <Button type="primary" className="mg-x-10">
-                      Add Reaction
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        var number = random({
-                          min: 0,
-                          max: 333,
-                        });
-                        const gradient = gradients[Math.floor(number)];
-                        setGradient(gradient.colors);
-                      }}
-                    >
-                      Generate Gradient
-                    </Button>
-                  </Form.Item>
-                </Form>
-                <Divider orientation="center">OR</Divider>
-                <Form
-                  layout="vertical"
-                  onFinish={(fin) => {
-                    setGradient([fin.color1, fin.color2]);
-                  }}
-                >
+
                   <Form.Item label="Colors">
                     <Form.Item
                       name="color1"
@@ -119,10 +210,51 @@ const ReactionsManager = () => {
                       <Input placeholder="Second - for e.g #F3E6E8" />
                     </Form.Item>
                     <Form.Item>
-                      <Button type="primary" htmlType="submit">
+                      <Button
+                        icon={
+                          <i class="ri-check-line fs-16 va-middle mr-10"></i>
+                        }
+                        onClick={() => {
+                          var color1 = form.getFieldValue("color1");
+                          var color2 = form.getFieldValue("color2");
+                          setGradient([color1, color2]);
+                        }}
+                      >
                         Update Colors
                       </Button>
+                      <Divider type="vertical" />
+                      <Button
+                        icon={
+                          <i class="ri-refresh-line fs-16 va-middle mr-10"></i>
+                        }
+                        onClick={() => {
+                          var number = random({
+                            min: 0,
+                            max: 333,
+                          });
+                          const gradient = gradients[Math.floor(number)];
+                          setGradient(gradient.colors);
+                        }}
+                      >
+                        Generate Gradient
+                      </Button>
                     </Form.Item>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                      Add Reaction
+                    </Button>
+                    <Button
+                      type="link"
+                      className="ml-10"
+                      onClick={() => {
+                        form.resetFields();
+                        setSelectedIcon(null);
+                        setGradient(null);
+                      }}
+                    >
+                      Reset Form
+                    </Button>
                   </Form.Item>
                 </Form>
               </Col>
