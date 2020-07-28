@@ -249,6 +249,15 @@ const createArticle = (props) => {
                   width: 800,
                   id: (groups) => groups.join("/embed/"),
                 },
+                codesandbox: {
+                  regex: /https?:\/\/codesandbox.io\/s\/([^\/\?\&]*)/,
+                  embedUrl: "https://codesandbox.io/embed/<%= remote_id %>",
+                  html:
+                    "<iframe height='500' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
+                  height: 500,
+                  width: 800,
+                  id: (groups) => groups.join("/embed/"),
+                },
                 stackblitz: {
                   regex: /https?:\/\/stackblitz.com\/edit\/([^\/\?\&]*)/,
                   embedUrl:
@@ -360,8 +369,7 @@ const createArticle = (props) => {
                 <Input onChange={handleTitle} />
               </Form.Item>
               <Link className="mt-10 lh-1">
-                {process.env.NEXT_PUBLIC_WEB_ADDRESS +
-                  "/" +
+                {"/" +
                   (category ? category + "/" : "") +
                   (topic ? topic + "/" : "") +
                   permalink}

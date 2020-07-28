@@ -1,8 +1,51 @@
-import { Dropdown, Typography } from "antd";
+import { Dropdown, Typography, message } from "antd";
 import styled from "styled-components";
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 
 const { Text, Title } = Typography;
+
+const updateReactionQuery = gql`
+  mutation updateReaction(
+    $userId: uuid!
+    $articleId: uuid!
+    $reactionId: uuid!
+  ) {
+    update_reactions_to_articles(
+      where: { user_id: { _eq: $userId }, article_id: { _eq: $articleId } }
+      _set: { reaction_id: $reactionId }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+const insertReactionQuery = gql`
+  mutation insertReaction(
+    $userId: uuid!
+    $articleId: uuid!
+    $reactionId: uuid!
+  ) {
+    insert_reactions_to_articles_one(
+      object: {
+        article_id: $articleId
+        reaction_id: $reactionId
+        user_id: $userId
+      }
+    ) {
+      reaction_id
+    }
+  }
+`;
+
+const deleteReactionQuery = gql`
+  mutation deleteReaction($userId: uuid!, $articleId: uuid!) {
+    delete_reactions_to_articles(
+      where: { article_id: { _eq: $articleId }, user_id: { _eq: $userId } }
+    ) {
+      affected_rows
+    }
+  }
+`;
 
 const ReactionsOverlay = styled.div`
   display: flex;
@@ -23,8 +66,26 @@ const ReactionsOverlay = styled.div`
 `;
 
 const ReactionDropdown = (props) => {
+  const [addReaction] = useMutation(insertReactionQuery, {
+    onCompleted: () => {
+      props.refetch();
+      props.setReacted(true);
+    },
+  });
+  const [updateReaction] = useMutation(updateReactionQuery, {
+    onCompleted: () => {
+      message.success("Reaction Updated");
+      props.refetch();
+    },
+  });
+  const [deleteReaction] = useMutation(deleteReactionQuery, {
+    onCompleted: () => {
+      props.refetch();
+      props.setReacted(false);
+    },
+  });
   return (
-    <a>
+    <a className="d-flex">
       <Dropdown
         placement="topCenter"
         overlay={
@@ -58,6 +119,25 @@ const ReactionDropdown = (props) => {
                   <i
                     className={`${reaction.code} enable-text-gradient va-minus-6 fs-28 mg-x-15`}
                     style={reaction.gradient}
+                    onClick={() => {
+                      if (props.reacted) {
+                        updateReaction({
+                          variables: {
+                            userId: props.id,
+                            articleId: props.articleId,
+                            reactionId: reaction.id,
+                          },
+                        });
+                      } else {
+                        addReaction({
+                          variables: {
+                            userId: props.id,
+                            articleId: props.articleId,
+                            reactionId: reaction.id,
+                          },
+                        });
+                      }
+                    }}
                   />
                 </Dropdown>
               );
@@ -68,15 +148,6 @@ const ReactionDropdown = (props) => {
         {props.reacted == true ? (
           <a>
             <div className="mt-5">
-              {/* <Text
-                strong
-                className="mr-10 lh-1"
-                style={{
-                  verticalAlign: 6,
-                }}
-              >
-                I am thinking
-              </Text> */}
               {props.data
                 .filter((filter) => filter.user.id == props.id)
                 .map((mapped) => (
@@ -85,13 +156,7 @@ const ReactionDropdown = (props) => {
                       className={`${mapped.reaction.code} fs-24 va-middle enable-text-gradient`}
                       style={mapped.reaction.gradient}
                     />
-                    <Text
-                      strong
-                      className="mr-10 ml-10 lh-1 t-transform-cpt "
-                      //   style={{
-                      //     verticalAlign: 6,
-                      //   }}
-                    >
+                    <Text strong className="mr-10 ml-10 lh-1 t-transform-cpt ">
                       {mapped.reaction.name}
                     </Text>
                   </>
@@ -107,6 +172,28 @@ const ReactionDropdown = (props) => {
           ></i>
         )}
       </Dropdown>
+      {props.reacted ? (
+        <a
+          onClick={() => {
+            deleteReaction({
+              variables: {
+                userId: props.id,
+                articleId: props.articleId,
+              },
+            });
+          }}
+        >
+          <Text
+            style={{
+              color: "inherit",
+              lineHeight: 3.2,
+            }}
+            className="mr-10 ml-10 t-transform-cpt"
+          >
+            Remove
+          </Text>
+        </a>
+      ) : null}
     </a>
   );
 };

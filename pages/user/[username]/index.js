@@ -8,8 +8,8 @@ import {
   Col,
   Card,
   Tabs,
-  Typograph,
   Upload,
+  Button,
   Typography,
   Avatar,
   Badge,
@@ -170,31 +170,14 @@ const User = (props) => {
               cover={
                 props.user ? (
                   props.user.username == router.query.username ? (
-                    <Upload
-                      name="imageUpload"
-                      action="/api/imageUpload"
-                      onChange={handleCoverPreview}
-                      showUploadList={false}
-                      className="cover-imageUpload"
-                      style={{ width: "100%" }}
-                    >
-                      <i
-                        class="ri-upload-cloud-2-line fs-22 uploadIcon"
-                        style={{
-                          visibility: "hidden",
-                          top: 20,
-                          left: 50,
-                          position: "absolute",
-                          zIndex: 3,
-                          cursor: "pointer",
-                        }}
-                      ></i>
-
+                    <div>
                       <ProgressiveImage
-                        src={cover ? cover + ".webp" : "/cover.svg"}
+                        src={cover ? cover + ".webp" : "/image-placeholder.png"}
                         threshold={1}
                         placeholder={
-                          cover ? cover + "-placeholder.webp" : "/cover.svg"
+                          cover
+                            ? cover + "-placeholder.webp"
+                            : "/image-placeholder.png"
                         }
                       >
                         {(src) => (
@@ -210,13 +193,39 @@ const User = (props) => {
                           />
                         )}
                       </ProgressiveImage>
-                    </Upload>
+                      <Upload
+                        name="imageUpload"
+                        action="/api/imageUpload"
+                        onChange={handleCoverPreview}
+                        showUploadList={false}
+                        className="cover-imageUpload"
+                        style={{ width: "100%" }}
+                      >
+                        <Button
+                          type="secondary"
+                          icon={
+                            <i class="ri-camera-fill fs-16 va-minus-4 mr-10"></i>
+                          }
+                          style={{
+                            position: "absolute",
+                            right: 0,
+                            marginRight: 10,
+                            marginTop: -60,
+                            zIndex: 2,
+                          }}
+                        >
+                          {cover ? "Update" : "Upload"}
+                        </Button>
+                      </Upload>
+                    </div>
                   ) : (
                     <ProgressiveImage
                       threshold={1}
-                      src={cover ? cover + ".webp" : "/cover.svg"}
+                      src={cover ? cover + ".webp" : "/image-placeholder.png"}
                       placeholder={
-                        cover ? cover + "-placeholder.webp" : "/cover.svg"
+                        cover
+                          ? cover + "-placeholder.webp"
+                          : "/image-placeholder.png"
                       }
                     >
                       {(src) => (
@@ -235,9 +244,11 @@ const User = (props) => {
                   )
                 ) : (
                   <ProgressiveImage
-                    src={cover ? cover + ".webp" : "/cover.svg"}
+                    src={cover ? cover + ".webp" : "/image-placeholder.png"}
                     placeholder={
-                      cover ? cover + "-placeholder.webp" : "/cover.svg"
+                      cover
+                        ? cover + "-placeholder.webp"
+                        : "/image-placeholder.png"
                     }
                   >
                     {(src) => (
@@ -259,28 +270,30 @@ const User = (props) => {
               <Row className="d-flex jc-center">
                 {props.user ? (
                   props.user.username == router.query.username ? (
-                    <Upload
-                      action="/api/imageUpload"
-                      name="imageUpload"
-                      onChange={handleDpPreview}
-                      showUploadList={false}
-                      className="dp-imageUpload"
-                    >
-                      <i
-                        class="ri-upload-cloud-2-line fs-22 uploadIcon"
-                        style={{
-                          visibility: "hidden",
-                          bottom: -10,
-                          zIndex: 4,
-                          position: "relative",
-                          color: "rgb(0,0,0,0.2)",
-                          left: 63,
-                          cursor: "pointer",
-                        }}
-                      ></i>
+                    <>
+                      <Upload
+                        action="/api/imageUpload"
+                        name="imageUpload"
+                        onChange={handleDpPreview}
+                        showUploadList={false}
+                        className="dp-imageUpload"
+                      >
+                        <Button
+                          shape="circle"
+                          className="avatar-upload-button"
+                          icon={
+                            <i
+                              class="ri-camera-2-fill va-minus-2 fs-18"
+                              style={{
+                                color: "inherit",
+                              }}
+                            ></i>
+                          }
+                        />
+                      </Upload>
                       <Avatar
                         size={100}
-                        src={dp ? dp : "/cover.svg"}
+                        src={dp ? dp : "/avatar-placeholder.jpeg"}
                         style={{
                           margin: "auto",
                           marginTop: -70,
@@ -288,11 +301,11 @@ const User = (props) => {
                           position: "relative",
                         }}
                       />
-                    </Upload>
+                    </>
                   ) : (
                     <Avatar
                       size={100}
-                      src={dp ? dp : "/cover.svg"}
+                      src={dp ? dp : "/avatar-placeholder.jpeg"}
                       style={{
                         margin: "auto",
                         marginTop: -70,
@@ -304,7 +317,7 @@ const User = (props) => {
                 ) : (
                   <Avatar
                     size={100}
-                    src={dp ? dp : "/cover.svg"}
+                    src={dp ? dp : "/avatar-placeholder.jpeg"}
                     style={{
                       margin: "auto",
                       marginTop: -70,
@@ -317,7 +330,10 @@ const User = (props) => {
               <Row className="d-flex jc-center"></Row>
             </Card>
             <Row className="d-flex jc-center">
-              <Text className="ta-center fs-18 mt-20" strong>
+              <Text
+                className="ta-center fs-18 mt-20 ml-10 t-transform-cpt"
+                strong
+              >
                 {router.query.username}
                 <i
                   class="ri-checkbox-circle-fill fs-16"
@@ -330,10 +346,10 @@ const User = (props) => {
               </Text>
             </Row>
 
-            <Row justify="center" className="mg-y-20">
+            <Row justify="center" className="mg-y-20 social-row-profile">
               {getUserData.users[0].facebook &&
               getUserData.users[0].facebook.length > 1 ? (
-                <div className="mg-x-10">
+                <div className="mg-x-5">
                   <a
                     href={getUserData.users[0].facebook}
                     className="va-minus-2"
@@ -345,7 +361,7 @@ const User = (props) => {
 
               {getUserData.users[0].instagram &&
               getUserData.users[0].instagram.length > 1 ? (
-                <div className="mg-x-10">
+                <div className="mg-x-5">
                   <a href={getUserData.users[0].instagram}>
                     <img src="/instagram.svg" height={30} width={30} />
                   </a>
@@ -354,7 +370,7 @@ const User = (props) => {
 
               {getUserData.users[0].twitter &&
               getUserData.users[0].twitter.length > 1 ? (
-                <div className="mg-x-10">
+                <div className="mg-x-5">
                   <a href={getUserData.users[0].twitter}>
                     <img src="/twitter.svg" height={30} width={30} />
                   </a>

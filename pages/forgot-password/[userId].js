@@ -6,6 +6,7 @@ import {
   Card,
   Typography,
   Button,
+  Skeleton,
   Result,
   Alert,
 } from "antd";
@@ -30,7 +31,7 @@ const checkTokenQuery = gql`
         count
       }
       nodes {
-        settings {
+        private_info {
           reset_token_expire
         }
       }
@@ -55,7 +56,6 @@ const newPasswordQuery = gql`
 
 const forgotPassword = (props) => {
   const router = useRouter();
-  const { userId, token } = router.query;
   const [passwordSuccess, setPasswordSuccess] = useState(false);
 
   const {
@@ -65,8 +65,8 @@ const forgotPassword = (props) => {
   } = useQuery(checkTokenQuery, {
     onCompleted: (data) => console.log(data),
     variables: {
-      id: props.params.userId,
-      token: props.params.token,
+      id: props.userId,
+      token: props.token,
     },
     onError: (err) => console.log(err),
   });
@@ -85,13 +85,15 @@ const forgotPassword = (props) => {
       <Row justify="center" className="pd-20">
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
           <Card>
-            {userId && token ? (
-              checkTokenData && checkTokenData.users_aggregate ? (
+            {props.userId && props.token ? (
+              checktokenLoading ? (
+                <Skeleton round title active />
+              ) : checkTokenData && checkTokenData.users_aggregate ? (
                 checkTokenData.users_aggregate.aggregate.count == 1 ? (
                   Math.round(
                     (Date.now() -
                       new Date(
-                        checkTokenData.users_aggregate.nodes[0].settings.reset_token_expire
+                        checkTokenData.users_aggregate.nodes[0].private_info[0].reset_token_expire
                       )) /
                       60000
                   ) < 31 ? (
@@ -101,6 +103,7 @@ const forgotPassword = (props) => {
                         height={400}
                         width="100%"
                       />
+
                       <Title level={4} className="fs-18 mg-y-20">
                         Enter The New Password
                       </Title>
@@ -130,7 +133,7 @@ const forgotPassword = (props) => {
                             .then((result) => {
                               newPassword({
                                 variables: {
-                                  userId: userId,
+                                  userId: props.userId,
                                   password: result.hash,
                                   token: undefined,
                                 },
@@ -296,7 +299,8 @@ export const getServerSideProps = async ({ query }) => {
   }
   return {
     props: {
-      params: query ? query : null,
+      token: query ? query.token : null,
+      userId: query ? query.userId : null,
     },
   };
 };

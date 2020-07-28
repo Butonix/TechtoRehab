@@ -18,9 +18,9 @@ const checkEmailQuery = gql`
 `;
 
 const resetTokenQuery = gql`
-  mutation resetToken($token: String!, $id: uuid!) {
+  mutation resetToken($token: String!, $id: uuid!, $expire: timestamptz!) {
     update_users_private_info(
-      _set: { reset_token: $token }
+      _set: { reset_token: $token, reset_token_expire: $expire }
       where: { user_id: { _eq: $id } }
     ) {
       returning {
@@ -51,6 +51,7 @@ const Forgot = () => {
           variables: {
             id: data.users_aggregate.nodes[0].id,
             token: nanoid(),
+            expire: new Date().toISOString(),
           },
         });
       } else {
@@ -58,7 +59,6 @@ const Forgot = () => {
         setEmailFail(true);
       }
     },
-    fetchPolicy: "network-only",
   });
 
   const [resetToken, { data: resetTokenData }] = useMutation(resetTokenQuery, {

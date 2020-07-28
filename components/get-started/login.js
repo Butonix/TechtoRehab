@@ -80,6 +80,8 @@ const Login = () => {
     {
       onCompleted: (data) => {
         if (data.users_aggregate.aggregate.count > 0) {
+          console.log("inside");
+          console.log(enteredPassword);
           fetch("/api/checkPassword", {
             method: "POST",
             headers: {
@@ -87,7 +89,7 @@ const Login = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              salt: data.users_aggregate.nodes[0].private_info.password,
+              salt: data.users_aggregate.nodes[0].private_info[0].password,
               password: enteredPassword,
             }),
           })
@@ -112,7 +114,7 @@ const Login = () => {
                     setFetchingLogin(false);
                     setLoginFailed(false);
                     setLoginSuccess(true);
-                    router.back();
+                    router.push("/");
                   });
               } else {
                 setLoginFailed(true);
@@ -125,7 +127,6 @@ const Login = () => {
         }
       },
       onError: (err) => console.log(err),
-      fetchPolicy: "network-only",
     }
   );
 

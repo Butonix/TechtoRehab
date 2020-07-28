@@ -997,10 +997,10 @@ h6 {
 }
 
 .mce-content-body {
-  padding: 10px;
-  border: 1px solid #cecece;
-  border-radius: 5px;
-  min-height: 500px;
+  // padding: 10px;
+  // border: 1px solid #cecece;
+  // border-radius: 5px;
+  // min-height: 500px;
 }
 
 .featured-image-uploader {
@@ -1238,7 +1238,7 @@ $black: #282936;
   }
   i {
     visibility: visible !important;
-    color: rgb(255, 255, 255, 0.8) !important;
+    // color: rgb(255, 255, 255, 0.8) !important;
   }
 }
 
@@ -1333,9 +1333,6 @@ img {
   }
 }
 
-.ce-toolbar__content {
-  max-width: 95% !important;
-}
 .codeBoxHolder {
   // height: 400px;
 }
@@ -1448,4 +1445,19 @@ img {
 .enable-text-gradient {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
+}
+
+.avatar-upload-button {
+  position: absolute;
+  right: 44%;
+  z-index: 4;
+  margin-top: -20px;
+  @include mobile {
+    margin-top: -20px;
+    right: 38%;
+  }
+}
+
+.social-row-profile > div:first-child {
+  margin-left: 30px !important;
 }

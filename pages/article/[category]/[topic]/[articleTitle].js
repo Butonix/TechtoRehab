@@ -851,7 +851,10 @@ const Article = (props) => {
                     id={props.user ? props.user.id : null}
                     data={getArticleData.articles[0].reactions_to_articles}
                     reactions={getArticleData.reactions}
-                    reacted={true}
+                    articleId={getArticleData.articles[0].id}
+                    reacted={reacted}
+                    refetch={getArticleRefetch}
+                    setReacted={setReacted}
                   />
                 </Row>
               </Card>

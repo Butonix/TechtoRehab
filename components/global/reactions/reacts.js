@@ -112,7 +112,7 @@ const Reactions = (props) => {
                   {props.data
                     .filter((filter) => filter.reaction.id == reaction.id)
                     .map((mapped) => (
-                      <div className="mt-10 mb-10">
+                      <div className="mt-10 mb-20">
                         <Avatar
                           size={35}
                           src={mapped.user.profile_picture + ".webp"}

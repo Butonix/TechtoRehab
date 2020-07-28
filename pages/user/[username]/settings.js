@@ -91,7 +91,7 @@ const userSettings = (props) => {
     setUserBasicQuery,
     {
       onCompleted: () => message.success("Success!"),
-      onError: (err) => message.error("Error Updating Basic Info"),
+      onError: (err) => console.log(err),
     }
   );
 
@@ -116,8 +116,7 @@ const userSettings = (props) => {
                 <Form
                   layout="vertical"
                   onFinish={(obj) => {
-                    console.log(obj.nPassword);
-                    if (obj.nPassword !== undefined || nPassword.length > 6) {
+                    if (obj.nPassword && obj.nPassword.length > 6) {
                       fetch("/api/encryptPass", {
                         method: "POST",
                         headers: {
