@@ -29,7 +29,7 @@
     "graphql": "^15.3.0",
     "link-preview-generator": "0.0.4",
     "nanoid": "^3.1.10",
-    "next": "^9.4.0",
+    "next": "^9.5.0",
     "next-iron-session": "^4.1.7",
     "next-seo": "^4.5.0",
     "nodemailer": "^6.4.10",

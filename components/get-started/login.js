@@ -353,8 +353,9 @@ const Login = () => {
             });
           }}
           icon={<img src="/google.svg" className="mr-20" width={20} />}
-          onLoginFailure={() => {
+          onLoginFailure={(err) => {
             message.error("Unable to log in using Google");
+            console.log(err);
           }}
           autoLogin={false}
         >
