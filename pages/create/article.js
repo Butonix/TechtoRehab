@@ -21,7 +21,6 @@ import withSession from "lib/session";
 import urlSlug from "url-slug";
 import { useRouter } from "next/router";
 import Error from "components/global/401";
-var Gist = require("react-gist");
 
 const getCatsandTopicsQuery = gql`
   query catsAndTopics {
@@ -84,11 +83,6 @@ const checkTitleQuery = gql`
     }
   }
 `;
-
-const MyEditor = dynamic(
-  () => import("@tinymce/tinymce-react").then((res) => res.Editor),
-  { loading: () => <Skeleton paragraph={{ rows: 2 }} title />, ssr: false }
-);
 
 const { Text, Title, Link } = Typography;
 const createArticle = (props) => {
