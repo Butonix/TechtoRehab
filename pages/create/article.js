@@ -21,6 +21,7 @@ import withSession from "lib/session";
 import urlSlug from "url-slug";
 import { useRouter } from "next/router";
 import Error from "components/global/401";
+import { FillSpinner } from "react-spinners-kit";
 
 const getCatsandTopicsQuery = gql`
   query catsAndTopics {
@@ -89,6 +90,7 @@ const createArticle = (props) => {
   var count = 0;
   const [form] = Form.useForm();
   const [image, setImage] = useState(null);
+  const [imageUploading, setImageUploading] = useState(false);
   const [editorContent, setEditorContent] = useState(`Ncie Content`);
   const [permalink, setPermalink] = useState("Enter A Title");
   const [title, setTitle] = useState(null);
@@ -155,9 +157,15 @@ const createArticle = (props) => {
   ] = useLazyQuery(checkTitleQuery);
 
   const handleImagePreview = (info) => {
-    if (info.file.response && info.file.response.path) {
-      setImage(info.file.response.path);
-      return info.file.response.path;
+    if (info.file.status === "uploading") {
+      setImageUploading(true);
+    }
+    if (info.file.status === "done") {
+      setImageUploading(false);
+      if (info.file.response && info.file.response.path) {
+        setImage(info.file.response.path);
+        return info.file.response.path;
+      }
     }
   };
 
@@ -539,6 +547,15 @@ const createArticle = (props) => {
                       height="200px"
                       src={image + "?tr=f-webp,w-800,h-800"}
                     />
+                  ) : imageUploading ? (
+                    <Row justify="center">
+                      <Col className="d-flex flex-column ai-center jc-center">
+                        <FillSpinner color="#1890ff" size={20} />
+                        <Text className="mt-10 ta-center" strong>
+                          Uploading....
+                        </Text>
+                      </Col>
+                    </Row>
                   ) : (
                     <Text>Upload</Text>
                   )}
@@ -561,20 +578,17 @@ const createArticle = (props) => {
                         redirect: "follow",
                         referrerPolicy: "no-referrer",
                         body: JSON.stringify({
-                          name: image
-                            .replace("https://ik.imagekit.io/ttr/", "")
-                            .substr(0, image.indexOf(".")),
+                          name: image,
                         }),
-                      })
-                        .then((res) => {
-                          console.log(res);
-                          if (res.result == "ok") {
+                      }).then((res) => {
+                        res.json().then((result) => {
+                          if (result.result == "ok") {
                             setImage(null);
                           } else {
                             message.error("Error removing image");
                           }
-                        })
-                        .then((err) => message.error("Error removing image"));
+                        });
+                      });
                     }}
                   >
                     Remove Featured Image

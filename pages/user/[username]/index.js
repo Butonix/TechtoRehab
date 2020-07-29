@@ -142,7 +142,7 @@ const User = (props) => {
 
   const handleDpPreview = (obj2) => {
     if (obj2.file.response && obj2.file.response.path) {
-      setDp(obj2.file.response.path + ".webp");
+      setDp(obj2.file.response.path + "?tr=h-100,w-100");
       updateprofilePicture({
         variables: {
           id: getUserData.users[0].id,
@@ -172,11 +172,15 @@ const User = (props) => {
                   props.user.username == router.query.username ? (
                     <div>
                       <ProgressiveImage
-                        src={cover ? cover + ".webp" : "/image-placeholder.png"}
+                        src={
+                          cover
+                            ? cover + "?tr=h-800,w-800"
+                            : "/image-placeholder.png"
+                        }
                         threshold={1}
                         placeholder={
                           cover
-                            ? cover + "-placeholder.webp"
+                            ? cover + "?tr=h-50,w-50,bl-57"
                             : "/image-placeholder.png"
                         }
                       >
@@ -221,10 +225,14 @@ const User = (props) => {
                   ) : (
                     <ProgressiveImage
                       threshold={1}
-                      src={cover ? cover + ".webp" : "/image-placeholder.png"}
+                      src={
+                        cover
+                          ? cover + "?tr=h-800,w-800"
+                          : "/image-placeholder.png"
+                      }
                       placeholder={
                         cover
-                          ? cover + "-placeholder.webp"
+                          ? cover + "?tr=h-50,w-50,bl-57"
                           : "/image-placeholder.png"
                       }
                     >
@@ -244,10 +252,14 @@ const User = (props) => {
                   )
                 ) : (
                   <ProgressiveImage
-                    src={cover ? cover + ".webp" : "/image-placeholder.png"}
+                    src={
+                      cover
+                        ? cover + "?tr=h-800,w-800"
+                        : "/image-placeholder.png"
+                    }
                     placeholder={
                       cover
-                        ? cover + "-placeholder.webp"
+                        ? cover + "?tr=h-50,w-50,bl-57"
                         : "/image-placeholder.png"
                     }
                   >
@@ -293,7 +305,11 @@ const User = (props) => {
                       </Upload>
                       <Avatar
                         size={100}
-                        src={dp ? dp : "/avatar-placeholder.jpeg"}
+                        src={
+                          dp
+                            ? dp + "?tr=h-800,w-800"
+                            : "/avatar-placeholder.jpeg"
+                        }
                         style={{
                           margin: "auto",
                           marginTop: -70,
@@ -305,7 +321,9 @@ const User = (props) => {
                   ) : (
                     <Avatar
                       size={100}
-                      src={dp ? dp : "/avatar-placeholder.jpeg"}
+                      src={
+                        dp ? dp + "?tr=h-800,w-800" : "/avatar-placeholder.jpeg"
+                      }
                       style={{
                         margin: "auto",
                         marginTop: -70,
@@ -317,7 +335,9 @@ const User = (props) => {
                 ) : (
                   <Avatar
                     size={100}
-                    src={dp ? dp : "/avatar-placeholder.jpeg"}
+                    src={
+                      dp ? dp + "?tr=h-800,w-800" : "/avatar-placeholder.jpeg"
+                    }
                     style={{
                       margin: "auto",
                       marginTop: -70,

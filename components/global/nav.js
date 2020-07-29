@@ -348,15 +348,8 @@ const Navigation = (props) => {
                   src={
                     getUserProfilePictureData &&
                     getUserProfilePictureData.users[0].profile_picture
-                      ? getUserProfilePictureData.users[0].profile_picture.includes(
-                          "http"
-                        ) ||
-                        getUserProfilePictureData.users[0].profile_picture.includes(
-                          "https"
-                        )
-                        ? getUserProfilePictureData.users[0].profile_picture
-                        : getUserProfilePictureData.users[0].profile_picture +
-                          ".webp"
+                      ? getUserProfilePictureData.users[0].profile_picture +
+                        "?tr=h-50,w-50"
                       : null
                   }
                   size={26}

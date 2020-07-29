@@ -213,7 +213,10 @@ const topicsManager = () => {
                         }
                         avatar={
                           item.cover ? (
-                            <Avatar size={40} src={item.cover + ".webp"} />
+                            <Avatar
+                              size={40}
+                              src={item.cover + "?tr=h-40,w-40"}
+                            />
                           ) : (
                             <div
                               className="d-flex jc-center flex-column ai-center"
@@ -414,9 +417,11 @@ const topicsManager = () => {
                     {drawerData.cover ? (
                       <img
                         src={
-                          drawerData.cover ? drawerData.cover + ".webp" : null
+                          drawerData.cover
+                            ? drawerData.cover + "?tr=h-200"
+                            : null
                         }
-                        height={300}
+                        height={200}
                         width="100%"
                       />
                     ) : null}

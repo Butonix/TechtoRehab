@@ -80,7 +80,10 @@ const Categories = (props) => {
                     <Card
                       cover={
                         item.cover ? (
-                          <img src={`${item.cover + ".webp"}`} height={300} />
+                          <img
+                            src={`${item.cover + "?tr=h-300,w-300"}`}
+                            height={300}
+                          />
                         ) : (
                           <div
                             className="d-flex jc-center flex-column ai-center"

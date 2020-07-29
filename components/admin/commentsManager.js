@@ -257,7 +257,11 @@ const CommentsManager = () => {
                     </a>
                   </Space>,
                 ]}
-                avatar={<Avatar src={comments.author.profile_picture} />}
+                avatar={
+                  <Avatar
+                    src={comments.author.profile_picture + "tr=w-50,h-50"}
+                  />
+                }
                 datetime={
                   new Date(comments.updated_at).toLocaleDateString() +
                   " at " +
@@ -280,7 +284,10 @@ const CommentsManager = () => {
                             }
                             avatar={
                               <Avatar
-                                src={replies.replyAuthor.profile_picture}
+                                src={
+                                  replies.replyAuthor.profile_picture +
+                                  "tr=w-50,h-50"
+                                }
                               />
                             }
                             content={replies.content}
@@ -333,7 +340,7 @@ const CommentsManager = () => {
                                           }
                                           avatar={
                                             repliesToReply.author
-                                              .profile_picture
+                                              .profile_picture + "tr=w-50,h-50"
                                           }
                                         />
                                       );

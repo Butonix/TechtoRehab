@@ -28,6 +28,7 @@
     "easy-peasy": "^3.3.0",
     "formidable": "^1.2.2",
     "graphql": "^15.3.0",
+    "imagekitio-react": "^1.0.6",
     "link-preview-generator": "0.0.4",
     "nanoid": "^3.1.10",
     "next": "^9.5.0",

@@ -48,6 +48,8 @@ import { nanoid } from "nanoid";
 import ProgressiveImage from "react-progressive-graceful-image";
 import Reactions from "components/global/reactions/reacts";
 import ReactionsOverlay from "components/global/reactions/reacts-dropdown";
+import { IKImage, IKContext, IKUpload } from "imagekitio-react";
+
 //
 //
 //
@@ -498,10 +500,12 @@ const Article = (props) => {
               className="pd-t-30 pb-b-10 mb-20"
             >
               <ProgressiveImage
-                src={getArticleData.articles[0].featured_image + ".webp"}
+                src={
+                  getArticleData.articles[0].featured_image + "?tr=h-800,w-800"
+                }
                 placeholder={
                   getArticleData.articles[0].featured_image +
-                  "-placeholder.webp"
+                  "?tr=h-50,w-50,bl-57"
                 }
                 threshold={1}
                 delay={600}
@@ -542,12 +546,9 @@ const Article = (props) => {
                       <Row justify="center" key={blocks.type + nanoid()}>
                         <figure className="mg-y-10 figure">
                           <ProgressiveImage
-                            src={blocks.data.file.url}
+                            src={blocks.data.file.url + "?tr=h-800,w-800"}
                             placeholder={
-                              blocks.data.file.url.slice(
-                                0,
-                                blocks.data.file.url.length - 5
-                              ) + "-placeholder.webp"
+                              blocks.data.file.url + "?tr=h-50,w-50,bl-57"
                             }
                             threshold={1}
                           >

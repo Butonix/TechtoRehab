@@ -347,7 +347,7 @@ const ArticlesManager = () => {
                         avatar={
                           <Avatar
                             size={45}
-                            src={item.featured_image + ".webp"}
+                            src={item.featured_image + "?tr=h-200,w-200"}
                           />
                         }
                       />

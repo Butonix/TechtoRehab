@@ -153,9 +153,9 @@ const Categories = (props) => {
               cover={
                 getCategory2Data && getCategory2Data.category[0].cover ? (
                   <ProgressiveImage
-                    src={getCategory2Data.category[0].cover + ".webp"}
+                    src={getCategory2Data.category[0].cover + "?tr=h-800"}
                     placeholder={
-                      getCategory2Data.category[0].cover + "-placeholder.webp"
+                      getCategory2Data.category[0].cover + "?tr=h-50,w-50,bl-57"
                     }
                     threshold={1}
                     delay={600}
@@ -251,9 +251,9 @@ const Categories = (props) => {
                               href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
                             >
                               <ProgressiveImage
-                                src={item.featured_image + ".webp"}
+                                src={item.featured_image + "?tr=h-400,w-400"}
                                 placeholder={
-                                  item.featured_image + "-placeholder.webp"
+                                  item.featured_image + "?tr=h-50,w-50,bl-57"
                                 }
                                 threshold={1}
                                 delay={600}
@@ -450,9 +450,9 @@ const Categories = (props) => {
                               }
                               avatar={
                                 <ProgressiveImage
-                                  src={item.featured_image + ".webp"}
+                                  src={item.featured_image + "?tr=h-800,w-800"}
                                   placeholder={
-                                    item.featured_image + "-placeholder.webp"
+                                    item.featured_image + "?tr=h-50,w-50,bl-57"
                                   }
                                   threshold={1}
                                   delay={600}

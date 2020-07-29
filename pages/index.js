@@ -347,9 +347,9 @@ export default function Home(props) {
                       className="article-list-item"
                       extra={
                         <ProgressiveImage
-                          src={item.featured_image + ".webp"}
+                          src={item.featured_image + "?tr=h-800,w-800"}
                           placeholder={
-                            item.featured_image + "-placeholder.webp"
+                            item.featured_image + "?tr=h-50,w-50,bl-57"
                           }
                           delay={300}
                           threshold={1}
@@ -493,12 +493,7 @@ export default function Home(props) {
                     sheetData.map((mapped, index) => (
                       <Space className="mt-20" key={index}>
                         <Avatar
-                          src={
-                            mapped.authors.profile_picture.includes("http") ||
-                            mapped.authors.profile_picture.includes("https")
-                              ? mapped.authors.profile_picture
-                              : mapped.authors.profile_picture + ".webp"
-                          }
+                          src={mapped.authors.profile_picture + "?tr=w-50,h-50"}
                         />
                         <a href={`/user/${mapped.authors.username}`}>
                           <Text className="t-transform-cpt">

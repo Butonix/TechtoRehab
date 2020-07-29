@@ -1276,8 +1276,7 @@ img {
   min-width: 100%;
 
   @include mobile {
-    max-width: 100%;
-    min-width: 400px;
+    min-width: 100%;
   }
 }
 

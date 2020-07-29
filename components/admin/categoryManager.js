@@ -193,7 +193,7 @@ const categoryManager = () => {
                         }
                         avatar={
                           item.cover ? (
-                            <Avatar size={40} src={item.cover + ".webp"} />
+                            <Avatar size={40} src={item.cover + "?tr=h-40"} />
                           ) : (
                             <div
                               className="d-flex jc-center flex-column ai-center"
@@ -325,7 +325,7 @@ const categoryManager = () => {
                   >
                     {cover ? (
                       <img
-                        src={cover + ".webp"}
+                        src={cover + "?tr=h-800,w-800"}
                         alt="avatar"
                         style={{ width: "100%", height: 200 }}
                       />
@@ -383,9 +383,11 @@ const categoryManager = () => {
                     {drawerData.cover ? (
                       <img
                         src={
-                          drawerData.cover ? drawerData.cover + ".webp" : null
+                          drawerData.cover
+                            ? drawerData.cover + "?tr=h-200,w-300"
+                            : null
                         }
-                        height={300}
+                        height={200}
                         width="100%"
                       />
                     ) : null}
