@@ -1,19 +1,20 @@
-const fs = require("fs");
+const { Storage } = require("@google-cloud/storage");
 
-export default (req, res) => {
-  console.log(req.body);
-  var path = req.body.path;
-
-  fs.unlink("public" + path, (err) => {
-    if (err) {
-      res.statusCode = 500;
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ result: "FAILED" }));
-      return;
-    }
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ result: "OK" }));
-    return;
-  });
+export default async (req, res) => {
+  var name = req.body.name;
+  try {
+    const storage = new Storage();
+    await storage.bucket("tech-to-rehab").file(name).delete();
+    res.end(
+      JSON.stringify({
+        res: "ok",
+      })
+    );
+  } catch (err) {
+    res.end(
+      JSON.stringify({
+        res: "fail",
+      })
+    );
+  }
 };

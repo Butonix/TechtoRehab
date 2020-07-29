@@ -537,7 +537,7 @@ const createArticle = (props) => {
                       className="o-fit-cover"
                       width="200px"
                       height="200px"
-                      src={image + ".webp"}
+                      src={image + "?tr=f-webp,w-800,h-800"}
                     />
                   ) : (
                     <Text>Upload</Text>
@@ -561,15 +561,20 @@ const createArticle = (props) => {
                         redirect: "follow",
                         referrerPolicy: "no-referrer",
                         body: JSON.stringify({
-                          path: image + ".webp",
+                          name: image
+                            .replace("https://ik.imagekit.io/ttr/", "")
+                            .substr(0, image.indexOf(".")),
                         }),
                       })
                         .then((res) => {
-                          if (res.ok == true) {
+                          console.log(res);
+                          if (res.result == "ok") {
                             setImage(null);
+                          } else {
+                            message.error("Error removing image");
                           }
                         })
-                        .then((err) => console.log(err));
+                        .then((err) => message.error("Error removing image"));
                     }}
                   >
                     Remove Featured Image
