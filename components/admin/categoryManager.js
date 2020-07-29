@@ -193,7 +193,10 @@ const categoryManager = () => {
                         }
                         avatar={
                           item.cover ? (
-                            <Avatar size={40} src={item.cover + "?tr=h-40"} />
+                            <Avatar
+                              size={40}
+                              src={item.cover + "?tr=h-40,f-webp"}
+                            />
                           ) : (
                             <div
                               className="d-flex jc-center flex-column ai-center"
@@ -325,7 +328,7 @@ const categoryManager = () => {
                   >
                     {cover ? (
                       <img
-                        src={cover + "?tr=h-800,w-800"}
+                        src={cover + "?tr=h-200,f-webp"}
                         alt="avatar"
                         style={{ width: "100%", height: 200 }}
                       />

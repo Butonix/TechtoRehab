@@ -347,7 +347,7 @@ const ArticlesManager = () => {
                         avatar={
                           <Avatar
                             size={45}
-                            src={item.featured_image + "?tr=h-200,w-200"}
+                            src={item.featured_image + "?tr=h-200,w-200,f-webp"}
                           />
                         }
                       />
@@ -384,7 +384,10 @@ const ArticlesManager = () => {
                 <Card
                   cover={
                     <img
-                      src={articleManagerDrawerData.featured_image + ".webp"}
+                      src={
+                        articleManagerDrawerData.featured_image +
+                        "tr=h-200,f-webp"
+                      }
                       className="o-fit-cover"
                       width="100%"
                     />

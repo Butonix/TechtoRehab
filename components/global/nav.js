@@ -349,7 +349,7 @@ const Navigation = (props) => {
                     getUserProfilePictureData &&
                     getUserProfilePictureData.users[0].profile_picture
                       ? getUserProfilePictureData.users[0].profile_picture +
-                        "?tr=h-50,w-50"
+                        "?tr=h-50,w-50,f-webp"
                       : null
                   }
                   size={26}

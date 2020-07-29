@@ -215,7 +215,7 @@ const topicsManager = () => {
                           item.cover ? (
                             <Avatar
                               size={40}
-                              src={item.cover + "?tr=h-40,w-40"}
+                              src={item.cover + "?tr=h-40,w-40,f-webp"}
                             />
                           ) : (
                             <div
@@ -359,7 +359,7 @@ const topicsManager = () => {
                   >
                     {cover ? (
                       <img
-                        src={cover + ".webp"}
+                        src={cover + "tr=h-200,f-webp"}
                         alt="avatar"
                         style={{ width: "100%", height: 200 }}
                       />
@@ -418,7 +418,7 @@ const topicsManager = () => {
                       <img
                         src={
                           drawerData.cover
-                            ? drawerData.cover + "?tr=h-200"
+                            ? drawerData.cover + "?tr=h-200,f-webp"
                             : null
                         }
                         height={200}

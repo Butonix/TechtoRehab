@@ -115,7 +115,9 @@ const Reactions = (props) => {
                       <div className="mt-10 mb-20">
                         <Avatar
                           size={35}
-                          src={mapped.user.profile_picture + "?tr=w-50,h-50"}
+                          src={
+                            mapped.user.profile_picture + "?tr=w-50,h-50,f-webp"
+                          }
                           className="mr-10"
                         />
                         <Text

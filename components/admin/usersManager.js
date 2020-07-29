@@ -338,7 +338,7 @@ const UsersManager = () => {
                       <Avatar
                         className="mt-10"
                         size={35}
-                        src={item.profile_picture + "?tr=w-40"}
+                        src={item.profile_picture + "?tr=w-40,f-webp"}
                       />
                     }
                   />

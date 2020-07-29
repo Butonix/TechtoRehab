@@ -174,13 +174,13 @@ const User = (props) => {
                       <ProgressiveImage
                         src={
                           cover
-                            ? cover + "?tr=h-800,w-800"
+                            ? cover + "?tr=h-800,w-800,f-webp"
                             : "/image-placeholder.png"
                         }
                         threshold={1}
                         placeholder={
                           cover
-                            ? cover + "?tr=h-50,w-50,bl-57"
+                            ? cover + "?tr=h-50,w-50,bl-57,f-webp"
                             : "/image-placeholder.png"
                         }
                       >
@@ -227,12 +227,12 @@ const User = (props) => {
                       threshold={1}
                       src={
                         cover
-                          ? cover + "?tr=h-800,w-800"
+                          ? cover + "?tr=h-800,w-800,f-webp"
                           : "/image-placeholder.png"
                       }
                       placeholder={
                         cover
-                          ? cover + "?tr=h-50,w-50,bl-57"
+                          ? cover + "?tr=h-50,w-50,bl-57,f-webp"
                           : "/image-placeholder.png"
                       }
                     >
@@ -254,12 +254,12 @@ const User = (props) => {
                   <ProgressiveImage
                     src={
                       cover
-                        ? cover + "?tr=h-800,w-800"
+                        ? cover + "?tr=h-800,w-800,f-webp"
                         : "/image-placeholder.png"
                     }
                     placeholder={
                       cover
-                        ? cover + "?tr=h-50,w-50,bl-57"
+                        ? cover + "?tr=h-50,w-50,bl-57,f-webp"
                         : "/image-placeholder.png"
                     }
                   >
@@ -307,7 +307,7 @@ const User = (props) => {
                         size={100}
                         src={
                           dp
-                            ? dp + "?tr=h-800,w-800"
+                            ? dp + "?tr=h-800,w-800,f-webp"
                             : "/avatar-placeholder.jpeg"
                         }
                         style={{
@@ -322,7 +322,9 @@ const User = (props) => {
                     <Avatar
                       size={100}
                       src={
-                        dp ? dp + "?tr=h-800,w-800" : "/avatar-placeholder.jpeg"
+                        dp
+                          ? dp + "?tr=h-800,w-800,f-webp"
+                          : "/avatar-placeholder.jpeg"
                       }
                       style={{
                         margin: "auto",
@@ -336,7 +338,9 @@ const User = (props) => {
                   <Avatar
                     size={100}
                     src={
-                      dp ? dp + "?tr=h-800,w-800" : "/avatar-placeholder.jpeg"
+                      dp
+                        ? dp + "?tr=h-800,w-800,f-webp"
+                        : "/avatar-placeholder.jpeg"
                     }
                     style={{
                       margin: "auto",

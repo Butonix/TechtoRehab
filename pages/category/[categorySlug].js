@@ -155,7 +155,8 @@ const Categories = (props) => {
                   <ProgressiveImage
                     src={getCategory2Data.category[0].cover + "?tr=h-800"}
                     placeholder={
-                      getCategory2Data.category[0].cover + "?tr=h-50,w-50,bl-57"
+                      getCategory2Data.category[0].cover +
+                      "?tr=h-100,w-100,bl-10"
                     }
                     threshold={1}
                     delay={600}
@@ -253,7 +254,7 @@ const Categories = (props) => {
                               <ProgressiveImage
                                 src={item.featured_image + "?tr=h-400,w-400"}
                                 placeholder={
-                                  item.featured_image + "?tr=h-50,w-50,bl-57"
+                                  item.featured_image + "?tr=h-100,w-100,bl-10"
                                 }
                                 threshold={1}
                                 delay={600}
@@ -375,9 +376,12 @@ const Categories = (props) => {
                               }
                               avatar={
                                 <ProgressiveImage
-                                  src={item.featured_image + ".webp"}
+                                  src={
+                                    item.featured_image + "?tr=h-50,w-50,f-webp"
+                                  }
                                   placeholder={
-                                    item.featured_image + "-placeholder.webp"
+                                    item.featured_image +
+                                    "?tr=h-50,w-50,f-webp,bl-10"
                                   }
                                   threshold={1}
                                   delay={600}
@@ -450,9 +454,9 @@ const Categories = (props) => {
                               }
                               avatar={
                                 <ProgressiveImage
-                                  src={item.featured_image + "?tr=h-800,w-800"}
+                                  src={item.featured_image + "?tr=h-50,w-50"}
                                   placeholder={
-                                    item.featured_image + "?tr=h-50,w-50,bl-57"
+                                    item.featured_image + "?tr=h-50,w-50,bl-10"
                                   }
                                   threshold={1}
                                   delay={600}

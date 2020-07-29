@@ -347,9 +347,9 @@ export default function Home(props) {
                       className="article-list-item"
                       extra={
                         <ProgressiveImage
-                          src={item.featured_image + "?tr=h-800,w-800"}
+                          src={item.featured_image + "?tr=h-800,w-800,f-webp"}
                           placeholder={
-                            item.featured_image + "?tr=h-50,w-50,bl-57"
+                            item.featured_image + "?tr=h-100,w-100,bl-10,f-webp"
                           }
                           delay={300}
                           threshold={1}
@@ -493,7 +493,10 @@ export default function Home(props) {
                     sheetData.map((mapped, index) => (
                       <Space className="mt-20" key={index}>
                         <Avatar
-                          src={mapped.authors.profile_picture + "?tr=w-50,h-50"}
+                          src={
+                            mapped.authors.profile_picture +
+                            "?tr=w-50,h-50,f-webp"
+                          }
                         />
                         <a href={`/user/${mapped.authors.username}`}>
                           <Text className="t-transform-cpt">
@@ -553,15 +556,10 @@ export default function Home(props) {
                                         <Avatar
                                           size={35}
                                           src={
-                                            mapped2.user.profile_picture.includes(
-                                              "http"
-                                            ) ||
-                                            mapped2.user.profile_picture.includes(
-                                              "https"
-                                            )
-                                              ? mapped2.user.profile_picture
-                                              : mapped2.user.profile_picture +
-                                                ".webp"
+                                            mapped2.user.profile_picture
+                                              ? mapped2.user.profile_picture +
+                                                "tr=f-webp,h-40,w-40"
+                                              : null
                                           }
                                         />
                                         <a

@@ -501,11 +501,12 @@ const Article = (props) => {
             >
               <ProgressiveImage
                 src={
-                  getArticleData.articles[0].featured_image + "?tr=h-800,w-800"
+                  getArticleData.articles[0].featured_image +
+                  "?tr=h-800,w-800,f-webp"
                 }
                 placeholder={
                   getArticleData.articles[0].featured_image +
-                  "?tr=h-50,w-50,bl-57"
+                  "?tr=h-100,w-100,bl-10,f-webp"
                 }
                 threshold={1}
                 delay={600}
@@ -546,9 +547,12 @@ const Article = (props) => {
                       <Row justify="center" key={blocks.type + nanoid()}>
                         <figure className="mg-y-10 figure">
                           <ProgressiveImage
-                            src={blocks.data.file.url + "?tr=h-800,w-800"}
+                            src={
+                              blocks.data.file.url + "?tr=h-800,w-800,f-webp"
+                            }
                             placeholder={
-                              blocks.data.file.url + "?tr=h-50,w-50,bl-57"
+                              blocks.data.file.url +
+                              "?tr=h-100,w-100,bl-10,f-webp"
                             }
                             threshold={1}
                           >
@@ -787,30 +791,15 @@ const Article = (props) => {
                               src={
                                 item.authors.profile_picture &&
                                 item.authors.profile_picture.length > 0
-                                  ? item.authors.profile_picture.includes(
-                                      "http"
-                                    ) ||
-                                    item.authors.profile_picture.includes(
-                                      "https"
-                                    )
-                                    ? item.authors.profile_picture
-                                    : item.authors.profile_picture + ".webp"
+                                  ? item.authors.profile_picture +
+                                    "?tr=h-40,w-40,f-webp"
                                   : "/blank.svg"
                               }
                               placeholder={
                                 item.authors.profile_picture &&
                                 item.authors.profile_picture.length > 0
-                                  ? item.authors.profile_picture.includes(
-                                      "http"
-                                    ) ||
-                                    item.authors.profile_picture.includes(
-                                      "https"
-                                    )
-                                    ? item.authors.profile_picture
-                                    : item.authors.profile_picture.slice(
-                                        0,
-                                        item.authors.profile_picture.length - 4
-                                      ) + "-placeholder.webp"
+                                  ? item.authors.profile_picture +
+                                    "?tr=w-50,h-50,bl-57,f-webp"
                                   : "/blank.svg"
                               }
                               threshold={1}
@@ -988,14 +977,8 @@ const Article = (props) => {
                             avatar={
                               <Avatar
                                 src={
-                                  comment.author.profile_picture.includes(
-                                    "http"
-                                  ) ||
-                                  comment.author.profile_picture.includes(
-                                    "https"
-                                  )
-                                    ? comment.author.profile_picture
-                                    : comment.author.profile_picture + ".webp"
+                                  comment.author.profile_picture +
+                                  "?tr=w-50,h-50,f-webp"
                                 }
                               />
                             }
@@ -1060,16 +1043,9 @@ const Article = (props) => {
                                         avatar={
                                           <Avatar
                                             src={
-                                              replies.replyAuthor.profile_picture.includes(
-                                                "http"
-                                              ) ||
-                                              replies.replyAuthor.profile_picture.includes(
-                                                "https"
-                                              )
-                                                ? replies.replyAuthor
-                                                    .profile_picture
-                                                : replies.replyAuthor
-                                                    .profile_picture + ".webp"
+                                              replies.replyAuthor
+                                                .profile_picture +
+                                              "?tr=h-50,w-50,,f-webp"
                                             }
                                           />
                                         }
@@ -1144,19 +1120,10 @@ const Article = (props) => {
                                                       avatar={
                                                         <Avatar
                                                           src={
-                                                            repliesToReply.author.profile_picture.includes(
-                                                              "http"
-                                                            ) ||
-                                                            repliesToReply.author.profile_picture.includes(
-                                                              "https"
-                                                            )
-                                                              ? repliesToReply
-                                                                  .author
-                                                                  .profile_picture
-                                                              : repliesToReply
-                                                                  .author
-                                                                  .profile_picture +
-                                                                ".webp"
+                                                            repliesToReply
+                                                              .author
+                                                              .profile_picture +
+                                                            "?tr=w-50,h-50,f-webp"
                                                           }
                                                         />
                                                       }

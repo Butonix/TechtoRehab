@@ -259,7 +259,9 @@ const CommentsManager = () => {
                 ]}
                 avatar={
                   <Avatar
-                    src={comments.author.profile_picture + "tr=w-50,h-50"}
+                    src={
+                      comments.author.profile_picture + "tr=w-50,h-50,f-webp"
+                    }
                   />
                 }
                 datetime={
@@ -286,7 +288,7 @@ const CommentsManager = () => {
                               <Avatar
                                 src={
                                   replies.replyAuthor.profile_picture +
-                                  "tr=w-50,h-50"
+                                  "tr=w-50,h-50,f-webp"
                                 }
                               />
                             }
@@ -340,7 +342,8 @@ const CommentsManager = () => {
                                           }
                                           avatar={
                                             repliesToReply.author
-                                              .profile_picture + "tr=w-50,h-50"
+                                              .profile_picture +
+                                            "tr=w-50,h-50,f-webp"
                                           }
                                         />
                                       );
