@@ -50,7 +50,7 @@ const addSocialUserQuery = gql`
         user {
           id
           username
-          settings {
+          private_info {
             role
             status
           }
@@ -97,7 +97,7 @@ const updateExistingUserQuery = gql`
       returning {
         id
         username
-        settings {
+        private_info {
           role
           status
         }
