@@ -347,7 +347,10 @@ const ArticlesManager = () => {
                         avatar={
                           <Avatar
                             size={45}
-                            src={item.featured_image + "?tr=h-200,w-200,f-webp"}
+                            src={
+                              "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                              item.featured_image
+                            }
                           />
                         }
                       />
@@ -385,8 +388,8 @@ const ArticlesManager = () => {
                   cover={
                     <img
                       src={
-                        articleManagerDrawerData.featured_image +
-                        "tr=h-200,f-webp"
+                        "https://ik.imagekit.io/ttr/tr:n-med/" +
+                        articleManagerDrawerData.featured_image
                       }
                       className="o-fit-cover"
                       width="100%"
@@ -425,7 +428,10 @@ const ArticlesManager = () => {
                                     return (
                                       <div key={articleManagerDrawerData.id}>
                                         <Avatar
-                                          src={mapped.profile_picture}
+                                          src={
+                                            "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                            mapped.profile_picture
+                                          }
                                           className="mr-10"
                                         />
                                         <Text className="t-transform-cpt">
@@ -437,7 +443,12 @@ const ArticlesManager = () => {
                                   } else {
                                     return (
                                       <>
-                                        <Avatar src={mapped.profile_picture} />
+                                        <Avatar
+                                          src={
+                                            "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                            mapped.profile_picture
+                                          }
+                                        />
                                         <Text
                                           className="t-transform-cpt"
                                           key={articleManagerDrawerData.id}

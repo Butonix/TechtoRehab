@@ -81,7 +81,10 @@ const Categories = (props) => {
                       cover={
                         item.cover ? (
                           <img
-                            src={`${item.cover + "?tr=h-300,w-300"}`}
+                            src={`${
+                              "https://ik.imagekit.io/ttr/tr:n-med/" +
+                              item.cover
+                            }`}
                             height={300}
                           />
                         ) : (

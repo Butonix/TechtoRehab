@@ -588,9 +588,9 @@ const EditArticle = (props) => {
                         height="200px"
                         src={
                           image
-                            ? image + ".webp"
-                            : getArticleData.articles[0].featured_image +
-                              ".webp"
+                            ? "https://ik.imagekit.io/ttr/tr:n-med/" + image
+                            : "https://ik.imagekit.io/ttr/tr:n-med/" +
+                              getArticleData.articles[0].featured_image
                         }
                       />
                     ) : (

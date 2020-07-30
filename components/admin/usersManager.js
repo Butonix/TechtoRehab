@@ -338,7 +338,10 @@ const UsersManager = () => {
                       <Avatar
                         className="mt-10"
                         size={35}
-                        src={item.profile_picture + "?tr=w-40,f-webp"}
+                        src={
+                          "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                          item.profile_picture
+                        }
                       />
                     }
                   />

@@ -347,9 +347,14 @@ export default function Home(props) {
                       className="article-list-item"
                       extra={
                         <ProgressiveImage
-                          src={item.featured_image + "?tr=h-800,w-800,f-webp"}
+                          src={
+                            "https://ik.imagekit.io/ttr/tr:n-med/" +
+                            item.featured_image
+                          }
                           placeholder={
-                            item.featured_image + "?tr=h-100,w-100,bl-10,f-webp"
+                            "https://ik.imagekit.io/ttr/tr:n-med_placeholder/" +
+                            item.featured_image +
+                            "?tr=h-100,w-100,bl-10,f-webp"
                           }
                           delay={300}
                           threshold={1}

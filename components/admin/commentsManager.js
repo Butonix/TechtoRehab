@@ -260,7 +260,8 @@ const CommentsManager = () => {
                 avatar={
                   <Avatar
                     src={
-                      comments.author.profile_picture + "tr=w-50,h-50,f-webp"
+                      "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                      comments.author.profile_picture
                     }
                   />
                 }
@@ -287,8 +288,8 @@ const CommentsManager = () => {
                             avatar={
                               <Avatar
                                 src={
-                                  replies.replyAuthor.profile_picture +
-                                  "tr=w-50,h-50,f-webp"
+                                  "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                  replies.replyAuthor.profile_picture
                                 }
                               />
                             }
@@ -341,9 +342,9 @@ const CommentsManager = () => {
                                             repliesToReply.author.username
                                           }
                                           avatar={
+                                            "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                                             repliesToReply.author
-                                              .profile_picture +
-                                            "tr=w-50,h-50,f-webp"
+                                              .profile_picture
                                           }
                                         />
                                       );

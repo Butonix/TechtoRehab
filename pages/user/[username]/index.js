@@ -115,7 +115,7 @@ const User = (props) => {
       ? getUserData.users[0].profile_picture.includes("http") ||
         getUserData.users[0].profile_picture.includes("https")
         ? getUserData.users[0].profile_picture
-        : getUserData.users[0].profile_picture + ".webp"
+        : getUserData.users[0].profile_picture
       : null
   );
 
@@ -174,13 +174,14 @@ const User = (props) => {
                       <ProgressiveImage
                         src={
                           cover
-                            ? cover + "?tr=h-800,w-800,f-webp"
+                            ? "https://ik.imagekit.io/ttr/tr:n-high/" + cover
                             : "/image-placeholder.png"
                         }
                         threshold={1}
                         placeholder={
                           cover
-                            ? cover + "?tr=h-50,w-50,bl-57,f-webp"
+                            ? "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
+                              cover
                             : "/image-placeholder.png"
                         }
                       >
@@ -227,12 +228,13 @@ const User = (props) => {
                       threshold={1}
                       src={
                         cover
-                          ? cover + "?tr=h-800,w-800,f-webp"
+                          ? "https://ik.imagekit.io/ttr/tr:n-high/" + cover
                           : "/image-placeholder.png"
                       }
                       placeholder={
                         cover
-                          ? cover + "?tr=h-50,w-50,bl-57,f-webp"
+                          ? "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
+                            cover
                           : "/image-placeholder.png"
                       }
                     >
@@ -254,12 +256,13 @@ const User = (props) => {
                   <ProgressiveImage
                     src={
                       cover
-                        ? cover + "?tr=h-800,w-800,f-webp"
+                        ? "https://ik.imagekit.io/ttr/tr:n-high/" + cover
                         : "/image-placeholder.png"
                     }
                     placeholder={
                       cover
-                        ? cover + "?tr=h-50,w-50,bl-57,f-webp"
+                        ? "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
+                          cover
                         : "/image-placeholder.png"
                     }
                   >
@@ -307,7 +310,7 @@ const User = (props) => {
                         size={100}
                         src={
                           dp
-                            ? dp + "?tr=h-800,w-800,f-webp"
+                            ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
                             : "/avatar-placeholder.jpeg"
                         }
                         style={{
@@ -317,13 +320,14 @@ const User = (props) => {
                           position: "relative",
                         }}
                       />
+                      {console.log(dp)}
                     </>
                   ) : (
                     <Avatar
                       size={100}
                       src={
                         dp
-                          ? dp + "?tr=h-800,w-800,f-webp"
+                          ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
                           : "/avatar-placeholder.jpeg"
                       }
                       style={{
@@ -339,7 +343,7 @@ const User = (props) => {
                     size={100}
                     src={
                       dp
-                        ? dp + "?tr=h-800,w-800,f-webp"
+                        ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
                         : "/avatar-placeholder.jpeg"
                     }
                     style={{

@@ -215,7 +215,10 @@ const topicsManager = () => {
                           item.cover ? (
                             <Avatar
                               size={40}
-                              src={item.cover + "?tr=h-40,w-40,f-webp"}
+                              src={
+                                "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                item.cover
+                              }
                             />
                           ) : (
                             <div
@@ -418,7 +421,8 @@ const topicsManager = () => {
                       <img
                         src={
                           drawerData.cover
-                            ? drawerData.cover + "?tr=h-200,f-webp"
+                            ? "https://ik.imagekit.io/ttr/tr:n-med/" +
+                              drawerData.cover
                             : null
                         }
                         height={200}

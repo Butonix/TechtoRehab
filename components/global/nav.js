@@ -348,8 +348,8 @@ const Navigation = (props) => {
                   src={
                     getUserProfilePictureData &&
                     getUserProfilePictureData.users[0].profile_picture
-                      ? getUserProfilePictureData.users[0].profile_picture +
-                        "?tr=h-50,w-50,f-webp"
+                      ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                        getUserProfilePictureData.users[0].profile_picture
                       : null
                   }
                   size={26}

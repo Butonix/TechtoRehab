@@ -501,12 +501,12 @@ const Article = (props) => {
             >
               <ProgressiveImage
                 src={
-                  getArticleData.articles[0].featured_image +
-                  "?tr=h-800,w-800,f-webp"
+                  "https://ik.imagekit.io/ttr/tr:n-high/" +
+                  getArticleData.articles[0].featured_image
                 }
                 placeholder={
-                  getArticleData.articles[0].featured_image +
-                  "?tr=h-100,w-100,bl-10,f-webp"
+                  "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
+                  getArticleData.articles[0].featured_image
                 }
                 threshold={1}
                 delay={600}
@@ -548,11 +548,12 @@ const Article = (props) => {
                         <figure className="mg-y-10 figure">
                           <ProgressiveImage
                             src={
-                              blocks.data.file.url + "?tr=h-800,w-800,f-webp"
+                              "https://ik.imagekit.io/ttr/tr:n-high/" +
+                              blocks.data.file.url
                             }
                             placeholder={
-                              blocks.data.file.url +
-                              "?tr=h-100,w-100,bl-10,f-webp"
+                              "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
+                              blocks.data.file.url
                             }
                             threshold={1}
                           >
@@ -791,15 +792,15 @@ const Article = (props) => {
                               src={
                                 item.authors.profile_picture &&
                                 item.authors.profile_picture.length > 0
-                                  ? item.authors.profile_picture +
-                                    "?tr=h-40,w-40,f-webp"
+                                  ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                    item.authors.profile_picture
                                   : "/blank.svg"
                               }
                               placeholder={
                                 item.authors.profile_picture &&
                                 item.authors.profile_picture.length > 0
-                                  ? item.authors.profile_picture +
-                                    "?tr=w-50,h-50,bl-57,f-webp"
+                                  ? "https://ik.imagekit.io/ttr/tr:n-avatar_placeholder/" +
+                                    item.authors.profile_picture
                                   : "/blank.svg"
                               }
                               threshold={1}
@@ -977,8 +978,8 @@ const Article = (props) => {
                             avatar={
                               <Avatar
                                 src={
-                                  comment.author.profile_picture +
-                                  "?tr=w-50,h-50,f-webp"
+                                  "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                  comment.author.profile_picture
                                 }
                               />
                             }
@@ -1043,9 +1044,9 @@ const Article = (props) => {
                                         avatar={
                                           <Avatar
                                             src={
+                                              "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                                               replies.replyAuthor
-                                                .profile_picture +
-                                              "?tr=h-50,w-50,,f-webp"
+                                                .profile_picture
                                             }
                                           />
                                         }
@@ -1120,10 +1121,10 @@ const Article = (props) => {
                                                       avatar={
                                                         <Avatar
                                                           src={
+                                                            "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                                                             repliesToReply
                                                               .author
-                                                              .profile_picture +
-                                                            "?tr=w-50,h-50,f-webp"
+                                                              .profile_picture
                                                           }
                                                         />
                                                       }
@@ -1246,13 +1247,8 @@ const Article = (props) => {
                               className="mt-20"
                               src={
                                 props.user
-                                  ? // ? props.user.profilePicture.includes(
-                                    //     "http"
-                                    //   ) ||
-                                    //   props.user.profilePicture.includes("https")
-                                    //   ?
-
-                                    props.user.profilePicture + ".webp"
+                                  ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                    props.user.profilePicture
                                   : null
                               }
                             />
@@ -1365,13 +1361,13 @@ export const getServerSideProps = withSession(async function ({
       articleSlug: query.articleTitle,
     },
   });
-
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
       user: user ? user : null,
       ip: await publicIp.v4(),
       theme: monokai,
+      data: apolloClient.cache.extract(),
     },
   };
 });

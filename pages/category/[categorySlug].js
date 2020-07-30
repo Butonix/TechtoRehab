@@ -153,10 +153,13 @@ const Categories = (props) => {
               cover={
                 getCategory2Data && getCategory2Data.category[0].cover ? (
                   <ProgressiveImage
-                    src={getCategory2Data.category[0].cover + "?tr=h-800"}
+                    src={
+                      "https://ik.imagekit.io/ttr/tr:n-high/" +
+                      getCategory2Data.category[0].cover
+                    }
                     placeholder={
-                      getCategory2Data.category[0].cover +
-                      "?tr=h-100,w-100,bl-10"
+                      "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
+                      getCategory2Data.category[0].cover
                     }
                     threshold={1}
                     delay={600}
@@ -252,9 +255,13 @@ const Categories = (props) => {
                               href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
                             >
                               <ProgressiveImage
-                                src={item.featured_image + "?tr=h-400,w-400"}
+                                src={
+                                  "https://ik.imagekit.io/ttr/tr:n-med/" +
+                                  item.featured_image
+                                }
                                 placeholder={
-                                  item.featured_image + "?tr=h-100,w-100,bl-10"
+                                  "https://ik.imagekit.io/ttr/tr:n-med_placeholder/" +
+                                  item.featured_image
                                 }
                                 threshold={1}
                                 delay={600}
@@ -377,11 +384,12 @@ const Categories = (props) => {
                               avatar={
                                 <ProgressiveImage
                                   src={
-                                    item.featured_image + "?tr=h-50,w-50,f-webp"
+                                    "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                    item.featured_image
                                   }
                                   placeholder={
-                                    item.featured_image +
-                                    "?tr=h-50,w-50,f-webp,bl-10"
+                                    "https://ik.imagekit.io/ttr/tr:n-avatar_placeholder/" +
+                                    item.featured_image
                                   }
                                   threshold={1}
                                   delay={600}
@@ -454,9 +462,13 @@ const Categories = (props) => {
                               }
                               avatar={
                                 <ProgressiveImage
-                                  src={item.featured_image + "?tr=h-50,w-50"}
+                                  src={
+                                    "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                    item.featured_image
+                                  }
                                   placeholder={
-                                    item.featured_image + "?tr=h-50,w-50,bl-10"
+                                    "https://ik.imagekit.io/ttr/tr:n-avatar_placeholder/" +
+                                    item.featured_image
                                   }
                                   threshold={1}
                                   delay={600}

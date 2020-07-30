@@ -15,10 +15,10 @@ export default async (req, res) => {
         cacheControl: "public, max-age=31536000",
       },
     });
-    res.end(
+    res.send(
       JSON.stringify({
         success: 1,
-        path: `https://ik.imagekit.io/ttr/${name}`,
+        path: `${name}`,
       })
     );
   });

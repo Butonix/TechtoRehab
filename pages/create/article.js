@@ -545,7 +545,7 @@ const createArticle = (props) => {
                       className="o-fit-cover"
                       width="200px"
                       height="200px"
-                      src={image + "?tr=f-webp,w-800,h-800"}
+                      src={"https://ik.imagekit.io/ttr/tr:n-med/" + image}
                     />
                   ) : imageUploading ? (
                     <Row justify="center">
