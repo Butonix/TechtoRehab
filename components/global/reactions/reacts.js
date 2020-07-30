@@ -116,7 +116,8 @@ const Reactions = (props) => {
                         <Avatar
                           size={35}
                           src={
-                            mapped.user.profile_picture + "?tr=w-50,h-50,f-webp"
+                            "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                            mapped.user.profile_picture
                           }
                           className="mr-10"
                         />

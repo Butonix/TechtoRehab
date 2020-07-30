@@ -14,8 +14,8 @@ import { initializeApollo } from "lib/apolloClient";
 import withSession from "lib/session";
 import gradient from "random-gradient";
 import ProgressiveImage from "react-progressive-graceful-image";
-import { Reactions } from "components/global/reaction";
-
+import Reactions from "components/global/reactions/reacts";
+import ReactionsDropdown from "components/global/reactions/reacts-dropdown";
 const getCategoryQuery = gql`
   query getCategories($slug: String!) {
     category(where: { slug: { _eq: $slug } }) {
@@ -37,7 +37,24 @@ const getCategoryQuery = gql`
         }
         slug
         reactions_to_articles {
-          reaction_id
+          user {
+            id
+            username
+            profile_picture
+          }
+          reaction {
+            id
+            name
+            code
+            color
+            gradient
+            type
+            reactions_to_reactions_aggregate {
+              aggregate {
+                count
+              }
+            }
+          }
         }
         reactions_to_articles_aggregate {
           aggregate {
@@ -293,41 +310,12 @@ const Categories = (props) => {
                               </Paragraph>
                             }
                           />
-                          <Reactions>
-                            {getCategoryData.reactions.map((reaction) => {
-                              if (
-                                item.reactions_to_articles.find(
-                                  (elem) => elem.reaction_id == reaction.id
-                                )
-                              ) {
-                                console.log(item);
-                                return (
-                                  <>
-                                    <div
-                                      className="reaction-holder"
-                                      key={reaction.name}
-                                    >
-                                      <div
-                                        className="reaction fs-22"
-                                        key={reaction.name}
-                                      >
-                                        <i
-                                          className={`${reaction.code} va-middle`}
-                                          style={reaction.gradient}
-                                        ></i>
-                                      </div>
-                                    </div>
-                                    <div className="reaction-total mt-10">
-                                      {
-                                        item.reactions_to_articles_aggregate
-                                          .aggregate.count
-                                      }
-                                    </div>
-                                  </>
-                                );
-                              }
-                            })}
-                          </Reactions>
+                          <Row className="ml-10">
+                            <Reactions
+                              reactions={getCategoryData.reactions}
+                              data={item.reactions_to_articles}
+                            />
+                          </Row>
                         </List.Item>
                       )}
                     />
