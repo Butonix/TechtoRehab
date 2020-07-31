@@ -430,75 +430,64 @@ const Article = (props) => {
       {getArticleData.articles[0] ? (
         <>
           <Row justify="center">
-            <Col
-              xs={24}
-              sm={24}
-              md={18}
-              lg={16}
-              xl={7}
-              xxl={6}
-              className="d-flex flex-column mg-x-30 t-transform-cpt jc-center"
-            >
-              <Title level={3} className="lh-1-5 pd-x-20 mt-30">
-                {getArticleData.articles[0].title}
-              </Title>
+            <Row justify="center">
+              <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
+                <Title level={3} className="lh-1-5 pd-x-20 mt-30">
+                  {getArticleData.articles[0].title}
+                </Title>
 
-              <Paragraph className="pd-x-20 lh-2 mt-10 fs-14 line-clamp">
-                {getArticleData.articles[0].excerpt}
-              </Paragraph>
-              <Row className="pd-x-20">
-                <Space>
-                  {getArticleData.articles[0].content.blocks.map(
-                    (blocks, index) => {
-                      if (
-                        blocks.type == "paragraph" ||
-                        blocks.type == "title"
-                      ) {
-                        count = count + blocks.data.text.split(" ").length - 1;
-                      }
+                <Paragraph className="pd-x-20 lh-2 mt-10 fs-14 line-clamp">
+                  {getArticleData.articles[0].excerpt}
+                </Paragraph>
+                <div className="d-flex pd-x-20">
+                  <Space>
+                    {getArticleData.articles[0].content.blocks.map(
+                      (blocks, index) => {
+                        if (
+                          blocks.type == "paragraph" ||
+                          blocks.type == "title"
+                        ) {
+                          count =
+                            count + blocks.data.text.split(" ").length - 1;
+                        }
 
-                      if (
-                        index ==
-                        getArticleData.articles[0].content.blocks.length - 1
-                      ) {
-                        return count < 200 ? (
-                          <div key={index}>
-                            <Text className="lh-2-5" strong>
-                              {"< 1 "}
-                            </Text>
-                            <Text className="lh-2-5">{"Minute Read"}</Text>
-                          </div>
-                        ) : (
-                          <div key={index}>
-                            <Text className="lh-2-5 mr-5" strong>
-                              {Math.round(count / 200)}
-                            </Text>
-                            <Text className="lh-2-5">{"Minute read"}</Text>
-                          </div>
-                        );
+                        if (
+                          index ==
+                          getArticleData.articles[0].content.blocks.length - 1
+                        ) {
+                          return count < 200 ? (
+                            <div key={index}>
+                              <Text className="lh-2-5" strong>
+                                {"< 1 "}
+                              </Text>
+                              <Text className="lh-2-5">{"Minute Read"}</Text>
+                            </div>
+                          ) : (
+                            <div key={index}>
+                              <Text className="lh-2-5 mr-5" strong>
+                                {Math.round(count / 200)}
+                              </Text>
+                              <Text className="lh-2-5">{"Minute read"}</Text>
+                            </div>
+                          );
+                        }
                       }
-                    }
-                  )}
-                </Space>
-                <div className="ml-auto va-middle lh-2-5">
-                  <Text className="mr-10" strong>
-                    Published:
-                  </Text>
-                  {new Date(
-                    getArticleData.articles[0].created_at
-                  ).toDateString()}
+                    )}
+                  </Space>
+                  <div className="ml-auto va-middle lh-2-5">
+                    <Text className="mr-10" strong>
+                      Published:
+                    </Text>
+                    {new Date(
+                      getArticleData.articles[0].created_at
+                    ).toDateString()}
+                  </div>
                 </div>
-              </Row>
-            </Col>
-            <Col
-              xs={24}
-              sm={24}
-              md={24}
-              lg={18}
-              xl={8}
-              xxl={8}
-              className="pd-t-30 pb-b-10 mb-20"
-            >
+              </Col>
+            </Row>
+          </Row>
+          <Row justify="center">
+            <Col xs={24} sm={24} md={24} lg={18} xl={18} xxl={8}>
               <ProgressiveImage
                 src={
                   "https://ik.imagekit.io/ttr/tr:n-high/" +

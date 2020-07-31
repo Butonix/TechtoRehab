@@ -105,111 +105,144 @@ const userSettings = (props) => {
 
   return (
     <Wrapper user={props.user}>
-      <Row justify="center" className="pd-20">
+      <Row justify="center" className="pd-t-20">
         <Col xs={24} sm={24} md={24} lg={24} xl={12} xxl={10}>
-          <Tabs tabPosition="left">
-            <Tabs.TabPane tab="Basic Info" key="basic">
+          <Tabs centered tabPosition="left" size="middle">
+            <Tabs.TabPane
+              tab={
+                <span>
+                  <i class="ri-user-smile-fill fs-20 va-minus-6 mr-10"></i>{" "}
+                  <Text
+                    style={{
+                      color: "inherit",
+                    }}
+                  >
+                    Basic Info
+                  </Text>
+                </span>
+              }
+              key="basic"
+            >
               <Card>
-                <Title level={4} className="mg-y-20 fs-18">
-                  Update Your Basic Info
-                </Title>
-                <Form
-                  layout="vertical"
-                  onFinish={(obj) => {
-                    if (obj.nPassword && obj.nPassword.length > 6) {
-                      fetch("/api/encryptPass", {
-                        method: "POST",
-                        headers: {
-                          accept: "application/json",
-                          "content-type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          password: obj.nPassword,
-                        }),
-                      })
-                        .then((res) => res.json())
-                        .then((result) => {
+                <Row>
+                  <Col span={24}>
+                    <Title level={4} className="mg-y-20 fs-18">
+                      Update Your Basic Info
+                    </Title>
+                    <Form
+                      layout="vertical"
+                      onFinish={(obj) => {
+                        if (obj.nPassword && obj.nPassword.length > 6) {
+                          fetch("/api/encryptPass", {
+                            method: "POST",
+                            headers: {
+                              accept: "application/json",
+                              "content-type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              password: obj.nPassword,
+                            }),
+                          })
+                            .then((res) => res.json())
+                            .then((result) => {
+                              setUserBasic({
+                                variables: {
+                                  id: props.user.id,
+                                  fName: obj.fName,
+                                  lName: obj.lName,
+                                  password: result.hash,
+                                },
+                              });
+                            });
+                        } else {
                           setUserBasic({
                             variables: {
                               id: props.user.id,
                               fName: obj.fName,
                               lName: obj.lName,
-                              password: result.hash,
+                              password:
+                                getUserSettingsData.users[0].private_info
+                                  .password,
                             },
                           });
-                        });
-                    } else {
-                      setUserBasic({
-                        variables: {
-                          id: props.user.id,
-                          fName: obj.fName,
-                          lName: obj.lName,
-                          password:
-                            getUserSettingsData.users[0].private_info.password,
-                        },
-                      });
-                    }
-                  }}
-                >
-                  <Form.Item
-                    label="First Name"
-                    name="fName"
-                    initialValue={getUserSettingsData.users[0].first_name}
-                  >
-                    <Input
-                      placeholder={getUserSettingsData.users[0].first_name}
-                    />
-                  </Form.Item>
+                        }
+                      }}
+                    >
+                      <Form.Item
+                        label="First Name"
+                        name="fName"
+                        initialValue={getUserSettingsData.users[0].first_name}
+                      >
+                        <Input
+                          placeholder={getUserSettingsData.users[0].first_name}
+                        />
+                      </Form.Item>
 
-                  <Form.Item
-                    label="Last Name"
-                    name="lName"
-                    initialValue={getUserSettingsData.users[0].last_name}
-                  >
-                    <Input
-                      placeholder={getUserSettingsData.users[0].last_name}
-                    />
-                  </Form.Item>
+                      <Form.Item
+                        label="Last Name"
+                        name="lName"
+                        initialValue={getUserSettingsData.users[0].last_name}
+                      >
+                        <Input
+                          placeholder={getUserSettingsData.users[0].last_name}
+                        />
+                      </Form.Item>
 
-                  <Form.Item
-                    label="New Password"
-                    name="nPassword"
-                    rules={[
-                      {
-                        pattern: /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$£¥%^&*])[\w!@#$£¥%^&*]{12,}$/,
-                        message:
-                          "Password - Atleast - 12 - Characters - 1 Capital Letter - 1 Special Character - One Number",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="New Password" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Repeat Password"
-                    name="rPassword"
-                    rules={[
-                      ({ getFieldValue }) => ({
-                        validator: (rule, value) => {
-                          if (value !== getFieldValue("nPassword")) {
-                            return Promise.reject("Passwords Must Match");
-                          }
-                          return Promise.resolve();
-                        },
-                      }),
-                    ]}
-                  >
-                    <Input placeholder="Repeat Password" />
-                  </Form.Item>
-                  <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                      Submit
-                    </Button>
-                  </Form.Item>
-                </Form>
+                      <Form.Item
+                        label="New Password"
+                        name="nPassword"
+                        rules={[
+                          {
+                            pattern: /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$£¥%^&*])[\w!@#$£¥%^&*]{12,}$/,
+                            message:
+                              "Password - Atleast - 12 - Characters - 1 Capital Letter - 1 Special Character - One Number",
+                          },
+                        ]}
+                      >
+                        <Input placeholder="New Password" />
+                      </Form.Item>
+                      <Form.Item
+                        label="Repeat Password"
+                        name="rPassword"
+                        rules={[
+                          ({ getFieldValue }) => ({
+                            validator: (rule, value) => {
+                              if (value !== getFieldValue("nPassword")) {
+                                return Promise.reject("Passwords Must Match");
+                              }
+                              return Promise.resolve();
+                            },
+                          }),
+                        ]}
+                      >
+                        <Input placeholder="Repeat Password" />
+                      </Form.Item>
+                      <Form.Item>
+                        <Button type="primary" htmlType="submit">
+                          Submit
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </Col>
+                </Row>
               </Card>
             </Tabs.TabPane>
 
-            <Tabs.TabPane tab="Social Info" key="social">
+            <Tabs.TabPane
+              tab={
+                <span>
+                  <i class="ri-facebook-circle-fill fs-20 va-minus-6 mr-10"></i>
+                  <Text
+                    style={{
+                      color: "inherit",
+                    }}
+                  >
+                    Social info
+                  </Text>
+                </span>
+              }
+              key="social"
+            >
               <Card>
                 <Title level={4} className="mg-y-20 fs-18">
                   Update Your Social Info
@@ -270,7 +303,21 @@ const userSettings = (props) => {
               </Card>
             </Tabs.TabPane>
 
-            <Tabs.TabPane tab="Site Settings" key="site">
+            <Tabs.TabPane
+              tab={
+                <span>
+                  <i class="ri-settings-fill mr-10 fs-20 va-minus-6"></i>
+                  <Text
+                    style={{
+                      color: "inherit",
+                    }}
+                  >
+                    Site settings
+                  </Text>
+                </span>
+              }
+              key="site"
+            >
               <Card>This is card</Card>
             </Tabs.TabPane>
           </Tabs>

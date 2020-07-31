@@ -28,6 +28,7 @@ import {
 import withSession from "lib/session";
 import Reactions from "components/global/reactions/reacts";
 import ProgressiveImage from "react-progressive-graceful-image";
+import { initializeApollo } from "lib/apolloClient";
 
 //
 //
@@ -46,6 +47,7 @@ const { Text, Paragraph, Title } = Typography;
 //
 //
 export default function Home(props) {
+  const [user, setUser] = useState(null);
   var settings;
   var articles;
   var reactions;
@@ -62,7 +64,7 @@ export default function Home(props) {
       variables: {
         offset: 0,
         limit: 5,
-        id: props.user ? props.user.id : null,
+        id: user ? user.id : null,
       },
       onError: (err) => {
         return (
@@ -156,6 +158,19 @@ export default function Home(props) {
   //
 
   useEffect(() => {
+    fetch("/api/getUser").then((res) =>
+      res.json().then((result) => {
+        console.log(result);
+        if (result.loggedIn) {
+          setUser(result.user);
+        } else {
+          setUser(null);
+        }
+      })
+    );
+  }, []);
+
+  useEffect(() => {
     if (data) {
       settings = data.site_settings;
       articles = data.articles;
@@ -181,11 +196,11 @@ export default function Home(props) {
   const addBookmark = (objecto, count) => {
     if (count == 0) {
       insertBookmark({
-        variables: { articleId: objecto.id, id: props.user.id },
+        variables: { articleId: objecto.id, id: user.id },
       });
     } else {
       deleteBookmark({
-        variables: { articleId: objecto.id, id: props.user.id },
+        variables: { articleId: objecto.id, id: user.id },
       });
     }
     refetch();
@@ -200,12 +215,13 @@ export default function Home(props) {
   return (
     <>
       <Wrapper
-        user={props.user}
+        user={user ? user : null}
         seo={{
           title: "Tech To Rehab",
           description: "The Open Source Collaboration Platform",
         }}
       >
+        {console.log(user)}
         <Row>
           <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-r-20">
             <Menu
@@ -405,7 +421,7 @@ export default function Home(props) {
                           <a>
                             <i
                               className={
-                                props.user &&
+                                user &&
                                 item.bookmarks_aggregate.aggregate.count == 1
                                   ? "ri-bookmark-fill fs-20 " +
                                     "ri-lg va-minus-6"
@@ -413,7 +429,7 @@ export default function Home(props) {
                                     "ri-lg va-minus-6"
                               }
                               onClick={() =>
-                                props.user && props.user.id
+                                user && user.id
                                   ? addBookmark(
                                       item,
                                       item.bookmarks_aggregate.aggregate.count
@@ -421,7 +437,9 @@ export default function Home(props) {
                                   : setLoginModal(true)
                               }
                               style={{ color: "rgba(86, 85, 85, 0.65)" }}
-                            ></i>
+                            >
+                              {console.log(item)}
+                            </i>
                           </a>
                         </Tooltip>,
                         item.reactions_to_articles.length > 0 ? (
@@ -562,8 +580,8 @@ export default function Home(props) {
                                           size={35}
                                           src={
                                             mapped2.user.profile_picture
-                                              ? mapped2.user.profile_picture +
-                                                "tr=f-webp,h-40,w-40"
+                                              ? "https://ik.imagekit.io/ttr/n-avatar" +
+                                                mapped2.user.profile_picture
                                               : null
                                           }
                                         />
@@ -621,11 +639,30 @@ export default function Home(props) {
   );
 }
 
-export const getServerSideProps = withSession(async function ({ req, res }) {
-  const user = req.session.get(["session"]);
+// export const getServerSideProps = withSession(async function ({ req, res }) {
+//   const user = req.session.get(["session"]);
+//   return {
+//     props: {
+//       user: user ? user : null,
+//     },
+//   };
+// });
+
+export async function getStaticProps(ctx) {
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query({
+    query: getArticlesQuery,
+    variables: {
+      offset: 0,
+      limit: 5,
+    },
+  });
+
   return {
     props: {
-      user: user ? user : null,
+      initialApolloState: apolloClient.cache.extract(),
     },
+    revalidate: 1,
   };
-});
+}
