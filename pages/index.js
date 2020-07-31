@@ -221,7 +221,6 @@ export default function Home(props) {
           description: "The Open Source Collaboration Platform",
         }}
       >
-        {console.log(user)}
         <Row>
           <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-r-20">
             <Menu
@@ -651,18 +650,34 @@ export default function Home(props) {
 export async function getStaticProps(ctx) {
   const apolloClient = initializeApollo();
 
-  await apolloClient.query({
-    query: getArticlesQuery,
-    variables: {
-      offset: 0,
-      limit: 5,
-    },
-  });
+  fetch("/api/getUser").then((res) =>
+    res.json().then(async (result) => {
+      if (result.loggedIn) {
+        await apolloClient.query({
+          query: getArticlesQuery,
+          variables: {
+            offset: 0,
+            limit: 5,
+            user: result.user,
+          },
+        });
+      } else {
+        await apolloClient.query({
+          query: getArticlesQuery,
+          variables: {
+            offset: 0,
+            limit: 5,
+            user: null,
+          },
+        });
+      }
+    })
+  );
 
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
-      revalidate: 1,
     },
+    revalidate: 1,
   };
 }
