@@ -163,6 +163,7 @@ const Article = (props) => {
     variables: {
       articleSlug: articleTitle,
     },
+    fetchPolicy: "no-cache",
   });
 
   //
@@ -689,7 +690,7 @@ const Article = (props) => {
                       >
                         <List.Item>
                           <List.Item.Meta
-                            avatar={<i class="ri-double-quotes-l fs-30" />}
+                            avatar={<i className="ri-double-quotes-l fs-30" />}
                             title={blocks.data.caption}
                             description={blocks.data.text}
                           />
@@ -704,7 +705,7 @@ const Article = (props) => {
                           <List.Item.Meta
                             avatar={
                               <i
-                                class="ri-error-warning-fill fs-30"
+                                className="ri-error-warning-fill fs-30"
                                 style={{
                                   color: "#fbc500",
                                 }}

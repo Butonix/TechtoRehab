@@ -111,7 +111,7 @@ const userSettings = (props) => {
             <Tabs.TabPane
               tab={
                 <span>
-                  <i class="ri-user-smile-fill fs-20 va-minus-6 mr-10"></i>{" "}
+                  <i className="ri-user-smile-fill fs-20 va-minus-6 mr-10"></i>{" "}
                   <Text
                     style={{
                       color: "inherit",
@@ -231,7 +231,7 @@ const userSettings = (props) => {
             <Tabs.TabPane
               tab={
                 <span>
-                  <i class="ri-facebook-circle-fill fs-20 va-minus-6 mr-10"></i>
+                  <i className="ri-facebook-circle-fill fs-20 va-minus-6 mr-10"></i>
                   <Text
                     style={{
                       color: "inherit",
@@ -306,7 +306,7 @@ const userSettings = (props) => {
             <Tabs.TabPane
               tab={
                 <span>
-                  <i class="ri-settings-fill mr-10 fs-20 va-minus-6"></i>
+                  <i className="ri-settings-fill mr-10 fs-20 va-minus-6"></i>
                   <Text
                     style={{
                       color: "inherit",

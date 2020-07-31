@@ -209,7 +209,7 @@ const User = (props) => {
                         <Button
                           type="secondary"
                           icon={
-                            <i class="ri-camera-fill fs-16 va-minus-4 mr-10"></i>
+                            <i className="ri-camera-fill fs-16 va-minus-4 mr-10"></i>
                           }
                           style={{
                             position: "absolute",
@@ -298,7 +298,7 @@ const User = (props) => {
                           className="avatar-upload-button"
                           icon={
                             <i
-                              class="ri-camera-2-fill va-minus-2 fs-18"
+                              className="ri-camera-2-fill va-minus-2 fs-18"
                               style={{
                                 color: "inherit",
                               }}
@@ -370,7 +370,7 @@ const User = (props) => {
               >
                 {router.query.username}
                 <i
-                  class="ri-checkbox-circle-fill fs-16"
+                  className="ri-checkbox-circle-fill fs-16"
                   style={{
                     position: "absolute",
                     marginLeft: 5,

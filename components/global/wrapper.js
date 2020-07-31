@@ -119,7 +119,6 @@ const wrapper = (props) => {
 
   const [resendToken] = useMutation(resendTokenQuery, {
     onCompleted: (data) => {
-      console.log(data);
       message.success("Token has been sent to email");
     },
     fetchPolicy: "no-cache",
@@ -211,8 +210,6 @@ const wrapper = (props) => {
       />
       <Layout>
         <Navbar user={props.user} />
-        {console.log(props)}
-
         <Layout>
           <Drawer
             placement="left"
@@ -237,7 +234,7 @@ const wrapper = (props) => {
                   key="home"
                   icon={
                     <i
-                      class="ri-dashboard-2-line ri-lg va-minus-4 mr-10"
+                      className="ri-dashboard-2-line ri-lg va-minus-4 mr-10"
                       style={{ color: "inherit" }}
                     ></i>
                   }
@@ -250,7 +247,7 @@ const wrapper = (props) => {
                   key="articles"
                   icon={
                     <i
-                      class="ri-book-open-line ri-lg va-minus-4 mr-10"
+                      className="ri-book-open-line ri-lg va-minus-4 mr-10"
                       style={{ color: "inherit" }}
                     ></i>
                   }
@@ -264,7 +261,7 @@ const wrapper = (props) => {
                   key="categories"
                   icon={
                     <i
-                      class="ri-node-tree ri-lg va-minus-4 mr-10"
+                      className="ri-node-tree ri-lg va-minus-4 mr-10"
                       style={{ color: "inherit" }}
                     ></i>
                   }
@@ -278,7 +275,7 @@ const wrapper = (props) => {
                   key="topics"
                   icon={
                     <i
-                      class="ri-git-merge-fill ri-lg va-minus-4 mr-10"
+                      className="ri-git-merge-fill ri-lg va-minus-4 mr-10"
                       style={{ color: "inherit" }}
                     ></i>
                   }
@@ -291,7 +288,7 @@ const wrapper = (props) => {
                   key="reactions"
                   icon={
                     <i
-                      class="ri-emotion-laugh-line ri-lg va-minus-4 mr-10"
+                      className="ri-emotion-laugh-line ri-lg va-minus-4 mr-10"
                       style={{ color: "inherit" }}
                     ></i>
                   }
@@ -304,7 +301,7 @@ const wrapper = (props) => {
                   key="users"
                   icon={
                     <i
-                      class="ri-user-smile-line ri-lg va-minus-4 mr-10"
+                      className="ri-user-smile-line ri-lg va-minus-4 mr-10"
                       style={{ color: "inherit" }}
                     ></i>
                   }
@@ -317,7 +314,7 @@ const wrapper = (props) => {
                   key="comments"
                   icon={
                     <i
-                      class="ri-question-answer-line ri-lg va-minus-4 mr-10"
+                      className="ri-question-answer-line ri-lg va-minus-4 mr-10"
                       style={{ color: "inherit" }}
                     ></i>
                   }

@@ -171,7 +171,7 @@ const Navigation = (props) => {
         className="pd-20"
         key="2"
         icon={
-          <i class="ri-edit-circle-fill ri-lg va-minus-6 fs-24 compose-gradient"></i>
+          <i className="ri-edit-circle-fill ri-lg va-minus-6 fs-24 compose-gradient"></i>
         }
         onClick={() => {
           props.user && props.user.id ? null : setLoginModal(true);
@@ -189,7 +189,7 @@ const Navigation = (props) => {
           className="pd-20"
           key="1"
           icon={
-            <i class="ri-user-smile-fill fs-24 va-minus-6 profile-gradient"></i>
+            <i className="ri-user-smile-fill fs-24 va-minus-6 profile-gradient"></i>
           }
         >
           <Divider type="vertical" />
@@ -210,7 +210,7 @@ const Navigation = (props) => {
           className="pd-20"
           key="4"
           icon={
-            <i class="ri-settings-fill fs-24 va-minus-6 user-settings-gradient"></i>
+            <i className="ri-settings-fill fs-24 va-minus-6 user-settings-gradient"></i>
           }
         >
           <Divider type="vertical" />
@@ -231,7 +231,7 @@ const Navigation = (props) => {
         key="3"
         icon={
           <i
-            class={
+            className={
               (props.user && props.user.id
                 ? "ri-user-received-fill"
                 : "ri-user-shared-2-fill") +

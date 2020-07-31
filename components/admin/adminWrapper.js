@@ -18,7 +18,7 @@ const AdminWrapper = (props) => {
               key="home"
               icon={
                 <i
-                  class="ri-dashboard-2-line ri-lg va-minus-4 mr-10"
+                  className="ri-dashboard-2-line ri-lg va-minus-4 mr-10"
                   style={{ color: "inherit" }}
                 ></i>
               }
@@ -31,7 +31,7 @@ const AdminWrapper = (props) => {
               key="articles"
               icon={
                 <i
-                  class="ri-book-open-line ri-lg va-minus-4 mr-10"
+                  className="ri-book-open-line ri-lg va-minus-4 mr-10"
                   style={{ color: "inherit" }}
                 ></i>
               }
@@ -44,7 +44,7 @@ const AdminWrapper = (props) => {
               key="categories"
               icon={
                 <i
-                  class="ri-node-tree ri-lg va-minus-4 mr-10"
+                  className="ri-node-tree ri-lg va-minus-4 mr-10"
                   style={{ color: "inherit" }}
                 ></i>
               }
@@ -57,7 +57,7 @@ const AdminWrapper = (props) => {
               key="topics"
               icon={
                 <i
-                  class="ri-git-merge-fill ri-lg va-minus-4 mr-10"
+                  className="ri-git-merge-fill ri-lg va-minus-4 mr-10"
                   style={{ color: "inherit" }}
                 ></i>
               }
@@ -70,7 +70,7 @@ const AdminWrapper = (props) => {
               key="reactions"
               icon={
                 <i
-                  class="ri-emotion-laugh-line ri-lg va-minus-4 mr-10"
+                  className="ri-emotion-laugh-line ri-lg va-minus-4 mr-10"
                   style={{ color: "inherit" }}
                 ></i>
               }
@@ -83,7 +83,7 @@ const AdminWrapper = (props) => {
               key="users"
               icon={
                 <i
-                  class="ri-user-smile-line ri-lg va-minus-4 mr-10"
+                  className="ri-user-smile-line ri-lg va-minus-4 mr-10"
                   style={{ color: "inherit" }}
                 ></i>
               }
@@ -96,7 +96,7 @@ const AdminWrapper = (props) => {
               key="comments"
               icon={
                 <i
-                  class="ri-question-answer-line ri-lg va-minus-4 mr-10"
+                  className="ri-question-answer-line ri-lg va-minus-4 mr-10"
                   style={{ color: "inherit" }}
                 ></i>
               }

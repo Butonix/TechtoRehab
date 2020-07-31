@@ -34,7 +34,7 @@ const Create = (props) => {
                           <Text strong className="fs-18">
                             ARTICLE
                           </Text>
-                          <i class="ri-arrow-right-line ri-lg va-middle"></i>
+                          <i className="ri-arrow-right-line ri-lg va-middle"></i>
                         </Space>
                       </a>
                     }

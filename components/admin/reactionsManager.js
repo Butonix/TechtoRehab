@@ -115,7 +115,7 @@ const ReactionsManager = () => {
                           });
                         }}
                       >
-                        <i class="ri-delete-bin-line va-middle fs-20"></i>
+                        <i className="ri-delete-bin-line va-middle fs-20"></i>
                       </a>,
                     ]}
                   >
@@ -212,7 +212,7 @@ const ReactionsManager = () => {
                     <Form.Item>
                       <Button
                         icon={
-                          <i class="ri-check-line fs-16 va-middle mr-10"></i>
+                          <i className="ri-check-line fs-16 va-middle mr-10"></i>
                         }
                         onClick={() => {
                           var color1 = form.getFieldValue("color1");
@@ -225,7 +225,7 @@ const ReactionsManager = () => {
                       <Divider type="vertical" />
                       <Button
                         icon={
-                          <i class="ri-refresh-line fs-16 va-middle mr-10"></i>
+                          <i className="ri-refresh-line fs-16 va-middle mr-10"></i>
                         }
                         onClick={() => {
                           var number = random({

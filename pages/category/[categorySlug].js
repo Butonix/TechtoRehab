@@ -326,7 +326,7 @@ const Categories = (props) => {
                     bordered={false}
                     title={
                       <div className="d-flex">
-                        <i class="ri-star-line mr-10 va-minus-4 fs-20"></i>
+                        <i className="ri-star-line mr-10 va-minus-4 fs-20"></i>
                         <Text
                           style={{
                             marginTop: 2,
@@ -405,7 +405,7 @@ const Categories = (props) => {
                     bordered={false}
                     title={
                       <div className="d-flex">
-                        <i class="ri-trophy-line mr-10 va-minus-4 fs-20"></i>
+                        <i className="ri-trophy-line mr-10 va-minus-4 fs-20"></i>
                         <Text
                           style={{
                             marginTop: 2,
