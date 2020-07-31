@@ -662,7 +662,7 @@ export async function getStaticProps(ctx) {
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
+      revalidate: 1,
     },
-    revalidate: 1,
   };
 }
