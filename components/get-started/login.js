@@ -329,7 +329,7 @@ const Login = () => {
             message.error("Unable to log in using Facebook");
           }}
           icon={
-            <img src="/facebook.svg" className="mr-20 va-minus-6" width={23} />
+            <img src="/facebook.svg" className="mr-20 va-minus-6" width={27} />
           }
           autoLogin={false}
         >
