@@ -560,8 +560,12 @@ export default function Home(props) {
                                           size={35}
                                           src={
                                             mapped2.user.profile_picture
-                                              ? "https://ik.imagekit.io/ttr/n-avatar" +
-                                                mapped2.user.profile_picture
+                                              ? mapped2.user.profile_picture.includes(
+                                                  "ik.imagekit.io"
+                                                )
+                                                ? "https://ik.imagekit.io/ttr/n-avatar" +
+                                                  mapped2.user.profile_picture
+                                                : mapped2.user.profile_picture
                                               : null
                                           }
                                         />

@@ -260,8 +260,10 @@ const CommentsManager = () => {
                 avatar={
                   <Avatar
                     src={
-                      "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                      comments.author.profile_picture
+                      comments.author.profile_picture.includes("ik.imagekit.io")
+                        ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                          comments.author.profile_picture
+                        : comments.author.profile_picture
                     }
                   />
                 }
@@ -288,8 +290,12 @@ const CommentsManager = () => {
                             avatar={
                               <Avatar
                                 src={
-                                  "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                  replies.replyAuthor.profile_picture
+                                  replies.replyAuthor.profile_picture.includes(
+                                    "ik.imagekit.io"
+                                  )
+                                    ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                      replies.replyAuthor.profile_picture
+                                    : replies.replyAuthor.profile_picture
                                 }
                               />
                             }
@@ -342,9 +348,14 @@ const CommentsManager = () => {
                                             repliesToReply.author.username
                                           }
                                           avatar={
-                                            "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                            repliesToReply.author
-                                              .profile_picture
+                                            repliesToReply.author.profile_picture.includes(
+                                              "ik.imagekit.io"
+                                            )
+                                              ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                                repliesToReply.author
+                                                  .profile_picture
+                                              : repliesToReply.author
+                                                  .profile_picture
                                           }
                                         />
                                       );

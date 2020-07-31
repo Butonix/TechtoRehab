@@ -339,8 +339,10 @@ const UsersManager = () => {
                         className="mt-10"
                         size={35}
                         src={
-                          "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                          item.profile_picture
+                          item.profile_picture.includes("ik.imagekit.io")
+                            ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                              item.profile_picture
+                            : item.profile_picture
                         }
                       />
                     }

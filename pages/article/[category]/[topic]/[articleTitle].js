@@ -779,15 +779,23 @@ const Article = (props) => {
                               src={
                                 item.authors.profile_picture &&
                                 item.authors.profile_picture.length > 0
-                                  ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                    item.authors.profile_picture
+                                  ? item.authors.profile_picture.includes(
+                                      "ik.imagekit.io"
+                                    )
+                                    ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                      item.authors.profile_picture
+                                    : item.authors.profile_picture
                                   : "/blank.svg"
                               }
                               placeholder={
                                 item.authors.profile_picture &&
                                 item.authors.profile_picture.length > 0
-                                  ? "https://ik.imagekit.io/ttr/tr:n-avatar_placeholder/" +
-                                    item.authors.profile_picture
+                                  ? item.authors.profile_picture.includes(
+                                      "ik.imagekit.io"
+                                    )
+                                    ? "https://ik.imagekit.io/ttr/tr:n-avatar_placeholder/" +
+                                      item.authors.profile_picture
+                                    : item.authors.profile_picture
                                   : "/blank.svg"
                               }
                               threshold={1}
@@ -965,8 +973,12 @@ const Article = (props) => {
                             avatar={
                               <Avatar
                                 src={
-                                  "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                  comment.author.profile_picture
+                                  comment.author.profile_picture.includes(
+                                    "ik.imagekit.io"
+                                  )
+                                    ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                      comment.author.profile_picture
+                                    : comment.author.profile_picture
                                 }
                               />
                             }
@@ -1031,9 +1043,14 @@ const Article = (props) => {
                                         avatar={
                                           <Avatar
                                             src={
-                                              "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                              replies.replyAuthor
-                                                .profile_picture
+                                              replies.replyAuthor.profile_picture.includes(
+                                                "ik.imagekit.io"
+                                              )
+                                                ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                                  replies.replyAuthor
+                                                    .profile_picture
+                                                : replies.replyAuthor
+                                                    .profile_picture
                                             }
                                           />
                                         }
@@ -1108,10 +1125,16 @@ const Article = (props) => {
                                                       avatar={
                                                         <Avatar
                                                           src={
-                                                            "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                                            repliesToReply
-                                                              .author
-                                                              .profile_picture
+                                                            repliesToReply.author.profile_picture.includes(
+                                                              "ik.imagekit.io"
+                                                            )
+                                                              ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                                                repliesToReply
+                                                                  .author
+                                                                  .profile_picture
+                                                              : repliesToReply
+                                                                  .author
+                                                                  .profile_picture
                                                           }
                                                         />
                                                       }

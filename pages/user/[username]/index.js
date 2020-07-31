@@ -310,7 +310,9 @@ const User = (props) => {
                         size={100}
                         src={
                           dp
-                            ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
+                            ? dp.includes("ik.imagekit.io")
+                              ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
+                              : dp
                             : "/avatar-placeholder.jpeg"
                         }
                         style={{
@@ -327,7 +329,9 @@ const User = (props) => {
                       size={100}
                       src={
                         dp
-                          ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
+                          ? dp.includes("ik.imagekit.io")
+                            ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
+                            : dp
                           : "/avatar-placeholder.jpeg"
                       }
                       style={{
@@ -343,7 +347,9 @@ const User = (props) => {
                     size={100}
                     src={
                       dp
-                        ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
+                        ? dp.includes("ik.imagekit.io")
+                          ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
+                          : dp
                         : "/avatar-placeholder.jpeg"
                     }
                     style={{
