@@ -179,11 +179,11 @@ export default function Home(props) {
   const addBookmark = (objecto, count) => {
     if (count == 0) {
       insertBookmark({
-        variables: { articleId: objecto.id, id: user.id },
+        variables: { articleId: objecto.id, id: props.user.id },
       });
     } else {
       deleteBookmark({
-        variables: { articleId: objecto.id, id: user.id },
+        variables: { articleId: objecto.id, id: props.user.id },
       });
     }
     refetch();
