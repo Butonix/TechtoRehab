@@ -661,6 +661,12 @@ export async function getStaticProps(ctx) {
             user: result.user,
           },
         });
+        return {
+          props: {
+            initialApolloState: apolloClient.cache.extract(),
+          },
+          revalidate: 1,
+        };
       } else {
         await apolloClient.query({
           query: getArticlesQuery,
@@ -670,14 +676,14 @@ export async function getStaticProps(ctx) {
             user: null,
           },
         });
+
+        return {
+          props: {
+            initialApolloState: apolloClient.cache.extract(),
+          },
+          revalidate: 1,
+        };
       }
     })
   );
-
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-    },
-    revalidate: 1,
-  };
 }
