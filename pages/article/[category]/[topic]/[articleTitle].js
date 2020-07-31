@@ -163,7 +163,7 @@ const Article = (props) => {
     variables: {
       articleSlug: articleTitle,
     },
-    fetchPolicy: "no-cache",
+    fetchPolicy: "cache-and-network",
   });
 
   //
@@ -357,59 +357,6 @@ const Article = (props) => {
   //
   //
 
-  const reactionsMenu = (
-    <Menu className="pd-5 d-flex" style={{ borderRadius: 35 }}>
-      <Reactions>
-        {getArticleData.reactions.map((reactions) => {
-          return (
-            <div className="reaction-holder" key={reactions.id}>
-              <div
-                className="reaction fs-26 mg-x-5 hoverable-reactions"
-                key={reactions.id}
-                onClick={() => {
-                  props.user
-                    ? reacted
-                      ? updateReaction({
-                          variables: {
-                            userId: props.user.id,
-                            reactionId: reactions.id,
-                          },
-                        })
-                      : (insertReaction({
-                          variables: {
-                            articleId: getArticleData.articles[0].id,
-                            reactionId: reactions.id,
-                            userId: props.user.id,
-                          },
-                        }),
-                        setReacted(true))
-                    : setLoginModal(true);
-                }}
-              >
-                <a>
-                  <Dropdown
-                    arrow
-                    overlay={
-                      <Text strong className="t-transform-cpt fs-16">
-                        {reactions.name}
-                      </Text>
-                    }
-                    placement="topCenter"
-                  >
-                    <i
-                      className={`${reactions.code} va-minus-4`}
-                      style={reactions.color ? color : reactions.gradient}
-                    ></i>
-                  </Dropdown>
-                </a>
-              </div>
-            </div>
-          );
-        })}
-      </Reactions>
-    </Menu>
-  );
-
   //
   //
   //
@@ -420,10 +367,10 @@ const Article = (props) => {
     <Wrapper
       user={props.user}
       seo={{
-        title: getArticleData.articles[0]
+        title: getArticleData
           ? getArticleData.articles[0].title
           : "Tech To Rehab",
-        description: getArticleData.articles[0]
+        description: getArticleData
           ? getArticleData.articles[0].excerpt
           : "The Open Source Collaboration Platform",
       }}
