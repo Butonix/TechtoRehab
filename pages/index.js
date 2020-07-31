@@ -650,40 +650,57 @@ export default function Home(props) {
 export async function getStaticProps(ctx) {
   const apolloClient = initializeApollo();
 
-  return fetch("http://localhost:3000/api/getUser").then((res) =>
-    res.json().then(async (result) => {
-      if (result.loggedIn) {
-        await apolloClient.query({
-          query: getArticlesQuery,
-          variables: {
-            offset: 0,
-            limit: 5,
-            id: result.user.id,
-          },
-        });
-        return {
-          props: {
-            initialApolloState: apolloClient.cache.extract(),
-          },
-          revalidate: 1,
-        };
-      } else {
-        await apolloClient.query({
-          query: getArticlesQuery,
-          variables: {
-            offset: 0,
-            limit: 5,
-            id: null,
-          },
-        });
+  return fetch("https://techtorehab/api/getUser")
+    .then((res) =>
+      res.json().then(async (result) => {
+        if (result.loggedIn) {
+          await apolloClient.query({
+            query: getArticlesQuery,
+            variables: {
+              offset: 0,
+              limit: 5,
+              id: result.user.id,
+            },
+          });
+          return {
+            props: {
+              initialApolloState: apolloClient.cache.extract(),
+            },
+            revalidate: 1,
+          };
+        } else {
+          await apolloClient.query({
+            query: getArticlesQuery,
+            variables: {
+              offset: 0,
+              limit: 5,
+              id: null,
+            },
+          });
 
-        return {
-          props: {
-            initialApolloState: apolloClient.cache.extract(),
-          },
-          revalidate: 1,
-        };
-      }
-    })
-  );
+          return {
+            props: {
+              initialApolloState: apolloClient.cache.extract(),
+            },
+            revalidate: 1,
+          };
+        }
+      })
+    )
+    .catch((err) => {
+      await apolloClient.query({
+        query: getArticlesQuery,
+        variables: {
+          offset: 0,
+          limit: 5,
+          id: null,
+        },
+      });
+      return {
+        props: {
+          initialApolloState: apolloClient.cache.extract(),
+        },
+        revalidate: 1,
+      };
+    });
 }
