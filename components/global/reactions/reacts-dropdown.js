@@ -93,6 +93,8 @@ const ReactionDropdown = (props) => {
             {props.reactions.map((reaction) => {
               return (
                 <Dropdown
+                  key={reaction.id}
+                  trigger={["click", "hover"]}
                   overlay={
                     <div
                       className="ta-center"
@@ -104,6 +106,7 @@ const ReactionDropdown = (props) => {
                       }}
                     >
                       <Text
+                        key={reaction.id}
                         className="t-transform-cpt mt-10 ta-center fs-14"
                         style={{
                           color: "rgb(255,255,255,0.8)",
@@ -114,11 +117,13 @@ const ReactionDropdown = (props) => {
                       </Text>
                     </div>
                   }
-                  placement="topCenter"
+                  placement="topLeft"
                 >
                   <i
+                    key={reaction.id}
                     className={`${reaction.code} enable-text-gradient va-minus-6 fs-28 mg-x-15`}
                     style={reaction.gradient}
+                    key={reaction.id}
                     onClick={() => {
                       if (props.reacted) {
                         updateReaction({
@@ -146,23 +151,22 @@ const ReactionDropdown = (props) => {
         }
       >
         {props.reacted == true ? (
-          <a>
-            <div className="mt-5">
-              {props.data
-                .filter((filter) => filter.user.id == props.id)
-                .map((mapped) => (
-                  <>
-                    <i
-                      className={`${mapped.reaction.code} fs-24 va-middle enable-text-gradient`}
-                      style={mapped.reaction.gradient}
-                    />
-                    <Text strong className="mr-10 ml-10 lh-1 t-transform-cpt ">
-                      {mapped.reaction.name}
-                    </Text>
-                  </>
-                ))}
-            </div>
-          </a>
+          <div className="mt-5">
+            {props.data
+              .filter((filter) => filter.user.id == props.id)
+              .map((mapped) => (
+                <div key={mapped.reaction.id}>
+                  <i
+                    key={mapped.reaction.id}
+                    className={`${mapped.reaction.code} fs-24 va-middle enable-text-gradient`}
+                    style={mapped.reaction.gradient}
+                  />
+                  <Text strong className="mr-10 ml-10 lh-1 t-transform-cpt ">
+                    {mapped.reaction.name}
+                  </Text>
+                </div>
+              ))}
+          </div>
         ) : (
           <i
             className="ri-thumb-up-line va-minus-6 lh-2 fs-22"
@@ -173,7 +177,7 @@ const ReactionDropdown = (props) => {
         )}
       </Dropdown>
       {props.reacted ? (
-        <a
+        <div
           onClick={() => {
             deleteReaction({
               variables: {
@@ -192,7 +196,7 @@ const ReactionDropdown = (props) => {
           >
             Remove
           </Text>
-        </a>
+        </div>
       ) : null}
     </a>
   );

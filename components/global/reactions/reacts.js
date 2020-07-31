@@ -46,45 +46,45 @@ const Reactions = (props) => {
           if (match) {
             matcher = matcher + 1;
             return (
-              <a>
-                <Dropdown
-                  overlay={
-                    <div
-                      className="ta-center"
-                      style={{
-                        background: "rgb(0,0,0,0.8)",
-                        borderRadius: 10,
-                        width: 80,
-                        color: "white",
-                      }}
-                    >
-                      <Text
-                        className="t-transform-cpt mt-10 ta-center"
-                        style={{
-                          color: "rgb(255,255,255,0.8)",
-                        }}
-                        strong
-                      >
-                        {reaction.name}
-                      </Text>
-                    </div>
-                  }
-                  placement="bottomCenter"
-                >
-                  <Reaction
-                    onClick={() => {
-                      setModal(true);
+              <Dropdown
+                key={reaction.id}
+                overlay={
+                  <div
+                    key={reaction.id}
+                    className="ta-center"
+                    style={{
+                      background: "rgb(0,0,0,0.8)",
+                      borderRadius: 10,
+                      width: 80,
+                      color: "white",
                     }}
                   >
-                    <i className={reaction.code} style={reaction.gradient} />
-                  </Reaction>
-                </Dropdown>
-              </a>
+                    <Text
+                      className="t-transform-cpt mt-10 ta-center"
+                      style={{
+                        color: "rgb(255,255,255,0.8)",
+                      }}
+                      strong
+                    >
+                      {reaction.name}
+                    </Text>
+                  </div>
+                }
+                placement="bottomCenter"
+              >
+                <Reaction
+                  onClick={() => {
+                    setModal(true);
+                  }}
+                >
+                  <i className={reaction.code} style={reaction.gradient} />
+                </Reaction>
+              </Dropdown>
             );
           } else {
             if (matcher == 0 && index == props.reactions.length - 1) {
               return (
-                <Text className="lh-3 fs-14" strong>
+                <Text key={index} className="lh-3 fs-14" strong>
                   No Reacts
                 </Text>
               );
@@ -122,8 +122,9 @@ const Reactions = (props) => {
                   {props.data
                     .filter((filter) => filter.reaction.id == reaction.id)
                     .map((mapped) => (
-                      <div className="mt-10 mb-20">
+                      <div className="mt-10 mb-20" key={reaction.id}>
                         <Avatar
+                          key={reaction.id}
                           size={35}
                           src={
                             "https://ik.imagekit.io/ttr/tr:n-avatar/" +
@@ -132,6 +133,7 @@ const Reactions = (props) => {
                           className="mr-10"
                         />
                         <Text
+                          key={reaction.id}
                           strong
                           className=" t-transform-cpt mt-5 va-middle"
                         >
