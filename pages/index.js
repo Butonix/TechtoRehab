@@ -687,7 +687,7 @@ export async function getStaticProps(ctx) {
         }
       })
     )
-    .catch((err) => {
+    .catch(async (err) => {
       await apolloClient.query({
         query: getArticlesQuery,
         variables: {
