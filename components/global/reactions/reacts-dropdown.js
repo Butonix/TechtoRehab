@@ -87,7 +87,7 @@ const ReactionDropdown = (props) => {
   return (
     <a className="d-flex">
       <Dropdown
-        placement="topCenter"
+        placement="topLeft"
         overlay={
           <ReactionsOverlay>
             {props.reactions.map((reaction) => {
