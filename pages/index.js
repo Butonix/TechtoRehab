@@ -650,7 +650,7 @@ export default function Home(props) {
 export async function getStaticProps(ctx) {
   const apolloClient = initializeApollo();
 
-  fetch("https://techtorehab.com/api/getUser").then((res) =>
+  return fetch("https://techtorehab.com/api/getUser").then((res) =>
     res.json().then(async (result) => {
       if (result.loggedIn) {
         await apolloClient.query({
@@ -658,7 +658,7 @@ export async function getStaticProps(ctx) {
           variables: {
             offset: 0,
             limit: 5,
-            user: result.user,
+            id: result.user.id,
           },
         });
         return {
@@ -673,7 +673,7 @@ export async function getStaticProps(ctx) {
           variables: {
             offset: 0,
             limit: 5,
-            user: null,
+            id: null,
           },
         });
 
