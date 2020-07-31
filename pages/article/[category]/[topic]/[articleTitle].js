@@ -429,65 +429,63 @@ const Article = (props) => {
     >
       {getArticleData.articles[0] ? (
         <>
-          <Row justify="center">
-            <Row justify="center">
-              <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
-                <Title level={3} className="lh-1-5 pd-x-20 mt-30">
-                  {getArticleData.articles[0].title}
-                </Title>
+          <Row justify="center" className="mb-20">
+            <Col xs={24} sm={24} md={20} lg={14} xl={12} xxl={10}>
+              <Title level={1} className="lh-1-5 pd-x-20 mt-30">
+                {getArticleData.articles[0].title}
+              </Title>
 
-                <Paragraph className="pd-x-20 lh-2 mt-10 fs-14 line-clamp">
-                  {getArticleData.articles[0].excerpt}
-                </Paragraph>
-                <div className="d-flex pd-x-20">
-                  <Space>
-                    {getArticleData.articles[0].content.blocks.map(
-                      (blocks, index) => {
-                        if (
-                          blocks.type == "paragraph" ||
-                          blocks.type == "title"
-                        ) {
-                          count =
-                            count + blocks.data.text.split(" ").length - 1;
-                        }
-
-                        if (
-                          index ==
-                          getArticleData.articles[0].content.blocks.length - 1
-                        ) {
-                          return count < 200 ? (
-                            <div key={index}>
-                              <Text className="lh-2-5" strong>
-                                {"< 1 "}
-                              </Text>
-                              <Text className="lh-2-5">{"Minute Read"}</Text>
-                            </div>
-                          ) : (
-                            <div key={index}>
-                              <Text className="lh-2-5 mr-5" strong>
-                                {Math.round(count / 200)}
-                              </Text>
-                              <Text className="lh-2-5">{"Minute read"}</Text>
-                            </div>
-                          );
-                        }
+              <Paragraph className="pd-x-20 lh-2 mt-10 fs-14 line-clamp">
+                {getArticleData.articles[0].excerpt}
+              </Paragraph>
+              <div className="d-flex pd-x-20">
+                <Space>
+                  {getArticleData.articles[0].content.blocks.map(
+                    (blocks, index) => {
+                      if (
+                        blocks.type == "paragraph" ||
+                        blocks.type == "title"
+                      ) {
+                        count = count + blocks.data.text.split(" ").length - 1;
                       }
-                    )}
-                  </Space>
-                  <div className="ml-auto va-middle lh-2-5">
-                    <Text className="mr-10" strong>
-                      Published:
-                    </Text>
-                    {new Date(
-                      getArticleData.articles[0].created_at
-                    ).toDateString()}
-                  </div>
+
+                      if (
+                        index ==
+                        getArticleData.articles[0].content.blocks.length - 1
+                      ) {
+                        return count < 200 ? (
+                          <div key={index}>
+                            <Text className="lh-2-5" strong>
+                              {"< 1 "}
+                            </Text>
+                            <Text className="lh-2-5">{"Minute Read"}</Text>
+                          </div>
+                        ) : (
+                          <div key={index}>
+                            <Text className="lh-2-5 mr-5" strong>
+                              {Math.round(count / 200)}
+                            </Text>
+                            <Text className="lh-2-5">{"Minute read"}</Text>
+                          </div>
+                        );
+                      }
+                    }
+                  )}
+                </Space>
+                <div className="ml-auto va-middle lh-2-5">
+                  <Text className="mr-10" strong>
+                    Published:
+                  </Text>
+                  {new Date(
+                    getArticleData.articles[0].created_at
+                  ).toDateString()}
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </Col>
           </Row>
+
           <Row justify="center">
-            <Col xs={24} sm={24} md={24} lg={18} xl={18} xxl={8}>
+            <Col xs={24} sm={24} md={20} lg={16} xl={10} xxl={12}>
               <ProgressiveImage
                 src={
                   "https://ik.imagekit.io/ttr/tr:n-high/" +
@@ -503,15 +501,16 @@ const Article = (props) => {
                 {(src) => (
                   <img
                     src={src}
-                    className="article-title-image"
+                    className="article-title-image br-5"
                     alt="an alternative text"
                   />
                 )}
               </ProgressiveImage>
             </Col>
           </Row>
-          <Row justify="center">
-            <Col xs={24} sm={24} md={24} lg={18} xl={12} xxl={12}>
+
+          <Row justify="center" className="mt-20">
+            <Col xs={24} sm={24} md={18} lg={14} xl={12} xxl={10}>
               <div className="content">
                 {getArticleData.articles[0].content.blocks.map(
                   (blocks, index) => {
@@ -524,7 +523,7 @@ const Article = (props) => {
                     ) : blocks.type == "header" ? (
                       <Title
                         level={1}
-                        className="pd-x-10 mt-10 mb-20"
+                        className="pd-x-10 mt-30 mb-30 ml-10 mr-10"
                         key={index + blocks.type}
                         style={
                           index == "0" ? { marginTop: "20px !important" } : null
@@ -535,14 +534,15 @@ const Article = (props) => {
                     ) : blocks.type == "image" ? (
                       <Row justify="center" key={blocks.type + nanoid()}>
                         <figure className="mg-y-10 figure">
+                          {console.log(blocks.data.file.url.split("/"))}
                           <ProgressiveImage
                             src={
                               "https://ik.imagekit.io/ttr/tr:n-high/" +
-                              blocks.data.file.url
+                              blocks.data.file.url.split("/")[4]
                             }
                             placeholder={
                               "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
-                              blocks.data.file.url
+                              blocks.data.file.url.split("/")[4]
                             }
                             threshold={1}
                           >
@@ -552,12 +552,11 @@ const Article = (props) => {
                           </ProgressiveImage>
 
                           {blocks.data.caption.length > 0 ? (
-                            <Card key={index + blocks.type}>
+                            <Card key={index + blocks.type} bordered={false}>
                               <figcaption
-                                className="mt-5 ml-10 fw-600"
+                                className="mt-5 ml-10 ta-center"
                                 key={index + blocks.type}
                               >
-                                Caption --{" "}
                                 {blocks.data.caption.replace(/&nbsp;/gi, "")}
                               </figcaption>
                             </Card>
@@ -566,7 +565,7 @@ const Article = (props) => {
                       </Row>
                     ) : blocks.type == "checklist" ? (
                       <div
-                        className="d-flex flex-column ai-center mt-30 mb-30"
+                        className="d-flex flex-column mt-30 mb-30 ml-20"
                         key={index + blocks.type}
                       >
                         {blocks.data.items.map((item, indexe) => {
