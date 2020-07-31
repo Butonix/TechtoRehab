@@ -650,7 +650,7 @@ export default function Home(props) {
 export async function getStaticProps(ctx) {
   const apolloClient = initializeApollo();
 
-  fetch("http://localhost:3000/api/getUser").then((res) =>
+  fetch("https://techtorehab.com/api/getUser").then((res) =>
     res.json().then(async (result) => {
       if (result.loggedIn) {
         await apolloClient.query({
