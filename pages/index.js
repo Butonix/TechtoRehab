@@ -647,22 +647,29 @@ export default function Home(props) {
 
 export async function getStaticProps(ctx) {
   const apolloClient = initializeApollo();
-
-  const res = await fetch("http://localhost:3000/api/getUser");
-  const result = await res.json();
+  var user = null;
+  try {
+    const res = await fetch("http://localhost:3000/api/getUser");
+    const result = await res.json();
+    user = result.user;
+  } catch (err) {
+    if (err) {
+      user = null;
+    }
+  }
 
   await apolloClient.query({
     query: getArticlesQuery,
     variables: {
       offset: 0,
       limit: 5,
-      id: result.user ? result.user.id : null,
+      id: user ? user.id : null,
     },
   });
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
-      user: result.user ? result.user : null,
+      user: user ? user : null,
     },
     revalidate: 1,
   };
