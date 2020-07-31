@@ -221,6 +221,7 @@ export default function Home(props) {
           description: "The Open Source Collaboration Platform",
         }}
       >
+        {console.log(props.user)}
         <Row>
           <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-r-20">
             <Menu
@@ -647,61 +648,22 @@ export default function Home(props) {
 export async function getStaticProps(ctx) {
   const apolloClient = initializeApollo();
 
-  return fetch("http://localhost:3000/api/getUser")
-    .then((res) =>
-      res.json().then(async (result) => {
-        var user = result.user;
-        if (result.loggedIn) {
-          await apolloClient.query({
-            query: getArticlesQuery,
-            variables: {
-              offset: 0,
-              limit: 5,
-              id: user.id,
-            },
-          });
-          return {
-            props: {
-              initialApolloState: apolloClient.cache.extract(),
-              user: user,
-            },
-            revalidate: 1,
-          };
-        } else {
-          await apolloClient.query({
-            query: getArticlesQuery,
-            variables: {
-              offset: 0,
-              limit: 5,
-              id: null,
-            },
-          });
+  const res = await fetch("http://localhost:3000/api/getUser");
+  const result = await res.json();
 
-          return {
-            props: {
-              initialApolloState: apolloClient.cache.extract(),
-              user: user ? user : null,
-            },
-            revalidate: 1,
-          };
-        }
-      })
-    )
-    .catch(async (err) => {
-      await apolloClient.query({
-        query: getArticlesQuery,
-        variables: {
-          offset: 0,
-          limit: 5,
-          id: null,
-        },
-      });
-      return {
-        props: {
-          initialApolloState: apolloClient.cache.extract(),
-          user: user ? user : null,
-        },
-        revalidate: 1,
-      };
-    });
+  await apolloClient.query({
+    query: getArticlesQuery,
+    variables: {
+      offset: 0,
+      limit: 5,
+      id: result.user ? result.user.id : null,
+    },
+  });
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+      user: result.user ? result.user : null,
+    },
+    revalidate: 1,
+  };
 }
