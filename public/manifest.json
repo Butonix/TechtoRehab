@@ -1,0 +1,21 @@
+{
+  "name": "Tech To Rehab",
+  "short_name": "TTR",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#39FF81",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/icons/192x.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/512x.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -36,7 +36,9 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html className="light">
-        <Head />
+        <Head>
+          <link rel="manifest" href="/manifest.json" />
+        </Head>
 
         <body style={{ margin: 0 }}>
           <Main />
