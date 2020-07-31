@@ -34,15 +34,17 @@ const ModalReaction = styled.div`
 
 const { Text, Title, Paragraph } = Typography;
 const Reactions = (props) => {
+  var matcher = 0;
   const [modal, setModal] = useState(false);
   return (
     <>
       <ReactionsContainer>
-        {props.reactions.map((reaction) => {
+        {props.reactions.map((reaction, index) => {
           var match = props.data.find(
             (elem) => elem.reaction.id == reaction.id
           );
           if (match) {
+            matcher = matcher + 1;
             return (
               <a>
                 <Dropdown
@@ -79,6 +81,14 @@ const Reactions = (props) => {
                 </Dropdown>
               </a>
             );
+          } else {
+            if (matcher == 0 && index == props.reactions.length - 1) {
+              return (
+                <Text className="lh-3 fs-14" strong>
+                  No Reacts
+                </Text>
+              );
+            }
           }
         })}
       </ReactionsContainer>

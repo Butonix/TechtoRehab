@@ -429,7 +429,7 @@ const Article = (props) => {
     >
       {getArticleData.articles[0] ? (
         <>
-          <Row justify="center" className="mb-20">
+          <Row justify="center" className="mb-30">
             <Col xs={24} sm={24} md={20} lg={14} xl={12} xxl={10}>
               <Title level={1} className="lh-1-5 pd-x-20 mt-30">
                 {getArticleData.articles[0].title}
@@ -534,7 +534,6 @@ const Article = (props) => {
                     ) : blocks.type == "image" ? (
                       <Row justify="center" key={blocks.type + nanoid()}>
                         <figure className="mg-y-10 figure">
-                          {console.log(blocks.data.file.url.split("/"))}
                           <ProgressiveImage
                             src={
                               "https://ik.imagekit.io/ttr/tr:n-high/" +
