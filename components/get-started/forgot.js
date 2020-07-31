@@ -63,7 +63,6 @@ const Forgot = () => {
 
   const [resetToken, { data: resetTokenData }] = useMutation(resetTokenQuery, {
     onCompleted: (data) => {
-      console.log(data);
       fetch("/api/sendForgotEmail", {
         method: "POST",
         headers: {

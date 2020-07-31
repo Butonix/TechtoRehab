@@ -125,7 +125,7 @@ const SocialLogin = (props) => {
             id: data.update_users.returning[0].id,
             email: props.email,
             username: data.update_users.returning[0].username,
-            role: data.update_users.returning[0].settings.role,
+            role: data.update_users.returning[0].private_info[0].role,
             status: data.update_users.returning[0].settings.status,
           }),
         })
@@ -152,9 +152,11 @@ const SocialLogin = (props) => {
             email: props.email,
             username: data.insert_users_private_info.returning[0].user.username,
             role:
-              data.insert_users_private_info.returning[0].user.settings.role,
+              data.insert_users_private_info.returning[0].user.private_info[0]
+                .role,
             status:
-              data.insert_users_private_info.returning[0].user.settings.status,
+              data.insert_users_private_info.returning[0].user.private_info[0]
+                .status,
           }),
         })
           .then((res) => res.json())
@@ -207,33 +209,67 @@ const SocialLogin = (props) => {
               layout="vertical"
               onFinish={(data) => {
                 if (props.provider == "google") {
-                  addSocialUser({
-                    variables: {
-                      username: props.email.substr(0, props.email.indexOf("@")),
-                      email: data.email,
-                      googleId: props.id,
-                      profilePicture: props.profilePicUrl,
-                      provider: props.provider,
-                      firstName: props.first_name,
-                      lastName: props.last_name,
-                      password: data.rPassword,
-                      status: "confirmed",
+                  fetch("/api/encryptPass", {
+                    headers: {
+                      accept: "application/json",
+                      "content-type": "application/json",
                     },
-                  });
+                    method: "POST",
+                    body: JSON.stringify({
+                      password: data.rPassword,
+                    }),
+                  }).then((res) =>
+                    res.json().then((result) => {
+                      addSocialUser({
+                        variables: {
+                          username: props.email.substr(
+                            0,
+                            props.email.indexOf("@")
+                          ),
+                          email: data.email,
+                          googleId: props.id,
+                          profilePicture: props.profilePicUrl,
+                          provider: props.provider,
+                          firstName: props.first_name,
+                          lastName: props.last_name,
+                          password: result.hash,
+                          status: "confirmed",
+                        },
+                      });
+                    })
+                  );
                 } else {
-                  addSocialUser({
-                    variables: {
-                      username: props.email.substr(0, props.email.indexOf("@")),
-                      facebookId: props.id,
-                      email: data.email,
-                      profilePicture: props.profilePicUrl,
-                      provider: props.provider,
-                      firstName: props.first_name,
-                      password: data.rPassword,
-                      lastName: props.last_name,
-                      status: "confirmed",
-                    },
-                  });
+                  if (props.provider == "facebook") {
+                    fetch("/api/encryptPass", {
+                      headers: {
+                        accept: "application/json",
+                        "content-type": "application/json",
+                      },
+                      method: "POST",
+                      body: JSON.stringify({
+                        password: data.rPassword,
+                      }),
+                    }).then((res) =>
+                      res.json().then((result) => {
+                        addSocialUser({
+                          variables: {
+                            username: props.email.substr(
+                              0,
+                              props.email.indexOf("@")
+                            ),
+                            facebookId: props.id,
+                            email: data.email,
+                            profilePicture: props.profilePicUrl,
+                            provider: props.provider,
+                            firstName: props.first_name,
+                            password: result.hash,
+                            lastName: props.last_name,
+                            status: "confirmed",
+                          },
+                        });
+                      })
+                    );
+                  }
                 }
               }}
             >

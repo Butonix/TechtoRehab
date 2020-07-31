@@ -124,7 +124,6 @@ const Reactions = (props) => {
                     .map((mapped) => (
                       <div className="mt-10 mb-20" key={reaction.id}>
                         <Avatar
-                          key={reaction.id}
                           size={35}
                           src={
                             "https://ik.imagekit.io/ttr/tr:n-avatar/" +
@@ -133,7 +132,6 @@ const Reactions = (props) => {
                           className="mr-10"
                         />
                         <Text
-                          key={reaction.id}
                           strong
                           className=" t-transform-cpt mt-5 va-middle"
                         >

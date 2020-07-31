@@ -12,6 +12,7 @@ import {
   Result,
   Row,
   Col,
+  message,
 } from "antd";
 import Navbar from "./nav";
 import Link from "next/link";
@@ -19,6 +20,7 @@ import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { Swipeable } from "react-swipeable";
 import { NextSeo } from "next-seo";
+import { nanoid } from "nanoid";
 
 const checkTokenQuery = gql`
   query checkToken($userId: uuid!) {
@@ -35,6 +37,17 @@ const activateUserQuery = gql`
     update_users_private_info(
       where: { user_id: { _eq: $id } }
       _set: { status: $status, confirm_token: $token }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+const resendTokenQuery = gql`
+  mutation resendToken($id: uuid!, $token: String!) {
+    update_users_private_info(
+      where: { user_id: { _eq: $id } }
+      _set: { confirm_token: $token }
     ) {
       affected_rows
     }
@@ -102,6 +115,14 @@ const wrapper = (props) => {
       }
     },
     onError: (err) => console.log(err),
+  });
+
+  const [resendToken] = useMutation(resendTokenQuery, {
+    onCompleted: (data) => {
+      console.log(data);
+      message.success("Token has been sent to email");
+    },
+    fetchPolicy: "no-cache",
   });
 
   useEffect(() => {
@@ -190,6 +211,8 @@ const wrapper = (props) => {
       />
       <Layout>
         <Navbar user={props.user} />
+        {console.log(props)}
+
         <Layout>
           <Drawer
             placement="left"
@@ -392,7 +415,41 @@ const wrapper = (props) => {
                                   <Button type="primary" htmlType="submit">
                                     Submit
                                   </Button>
-                                  <Button type="link">Resend Token</Button>
+                                  <Button
+                                    type="link"
+                                    onClick={() => {
+                                      var token = nanoid();
+                                      fetch("api/resendToken", {
+                                        headers: {
+                                          "content-type": "application/json",
+                                          accept: "application/json",
+                                        },
+                                        method: "POST",
+                                        body: JSON.stringify({
+                                          token: token,
+                                          username: props.user.username,
+                                          email: props.user.email,
+                                        }),
+                                      }).then((res) =>
+                                        res.json().then((result) => {
+                                          if (result.result == "ok") {
+                                            resendToken({
+                                              variables: {
+                                                id: props.user.id,
+                                                token: token,
+                                              },
+                                            });
+                                          } else {
+                                            message.error(
+                                              "Error Sending Email"
+                                            );
+                                          }
+                                        })
+                                      );
+                                    }}
+                                  >
+                                    Resend Token
+                                  </Button>
                                 </Form.Item>
                               </Form>
                             </>
