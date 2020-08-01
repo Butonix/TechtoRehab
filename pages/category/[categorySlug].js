@@ -264,7 +264,6 @@ const Categories = (props) => {
                         getCategoryData.category[0].articles_to_categories
                       }
                       itemLayout="vertical"
-                      loading={true}
                       renderItem={(item) => (
                         <List.Item
                           className="article-list-item"
