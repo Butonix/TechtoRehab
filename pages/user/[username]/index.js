@@ -2,13 +2,15 @@ import withSession from "lib/session";
 import { useRouter } from "next/router";
 import Wrapper from "components/global/wrapper";
 import { initializeApollo } from "lib/apolloClient";
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { gql, useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import {
   Row,
   Col,
   Card,
   Tabs,
   Upload,
+  List,
+  Skeleton,
   Button,
   Typography,
   Avatar,
@@ -17,6 +19,7 @@ import {
 import { useState } from "react";
 import Error404 from "components/global/404";
 import ProgressiveImage from "react-progressive-graceful-image";
+import Moment from "react-moment";
 
 const { Text, Title, Paragraph } = Typography;
 
@@ -42,39 +45,6 @@ const getUserQuery = gql`
         role
         status
       }
-      articles_to_users {
-        article {
-          featured_image
-          excerpt
-          title
-          article_category {
-            title
-            slug
-          }
-          article_topic {
-            title
-            slug
-          }
-          slug
-        }
-      }
-
-      bookmarks {
-        bookmarkedArticle {
-          content
-          excerpt
-          title
-          article_topic {
-            title
-            slug
-          }
-          article_category {
-            title
-            slug
-          }
-          slug
-        }
-      }
     }
   }
 `;
@@ -91,6 +61,52 @@ const updateProfilePictureQuery = gql`
   mutation updateProfilePicture($id: uuid!, $dp: String!) {
     update_users(where: { id: { _eq: $id } }, _set: { profile_picture: $dp }) {
       affected_rows
+    }
+  }
+`;
+
+const getContributionsQuery = gql`
+  query getContribs($id: uuid!) {
+    articles_and_users(where: { user_id: { _eq: $id } }) {
+      article {
+        id
+        title
+        slug
+        featured_image
+        featured
+        excerpt
+        updated_at
+        article_category {
+          slug
+        }
+        article_topic {
+          slug
+        }
+      }
+    }
+  }
+`;
+
+const getUserBookmarksQuery = gql`
+  query getBookmarks($id: uuid!) {
+    users(where: { id: { _eq: $id } }) {
+      bookmarks {
+        bookmarkedArticle {
+          id
+          title
+          slug
+          excerpt
+          featured_image
+          featured
+          updated_at
+          article_category {
+            slug
+          }
+          article_topic {
+            slug
+          }
+        }
+      }
     }
   }
 `;
@@ -152,19 +168,32 @@ const User = (props) => {
     }
   };
 
-  if (getUserError) {
-    return <p>Bad Error</p>;
-  }
+  const [
+    getUserContributions,
+    { loading: getUserContributionsLoading, data: getUserContributionsData },
+  ] = useLazyQuery(getContributionsQuery);
+
+  const [
+    getUserBookmarks,
+    { loading: getUserBookmarksLoading, data: getUserBookmarksData },
+  ] = useLazyQuery(getUserBookmarksQuery);
 
   return (
     <Wrapper
       user={props.user}
       seo={{
-        title: props.username.toUpperCase(),
-        description: props.username + " on Tech To Rehab",
+        title: props.username.replace(
+          props.username.charAt(0),
+          props.username.charAt(0).toUpperCase()
+        ),
+        description:
+          props.username.replace(
+            props.username.charAt(0),
+            props.username.charAt(0).toUpperCase()
+          ) + " on Tech To Rehab",
       }}
     >
-      {props.username == null || getUserData.users.length < 1 ? (
+      {getUserError || getUserData.users.length < 1 ? (
         <Error404 />
       ) : (
         <Row justify="center" className="pd-y-20">
@@ -439,6 +468,21 @@ const User = (props) => {
                   <Tabs
                     defaultActiveKey={tab ? tab : "profile"}
                     className="fs-14"
+                    onChange={(data) => {
+                      if (data == "contributions") {
+                        getUserContributions({
+                          variables: {
+                            id: getUserData.users[0].id,
+                          },
+                        });
+                      } else if (data == "bookmarks") {
+                        getUserBookmarks({
+                          variables: {
+                            id: getUserData.users[0].id,
+                          },
+                        });
+                      }
+                    }}
                   >
                     <Tabs.TabPane tab="Profile" key="profile">
                       <div className="mg-y-20">
@@ -475,38 +519,145 @@ const User = (props) => {
                       </div>
                     </Tabs.TabPane>
                     <Tabs.TabPane tab="Contributions" key="contributions">
-                      {getUserData &&
-                      getUserData.users[0].articles_to_users.length > 1 ? (
-                        <p>Ok</p>
-                      ) : (
-                        <>
-                          <Title level={4} className="fs-18 ta-center mg-y-20">
-                            Hmmm... Seems Empty
-                          </Title>
-                          <img
-                            src="/Empty.svg"
-                            className="o-fit-cover mg-y-20"
-                            height={400}
+                      {getUserContributionsLoading ? (
+                        <Skeleton
+                          className="mt-20"
+                          avatar
+                          title
+                          active
+                          round
+                          key="a-list-item"
+                        />
+                      ) : getUserContributionsData ? (
+                        getUserContributionsData.articles_and_users.length <
+                        1 ? (
+                          <div className="d-flex jc-center flex-column ai-center">
+                            <Text className="fs-16 mg-y-20" strong>
+                              No contributions yet
+                            </Text>
+                            <img src="/Empty.svg" width={250} height={250} />
+                          </div>
+                        ) : (
+                          <List
+                            itemLayout="vertical"
+                            dataSource={
+                              getUserContributionsData
+                                ? getUserContributionsData.articles_and_users
+                                : []
+                            }
+                            renderItem={(item) => (
+                              <List.Item
+                                key={item.article.id}
+                                className="article-list-item"
+                                extra={
+                                  <img
+                                    className="ml-20 list-image"
+                                    src={
+                                      "https://ik.imagekit.io/ttr/tr:n-med/" +
+                                      item.article.featured_image
+                                    }
+                                  />
+                                }
+                                actions={[
+                                  <div>
+                                    <i class="ri-time-line fs-20 va-middle"></i>
+                                    <Moment fromNow className=" lh-2 ml-5">
+                                      {item.article.updated_at}
+                                    </Moment>
+                                  </div>,
+                                ]}
+                              >
+                                <List.Item.Meta
+                                  title={
+                                    <a
+                                      href={`/article/${item.article.article_category.slug}/${item.article.article_topic.slug}/${item.article.slug}`}
+                                    >
+                                      <Paragraph className="fs-14 line-clamp">
+                                        {item.article.title}
+                                      </Paragraph>
+                                    </a>
+                                  }
+                                  description={
+                                    <Paragraph className="fs-14 line-clamp">
+                                      {item.article.excerpt}
+                                    </Paragraph>
+                                  }
+                                />
+                              </List.Item>
+                            )}
                           />
-                        </>
-                      )}
+                        )
+                      ) : null}
                     </Tabs.TabPane>
                     <Tabs.TabPane tab="Bookmarks" key="bookmarks">
-                      {getUserData &&
-                      getUserData.users[0].bookmarks.length > 1 ? (
-                        <p>Yes</p>
-                      ) : (
-                        <>
-                          <Title level={4} className="fs-18 ta-center mg-y-20">
-                            Hmmm... Seems Empty
-                          </Title>
-                          <img
-                            src="/Empty.svg"
-                            className="o-fit-cover mg-y-20"
-                            height={400}
+                      {getUserBookmarksLoading ? (
+                        <Skeleton
+                          className="mt-20"
+                          avatar
+                          title
+                          active
+                          round
+                          key="a-list-item"
+                        />
+                      ) : getUserBookmarksData ? (
+                        getUserBookmarksData.users[0].bookmarks.length < 1 ? (
+                          <div className="d-flex jc-center flex-column ai-center">
+                            <Text className="fs-16 mg-y-20" strong>
+                              No bookmarks yet
+                            </Text>
+                            <img src="/Empty.svg" width={250} height={250} />
+                          </div>
+                        ) : (
+                          <List
+                            itemLayout="vertical"
+                            dataSource={
+                              getUserBookmarksData
+                                ? getUserBookmarksData.users[0].bookmarks
+                                : []
+                            }
+                            renderItem={(item) => (
+                              <List.Item
+                                key={item.bookmarkedArticle.id}
+                                className="article-list-item"
+                                extra={
+                                  <img
+                                    className="ml-20 list-image"
+                                    src={
+                                      "https://ik.imagekit.io/ttr/tr:n-med/" +
+                                      item.bookmarkedArticle.featured_image
+                                    }
+                                  />
+                                }
+                                actions={[
+                                  <div>
+                                    <i class="ri-time-line fs-20 va-middle"></i>
+                                    <Moment fromNow className=" lh-2 ml-5">
+                                      {item.bookmarkedArticle.updated_at}
+                                    </Moment>
+                                  </div>,
+                                ]}
+                              >
+                                <List.Item.Meta
+                                  title={
+                                    <a
+                                      href={`/article/${item.bookmarkedArticle.article_category.slug}/${item.bookmarkedArticle.article_topic.slug}/${item.bookmarkedArticle.slug}`}
+                                    >
+                                      <Paragraph className="fs-14 line-clamp">
+                                        {item.bookmarkedArticle.title}
+                                      </Paragraph>
+                                    </a>
+                                  }
+                                  description={
+                                    <Paragraph className="fs-14 line-clamp">
+                                      {item.bookmarkedArticle.excerpt}
+                                    </Paragraph>
+                                  }
+                                />
+                              </List.Item>
+                            )}
                           />
-                        </>
-                      )}
+                        )
+                      ) : null}
                     </Tabs.TabPane>
                   </Tabs>
                 </Col>

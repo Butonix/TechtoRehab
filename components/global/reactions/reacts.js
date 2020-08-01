@@ -37,7 +37,7 @@ const Reactions = (props) => {
   var matcher = 0;
   const [modal, setModal] = useState(false);
   return (
-    <>
+    <div className="d-flex">
       <ReactionsContainer>
         {props.reactions.map((reaction, index) => {
           var match = props.data.find(
@@ -149,7 +149,12 @@ const Reactions = (props) => {
           })}
         </Tabs>
       </Modal>
-    </>
+      <Text className="lh-3 ml-10 fs-16" strong>
+        {props.data.length > 1000
+          ? props.data.length / 1000
+          : props.data.length}
+      </Text>
+    </div>
   );
 };
 

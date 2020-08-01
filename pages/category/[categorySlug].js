@@ -264,6 +264,7 @@ const Categories = (props) => {
                         getCategoryData.category[0].articles_to_categories
                       }
                       itemLayout="vertical"
+                      loading={true}
                       renderItem={(item) => (
                         <List.Item
                           className="article-list-item"
@@ -310,7 +311,7 @@ const Categories = (props) => {
                               </Paragraph>
                             }
                           />
-                          <Row className="ml-10">
+                          <Row className="ml-10 pd-x-10">
                             <Reactions
                               reactions={getCategoryData.reactions}
                               data={item.reactions_to_articles}

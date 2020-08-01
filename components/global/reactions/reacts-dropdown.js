@@ -125,22 +125,26 @@ const ReactionDropdown = (props) => {
                     style={reaction.gradient}
                     key={reaction.id}
                     onClick={() => {
-                      if (props.reacted) {
-                        updateReaction({
-                          variables: {
-                            userId: props.id,
-                            articleId: props.articleId,
-                            reactionId: reaction.id,
-                          },
-                        });
+                      if (props.user && props.user.id.length > 0) {
+                        if (props.reacted) {
+                          updateReaction({
+                            variables: {
+                              userId: props.id,
+                              articleId: props.articleId,
+                              reactionId: reaction.id,
+                            },
+                          });
+                        } else {
+                          addReaction({
+                            variables: {
+                              userId: props.id,
+                              articleId: props.articleId,
+                              reactionId: reaction.id,
+                            },
+                          });
+                        }
                       } else {
-                        addReaction({
-                          variables: {
-                            userId: props.id,
-                            articleId: props.articleId,
-                            reactionId: reaction.id,
-                          },
-                        });
+                        props.login(true);
                       }
                     }}
                   />

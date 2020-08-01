@@ -795,6 +795,8 @@ const Article = (props) => {
                     reacted={reacted}
                     refetch={getArticleRefetch}
                     setReacted={setReacted}
+                    user={props.user}
+                    login={setLoginModal}
                   />
                 </Row>
               </Card>
