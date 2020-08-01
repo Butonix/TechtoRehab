@@ -727,23 +727,29 @@ const Article = (props) => {
                               src={
                                 item.authors.profile_picture &&
                                 item.authors.profile_picture.length > 0
-                                  ? !item.authors.profile_picture.includes(
-                                      "ik.imagekit.io"
+                                  ? item.authors.profile_picture.includes(
+                                      "https://platform-lookaside.fbsbx.com/"
+                                    ) ||
+                                    item.authors.profile_picture.includes(
+                                      "google"
                                     )
-                                    ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                    ? item.authors.profile_picture
+                                    : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                                       item.authors.profile_picture
-                                    : item.authors.profile_picture
                                   : "/blank.svg"
                               }
                               placeholder={
                                 item.authors.profile_picture &&
                                 item.authors.profile_picture.length > 0
-                                  ? !item.authors.profile_picture.includes(
-                                      "ik.imagekit.io"
+                                  ? item.authors.profile_picture.includes(
+                                      "https://platform-lookaside.fbsbx.com/"
+                                    ) ||
+                                    item.authors.profile_picture.includes(
+                                      "google"
                                     )
-                                    ? "https://ik.imagekit.io/ttr/tr:n-avatar_placeholder/" +
+                                    ? item.authors.profile_picture
+                                    : "https://ik.imagekit.io/ttr/tr:n-avatar_placeholder/" +
                                       item.authors.profile_picture
-                                    : item.authors.profile_picture
                                   : "/blank.svg"
                               }
                               threshold={1}
@@ -921,12 +927,15 @@ const Article = (props) => {
                             avatar={
                               <Avatar
                                 src={
-                                  !comment.author.profile_picture.includes(
-                                    "ik.imagekit.io"
+                                  comment.author.profile_picture.includes(
+                                    "https://platform-lookaside.fbsbx.com/"
+                                  ) ||
+                                  comment.author.profile_picture.includes(
+                                    "google"
                                   )
-                                    ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                    ? comment.author.profile_picture
+                                    : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                                       comment.author.profile_picture
-                                    : comment.author.profile_picture
                                 }
                               />
                             }
@@ -991,13 +1000,16 @@ const Article = (props) => {
                                         avatar={
                                           <Avatar
                                             src={
-                                              !replies.replyAuthor.profile_picture.includes(
-                                                "ik.imagekit.io"
+                                              replies.replyAuthor.profile_picture.includes(
+                                                "https://platform-lookaside.fbsbx.com/"
+                                              ) ||
+                                              replies.replyAuthor.profile_picture.includes(
+                                                "google"
                                               )
-                                                ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                                  replies.replyAuthor
+                                                ? replies.replyAuthor
                                                     .profile_picture
-                                                : replies.replyAuthor
+                                                : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                                  replies.replyAuthor
                                                     .profile_picture
                                             }
                                           />
@@ -1073,14 +1085,17 @@ const Article = (props) => {
                                                       avatar={
                                                         <Avatar
                                                           src={
-                                                            !repliesToReply.author.profile_picture.includes(
-                                                              "ik.imagekit.io"
+                                                            repliesToReply.author.profile_picture.includes(
+                                                              "https://platform-lookaside.fbsbx.com/"
+                                                            ) ||
+                                                            repliesToReply.author.profile_picture.includes(
+                                                              "google"
                                                             )
-                                                              ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                                                repliesToReply
+                                                              ? repliesToReply
                                                                   .author
                                                                   .profile_picture
-                                                              : repliesToReply
+                                                              : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                                                repliesToReply
                                                                   .author
                                                                   .profile_picture
                                                           }
@@ -1198,21 +1213,26 @@ const Article = (props) => {
                       }}
                     >
                       <Form.Item
-                        label={
-                          <div className="d-flex">
-                            <Avatar
-                              size={45}
-                              className="mt-20"
-                              src={
-                                props.user
-                                  ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                    props.user.profilePicture
-                                  : null
-                              }
-                            />
-                            <Text className="mt-30 lh-1-5 ml-20">Dukesx</Text>
-                          </div>
-                        }
+                        // label={
+                        //   // <div className="d-flex">
+                        //   //   {/* <Avatar
+                        //   //     size={45}
+                        //   //     className="mt-20"
+                        //   //     src={
+                        //   //       props.user
+                        //   //         ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                        //   //           props.user.profilePicture
+                        //   //         : null
+                        //   //     }
+                        //   //   /> */}
+                        //   //   <Text
+                        //   //     className="mt-20 lh-1-5 t-transform-cpt"
+                        //   //     strong
+                        //   //   >
+                        //   //     {props.user.username}
+                        //   //   </Text>
+                        //   // </div>
+                        // }
                         name="reply"
                         rules={[
                           {
@@ -1226,7 +1246,7 @@ const Article = (props) => {
                         ]}
                       >
                         <Mentions
-                          className="mt-10"
+                          className="mt-30"
                           rows={4}
                           placeholder="Reply"
                         >

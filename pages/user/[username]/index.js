@@ -160,13 +160,8 @@ const User = (props) => {
     <Wrapper
       user={props.user}
       seo={{
-        title:
-          props.username[0].toUpperCase() +
-          props.username.split(props.username[0])[1],
-        description:
-          props.username[0].toUpperCase() +
-          props.username.split(props.username[0])[1] +
-          " on Tech To Rehab",
+        title: props.username.toUpperCase(),
+        description: props.username + " on Tech To Rehab",
       }}
     >
       {props.username == null || getUserData.users.length < 1 ? (
@@ -321,9 +316,11 @@ const User = (props) => {
                         size={100}
                         src={
                           dp
-                            ? !dp.includes("ik.imagekit.io")
-                              ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
-                              : dp
+                            ? dp.includes(
+                                "https://platform-lookaside.fbsbx.com/"
+                              ) || dp.includes("google")
+                              ? dp
+                              : "https://ik.imagekit.io/ttr/tr:n-med/" + dp
                             : "/avatar-placeholder.jpeg"
                         }
                         style={{
@@ -340,9 +337,11 @@ const User = (props) => {
                       size={100}
                       src={
                         dp
-                          ? !dp.includes("ik.imagekit.io")
-                            ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
-                            : dp
+                          ? dp.includes(
+                              "https://platform-lookaside.fbsbx.com/"
+                            ) || dp.includes("google")
+                            ? dp
+                            : "https://ik.imagekit.io/ttr/tr:n-med/" + dp
                           : "/avatar-placeholder.jpeg"
                       }
                       style={{
@@ -358,9 +357,11 @@ const User = (props) => {
                     size={100}
                     src={
                       dp
-                        ? !dp.includes("ik.imagekit.io")
-                          ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
-                          : dp
+                        ? dp.includes(
+                            "https://platform-lookaside.fbsbx.com/"
+                          ) || dp.includes("google")
+                          ? dp
+                          : "https://ik.imagekit.io/ttr/tr:n-med/" + dp
                         : "/avatar-placeholder.jpeg"
                     }
                     style={{

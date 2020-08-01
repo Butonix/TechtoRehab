@@ -126,12 +126,12 @@ const Reactions = (props) => {
                         <Avatar
                           size={35}
                           src={
-                            !mapped.user.profile_picture.includes(
-                              "ik.imagekit.io"
-                            )
-                              ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                            mapped.user.profile_picture.includes(
+                              "https://platform-lookaside.fbsbx.com/"
+                            ) || mapped.user.profile_picture.includes("google")
+                              ? mapped.user.profile_picture
+                              : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                                 mapped.user.profile_picture
-                              : mapped.user.profile_picture
                           }
                           className="mr-10"
                         />

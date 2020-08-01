@@ -497,12 +497,13 @@ export default function Home(props) {
                       <Space className="mt-20" key={index}>
                         <Avatar
                           src={
-                            !mapped.authors.profile_picture.includes(
-                              "ik.imagekit.io"
+                            mapped.authors.profile_picture.includes("google") ||
+                            mapped.authors.profile_picture.includes(
+                              "https://platform-lookaside.fbsbx.com/"
                             )
-                              ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                              ? mapped.authors.profile_picture
+                              : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                                 mapped.authors.profile_picture
-                              : mapped.authors.profile_picture
                           }
                         />
                         <a href={`/user/${mapped.authors.username}`}>

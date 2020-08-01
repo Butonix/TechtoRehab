@@ -349,11 +349,14 @@ const Navigation = (props) => {
                     getUserProfilePictureData &&
                     getUserProfilePictureData.users[0].profile_picture
                       ? getUserProfilePictureData.users[0].profile_picture.includes(
-                          "ik.imagekit.io"
-                        ) == false
-                        ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                          "https://platform-lookaside.fbsbx.com/"
+                        ) ||
+                        getUserProfilePictureData.users[0].profile_picture.includes(
+                          "google"
+                        )
+                        ? getUserProfilePictureData.users[0].profile_picture
+                        : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                           getUserProfilePictureData.users[0].profile_picture
-                        : getUserProfilePictureData.users[0].profile_picture
                       : null
                   }
                   size={26}
