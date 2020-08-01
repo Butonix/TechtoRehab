@@ -260,7 +260,9 @@ const CommentsManager = () => {
                 avatar={
                   <Avatar
                     src={
-                      comments.author.profile_picture.includes("ik.imagekit.io")
+                      comments.author.profile_picture.includes(
+                        "ik.imagekit.io"
+                      ) == false
                         ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                           comments.author.profile_picture
                         : comments.author.profile_picture

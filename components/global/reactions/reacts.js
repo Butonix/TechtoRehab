@@ -126,7 +126,7 @@ const Reactions = (props) => {
                         <Avatar
                           size={35}
                           src={
-                            mapped.user.profile_picture.includes(
+                            !mapped.user.profile_picture.includes(
                               "ik.imagekit.io"
                             )
                               ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +

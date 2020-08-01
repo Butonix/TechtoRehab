@@ -350,7 +350,7 @@ const Navigation = (props) => {
                     getUserProfilePictureData.users[0].profile_picture
                       ? getUserProfilePictureData.users[0].profile_picture.includes(
                           "ik.imagekit.io"
-                        )
+                        ) == false
                         ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                           getUserProfilePictureData.users[0].profile_picture
                         : getUserProfilePictureData.users[0].profile_picture

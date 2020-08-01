@@ -727,7 +727,7 @@ const Article = (props) => {
                               src={
                                 item.authors.profile_picture &&
                                 item.authors.profile_picture.length > 0
-                                  ? item.authors.profile_picture.includes(
+                                  ? !item.authors.profile_picture.includes(
                                       "ik.imagekit.io"
                                     )
                                     ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
@@ -738,7 +738,7 @@ const Article = (props) => {
                               placeholder={
                                 item.authors.profile_picture &&
                                 item.authors.profile_picture.length > 0
-                                  ? item.authors.profile_picture.includes(
+                                  ? !item.authors.profile_picture.includes(
                                       "ik.imagekit.io"
                                     )
                                     ? "https://ik.imagekit.io/ttr/tr:n-avatar_placeholder/" +
@@ -921,7 +921,7 @@ const Article = (props) => {
                             avatar={
                               <Avatar
                                 src={
-                                  comment.author.profile_picture.includes(
+                                  !comment.author.profile_picture.includes(
                                     "ik.imagekit.io"
                                   )
                                     ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
@@ -991,7 +991,7 @@ const Article = (props) => {
                                         avatar={
                                           <Avatar
                                             src={
-                                              replies.replyAuthor.profile_picture.includes(
+                                              !replies.replyAuthor.profile_picture.includes(
                                                 "ik.imagekit.io"
                                               )
                                                 ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +
@@ -1073,7 +1073,7 @@ const Article = (props) => {
                                                       avatar={
                                                         <Avatar
                                                           src={
-                                                            repliesToReply.author.profile_picture.includes(
+                                                            !repliesToReply.author.profile_picture.includes(
                                                               "ik.imagekit.io"
                                                             )
                                                               ? "https://ik.imagekit.io/ttr/tr:n-avatar/" +

@@ -157,7 +157,18 @@ const User = (props) => {
   }
 
   return (
-    <Wrapper user={props.user}>
+    <Wrapper
+      user={props.user}
+      seo={{
+        title:
+          props.username[0].toUpperCase() +
+          props.username.split(props.username[0])[1],
+        description:
+          props.username[0].toUpperCase() +
+          props.username.split(props.username[0])[1] +
+          " on Tech To Rehab",
+      }}
+    >
       {props.username == null || getUserData.users.length < 1 ? (
         <Error404 />
       ) : (
@@ -310,7 +321,7 @@ const User = (props) => {
                         size={100}
                         src={
                           dp
-                            ? dp.includes("ik.imagekit.io")
+                            ? !dp.includes("ik.imagekit.io")
                               ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
                               : dp
                             : "/avatar-placeholder.jpeg"
@@ -329,7 +340,7 @@ const User = (props) => {
                       size={100}
                       src={
                         dp
-                          ? dp.includes("ik.imagekit.io")
+                          ? !dp.includes("ik.imagekit.io")
                             ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
                             : dp
                           : "/avatar-placeholder.jpeg"
@@ -347,7 +358,7 @@ const User = (props) => {
                     size={100}
                     src={
                       dp
-                        ? dp.includes("ik.imagekit.io")
+                        ? !dp.includes("ik.imagekit.io")
                           ? "https://ik.imagekit.io/ttr/tr:n-med/" + dp
                           : dp
                         : "/avatar-placeholder.jpeg"
@@ -472,7 +483,7 @@ const User = (props) => {
                             Hmmm... Seems Empty
                           </Title>
                           <img
-                            src="/empty.svg"
+                            src="/Empty.svg"
                             className="o-fit-cover mg-y-20"
                             height={400}
                           />
