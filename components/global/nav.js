@@ -174,7 +174,9 @@ const Navigation = (props) => {
           <i className="ri-edit-circle-fill ri-lg va-minus-6 fs-24 compose-gradient"></i>
         }
         onClick={() => {
-          props.user && props.user.id ? null : setLoginModal(true);
+          props.user && props.user.id
+            ? (location.href = "/create")
+            : setLoginModal(true);
         }}
       >
         <Divider type="vertical" style={{ height: 30 }} />
@@ -191,6 +193,7 @@ const Navigation = (props) => {
           icon={
             <i className="ri-user-smile-fill fs-24 va-minus-6 profile-gradient"></i>
           }
+          onClick={() => (location.href = `/user/${props.user.username}`)}
         >
           <Divider type="vertical" />
           <a
@@ -211,6 +214,11 @@ const Navigation = (props) => {
           key="4"
           icon={
             <i className="ri-settings-fill fs-24 va-minus-6 user-settings-gradient"></i>
+          }
+          onClick={() =>
+            props.user && props.user.id
+              ? (location.href = `/user/${props.user.username}/settings`)
+              : null
           }
         >
           <Divider type="vertical" />
@@ -239,6 +247,18 @@ const Navigation = (props) => {
             }
           ></i>
         }
+        onClick={() => {
+          if (props.user && props.user.id) {
+            fetch("/api/logout")
+              .then((res) => res.json())
+              .then((data) => {
+                if (data && data.status) {
+                  router.reload();
+                }
+              });
+          } else {
+          }
+        }}
       >
         <Divider type="vertical" style={{ height: 30 }} />
         <a

@@ -91,6 +91,8 @@ const Article = (props) => {
   //
   //
   const { category, topic, articleTitle } = router.query;
+  const [commentForm] = Form.useForm();
+  const [drawerCommentForm] = Form.useForm();
   const setLoginModal = useStoreActions(
     (actions) => actions.site.setLoginModal
   );
@@ -835,17 +837,21 @@ const Article = (props) => {
               <Divider orientation="center">Comments</Divider>
               {props.user && props.user.id ? (
                 <Form
+                  form={commentForm}
                   wrapperCol={{ span: 24 }}
                   onFinish={(values) => {
-                    return !props.user
-                      ? setLoginModal(true)
-                      : insertComment({
-                          variables: {
-                            articleId: getArticleData.articles[0].id,
-                            userId: props.user.id,
-                            content: values.comment,
-                          },
-                        });
+                    if (!props.user) {
+                      return setLoginModal(true);
+                    } else if (props.user) {
+                      insertComment({
+                        variables: {
+                          articleId: getArticleData.articles[0].id,
+                          userId: props.user.id,
+                          content: values.comment,
+                        },
+                      });
+                      commentForm.resetFields();
+                    }
                   }}
                 >
                   <Form.Item
@@ -951,7 +957,7 @@ const Article = (props) => {
                               props.user ? (
                                 <>
                                   <a
-                                    className="t-transform-cpt mr-20"
+                                    className="t-transform-cpt mr-20 ml-5"
                                     onClick={() => {
                                       return !props.user
                                         ? setLoginModal(true)
@@ -959,13 +965,13 @@ const Article = (props) => {
                                           setShowReply(true));
                                     }}
                                   >
-                                    Reply To{" "}
-                                    {comment.author.username ==
+                                    {/* {comment.author.username ==
                                     props.user.username
                                       ? "Self"
-                                      : comment.author.username}
+                                      : comment.author.username} */}
+                                    Reply
                                   </a>
-                                  ,
+
                                   {props.user ? (
                                     <a
                                       onClick={() =>
@@ -1027,7 +1033,7 @@ const Article = (props) => {
                                           props.user ? (
                                             <div className="d-flex wd-100pc">
                                               <a
-                                                className="t-transform-cpt mr-20"
+                                                className="t-transform-cpt mr-20 ml-5"
                                                 onClick={() => {
                                                   return !props.user
                                                     ? setLoginModal(true)
@@ -1037,12 +1043,15 @@ const Article = (props) => {
                                                       setShowReply(true));
                                                 }}
                                               >
-                                                Reply To{" "}
-                                                {replies.replyAuthor.username ==
-                                                props.user.username
-                                                  ? "Self"
-                                                  : replies.replyAuthor
-                                                      .username}
+                                                {/* <Text strong>
+                                                  {replies.replyAuthor
+                                                    .username ==
+                                                  props.user.username
+                                                    ? "Self"
+                                                    : replies.replyAuthor
+                                                        .username}
+                                                </Text> */}
+                                                Reply
                                               </a>
                                               <a
                                                 onClick={() =>
@@ -1116,8 +1125,11 @@ const Article = (props) => {
                                                           }
                                                         </a>
                                                       }
-                                                      actions={[
-                                                        props.user ? (
+                                                      actions={
+                                                        props.user &&
+                                                        repliesToReply.author
+                                                          .id ==
+                                                          props.user.id ? (
                                                           <a
                                                             onClick={() =>
                                                               repliesToReply
@@ -1137,8 +1149,8 @@ const Article = (props) => {
                                                               </Text>
                                                             ) : null}
                                                           </a>
-                                                        ) : null,
-                                                      ]}
+                                                        ) : null
+                                                      }
                                                     />
                                                   );
                                                 }
@@ -1191,6 +1203,7 @@ const Article = (props) => {
                     <Form
                       wrapperCol={{ span: 24 }}
                       layout="vertical"
+                      form={drawerCommentForm}
                       onFinish={(values) => {
                         var newData = replyData;
                         if (newData.comment) {
@@ -1201,6 +1214,7 @@ const Article = (props) => {
                               content: values.reply,
                             },
                           });
+                          drawerCommentForm.resetFields();
                           setShowReply(false);
                         } else {
                           replyToReply({
@@ -1210,6 +1224,7 @@ const Article = (props) => {
                               content: values.reply,
                             },
                           });
+                          drawerCommentForm.resetFields();
                           setShowReply(false);
                         }
                       }}
