@@ -211,7 +211,7 @@ const wrapper = (props) => {
           cardType: "summary_large_image",
         }}
       />
-      {props.seo.type == "article" ? (
+      {/* {props.seo.type == "article" ? (
         <ArticleJsonLd
           url={props.seo ? props.seo.url : "https://techtorehab.com"}
           title={props.seo ? props.seo.title : "Tech To Rehab"}
@@ -223,7 +223,7 @@ const wrapper = (props) => {
           publisherLogo="https://techtorehab.com/TTR-LIGHT.svg"
           description={props.excerpt}
         />
-      ) : null}
+      ) : null} */}
       <Layout>
         <Navbar user={props.user} />
         <Layout>
