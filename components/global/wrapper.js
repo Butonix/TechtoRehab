@@ -201,6 +201,9 @@ const wrapper = (props) => {
             ? props.seo.description
             : "The Open Source Collaboration Platform",
           site_name: "Tech To Rehab",
+          article: props.seo ? props.seo.article : false,
+          images: props.seo ? props.seo.images : null,
+          type: props.seo ? props.seo.type : "website",
         }}
         twitter={{
           handle: "@handle",
@@ -209,6 +212,7 @@ const wrapper = (props) => {
         }}
       />
       <Layout>
+        {console.log(props.seo.article)}
         <Navbar user={props.user} />
         <Layout>
           <Drawer

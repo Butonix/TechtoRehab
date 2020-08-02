@@ -202,6 +202,7 @@ export default function Home(props) {
         seo={{
           title: "Tech To Rehab",
           description: "The Open Source Collaboration Platform",
+          type: "website",
         }}
         route="home"
       >

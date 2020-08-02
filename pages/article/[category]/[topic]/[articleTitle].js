@@ -376,6 +376,27 @@ const Article = (props) => {
           ? getArticleData.articles[0].excerpt
           : "The Open Source Collaboration Platform",
         url: props.url,
+        type: "article",
+        article: {
+          publishedTime: getArticleData.articles[0].created_at,
+          modifiedTime: getArticleData.articles[0].updated_at,
+          authors: [
+            getArticleData.articles[0].users_to_articles.map(
+              (author) =>
+                "https://techtorehab.com/user/" + author.authors.username
+            ),
+          ],
+        },
+        images: [
+          {
+            url:
+              "https://ik.imagekit.io/ttr/tr:n-high/" +
+              getArticleData.articles[0].featured_image,
+            width: 800,
+            height: 600,
+            alt: "Og Image Alt",
+          },
+        ],
       }}
     >
       {getArticleData.articles[0] ? (
