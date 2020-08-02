@@ -25,8 +25,8 @@ const error = () => {
               <a>Sign In</a>
             </Link>
           </Button>,
-          <Button type="secondary" onClick={() => router.back("/")}>
-            Back To Home
+          <Button type="secondary" onClick={() => router.back()}>
+            Go Back
           </Button>,
           <Button type="link" onClick={() => router.reload()}>
             Contact Support

@@ -29,7 +29,7 @@ import withSession from "lib/session";
 import Reactions from "components/global/reactions/reacts";
 import ProgressiveImage from "react-progressive-graceful-image";
 import { initializeApollo } from "lib/apolloClient";
-
+import Moment from "react-moment";
 //
 //
 //
@@ -208,13 +208,56 @@ export default function Home(props) {
           <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-r-20">
             <Menu
               theme="light"
-              defaultSelectedKeys={["sidebar-1-1"]}
               className="mg-auto pd-y-20"
               mode="vertical-left"
               style={{ height: "100vh", position: "sticky", top: 10 }}
             >
-              <Menu.Item key="sidebar-1-1">Option 1</Menu.Item>
-              <Menu.Item key="sidebar-1-2">Option 2</Menu.Item>
+              <Menu.Item
+                key="home"
+                icon={
+                  <i class="ri-arrow-go-back-line fs-22 va-minus-6 mr-10"></i>
+                }
+                onClick={() => (location.href = "/")}
+              >
+                <Text
+                  style={{
+                    color: "inherit",
+                  }}
+                >
+                  Home
+                </Text>
+              </Menu.Item>
+              <Menu.Item
+                key="featured"
+                icon={<i class="ri-list-check-2 fs-22 va-minus-6 mr-10"></i>}
+                onClick={() =>
+                  (location.href = "http://localhost:3000/articles/featured")
+                }
+              >
+                <Text
+                  style={{
+                    color: "inherit",
+                  }}
+                >
+                  Featured
+                </Text>
+              </Menu.Item>
+              <Menu.Item
+                key="categories"
+                onClick={() =>
+                  (location.href = "http://localhost:3000/categories")
+                }
+                icon={<i class="ri-apps-2-fill fs-22 va-minus-6 mr-10"></i>}
+              >
+                <Text
+                  style={{
+                    color: "inherit",
+                  }}
+                >
+                  Categories
+                </Text>
+              </Menu.Item>
+
               <Menu.Item key="sidebar-1-3">Option 3</Menu.Item>
               <Menu.Item key="sidebar-1-4">Option 4</Menu.Item>
             </Menu>
@@ -367,6 +410,7 @@ export default function Home(props) {
                         </ProgressiveImage>
                       }
                       actions={[
+                        <Moment fromNow>{item.updated_at}</Moment>,
                         <a
                           onClick={() => {
                             setType("Authors");

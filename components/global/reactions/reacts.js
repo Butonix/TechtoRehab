@@ -135,12 +135,14 @@ const Reactions = (props) => {
                           }
                           className="mr-10"
                         />
-                        <Text
-                          strong
-                          className=" t-transform-cpt mt-5 va-middle"
-                        >
-                          {mapped.user.username}
-                        </Text>
+                        <a href={`/user/${mapped.user.username}`}>
+                          <Text
+                            strong
+                            className=" t-transform-cpt mt-5 va-middle"
+                          >
+                            {mapped.user.username}
+                          </Text>
+                        </a>
                       </div>
                     ))}
                 </Tabs.TabPane>

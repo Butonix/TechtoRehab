@@ -23,9 +23,10 @@ function MyApp({ Component, pageProps }) {
           openGraph={{
             type: "website",
             locale: "en_IE",
-            url: "https://www.url.ie/",
+            url: "https://techtorehab.com",
             site_name: "Tech To Rehab",
           }}
+          canonical="https://techtorehab.com"
           twitter={{
             handle: "@handle",
             site: "@site",

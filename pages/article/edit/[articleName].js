@@ -56,6 +56,11 @@ const getArticleQuery = gql`
       featured_image
       slug
       title
+      users_to_articles {
+        authors {
+          id
+        }
+      }
       article_category {
         title
         slug
@@ -322,7 +327,10 @@ const EditArticle = (props) => {
 
   return (
     <Wrapper user={props.user}>
-      {props.user && props.user.id ? (
+      {props.user &&
+      getArticleData &&
+      props.user.id ==
+        getArticleData.articles[0].users_to_articles[0].authors.id ? (
         <Row className="pd-10">
           <Col
             xs={24}

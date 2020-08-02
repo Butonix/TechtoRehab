@@ -9,6 +9,7 @@ export const getArticlesQuery = gql`
       content
       featured_image
       slug
+      updated_at
       article_category {
         title
         slug

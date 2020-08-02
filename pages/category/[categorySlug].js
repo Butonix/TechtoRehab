@@ -16,6 +16,8 @@ import gradient from "random-gradient";
 import ProgressiveImage from "react-progressive-graceful-image";
 import Reactions from "components/global/reactions/reacts";
 import ReactionsDropdown from "components/global/reactions/reacts-dropdown";
+import Moment from "react-moment";
+
 const getCategoryQuery = gql`
   query getCategories($slug: String!) {
     category(where: { slug: { _eq: $slug } }) {
@@ -27,6 +29,8 @@ const getCategoryQuery = gql`
         title
         excerpt
         featured_image
+        updated_at
+
         article_category {
           title
           slug
@@ -293,6 +297,17 @@ const Categories = (props) => {
                               </ProgressiveImage>
                             </a>,
                           ]}
+                          actions={[
+                            <Moment className="ml-10" fromNow>
+                              {item.updated_at}
+                            </Moment>,
+                            <Row className="">
+                              <Reactions
+                                reactions={getCategoryData.reactions}
+                                data={item.reactions_to_articles}
+                              />
+                            </Row>,
+                          ]}
                         >
                           <List.Item.Meta
                             title={
@@ -310,12 +325,6 @@ const Categories = (props) => {
                               </Paragraph>
                             }
                           />
-                          <Row className="ml-10 pd-x-10">
-                            <Reactions
-                              reactions={getCategoryData.reactions}
-                              data={item.reactions_to_articles}
-                            />
-                          </Row>
                         </List.Item>
                       )}
                     />

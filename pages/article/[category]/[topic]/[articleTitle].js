@@ -48,8 +48,7 @@ import { nanoid } from "nanoid";
 import ProgressiveImage from "react-progressive-graceful-image";
 import Reactions from "components/global/reactions/reacts";
 import ReactionsOverlay from "components/global/reactions/reacts-dropdown";
-import { IKImage, IKContext, IKUpload } from "imagekitio-react";
-
+import { FacebookShareButton, FacebookIcon } from "react-share";
 //
 //
 //
@@ -84,6 +83,7 @@ const Article = (props) => {
   //
   //
   const router = useRouter();
+
   //
   //
   //
@@ -375,6 +375,7 @@ const Article = (props) => {
         description: getArticleData
           ? getArticleData.articles[0].excerpt
           : "The Open Source Collaboration Platform",
+        url: props.url,
       }}
     >
       {getArticleData.articles[0] ? (
@@ -435,7 +436,15 @@ const Article = (props) => {
           </Row>
 
           <Row justify="center">
-            <Col xs={24} sm={24} md={20} lg={16} xl={10} xxl={12}>
+            <Col
+              xs={24}
+              sm={24}
+              md={20}
+              lg={16}
+              xl={10}
+              xxl={12}
+              className="ta-center"
+            >
               <ProgressiveImage
                 src={
                   "https://ik.imagekit.io/ttr/tr:n-high/" +
@@ -456,6 +465,23 @@ const Article = (props) => {
                   />
                 )}
               </ProgressiveImage>
+
+              <Row justify="center" className="mt-20">
+                {props.user &&
+                getArticleData &&
+                props.user.id ==
+                  getArticleData.articles[0].users_to_articles[0].authors.id ? (
+                  <a href={`/article/edit/${getArticleData.articles[0].id}`}>
+                    <Button className="compose-button2" type="primary">
+                      Edit article
+                    </Button>
+                  </a>
+                ) : null}
+                {console.log(props.url)}
+                <FacebookShareButton quote={props.title} url={props.url}>
+                  <FacebookIcon size={32} round />
+                </FacebookShareButton>
+              </Row>
             </Col>
           </Row>
 
@@ -1356,6 +1382,7 @@ export const getServerSideProps = withSession(async function ({
       articleSlug: query.articleTitle,
     },
   });
+  var url = "https://" + req.headers.host + req.url;
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
@@ -1363,6 +1390,8 @@ export const getServerSideProps = withSession(async function ({
       ip: await publicIp.v4(),
       theme: monokai,
       data: apolloClient.cache.extract(),
+      title: query.articleTitle,
+      url: url,
     },
   };
 });
