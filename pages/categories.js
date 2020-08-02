@@ -28,6 +28,7 @@ const Categories = (props) => {
         description:
           "Choose from a variety of categories, from tech all the way to rehab, we have it all",
       }}
+      route="categories"
     >
       <Row justify="center" className="mg-y-20">
         <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={16}>

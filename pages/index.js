@@ -203,6 +203,7 @@ export default function Home(props) {
           title: "Tech To Rehab",
           description: "The Open Source Collaboration Platform",
         }}
+        route="home"
       >
         <Row>
           <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-r-20">

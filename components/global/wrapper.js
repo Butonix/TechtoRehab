@@ -324,7 +324,65 @@ const wrapper = (props) => {
                   </Link>
                 </Menu.Item>
               </Menu>
-            ) : null}
+            ) : (
+              <Menu
+                theme="light"
+                className="mt-20"
+                defaultSelectedKeys={props.route ? `${props.route}` : ["home"]}
+                style={{
+                  position: "sticky",
+                  height: "100vh",
+                  top: 10,
+                  borderRight: 0,
+                }}
+              >
+                <Menu.Item
+                  key="home"
+                  icon={
+                    <i class="ri-arrow-go-back-line fs-22 va-minus-6 mr-10"></i>
+                  }
+                  onClick={() => (location.href = "/")}
+                >
+                  <Text
+                    style={{
+                      color: "inherit",
+                    }}
+                  >
+                    Home
+                  </Text>
+                </Menu.Item>
+                <Menu.Item
+                  key="featured"
+                  icon={<i class="ri-list-check-2 fs-22 va-minus-6 mr-10"></i>}
+                  onClick={() =>
+                    (location.href = "http://localhost:3000/articles/featured")
+                  }
+                >
+                  <Text
+                    style={{
+                      color: "inherit",
+                    }}
+                  >
+                    Featured
+                  </Text>
+                </Menu.Item>
+                <Menu.Item
+                  key="categories"
+                  onClick={() =>
+                    (location.href = "http://localhost:3000/categories")
+                  }
+                  icon={<i class="ri-apps-2-fill fs-22 va-minus-6 mr-10"></i>}
+                >
+                  <Text
+                    style={{
+                      color: "inherit",
+                    }}
+                  >
+                    Categories
+                  </Text>
+                </Menu.Item>
+              </Menu>
+            )}
           </Drawer>
 
           <Layout className="mainLayout">
