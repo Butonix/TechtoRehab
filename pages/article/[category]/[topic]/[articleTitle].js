@@ -1382,7 +1382,7 @@ export const getServerSideProps = withSession(async function ({
       articleSlug: query.articleTitle,
     },
   });
-  var url = "https://" + req.headers.host + req.url;
+  var url = "https://techtorehab.com" + req.url;
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
