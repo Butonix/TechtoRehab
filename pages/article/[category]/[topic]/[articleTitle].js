@@ -42,7 +42,7 @@ import withSession from "lib/session";
 import dynamic from "next/dynamic";
 import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreActions } from "easy-peasy";
-import { NextSeo } from "next-seo";
+import { NextSeo, ArticleJsonLd } from "next-seo";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { nanoid } from "nanoid";
 import ProgressiveImage from "react-progressive-graceful-image";
@@ -406,22 +406,27 @@ const Article = (props) => {
             alt: "Featured Image",
           },
         ],
-        published: getArticleData.articles[0].created_at,
-        modified: getArticleData.articles[0].updated_at,
-        authors: [
-          getArticleData.articles[0].users_to_articles.map(
-            (author) => author.authors.username
-          ),
-        ],
-        excerpt: getArticleData.articles[0].excerpt,
-        imagesLd: [
-          "https://ik.imagekit.io/ttr/tr:n-high/" +
-            getArticleData.articles[0].featured_image,
-        ],
       }}
     >
       {getArticleData.articles[0] ? (
         <>
+          <ArticleJsonLd
+            url={props.url}
+            title={getArticleData.articles[0].title}
+            images={[
+              "https://ik.imagekit.io/ttr/tr:n-high/" +
+                getArticleData.articles[0].featured_image,
+            ]}
+            datePublished={getArticleData.articles[0].created_at}
+            dateModified={getArticleData.articles[0].updated_at}
+            authorName={
+              getArticleData.articles[0].users_to_articles[0].authors.username
+            }
+            publisherName="Tech To Rehab"
+            publisherLogo="https://techtorehab.com/512x.png"
+            description={getArticleData.articles[0].excerpt}
+          />
+
           <Row justify="center" className="mb-30">
             <Col xs={24} sm={24} md={20} lg={14} xl={12} xxl={10}>
               <Title level={1} className="lh-1-5 pd-x-20 mt-30">
@@ -476,7 +481,6 @@ const Article = (props) => {
               </div>
             </Col>
           </Row>
-
           <Row justify="center">
             <Col
               xs={24}
@@ -558,7 +562,6 @@ const Article = (props) => {
               </Row>
             </Col>
           </Row>
-
           <Row justify="center" className="mt-20">
             <Col xs={24} sm={24} md={18} lg={14} xl={12} xxl={10}>
               <div className="content">
@@ -931,7 +934,6 @@ const Article = (props) => {
               </Card>
             </Col>
           </Row>
-
           <Row justify="center" className="pd-20">
             <Col xs={24} sm={24} md={20} lg={18} xl={12} xxl={10}>
               <Divider orientation="center">Comments</Divider>

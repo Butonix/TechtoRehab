@@ -211,19 +211,6 @@ const wrapper = (props) => {
           cardType: "summary_large_image",
         }}
       />
-      {/* {props.seo.type == "article" ? (
-        <ArticleJsonLd
-          url={props.seo ? props.seo.url : "https://techtorehab.com"}
-          title={props.seo ? props.seo.title : "Tech To Rehab"}
-          images={props.seo ? props.seo.imagesLd : null}
-          datePublished={props.seo ? props.seo.published : null}
-          dateModified={props.seo ? props.seo.modified : null}
-          authorName={props.seo.authors.map((author) => author)}
-          publisherName="Tech To Rehab"
-          publisherLogo="https://techtorehab.com/TTR-LIGHT.svg"
-          description={props.excerpt}
-        />
-      ) : null} */}
       <Layout>
         <Navbar user={props.user} />
         <Layout>
