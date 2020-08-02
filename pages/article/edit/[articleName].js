@@ -19,6 +19,7 @@ import withSession from "lib/session";
 import urlSlug from "url-slug";
 import { useRouter } from "next/router";
 import Error from "components/global/401";
+import { initializeApollo } from "lib/apolloClient";
 
 const getCatsandTopicsQuery = gql`
   query catsAndTopics {
@@ -327,10 +328,19 @@ const EditArticle = (props) => {
 
   return (
     <Wrapper user={props.user}>
-      {props.user &&
-      getArticleData &&
-      props.user.id ==
-        getArticleData.articles[0].users_to_articles[0].authors.id ? (
+      {getArticleLoading ? (
+        <Row justify="center" align="middle" style={{ width: "100%" }}>
+          <Col
+            class="d-flex ai-center"
+            style={{ height: 300, minWidth: 400, maxWidth: "100%" }}
+          >
+            <Skeleton className="mg-auto" round title avatar active />
+          </Col>
+        </Row>
+      ) : props.user &&
+        getArticleData &&
+        props.user.id ==
+          getArticleData.articles[0].users_to_articles[0].authors.id ? (
         <Row className="pd-10">
           <Col
             xs={24}
@@ -678,26 +688,13 @@ export const getServerSideProps = withSession(async function ({
 }) {
   const user = req.session.get(["session"]);
   const { articleName } = params;
-
-  // if (user) {
-  //   const apolloClient = initializeApollo();
-  //   const apolloClient2 = initializeApollo();
-  //   await apolloClient.query({
-  //     query: getCatsandTopicsQuery,
-  //   });
-  //   await apolloClient2.query({
-  //     query: getArticleQuery,
-  //     variables: {
-  //       id: aName,
-  //     },
-  //   });
-  // }
-
-  // if (!user) {
-  //   res.writeHead(302, {
-  //     location: "/",
-  //   });
-  // }
+  const apolloClient = initializeApollo();
+  await apolloClient.query({
+    query: getArticleQuery,
+    variables: {
+      id: articleName,
+    },
+  });
 
   return {
     props: {

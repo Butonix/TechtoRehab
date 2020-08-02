@@ -19,7 +19,7 @@ import Link from "next/link";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { Swipeable } from "react-swipeable";
-import { NextSeo } from "next-seo";
+import { NextSeo, ArticleJsonLd } from "next-seo";
 import { nanoid } from "nanoid";
 
 const checkTokenQuery = gql`
@@ -210,6 +210,17 @@ const wrapper = (props) => {
           site: "@site",
           cardType: "summary_large_image",
         }}
+      />
+      <ArticleJsonLd
+        url={props.seo ? props.seo.url : "https://techtorehab.com"}
+        title={props.seo ? props.seo.title : "Tech To Rehab"}
+        images={props.seo ? props.seo.imagesLd : null}
+        datePublished={props.seo ? props.seo.published : null}
+        dateModified={props.seo ? props.seo.modified : null}
+        authorName={props.seo.authors.map((author) => author)}
+        publisherName="Tech To Rehab"
+        publisherLogo="https://techtorehab.com/TTR-LIGHT.svg"
+        description={props.excerpt}
       />
       <Layout>
         <Navbar user={props.user} />

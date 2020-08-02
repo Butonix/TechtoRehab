@@ -48,7 +48,16 @@ import { nanoid } from "nanoid";
 import ProgressiveImage from "react-progressive-graceful-image";
 import Reactions from "components/global/reactions/reacts";
 import ReactionsOverlay from "components/global/reactions/reacts-dropdown";
-import { FacebookShareButton, FacebookIcon } from "react-share";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  PinterestIcon,
+  PinterestShareButton,
+  RedditIcon,
+  RedditShareButton,
+} from "react-share";
 //
 //
 //
@@ -397,6 +406,18 @@ const Article = (props) => {
             alt: "Featured Image",
           },
         ],
+        published: getArticleData.articles[0].created_at,
+        modified: getArticleData.articles[0].updated_at,
+        authors: [
+          getArticleData.articles[0].users_to_articles.map(
+            (author) => author.authors.username
+          ),
+        ],
+        excerpt: getArticleData.articles[0].excerpt,
+        imagesLd: [
+          "https://ik.imagekit.io/ttr/tr:n-high/" +
+            getArticleData.articles[0].featured_image,
+        ],
       }}
     >
       {getArticleData.articles[0] ? (
@@ -487,21 +508,53 @@ const Article = (props) => {
                 )}
               </ProgressiveImage>
 
-              <Row justify="center" className="mt-20">
+              <Row justify="center" className="mt-30">
                 {props.user &&
                 getArticleData &&
                 props.user.id ==
                   getArticleData.articles[0].users_to_articles[0].authors.id ? (
                   <a href={`/article/edit/${getArticleData.articles[0].id}`}>
-                    <Button className="compose-button2" type="primary">
+                    <Button className="compose-button2 mr-20" type="primary">
                       Edit article
                     </Button>
                   </a>
                 ) : null}
-                {console.log(props.url)}
-                <FacebookShareButton quote={props.title} url={props.url}>
+                <FacebookShareButton
+                  className="mg-x-10"
+                  quote={getArticleData.articles[0].title}
+                  url={props.url}
+                >
                   <FacebookIcon size={32} round />
                 </FacebookShareButton>
+                <TwitterShareButton
+                  className="mg-x-10"
+                  quote={getArticleData.articles[0].title}
+                  url={props.url}
+                >
+                  <TwitterIcon size={32} round />
+                </TwitterShareButton>
+
+                <PinterestShareButton
+                  className="mg-x-10"
+                  quote={getArticleData.articles[0].title}
+                  url={props.url}
+                  media={
+                    "https://ik.imagekit.io/ttr/tr:n-high/" +
+                    getArticleData.articles[0].featured_image
+                  }
+                  description={getArticleData.articles[0].title}
+                >
+                  <PinterestIcon size={32} round />
+                </PinterestShareButton>
+
+                <RedditShareButton
+                  className="mg-x-10"
+                  quote={props.title}
+                  url={props.url}
+                  title={getArticleData.articles[0].title}
+                >
+                  <RedditIcon size={32} round />
+                </RedditShareButton>
               </Row>
             </Col>
           </Row>
