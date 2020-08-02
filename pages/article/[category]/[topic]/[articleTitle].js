@@ -518,7 +518,10 @@ const Article = (props) => {
                 props.user.id ==
                   getArticleData.articles[0].users_to_articles[0].authors.id ? (
                   <a href={`/article/edit/${getArticleData.articles[0].id}`}>
-                    <Button className="compose-button2 mr-20" type="primary">
+                    <Button
+                      className="compose-button2 mr-20 fw-bold"
+                      type="primary"
+                    >
                       Edit article
                     </Button>
                   </a>
