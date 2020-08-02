@@ -394,7 +394,7 @@ const Article = (props) => {
               getArticleData.articles[0].featured_image,
             width: 800,
             height: 600,
-            alt: "Og Image Alt",
+            alt: "Featured Image",
           },
         ],
       }}

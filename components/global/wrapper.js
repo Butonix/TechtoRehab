@@ -212,7 +212,6 @@ const wrapper = (props) => {
         }}
       />
       <Layout>
-        {console.log(props.seo.article)}
         <Navbar user={props.user} />
         <Layout>
           <Drawer
