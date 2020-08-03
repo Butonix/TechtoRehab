@@ -201,9 +201,20 @@ const wrapper = (props) => {
             ? props.seo.description
             : "The Open Source Collaboration Platform",
           site_name: "Tech To Rehab",
-          article: props.seo ? props.seo.article : false,
-          images: props.seo ? props.seo.images : null,
+          article: props.seo && props.seo.article ? props.seo.article : false,
+          images:
+            props.seo.images !== undefined
+              ? props.seo.images
+              : [
+                  {
+                    url: "https://techtorehab.com/TTR-Light-square.jpeg",
+                    width: 650,
+                    height: 450,
+                    alt: "OG Tech To Rehab Logo",
+                  },
+                ],
           type: props.seo ? props.seo.type : "website",
+          profile: props.seo ? props.seo.profile : false,
         }}
         twitter={{
           handle: "@handle",
@@ -211,6 +222,7 @@ const wrapper = (props) => {
           cardType: "summary_large_image",
         }}
       />
+      {console.log(props.seo.images)}
       <Layout>
         <Navbar user={props.user} />
         <Layout>

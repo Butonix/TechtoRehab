@@ -15,8 +15,9 @@ import withSession from "lib/session";
 import gradient from "random-gradient";
 import ProgressiveImage from "react-progressive-graceful-image";
 import Reactions from "components/global/reactions/reacts";
-import ReactionsDropdown from "components/global/reactions/reacts-dropdown";
+// import ReactionsDropdown from "components/global/reactions/reacts-dropdown";
 import Moment from "react-moment";
+import { BreadcrumbJsonLd } from "next-seo";
 
 const getCategoryQuery = gql`
   query getCategories($slug: String!) {
@@ -124,6 +125,7 @@ const getCategory2Query = gql`
     category(where: { slug: { _eq: $slug } }) {
       title
       description
+      slug
       cover
     }
   }
@@ -162,9 +164,42 @@ const Categories = (props) => {
         seo={{
           title: getCategory2Data.category[0].title,
           description: getCategory2Data.category[0].description,
+          images: [
+            {
+              url:
+                getCategory2Data.category[0].cover !== null
+                  ? "https://ik.imagekit.io/ttr/tr:n-high/" +
+                    getCategory2Data.category[0].cover
+                  : null,
+              width: 650,
+              height: 450,
+              alt: "OG Category Image",
+            },
+          ],
         }}
         user={props.user}
       >
+        <BreadcrumbJsonLd
+          itemListElements={[
+            {
+              position: 1,
+              name: "Home",
+              item: "https://techtorehab.com",
+            },
+            {
+              position: 2,
+              name: "categories",
+              item: "https://techtorehab.com/categories",
+            },
+            {
+              position: 3,
+              name: getCategory2Data.category[0].title,
+              item:
+                "https://techtorehab.com/category/" +
+                getCategory2Data.category[0].slug,
+            },
+          ]}
+        />
         <Row justify="center" className="mg-y-20">
           <Col xs={24} sm={24} md={24} lg={24} xl={20} xxl={16}>
             <Card

@@ -12,6 +12,7 @@ export const getArticleQuery = gql`
       excerpt
       updated_at
       created_at
+      slug
       featured_image
       reactions_to_articles {
         user {
@@ -41,9 +42,11 @@ export const getArticleQuery = gql`
         }
       }
       article_topic {
+        slug
         title
       }
       article_category {
+        slug
         title
       }
 

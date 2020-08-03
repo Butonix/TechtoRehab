@@ -3,6 +3,7 @@ import Wrapper from "components/global/wrapper";
 import { gql, useQuery } from "@apollo/client";
 import withSession from "lib/session";
 import gradient from "random-gradient";
+import { BreadcrumbJsonLd } from "next-seo";
 
 const getCategoriesQuery = gql`
   query getCategories {
@@ -30,6 +31,20 @@ const Categories = (props) => {
       }}
       route="categories"
     >
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: "Home",
+            item: "https://techtorehab.com",
+          },
+          {
+            position: 2,
+            name: "Categories",
+            item: "https://techtorehab.com/categories",
+          },
+        ]}
+      />
       <Row justify="center" className="mg-y-20">
         <Col xs={24} sm={24} md={24} lg={24} xl={18} xxl={16}>
           <Card>

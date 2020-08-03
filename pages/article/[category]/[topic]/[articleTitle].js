@@ -42,7 +42,7 @@ import withSession from "lib/session";
 import dynamic from "next/dynamic";
 import Skeleton, { Comment as Comments } from "@nejcm/react-skeleton";
 import { useStoreActions } from "easy-peasy";
-import { NextSeo, ArticleJsonLd } from "next-seo";
+import { NextSeo, ArticleJsonLd, BreadcrumbJsonLd } from "next-seo";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { nanoid } from "nanoid";
 import ProgressiveImage from "react-progressive-graceful-image";
@@ -427,6 +427,39 @@ const Article = (props) => {
             description={getArticleData.articles[0].excerpt}
           />
 
+          <BreadcrumbJsonLd
+            itemListElements={[
+              {
+                position: 1,
+                name: "Home",
+                item: "https://techtorehab.com",
+              },
+              {
+                position: 2,
+                name: getArticleData.articles[0].article_category.title,
+                item:
+                  "https://techtorehab.com/category/" +
+                  getArticleData.articles[0].article_category.slug,
+              },
+              {
+                position: 3,
+                name: getArticleData.articles[0].article_topic.title,
+                item:
+                  "https://techtorehab.com/category/" +
+                  getArticleData.articles[0].article_topic.slug,
+              },
+              {
+                position: 4,
+                name: getArticleData.articles[0].title,
+                item:
+                  "https://techtorehab.com/article/" +
+                  getArticleData.articles[0].article_category.slug +
+                  getArticleData.articles[0].article_topic.slug +
+                  getArticleData.articles[0].slug,
+              },
+            ]}
+          />
+
           <Row justify="center" className="mb-30">
             <Col xs={24} sm={24} md={20} lg={14} xl={12} xxl={10}>
               <Title level={1} className="lh-1-5 pd-x-20 mt-30">
@@ -549,7 +582,7 @@ const Article = (props) => {
                     "https://ik.imagekit.io/ttr/tr:n-high/" +
                     getArticleData.articles[0].featured_image
                   }
-                  description={getArticleData.articles[0].title}
+                  description={getArticleData.articles[0].excerpt}
                 >
                   <PinterestIcon size={32} round />
                 </PinterestShareButton>

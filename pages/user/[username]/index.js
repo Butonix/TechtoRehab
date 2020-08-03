@@ -20,6 +20,7 @@ import { useState } from "react";
 import Error404 from "components/global/404";
 import ProgressiveImage from "react-progressive-graceful-image";
 import Moment from "react-moment";
+import { SocialProfileJsonLd, BreadcrumbJsonLd } from "next-seo";
 
 const { Text, Title, Paragraph } = Typography;
 
@@ -191,8 +192,66 @@ const User = (props) => {
             props.username.charAt(0),
             props.username.charAt(0).toUpperCase()
           ) + " on Tech To Rehab",
+        images: [
+          {
+            url:
+              getUserData.users[0].profile_picture !== null
+                ? "https://ik.imagekit.io/ttr/tr:n-high/" +
+                  getUserData.users[0].profile_picture
+                : null,
+            width: 650,
+            height: 450,
+            alt: "Profile Photo",
+          },
+        ],
+        profile: {
+          firstName:
+            getUserData.users[0].first_name !== null
+              ? getUserData.users[0].first_name
+              : null,
+          lastName:
+            getUserData.users[0].last_name !== null
+              ? getUserData.users[0].last_name
+              : null,
+          username: getUserData ? getUserData.users[0].username : null,
+        },
+        type: "profile",
       }}
     >
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: "Home",
+            item: "https://techtorehab.com",
+          },
+          {
+            position: 2,
+            name: "Users",
+            item: "https://techtorehab.com/users",
+          },
+          {
+            position: 3,
+            name: getUserData.users[0].username,
+            item:
+              "https://etechtorehab.com/user/" + getUserData.users[0].username,
+          },
+        ]}
+      />
+      <SocialProfileJsonLd
+        type="Person"
+        name={getUserData.users[0].username}
+        url={"https://techtorehab.com/user/" + getUserData.users[0].username}
+        sameAs={[
+          getUserData.facebook !== null ? getUserData.users[0].facebook : "",
+          getUserData.users[0].twitter !== null
+            ? getUserData.users[0].twitter
+            : "",
+          getUserData.users[0].instagram !== null
+            ? getUserData.users[0].instagram
+            : "",
+        ]}
+      />
       {getUserError || getUserData.users.length < 1 ? (
         <Error404 />
       ) : (
@@ -359,7 +418,6 @@ const User = (props) => {
                           position: "relative",
                         }}
                       />
-                      {console.log(dp)}
                     </>
                   ) : (
                     <Avatar
