@@ -357,9 +357,7 @@ const wrapper = (props) => {
                 <Menu.Item
                   key="featured"
                   icon={<i class="ri-list-check-2 fs-22 va-minus-6 mr-10"></i>}
-                  onClick={() =>
-                    (location.href = "http://localhost:3000/articles/featured")
-                  }
+                  onClick={() => (location.href = "/articles/featured")}
                 >
                   <Text
                     style={{
@@ -371,9 +369,7 @@ const wrapper = (props) => {
                 </Menu.Item>
                 <Menu.Item
                   key="categories"
-                  onClick={() =>
-                    (location.href = "http://localhost:3000/categories")
-                  }
+                  onClick={() => (location.href = "/categories")}
                   icon={<i class="ri-apps-2-fill fs-22 va-minus-6 mr-10"></i>}
                 >
                   <Text

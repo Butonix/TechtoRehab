@@ -1,4 +1,3 @@
-const sharp = require("sharp");
 var formidable = require("formidable");
 const { Storage } = require("@google-cloud/storage");
 const storage = new Storage();
