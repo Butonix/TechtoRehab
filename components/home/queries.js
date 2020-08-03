@@ -40,9 +40,9 @@ export const getArticlesQuery = gql`
         }
       }
 
-      bookmarks_aggregate(where: { userId: { _eq: $id } }) {
-        aggregate {
-          count
+      bookmarks {
+        bookmarkUser {
+          id
         }
       }
 

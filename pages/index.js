@@ -64,7 +64,6 @@ export default function Home(props) {
       variables: {
         offset: 0,
         limit: 5,
-        id: props.user ? props.user.id : null,
       },
       onError: (err) => {
         return (
@@ -177,7 +176,7 @@ export default function Home(props) {
   };
 
   const addBookmark = (objecto, count) => {
-    if (count == 0) {
+    if (!count) {
       insertBookmark({
         variables: { articleId: objecto.id, id: props.user.id },
       });
@@ -437,7 +436,9 @@ export default function Home(props) {
                         <Tooltip
                           title={
                             props.user &&
-                            item.bookmarks_aggregate.aggregate.count == 1
+                            item.bookmarks.find(
+                              (elem) => elem.bookmarkUser.id == props.user.id
+                            )
                               ? "Remove From Bookmarks"
                               : "Bookmark This"
                           }
@@ -446,7 +447,10 @@ export default function Home(props) {
                             <i
                               className={
                                 props.user &&
-                                item.bookmarks_aggregate.aggregate.count == 1
+                                item.bookmarks.find(
+                                  (elem) =>
+                                    elem.bookmarkUser.id == props.user.id
+                                )
                                   ? "ri-bookmark-fill fs-20 " +
                                     "ri-lg va-minus-6"
                                   : "ri-bookmark-line fs-20 " +
@@ -456,7 +460,10 @@ export default function Home(props) {
                                 props.user && props.user.id
                                   ? addBookmark(
                                       item,
-                                      item.bookmarks_aggregate.aggregate.count
+                                      item.bookmarks.find(
+                                        (elem) =>
+                                          elem.bookmarkUser.id == props.user.id
+                                      )
                                     )
                                   : setLoginModal(true)
                               }
