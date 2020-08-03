@@ -18,33 +18,6 @@ export default async (req, res) => {
     if (Object.entries(files).length === 0) {
       var url = fields.url;
       name = fields.url.split("/")[5].replace(/ /g, "");
-      // download(url, name, async () => {
-      //   // await storage.bucket("tech-to-rehab").upload(path, {
-      //   //   destination: name,
-      //   //   resumable: true,
-      //   //   validation: "crc32c",
-      //   //   metadata: {
-      //   //     cacheControl: "public, max-age=31536000",
-      //   //   },
-      //   // });
-      //   res.end(
-      //     JSON.stringify({
-      //       success: 1,
-      //       file: {
-      //         url: `https://ik.imagekit.io/ttr/${name}`,
-      //       },
-      //     })
-      //   );
-      //   fs.unlink(path, (err) => {
-      //     if (err) {
-      //       console.error(err);
-      //       return;
-      //     }
-      //   });
-      // });
-      // res.download(url, name, (err) => {
-      //   console.log(err);
-      // });
       const nama = await nanoid();
       download
         .image({
