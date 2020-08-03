@@ -29,12 +29,38 @@ const Nav = styled.div`
   @media ${breakPoints.mobile} {
     padding: 13px 15px 5px 15px;
   }
+  @media ${breakPoints.smallMobile} {
+    font-size: 11px !important;
+    line-height: 2.5 !important;
+    padding: 10px 7px;
+    div {
+      font-size: 11px !important;
+    }
+
+    span {
+      font-size: 11px !important;
+    }
+
+    .ant-avatar-circle {
+      height: 20px;
+      width: 20px;
+    }
+
+    .ant-button {
+      padding: 4px 5px;
+    }
+  }
 
   .logo-holder {
     line-height: 2.7 !important;
 
     .logo {
       max-width: 130px;
+      margin-left: 10px;
+      @media ${breakPoints.smallMobile} {
+        max-width: 90px;
+        margin-left: 0px;
+      }
     }
   }
 
@@ -52,6 +78,9 @@ const Nav = styled.div`
 
   .navigation {
     line-height: 2.8;
+    @media ${breakPoints.smallMobile} {
+      line-height: 2.9;
+    }
   }
   .desktop-link {
     display: block;
@@ -346,7 +375,7 @@ const Navigation = (props) => {
           </Col>
         </Row>
       </Modal>
-      <div className="navigation logo-holder mr-auto ml-10">
+      <div className="navigation logo-holder mr-auto">
         <a href="/">
           <img className="logo" src="/TTR-LIGHT.svg" />
         </a>

@@ -535,7 +535,7 @@ const User = (props) => {
                             <Text className="fs-16 mg-y-20" strong>
                               No contributions yet
                             </Text>
-                            <img src="/Empty.svg" width={250} height={250} />
+                            <img src="/empty.svg" width={250} height={250} />
                           </div>
                         ) : (
                           <List
@@ -605,7 +605,7 @@ const User = (props) => {
                             <Text className="fs-16 mg-y-20" strong>
                               No bookmarks yet
                             </Text>
-                            <img src="/Empty.svg" width={250} height={250} />
+                            <img src="/empty.svg" width={250} height={250} />
                           </div>
                         ) : (
                           <List

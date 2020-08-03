@@ -512,7 +512,7 @@ const Article = (props) => {
                 )}
               </ProgressiveImage>
 
-              <Row justify="center" className="mt-30">
+              <Row justify="center" className="mt-30 article-actions">
                 {props.user &&
                 getArticleData &&
                 props.user.id ==
