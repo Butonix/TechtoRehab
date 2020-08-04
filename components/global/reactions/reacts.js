@@ -37,7 +37,12 @@ const Reactions = (props) => {
   var matcher = 0;
   const [modal, setModal] = useState(false);
   return (
-    <div className="d-flex">
+    <div
+      className="d-flex"
+      style={{
+        marginTop: -1,
+      }}
+    >
       <ReactionsContainer>
         {props.reactions.map((reaction, index) => {
           var match = props.data.find(
@@ -154,6 +159,8 @@ const Reactions = (props) => {
       <Text className="lh-3 ml-10 fs-16" strong>
         {props.data.length > 1000
           ? props.data.length / 1000
+          : props.data.length == 0
+          ? null
           : props.data.length}
       </Text>
     </div>

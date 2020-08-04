@@ -505,14 +505,26 @@ const Article = (props) => {
                   )}
                 </Space>
                 <div className="ml-auto va-middle lh-2-5 d-flex">
-                  <div className="d-flex mr-10">
-                    <Text className="mr-10" strong>
-                      Published
-                    </Text>
-                    <Moment fromNow>
-                      {getArticleData.articles[0].created_at}
-                    </Moment>{" "}
-                  </div>
+                  {getArticleData.articles[0].created_at <
+                  getArticleData.articles[0].updated_at ? (
+                    <div className="d-flex mr-10">
+                      <Text className="mr-10" strong>
+                        Updated
+                      </Text>
+                      <Moment fromNow>
+                        {getArticleData.articles[0].updated_at}
+                      </Moment>{" "}
+                    </div>
+                  ) : (
+                    <div className="d-flex mr-10">
+                      <Text className="mr-10" strong>
+                        Published
+                      </Text>
+                      <Moment fromNow>
+                        {getArticleData.articles[0].created_at}
+                      </Moment>{" "}
+                    </div>
+                  )}
                 </div>
                 {/* {getArticleData.articles[0].created_at <
                 getArticleData.articles[0].updated_at ? (
