@@ -1436,6 +1436,19 @@ img {
   }
 }
 
+.featured-list-image {
+  min-width: 70px;
+  min-height: 70px;
+  max-width: 70px;
+  max-height: 70px;
+  @include mobile {
+    min-width: 80px;
+    min-height: 80px;
+    max-width: 80px;
+    max-height: 80px;
+  }
+}
+
 .shine {
   background: #f6f7f8;
   background-image: linear-gradient(
@@ -1497,6 +1510,16 @@ img {
 
     a {
       margin-left: 20px;
+    }
+  }
+}
+
+.featured-skeleton-button {
+  .ant-skeleton-element {
+    width: 100%;
+    .ant-skeleton-button {
+      width: 100%;
+      height: 200px;
     }
   }
 }

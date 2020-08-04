@@ -10,6 +10,7 @@ export const getArticlesQuery = gql`
       featured_image
       slug
       updated_at
+      created_at
       article_category {
         title
         slug
@@ -65,6 +66,30 @@ export const getArticlesQuery = gql`
     articles_aggregate {
       aggregate {
         count
+      }
+    }
+  }
+`;
+
+export const getFeaturedArticlesQuery = gql`
+  query getFeaturedArticles {
+    articles(where: { featured: { _eq: true } }) {
+      featured_image
+      content
+      excerpt
+      title
+      users_to_articles {
+        authors {
+          username
+        }
+      }
+      article_topic {
+        title
+        slug
+      }
+      article_category {
+        title
+        slug
       }
     }
   }
