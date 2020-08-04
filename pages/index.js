@@ -30,7 +30,6 @@ import {
 import withSession from "lib/session";
 import Reactions from "components/global/reactions/reacts";
 import ProgressiveImage from "react-progressive-graceful-image";
-import { initializeApollo } from "lib/apolloClient";
 import Moment from "react-moment";
 //
 //
@@ -411,7 +410,7 @@ export default function Home(props) {
               </Title>
               <Divider />
             </div>
-            {loading || !data ? (
+            {loading ? (
               <>
                 <Skeleton
                   avatar
@@ -437,12 +436,12 @@ export default function Home(props) {
                 initialLoad={false}
                 pageStart={0}
                 hasMore={
-                  data
-                    ? data.articles.length ===
-                      data.articles_aggregate.aggregate.count
-                      ? false
-                      : true
-                    : null
+                  data.articles.length > 0
+                    ? data.articles_aggregate.aggregate.count >
+                      data.articles.length
+                      ? true
+                      : false
+                    : false
                 }
                 loadMore={() =>
                   fetchMore({
@@ -513,9 +512,12 @@ export default function Home(props) {
                 }
                 useWindow={true}
               >
+                {console.log(data.articles.length > 0)}
                 <List
                   itemLayout="vertical"
-                  dataSource={data ? data.articles : null}
+                  dataSource={
+                    data ? (data.articles.length > 0 ? data.articles : []) : []
+                  }
                   renderItem={(item) => (
                     <List.Item
                       key={item.id}

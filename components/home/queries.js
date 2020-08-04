@@ -2,7 +2,12 @@ import { gql } from "@apollo/client";
 
 export const getArticlesQuery = gql`
   query MyQuery($offset: Int, $limit: Int, $id: uuid) {
-    articles(offset: $offset, limit: $limit, order_by: { updated_at: desc }) {
+    articles(
+      offset: $offset
+      limit: $limit
+      order_by: { updated_at: desc }
+      where: { featured: { _eq: false } }
+    ) {
       id
       title
       excerpt
@@ -63,7 +68,7 @@ export const getArticlesQuery = gql`
       type
     }
 
-    articles_aggregate {
+    articles_aggregate(where: { featured: { _eq: false } }) {
       aggregate {
         count
       }
@@ -73,7 +78,10 @@ export const getArticlesQuery = gql`
 
 export const getFeaturedArticlesQuery = gql`
   query getFeaturedArticles {
-    articles(where: { featured: { _eq: true } }) {
+    articles(
+      where: { featured: { _eq: true } }
+      order_by: { updated_at: desc }
+    ) {
       featured_image
       content
       excerpt
