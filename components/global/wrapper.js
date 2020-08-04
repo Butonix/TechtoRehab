@@ -202,8 +202,8 @@ const wrapper = (props) => {
             : "The Open Source Collaboration Platform",
           site_name: "Tech To Rehab",
           article: props.seo && props.seo.article ? props.seo.article : false,
-          images:
-            props.seo.images !== undefined
+          images: props.seo
+            ? props.seo.images !== undefined
               ? props.seo.images
               : [
                   {
@@ -212,7 +212,8 @@ const wrapper = (props) => {
                     height: 450,
                     alt: "OG Tech To Rehab Logo",
                   },
-                ],
+                ]
+            : null,
           type: props.seo ? props.seo.type : "website",
           profile: props.seo ? props.seo.profile : false,
         }}
@@ -222,7 +223,6 @@ const wrapper = (props) => {
           cardType: "summary_large_image",
         }}
       />
-      {console.log(props.seo.images)}
       <Layout>
         <Navbar user={props.user} />
         <Layout>
