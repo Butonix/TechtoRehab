@@ -377,7 +377,11 @@ const Navigation = (props) => {
       </Modal>
       <div className="navigation logo-holder mr-auto">
         <a href="/">
-          <img className="logo" src="/TTR-LIGHT.svg" />
+          <img
+            className="logo"
+            src="https://de23g11v4qrwk.cloudfront.net/TTR-LIGHT.svg"
+            alt="Tech To Rehab logo"
+          />
         </a>
       </div>
       <div className="navigation desktop-link">
@@ -411,6 +415,11 @@ const Navigation = (props) => {
                   size={26}
                   className="mr-10"
                   style={{ marginTop: -3 }}
+                  alt={
+                    props.user
+                      ? `${props.user.username} on TechtoRehab`
+                      : "Profile photo on TechtoRehab"
+                  }
                 />
               }
             >

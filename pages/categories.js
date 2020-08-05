@@ -102,6 +102,7 @@ const Categories = (props) => {
                               item.cover
                             }`}
                             height={300}
+                            alt={`Featured image for category ${item.title} on TechtoRehab`}
                           />
                         ) : (
                           <div

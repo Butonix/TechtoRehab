@@ -228,7 +228,7 @@ const Categories = (props) => {
                         style={{
                           objectPosition: "top",
                         }}
-                        alt="an alternative text"
+                        alt={`Featured image for category ${getCategory2Data.category[0].title} on TechtoRehab`}
                       />
                     )}
                   </ProgressiveImage>
@@ -326,7 +326,7 @@ const Categories = (props) => {
                                   <img
                                     className="list-image"
                                     src={src}
-                                    alt="an alternative text"
+                                    alt={`Featured Image for ${item.title} on TechtoRehab`}
                                   />
                                 )}
                               </ProgressiveImage>
@@ -429,7 +429,7 @@ const Categories = (props) => {
                                   {(src) => (
                                     <img
                                       src={src}
-                                      alt="an alternative text"
+                                      alt={`Featured image for ${item.title} on TechtoRehab`}
                                       style={{
                                         height: 35,
                                         width: 35,
@@ -508,7 +508,7 @@ const Categories = (props) => {
                                   {(src) => (
                                     <img
                                       src={src}
-                                      alt="an alternative text"
+                                      alt={`Featured Image for ${item.title} on TechtoRehab`}
                                       style={{
                                         height: 35,
                                         width: 35,

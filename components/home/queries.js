@@ -82,6 +82,7 @@ export const getFeaturedArticlesQuery = gql`
       where: { featured: { _eq: true } }
       order_by: { updated_at: desc }
     ) {
+      id
       featured_image
       content
       slug
@@ -117,6 +118,9 @@ export const insertBookmarkQuery = gql`
       bookmarkUser {
         username
       }
+      bookmarkedArticle {
+        featured
+      }
     }
   }
 `;
@@ -127,6 +131,11 @@ export const deleteBookmarkQuery = gql`
       where: { articleId: { _eq: $articleId }, userId: { _eq: $id } }
     ) {
       affected_rows
+      returning {
+        bookmarkedArticle {
+          featured
+        }
+      }
     }
   }
 `;

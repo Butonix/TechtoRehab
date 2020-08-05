@@ -2,9 +2,7 @@ import Wrapper from "components/global/wrapper";
 import {
   Row,
   Col,
-  Modal,
   Mentions,
-  Tabs,
   Typography,
   Drawer,
   List,
@@ -120,6 +118,7 @@ const Article = (props) => {
           JSON.stringify({
             ip: props.ip,
             expire: a.setDate(a.getDate() + 1),
+            key: getArticleData.articles[0].id,
           })
         );
         updateViews({
@@ -566,7 +565,7 @@ const Article = (props) => {
                   <img
                     src={src}
                     className="article-title-image br-5"
-                    alt="an alternative text"
+                    alt={`featured image for ${getArticleData.articles[0].title} on TechtoRehab`}
                   />
                 )}
               </ProgressiveImage>
@@ -644,7 +643,7 @@ const Article = (props) => {
                           index == "0" ? { marginTop: "20px !important" } : null
                         }
                       >
-                        {blocks.data.text.replace(/&nbsp;/gi, "")}
+                        {blocks.data.text.replace(/[^\w\s]/gi, "")}
                       </Title>
                     ) : blocks.type == "image" ? (
                       <Row justify="center" key={blocks.type + nanoid()}>
@@ -661,7 +660,13 @@ const Article = (props) => {
                             threshold={1}
                           >
                             {(src) => (
-                              <img src={src} alt="an alternative text" />
+                              <img
+                                src={src}
+                                alt={`${blocks.data.caption.replace(
+                                  /&nbsp;/gi,
+                                  ""
+                                )} on TechtoRehab`}
+                              />
                             )}
                           </ProgressiveImage>
 
@@ -766,7 +771,11 @@ const Article = (props) => {
                                     ) : (
                                       <img
                                         src={src}
-                                        alt="an alternative text"
+                                        alt={
+                                          blocks.data.meta.title +
+                                          " on " +
+                                          blocks.data.meta.site_name
+                                        }
                                         className="link-image"
                                       />
                                     );

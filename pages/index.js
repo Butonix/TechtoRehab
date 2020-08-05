@@ -97,7 +97,14 @@ export default function Home(props) {
   //
   //
   const [insertBookmark] = useMutation(insertBookmarkQuery, {
-    onCompleted: () => message.success("Added To Bookmarks"),
+    onCompleted: (data) => {
+      if (data.insert_articles_and_bookmarks_one.bookmarkedArticle.featured) {
+        getFeaturedRefetch();
+      } else {
+        refetch();
+      }
+      message.success("Added To Bookmarks");
+    },
     onError: () => message.error("An Error Occured. Try Again Later"),
     errorPolicy: "all",
   });
@@ -110,14 +117,27 @@ export default function Home(props) {
   //
 
   const [deleteBookmark] = useMutation(deleteBookmarkQuery, {
-    onCompleted: () => message.success("Deleted from Bookmarks"),
+    onCompleted: (data) => {
+      if (
+        data.delete_articles_and_bookmarks.returning[0].bookmarkedArticle
+          .featured
+      ) {
+        getFeaturedRefetch();
+      } else {
+        refetch();
+      }
+      refetch();
+      message.success("Deleted from Bookmarks");
+    },
     onError: () => message.error("An Error Occured. Try Again Later"),
     errorPolicy: "all",
   });
 
-  const { data: getFeaturedData, loading: getFeaturedLoading } = useQuery(
-    getFeaturedArticlesQuery
-  );
+  const {
+    data: getFeaturedData,
+    loading: getFeaturedLoading,
+    refetch: getFeaturedRefetch,
+  } = useQuery(getFeaturedArticlesQuery);
 
   //
   //
@@ -181,7 +201,7 @@ export default function Home(props) {
     return newarr.length;
   };
 
-  const addBookmark = (objecto, count) => {
+  const addBookmark = (objecto, count, type) => {
     if (!count) {
       insertBookmark({
         variables: { articleId: objecto.id, id: props.user.id },
@@ -191,7 +211,6 @@ export default function Home(props) {
         variables: { articleId: objecto.id, id: props.user.id },
       });
     }
-    refetch();
   };
 
   //
@@ -328,7 +347,7 @@ export default function Home(props) {
                   </Col>
                 </Row>
               </>
-            ) : getFeaturedData.articles.length < 4 ? null : (
+            ) : getFeaturedData.articles.length < 5 ? null : (
               <>
                 <div className="wd-100-pc mt-30">
                   <Title level={4} className="">
@@ -344,12 +363,13 @@ export default function Home(props) {
                           className="mb-20"
                           width="100%"
                           style={{
-                            maxHeight: 150,
+                            height: 250,
                           }}
                           src={
                             "https://ik.imagekit.io/ttr/tr:n-med/" +
                             getFeaturedData.articles[0].featured_image
                           }
+                          alt={`Featured image for ${getFeaturedData.articles[0].title} on TechtoRehab`}
                         />
                         <List.Item.Meta
                           title={
@@ -391,10 +411,16 @@ export default function Home(props) {
                                     "https://ik.imagekit.io/ttr/tr:n-med/" +
                                     item.featured_image
                                   }
+                                  alt={`Featured image for ${item.title} on TechtoRehab`}
                                 />
                               }
                               actions={[
-                                <Text className="t-transform-cpt" strong>
+                                <Text
+                                  className="t-transform-cpt"
+                                  style={{
+                                    color: "rgba(0,0,0,.45)",
+                                  }}
+                                >
                                   By{" "}
                                   {item.users_to_articles[0].authors.username}
                                 </Text>,
@@ -431,7 +457,8 @@ export default function Home(props) {
                                                 (elem) =>
                                                   elem.bookmarkUser.id ==
                                                   props.user.id
-                                              )
+                                              ),
+                                              "featured"
                                             )
                                           : setLoginModal(true)
                                       }
@@ -479,8 +506,13 @@ export default function Home(props) {
                               getFeaturedData.articles.length - 1
                             ].featured_image
                           }
+                          alt={`Featured image for ${
+                            getFeaturedData.articles[
+                              getFeaturedData.articles.length - 1
+                            ].title
+                          } on TechtoRehab`}
                           style={{
-                            maxHeight: 150,
+                            height: 250,
                           }}
                         />
                         <List.Item.Meta
@@ -662,7 +694,7 @@ export default function Home(props) {
                             <img
                               src={src}
                               className="list-image"
-                              alt="an alternative text"
+                              alt={`Featured image for ${item.title} on TechtoRehab`}
                             />
                           )}
                         </ProgressiveImage>
