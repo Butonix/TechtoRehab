@@ -212,9 +212,18 @@ export default function Home(props) {
       >
         <Row>
           <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-r-20">
+            <Text
+              className="fs-16 mg-20"
+              style={{
+                display: "block",
+                position: "relative",
+              }}
+              strong
+            >
+              Navigation
+            </Text>
             <Menu
               theme="light"
-              className="mg-auto pd-y-20"
               mode="vertical-left"
               style={{ height: "100vh", position: "sticky", top: 10 }}
             >
