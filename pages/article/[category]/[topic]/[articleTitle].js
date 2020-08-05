@@ -694,14 +694,14 @@ const Article = (props) => {
                         })}
                       </div>
                     ) : blocks.type == "code" ? (
-                      <LazyLoad
-                        height={300}
-                        once
-                        key={index + blocks.type}
+                      <LazyLoadComponent
+                        threshold={-100}
                         placeholder={
-                          <Skeleton>
-                            <Skeleton.Rectangle height={300} />
-                          </Skeleton>
+                          <span className="mt-30 lh-3">
+                            <Skeleton>
+                              <Comments />
+                            </Skeleton>
+                          </span>
                         }
                       >
                         <Syntax
@@ -709,10 +709,13 @@ const Article = (props) => {
                           language="auto-detect"
                           showLineNumbers
                           key={index + blocks.type}
+                          customStyle={{
+                            height: "100%",
+                          }}
                         >
                           {blocks.data.code}
                         </Syntax>
-                      </LazyLoad>
+                      </LazyLoadComponent>
                     ) : blocks.type == "list" ? (
                       <Row
                         className=""

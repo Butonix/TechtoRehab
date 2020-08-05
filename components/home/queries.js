@@ -84,6 +84,7 @@ export const getFeaturedArticlesQuery = gql`
     ) {
       featured_image
       content
+      slug
       excerpt
       title
       users_to_articles {
@@ -98,6 +99,11 @@ export const getFeaturedArticlesQuery = gql`
       article_category {
         title
         slug
+      }
+      bookmarks {
+        bookmarkUser {
+          id
+        }
       }
     }
   }

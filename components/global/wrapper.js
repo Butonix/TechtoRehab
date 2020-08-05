@@ -207,7 +207,7 @@ const wrapper = (props) => {
               ? props.seo.images
               : [
                   {
-                    url: "https://techtorehab.com/ttr-logo-og-image.jpeg",
+                    url: "https://techtorehab.com/TTR-LIGHT-sqaure.jpeg",
                     width: 650,
                     height: 450,
                     alt: "OG Tech To Rehab Logo",

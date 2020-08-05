@@ -38,6 +38,7 @@ export default class MyDocument extends Document {
       <Html className="light">
         <Head>
           <link rel="manifest" href="/manifest.json" />
+          <meta property="fb:app_id" content="858231384644584" />
         </Head>
 
         <body style={{ margin: 0 }}>

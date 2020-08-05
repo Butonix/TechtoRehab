@@ -31,6 +31,7 @@ import withSession from "lib/session";
 import Reactions from "components/global/reactions/reacts";
 import ProgressiveImage from "react-progressive-graceful-image";
 import Moment from "react-moment";
+import Link from "next/link";
 //
 //
 //
@@ -230,7 +231,7 @@ export default function Home(props) {
               <Menu.Item
                 key="home"
                 icon={
-                  <i class="ri-arrow-go-back-line fs-22 va-minus-6 mr-10"></i>
+                  <i className="ri-arrow-go-back-line fs-22 va-minus-6 mr-10"></i>
                 }
                 onClick={() => (location.href = "/")}
               >
@@ -245,7 +246,7 @@ export default function Home(props) {
               <Menu.Item
                 key="categories"
                 onClick={() => (location.href = "/categories")}
-                icon={<i class="ri-apps-2-fill fs-22 va-minus-6 mr-10"></i>}
+                icon={<i className="ri-apps-2-fill fs-22 va-minus-6 mr-10"></i>}
               >
                 <Text
                   style={{
@@ -267,151 +268,264 @@ export default function Home(props) {
             xxl={16}
             className="mg-x-auto pd-x-20"
           >
-            <div className="wd-100-pc mt-30">
-              <Title level={4} className="">
-                Featured
-              </Title>
-              <Divider />
-            </div>
             {getFeaturedLoading || !getFeaturedData ? (
-              <Row justify="space-between">
-                <Col xs={0} sm={0} md={7} lg={7} xl={7} xxl={8}>
-                  <div className="wd-100pc featured-skeleton-button">
-                    <Skeleton.Button className="mt-10" active round />
-                    <Skeleton
-                      className="mt-10"
-                      title
-                      paragraph={{ rows: 2 }}
-                      active
-                      round
-                    />
-                  </div>
-                </Col>
-                <Col xs={24} sm={24} md={7} lg={7} xl={7} xxl={6}>
-                  <Skeleton
-                    className="mt-10 mb-30"
-                    title={{
-                      width: "100%",
+              <>
+                <div className="wd-100-pc mt-30">
+                  <Skeleton.Button
+                    className="mt-10"
+                    style={{
+                      width: 120,
                     }}
                     active
                     round
-                    paragraph={{ rows: 1, width: "50%" }}
                   />
-                  <Skeleton
-                    className="mt-10 mb-30"
-                    title={{
-                      width: "100%",
-                    }}
-                    active
-                    round
-                    paragraph={{ rows: 1, width: "50%" }}
-                  />
-                </Col>
-                <Col xs={0} sm={0} md={7} lg={7} xl={7} xxl={8}>
-                  <div className="wd-100pc featured-skeleton-button">
-                    <Skeleton.Button className="mt-10" active round />
+                  <Divider />
+                </div>
+                <Row justify="space-between">
+                  <Col xs={0} sm={0} md={11} lg={10} xl={11} xxl={8}>
+                    <div className="wd-100pc featured-skeleton-button">
+                      <Skeleton.Button className="mt-10" active round />
+                      <Skeleton
+                        className="mt-10"
+                        title
+                        paragraph={{ rows: 2 }}
+                        active
+                        round
+                      />
+                    </div>
+                  </Col>
+                  <Col xs={24} sm={24} md={11} lg={13} xl={12} xxl={6}>
                     <Skeleton
-                      className="mt-10"
-                      title
-                      paragraph={{ rows: 3 }}
+                      className="mt-10 mb-30"
+                      title={{
+                        width: "100%",
+                      }}
                       active
                       round
+                      paragraph={{ rows: 1, width: "50%" }}
                     />
-                  </div>
-                </Col>
-              </Row>
-            ) : getFeaturedData.articles.length < 1 ? null : (
-              <Row>
-                <Col xs={0} sm={0} md={11} lg={10} xl={10} xxl={8}>
-                  <List size="large" itemLayout="vertical">
-                    <List.Item>
-                      <img
-                        className="mb-20"
-                        width="100%"
-                        style={{
-                          maxHeight: 150,
-                        }}
-                        src={
-                          "https://ik.imagekit.io/ttr/tr:n-med/" +
-                          getFeaturedData.articles[0].featured_image
-                        }
+                    <Skeleton
+                      className="mt-10 mb-30"
+                      title={{
+                        width: "100%",
+                      }}
+                      active
+                      round
+                      paragraph={{ rows: 1, width: "50%" }}
+                    />
+                  </Col>
+                  <Col xs={0} sm={0} md={0} lg={0} xl={0} xxl={8}>
+                    <div className="wd-100pc featured-skeleton-button">
+                      <Skeleton.Button className="mt-10" active round />
+                      <Skeleton
+                        className="mt-10"
+                        title
+                        paragraph={{ rows: 3 }}
+                        active
+                        round
                       />
-                      <List.Item.Meta
-                        title={
-                          <Text className="fs-14 line-clamp">
-                            {getFeaturedData.articles[0].title}
-                          </Text>
-                        }
-                        description={
-                          <Text className="fs-14 line-clamp">
-                            {getFeaturedData.articles[0].excerpt}
-                          </Text>
-                        }
-                      />
-                    </List.Item>
-                  </List>
-                </Col>
-
-                <Col xs={24} sm={24} md={13} lg={13} xl={14} xxl={8}>
-                  <List itemLayout="vertical">
-                    {getFeaturedData.articles.map((item, index) => {
-                      return (
-                        <List.Item
-                          className="article-list-item"
-                          extra={
-                            <img
-                              className="mb-20 featured-list-image"
-                              src={
-                                "https://ik.imagekit.io/ttr/tr:n-med/" +
-                                item.featured_image
-                              }
-                            />
+                    </div>
+                  </Col>
+                </Row>
+              </>
+            ) : getFeaturedData.articles.length < 4 ? null : (
+              <>
+                <div className="wd-100-pc mt-30">
+                  <Title level={4} className="">
+                    Featured
+                  </Title>
+                  <Divider />
+                </div>
+                <Row>
+                  <Col xs={0} sm={0} md={11} lg={10} xl={10} xxl={8}>
+                    <List size="large" itemLayout="vertical">
+                      <List.Item>
+                        <img
+                          className="mb-20"
+                          width="100%"
+                          style={{
+                            maxHeight: 150,
+                          }}
+                          src={
+                            "https://ik.imagekit.io/ttr/tr:n-med/" +
+                            getFeaturedData.articles[0].featured_image
                           }
-                          actions={[<a>Hello</a>]}
-                        >
-                          <List.Item.Meta
-                            title={
-                              <Text className="fs-14 line-clamp mr-20">
-                                {item.title}
-                              </Text>
-                            }
-                          />
-                        </List.Item>
-                      );
-                    })}
-                  </List>
-                </Col>
+                        />
+                        <List.Item.Meta
+                          title={
+                            <Link
+                              href={`/article/${getFeaturedData.articles[0].article_category.slug}/${getFeaturedData.articles[0].article_topic.slug}/${getFeaturedData.articles[0].slug}`}
+                            >
+                              <a>
+                                <Text className="fs-14 line-clamp">
+                                  {getFeaturedData.articles[0].title}
+                                </Text>
+                              </a>
+                            </Link>
+                          }
+                          description={
+                            <Text className="fs-14 line-clamp">
+                              {getFeaturedData.articles[0].excerpt}
+                            </Text>
+                          }
+                        />
+                      </List.Item>
+                    </List>
+                  </Col>
 
-                <Col xs={0} sm={0} md={0} lg={0} xl={0} xxl={7}>
-                  <List size="large" itemLayout="vertical">
-                    <List.Item>
-                      <img
-                        className="mb-20"
-                        width="100%"
-                        src={
-                          "https://ik.imagekit.io/ttr/tr:n-med/" +
-                          getFeaturedData.articles[1].featured_image
-                        }
-                        style={{
-                          maxHeight: 150,
-                        }}
-                      />
-                      <List.Item.Meta
-                        title={
-                          <Text className="fs-14 line-clamp">
-                            {getFeaturedData.articles[1].title}
-                          </Text>
-                        }
-                        description={
-                          <Text className="fs-14 line-clamp">
-                            {getFeaturedData.articles[1].excerpt}
-                          </Text>
-                        }
-                      />
-                    </List.Item>
-                  </List>
-                </Col>
-              </Row>
+                  <Col xs={24} sm={24} md={13} lg={13} xl={14} xxl={8}>
+                    <List itemLayout="vertical">
+                      {getFeaturedData.articles.map((item, index) => {
+                        if (
+                          index > 0 &&
+                          index < getFeaturedData.articles.length - 1
+                        )
+                          return (
+                            <List.Item
+                              key={item.title}
+                              className="article-list-item"
+                              extra={
+                                <img
+                                  className="mb-20 featured-list-image"
+                                  src={
+                                    "https://ik.imagekit.io/ttr/tr:n-med/" +
+                                    item.featured_image
+                                  }
+                                />
+                              }
+                              actions={[
+                                <Text className="t-transform-cpt" strong>
+                                  By{" "}
+                                  {item.users_to_articles[0].authors.username}
+                                </Text>,
+                                <Tooltip
+                                  title={
+                                    props.user &&
+                                    item.bookmarks.find(
+                                      (elem) =>
+                                        elem.bookmarkUser.id == props.user.id
+                                    )
+                                      ? "Remove From Bookmarks"
+                                      : "Bookmark This"
+                                  }
+                                >
+                                  <a>
+                                    <i
+                                      className={
+                                        props.user &&
+                                        item.bookmarks.find(
+                                          (elem) =>
+                                            elem.bookmarkUser.id ==
+                                            props.user.id
+                                        )
+                                          ? "ri-bookmark-fill fs-20 " +
+                                            "ri-lg va-minus-6"
+                                          : "ri-bookmark-line fs-20 " +
+                                            "ri-lg va-minus-6"
+                                      }
+                                      onClick={() =>
+                                        props.user && props.user.id
+                                          ? addBookmark(
+                                              item,
+                                              item.bookmarks.find(
+                                                (elem) =>
+                                                  elem.bookmarkUser.id ==
+                                                  props.user.id
+                                              )
+                                            )
+                                          : setLoginModal(true)
+                                      }
+                                      style={{
+                                        color: "rgba(86, 85, 85, 0.65)",
+                                      }}
+                                    ></i>
+                                  </a>
+                                </Tooltip>,
+                              ]}
+                            >
+                              <List.Item.Meta
+                                title={
+                                  <Link
+                                    href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
+                                  >
+                                    <a>
+                                      <Text className="fs-14 line-clamp mr-20">
+                                        {item.title}
+                                      </Text>
+                                    </a>
+                                  </Link>
+                                }
+                                description={
+                                  <Text className="fs-14 line-clamp mr-20">
+                                    {item.excerpt}
+                                  </Text>
+                                }
+                              />
+                            </List.Item>
+                          );
+                      })}
+                    </List>
+                  </Col>
+
+                  <Col xs={0} sm={0} md={0} lg={0} xl={0} xxl={7}>
+                    <List size="large" itemLayout="vertical">
+                      <List.Item>
+                        <img
+                          className="mb-20"
+                          width="100%"
+                          src={
+                            "https://ik.imagekit.io/ttr/tr:n-med/" +
+                            getFeaturedData.articles[
+                              getFeaturedData.articles.length - 1
+                            ].featured_image
+                          }
+                          style={{
+                            maxHeight: 150,
+                          }}
+                        />
+                        <List.Item.Meta
+                          title={
+                            <Link
+                              href={`/article/${
+                                getFeaturedData.articles[
+                                  getFeaturedData.articles.length - 1
+                                ].article_category.slug
+                              }/${
+                                getFeaturedData.articles[
+                                  getFeaturedData.articles.length - 1
+                                ].article_topic.slug
+                              }/${
+                                getFeaturedData.articles[
+                                  getFeaturedData.articles.length - 1
+                                ].slug
+                              }`}
+                            >
+                              <a>
+                                <Text className="fs-14 line-clamp">
+                                  {
+                                    getFeaturedData.articles[
+                                      getFeaturedData.articles.length - 1
+                                    ].title
+                                  }
+                                </Text>
+                              </a>
+                            </Link>
+                          }
+                          description={
+                            <Text className="fs-14 line-clamp">
+                              {
+                                getFeaturedData.articles[
+                                  getFeaturedData.articles.length - 1
+                                ].excerpt
+                              }
+                            </Text>
+                          }
+                        />
+                      </List.Item>
+                    </List>
+                  </Col>
+                </Row>
+              </>
             )}
             <div className="wd-100-pc mt-30">
               <Title level={4} className="">
@@ -521,7 +635,6 @@ export default function Home(props) {
                 }
                 useWindow={true}
               >
-                {console.log(data.articles.length > 0)}
                 <List
                   itemLayout="vertical"
                   dataSource={
