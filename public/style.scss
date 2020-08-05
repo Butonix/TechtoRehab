@@ -1437,10 +1437,10 @@ img {
 }
 
 .featured-list-image {
-  min-width: 70px;
-  min-height: 70px;
-  max-width: 70px;
-  max-height: 70px;
+  min-width: 90px;
+  min-height: 90px;
+  max-width: 90px;
+  max-height: 90px;
   @include mobile {
     min-width: 80px;
     min-height: 80px;

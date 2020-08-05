@@ -106,6 +106,31 @@ export const getFeaturedArticlesQuery = gql`
           id
         }
       }
+
+      reactions_to_articles {
+        reaction {
+          id
+          name
+          color
+          code
+          gradient
+          type
+        }
+
+        user {
+          username
+          profile_picture
+        }
+      }
+    }
+
+    reactions {
+      id
+      name
+      code
+      gradient
+      color
+      type
     }
   }
 `;

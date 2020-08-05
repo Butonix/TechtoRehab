@@ -321,7 +321,7 @@ export default function Home(props) {
                       }}
                       active
                       round
-                      paragraph={{ rows: 1, width: "50%" }}
+                      paragraph={{ rows: 2, width: "50%" }}
                     />
                     <Skeleton
                       className="mt-10 mb-30"
@@ -330,7 +330,17 @@ export default function Home(props) {
                       }}
                       active
                       round
-                      paragraph={{ rows: 1, width: "50%" }}
+                      paragraph={{ rows: 2, width: "50%" }}
+                    />
+
+                    <Skeleton
+                      className="mt-10 mb-30"
+                      title={{
+                        width: "100%",
+                      }}
+                      active
+                      round
+                      paragraph={{ rows: 2, width: "50%" }}
                     />
                   </Col>
                   <Col xs={0} sm={0} md={0} lg={0} xl={0} xxl={8}>
@@ -358,7 +368,76 @@ export default function Home(props) {
                 <Row>
                   <Col xs={0} sm={0} md={11} lg={10} xl={10} xxl={8}>
                     <List size="large" itemLayout="vertical">
-                      <List.Item>
+                      <List.Item
+                        actions={[
+                          <Text
+                            className="t-transform-cpt"
+                            style={{
+                              color: "rgba(0,0,0,.45)",
+                            }}
+                          >
+                            By{" "}
+                            {
+                              getFeaturedData.articles[0].users_to_articles[0]
+                                .authors.username
+                            }
+                          </Text>,
+                          <Tooltip
+                            title={
+                              props.user &&
+                              getFeaturedData.articles[0].bookmarks.find(
+                                (elem) => elem.bookmarkUser.id == props.user.id
+                              )
+                                ? "Remove From Bookmarks"
+                                : "Bookmark This"
+                            }
+                          >
+                            <a>
+                              <i
+                                className={
+                                  props.user &&
+                                  getFeaturedData.articles[0].bookmarks.find(
+                                    (elem) =>
+                                      elem.bookmarkUser.id == props.user.id
+                                  )
+                                    ? "ri-bookmark-fill fs-20 " +
+                                      "ri-lg va-minus-6"
+                                    : "ri-bookmark-line fs-20 " +
+                                      "ri-lg va-minus-6"
+                                }
+                                onClick={() =>
+                                  props.user && props.user.id
+                                    ? addBookmark(
+                                        getFeaturedData.articles[0],
+                                        getFeaturedData.articles[0].bookmarks.find(
+                                          (elem) =>
+                                            elem.bookmarkUser.id ==
+                                            props.user.id
+                                        ),
+                                        "featured"
+                                      )
+                                    : setLoginModal(true)
+                                }
+                                style={{
+                                  color: "rgba(86, 85, 85, 0.65)",
+                                }}
+                              ></i>
+                            </a>
+                          </Tooltip>,
+                          getFeaturedData.articles[0].reactions_to_articles
+                            .length > 0 ? (
+                            <a>
+                              <Reactions
+                                data={
+                                  getFeaturedData.articles[0]
+                                    .reactions_to_articles
+                                }
+                                reactions={getFeaturedData.reactions}
+                              />
+                            </a>
+                          ) : null,
+                        ]}
+                      >
                         <img
                           className="mb-20"
                           width="100%"
@@ -494,9 +573,97 @@ export default function Home(props) {
                     </List>
                   </Col>
 
-                  <Col xs={0} sm={0} md={0} lg={0} xl={0} xxl={7}>
+                  <Col
+                    xs={0}
+                    sm={0}
+                    md={0}
+                    lg={0}
+                    xl={0}
+                    xxl={8}
+                    className="pd-l-5"
+                  >
                     <List size="large" itemLayout="vertical">
-                      <List.Item>
+                      <List.Item
+                        actions={[
+                          <Text
+                            className="t-transform-cpt"
+                            style={{
+                              color: "rgba(0,0,0,.45)",
+                            }}
+                          >
+                            By{" "}
+                            {
+                              getFeaturedData.articles[
+                                getFeaturedData.articles.length - 1
+                              ].users_to_articles[0].authors.username
+                            }
+                          </Text>,
+                          <Tooltip
+                            title={
+                              props.user &&
+                              getFeaturedData.articles[
+                                getFeaturedData.articles.length - 1
+                              ].bookmarks.find(
+                                (elem) => elem.bookmarkUser.id == props.user.id
+                              )
+                                ? "Remove From Bookmarks"
+                                : "Bookmark This"
+                            }
+                          >
+                            <a>
+                              <i
+                                className={
+                                  props.user &&
+                                  getFeaturedData.articles[
+                                    getFeaturedData.articles.length - 1
+                                  ].bookmarks.find(
+                                    (elem) =>
+                                      elem.bookmarkUser.id == props.user.id
+                                  )
+                                    ? "ri-bookmark-fill fs-20 " +
+                                      "ri-lg va-minus-6"
+                                    : "ri-bookmark-line fs-20 " +
+                                      "ri-lg va-minus-6"
+                                }
+                                onClick={() =>
+                                  props.user && props.user.id
+                                    ? addBookmark(
+                                        getFeaturedData.articles[
+                                          getFeaturedData.articles.length - 1
+                                        ],
+                                        getFeaturedData.articles[
+                                          getFeaturedData.articles.length - 1
+                                        ].bookmarks.find(
+                                          (elem) =>
+                                            elem.bookmarkUser.id ==
+                                            props.user.id
+                                        ),
+                                        "featured"
+                                      )
+                                    : setLoginModal(true)
+                                }
+                                style={{
+                                  color: "rgba(86, 85, 85, 0.65)",
+                                }}
+                              ></i>
+                            </a>
+                          </Tooltip>,
+                          getFeaturedData.articles[
+                            getFeaturedData.articles.length - 1
+                          ].reactions_to_articles.length > 0 ? (
+                            <a>
+                              <Reactions
+                                data={
+                                  getFeaturedData.articles[
+                                    getFeaturedData.articles.length - 1
+                                  ].reactions_to_articles
+                                }
+                                reactions={getFeaturedData.reactions}
+                              />
+                            </a>
+                          ) : null,
+                        ]}
+                      >
                         <img
                           className="mb-20"
                           width="100%"

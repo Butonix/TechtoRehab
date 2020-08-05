@@ -10,6 +10,7 @@ import {
   Tabs,
   Upload,
   List,
+  Tooltip,
   Skeleton,
   Button,
   Typography,
@@ -468,14 +469,16 @@ const User = (props) => {
                 strong
               >
                 {router.query.username}
-                <i
-                  className="ri-checkbox-circle-fill fs-16"
-                  style={{
-                    position: "absolute",
-                    marginLeft: 5,
-                    color: "#00AAFB",
-                  }}
-                ></i>
+                <Tooltip title="Verified">
+                  <i
+                    className="ri-checkbox-circle-fill fs-16"
+                    style={{
+                      position: "absolute",
+                      marginLeft: 5,
+                      color: "#00AAFB",
+                    }}
+                  ></i>
+                </Tooltip>
               </Text>
             </Row>
 
@@ -617,12 +620,9 @@ const User = (props) => {
                                   />
                                 }
                                 actions={[
-                                  <div>
-                                    <i class="ri-time-line fs-20 va-middle"></i>
-                                    <Moment fromNow className=" lh-2 ml-5">
-                                      {item.article.updated_at}
-                                    </Moment>
-                                  </div>,
+                                  <Moment fromNow className=" lh-2 ml-5">
+                                    {item.article.updated_at}
+                                  </Moment>,
                                 ]}
                               >
                                 <List.Item.Meta
@@ -687,12 +687,9 @@ const User = (props) => {
                                   />
                                 }
                                 actions={[
-                                  <div>
-                                    <i class="ri-time-line fs-20 va-middle"></i>
-                                    <Moment fromNow className=" lh-2 ml-5">
-                                      {item.bookmarkedArticle.updated_at}
-                                    </Moment>
-                                  </div>,
+                                  <Moment fromNow className=" lh-2 ml-5">
+                                    {item.bookmarkedArticle.updated_at}
+                                  </Moment>,
                                 ]}
                               >
                                 <List.Item.Meta
