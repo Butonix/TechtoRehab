@@ -6,6 +6,7 @@ import {
   Tooltip,
   Divider,
   message,
+  Popover,
   Tabs,
   Badge,
   Result,
@@ -370,18 +371,51 @@ export default function Home(props) {
                     <List size="large" itemLayout="vertical">
                       <List.Item
                         actions={[
-                          <Text
-                            className="t-transform-cpt"
-                            style={{
-                              color: "rgba(0,0,0,.45)",
-                            }}
-                          >
-                            By{" "}
-                            {
-                              getFeaturedData.articles[0].users_to_articles[0]
-                                .authors.username
+                          <Popover
+                            content={
+                              <div>
+                                {getFeaturedData.articles[0].users_to_articles.map(
+                                  (author) => (
+                                    <a
+                                      href={`/user/${author.authors.username}`}
+                                    >
+                                      <p>
+                                        <Text>{author.authors.username}</Text>
+                                      </p>
+                                    </a>
+                                  )
+                                )}
+                              </div>
                             }
-                          </Text>,
+                            overlayStyle={{
+                              textTransform: "capitalize",
+                            }}
+                            title={
+                              getFeaturedData.articles[0].users_to_articles
+                                .length > 1
+                                ? "Authors"
+                                : "Author"
+                            }
+                          >
+                            <Text
+                              className="t-transform-cpt"
+                              style={{
+                                color: "rgba(0,0,0,.45)",
+                              }}
+                            >
+                              {getFeaturedData.articles[0].users_to_articles
+                                .length > 1
+                                ? getFeaturedData.articles[0]
+                                    .users_to_articles[0].authors.username +
+                                  " + " +
+                                  (getFeaturedData.articles[0].users_to_articles
+                                    .length -
+                                    1) +
+                                  " More"
+                                : getFeaturedData.articles[0]
+                                    .users_to_articles[0].authors.username}
+                            </Text>
+                          </Popover>,
                           <Tooltip
                             title={
                               props.user &&
@@ -494,15 +528,43 @@ export default function Home(props) {
                                 />
                               }
                               actions={[
-                                <Text
-                                  className="t-transform-cpt"
-                                  style={{
-                                    color: "rgba(0,0,0,.45)",
+                                <Popover
+                                  content={item.users_to_articles.map(
+                                    (author) => (
+                                      <a
+                                        href={`/user/${author.authors.username}`}
+                                      >
+                                        <p>
+                                          <Text>{author.authors.username}</Text>
+                                        </p>
+                                      </a>
+                                    )
+                                  )}
+                                  overlayStyle={{
+                                    textTransform: "capitalize",
                                   }}
+                                  title={
+                                    item.users_to_articles.length > 1
+                                      ? "Authors"
+                                      : "Author"
+                                  }
                                 >
-                                  By{" "}
-                                  {item.users_to_articles[0].authors.username}
-                                </Text>,
+                                  <Text
+                                    className="t-transform-cpt"
+                                    style={{
+                                      color: "rgba(0,0,0,.45)",
+                                    }}
+                                  >
+                                    {item.users_to_articles.length > 1
+                                      ? item.users_to_articles[0].authors
+                                          .username +
+                                        " + " +
+                                        (item.users_to_articles.length - 1) +
+                                        " More"
+                                      : item.users_to_articles[0].authors
+                                          .username}
+                                  </Text>
+                                </Popover>,
                                 <Tooltip
                                   title={
                                     props.user &&
@@ -585,19 +647,50 @@ export default function Home(props) {
                     <List size="large" itemLayout="vertical">
                       <List.Item
                         actions={[
-                          <Text
-                            className="t-transform-cpt"
-                            style={{
-                              color: "rgba(0,0,0,.45)",
+                          <Popover
+                            content={getFeaturedData.articles[
+                              getFeaturedData.articles.length - 1
+                            ].users_to_articles.map((author) => (
+                              <a href={`/user/${author.authors.username}`}>
+                                <p>
+                                  <Text>{author.authors.username}</Text>
+                                </p>
+                              </a>
+                            ))}
+                            overlayStyle={{
+                              textTransform: "capitalize",
                             }}
-                          >
-                            By{" "}
-                            {
+                            title={
                               getFeaturedData.articles[
                                 getFeaturedData.articles.length - 1
-                              ].users_to_articles[0].authors.username
+                              ].users_to_articles.length > 1
+                                ? "Authors"
+                                : "Author"
                             }
-                          </Text>,
+                          >
+                            <Text
+                              className="t-transform-cpt"
+                              style={{
+                                color: "rgba(0,0,0,.45)",
+                              }}
+                            >
+                              {getFeaturedData.articles[
+                                getFeaturedData.articles.length - 1
+                              ].users_to_articles.length > 1
+                                ? getFeaturedData.articles[
+                                    getFeaturedData.articles.length - 1
+                                  ].users_to_articles[0].authors.username +
+                                  " + " +
+                                  (getFeaturedData.articles[
+                                    getFeaturedData.articles.length - 1
+                                  ].users_to_articles.length -
+                                    1) +
+                                  " More"
+                                : getFeaturedData.articles[
+                                    getFeaturedData.articles.length - 1
+                                  ].users_to_articles[0].authors.username}
+                            </Text>
+                          </Popover>,
                           <Tooltip
                             title={
                               props.user &&
@@ -851,8 +944,7 @@ export default function Home(props) {
                           }
                           placeholder={
                             "https://ik.imagekit.io/ttr/tr:n-med_placeholder/" +
-                            item.featured_image +
-                            "?tr=h-100,w-100,bl-10,f-webp"
+                            item.featured_image
                           }
                           delay={300}
                           threshold={1}
@@ -876,31 +968,41 @@ export default function Home(props) {
                             <Moment fromNow>{item.updated_at}</Moment>
                           </div>
                         ),
-                        <a
-                          onClick={() => {
-                            setType("Authors");
-                            setDrawer(true);
-                            setSheetData(item.users_to_articles);
+
+                        <Popover
+                          content={item.users_to_articles.map((author) => (
+                            <a href={`/user/${author.authors.username}`}>
+                              <p>
+                                <Text>{author.authors.username}</Text>
+                              </p>
+                            </a>
+                          ))}
+                          overlayStyle={{
+                            textTransform: "capitalize",
                           }}
+                          title={
+                            item.users_to_articles.length > 1
+                              ? "Authors"
+                              : "Author"
+                          }
                         >
                           <Text
-                            className="t-transform-cpt fs-12 article-list-item-author"
+                            className="t-transform-cpt"
                             style={{
-                              border: "1px solid #cecece",
-                              borderRadius: 25,
-                              padding: "5px 10px",
+                              color: "rgba(0,0,0,0.45)",
+                              cursor: "pointer",
                             }}
                           >
                             {item.users_to_articles.length > 1
-                              ? " By " +
-                                item.users_to_articles[0].authors.username +
+                              ? item.users_to_articles[0].authors.username +
                                 " + " +
                                 (item.users_to_articles.length - 1) +
                                 " More "
-                              : " By " +
-                                item.users_to_articles[0].authors.username}
+                              : item.users_to_articles[0].authors.username}
                           </Text>
-                        </a>,
+                          {/* </a>,
+                           */}
+                        </Popover>,
                         <Tooltip
                           title={
                             props.user &&
@@ -949,31 +1051,6 @@ export default function Home(props) {
                         ) : null,
                       ]}
                     >
-                      <div className="d-flex">
-                        {/* <Badge
-                          className="mr-20"
-                          status="processing"
-                          color="geekblue"
-                          text={
-                            <Text
-                              className=""
-                              style={{
-                                color: "rgba(0,0,0,.45)",
-                              }}
-                            >
-                              Featured
-                            </Text>
-                          }
-                        /> */}
-                        {/* <Text
-                          className=""
-                          style={{
-                            color: "rgba(0,0,0,.45)",
-                          }}
-                        >
-                          Based On Your Choices
-                        </Text> */}
-                      </div>
                       <List.Item.Meta
                         key={item.id}
                         title={
@@ -1004,150 +1081,6 @@ export default function Home(props) {
                 />
               </InfiniteScroll>
             )}
-
-            {/**           */
-            /**            */
-            /**            */
-            /**            */
-            /**            */
-            /** MODAL AREA */
-            /**            */
-            /**            */
-            /**            */
-            /**            */
-            /**            */}
-            <Modal
-              title={type}
-              visible={drawer}
-              bodyStyle={{
-                padding: "15px 15px",
-                paddingBottom: "45px",
-                paddingTop: 5,
-                height: 300,
-                overflowY: "auto",
-              }}
-              closable
-              onCancel={() => {
-                setDrawer(false);
-              }}
-              footer={null}
-            >
-              <div className="d-flex flex-column">
-                {sheetData.length > 0 ? (
-                  type == "Authors" ? (
-                    sheetData.map((mapped, index) => (
-                      <Space className="mt-20" key={index}>
-                        <Avatar
-                          src={
-                            mapped.authors.profile_picture.includes("google") ||
-                            mapped.authors.profile_picture.includes(
-                              "https://platform-lookaside.fbsbx.com/"
-                            )
-                              ? mapped.authors.profile_picture
-                              : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                mapped.authors.profile_picture
-                          }
-                        />
-                        <a href={`/user/${mapped.authors.username}`}>
-                          <Text className="t-transform-cpt">
-                            {mapped.authors.username}
-                          </Text>
-                        </a>
-                      </Space>
-                    ))
-                  ) : (
-                    <>
-                      <Tabs>
-                        {data.reactions.map((mapped) => {
-                          sheetData.map((mapped2) => {
-                            if (mapped2.reaction.name == mapped.name) {
-                              return;
-                            }
-                          });
-                          return (
-                            <Tabs.TabPane
-                              key={mapped.name}
-                              tab={
-                                <Reactions key={mapped.name}>
-                                  <div className="reaction-holder">
-                                    <div className="reaction">
-                                      <i
-                                        className={`${mapped.code} va-minus-4`}
-                                        style={mapped.gradient}
-                                      ></i>
-                                    </div>
-                                    <div className="reaction-count">
-                                      <Text className="lh-2-5">
-                                        {getReactionCount(
-                                          mapped.name,
-                                          sheetData
-                                        )}
-                                      </Text>
-                                    </div>
-                                  </div>
-                                  <Text className="reaction-name">
-                                    {mapped.name}
-                                  </Text>
-                                </Reactions>
-                              }
-                            >
-                              <div className="d-flex flex-column">
-                                {sheetData.map((mapped2, index) => {
-                                  if (mapped2.reaction.name == mapped.name) {
-                                    return (
-                                      <Space
-                                        className="mt-15"
-                                        key={
-                                          mapped2.reaction.name +
-                                          mapped.name +
-                                          index
-                                        }
-                                      >
-                                        <Avatar
-                                          size={35}
-                                          src={
-                                            mapped2.user.profile_picture
-                                              ? mapped2.user.profile_picture.includes(
-                                                  "ik.imagekit.io"
-                                                )
-                                                ? "https://ik.imagekit.io/ttr/n-avatar" +
-                                                  mapped2.user.profile_picture
-                                                : mapped2.user.profile_picture
-                                              : null
-                                          }
-                                        />
-                                        <a
-                                          href={`/user/${mapped2.user.username}`}
-                                        >
-                                          <Text>{mapped2.user.username}</Text>
-                                        </a>
-                                      </Space>
-                                    );
-                                  }
-                                })}
-                              </div>
-                            </Tabs.TabPane>
-                          );
-                        })}
-                      </Tabs>
-                    </>
-                  )
-                ) : (
-                  <p>Nulled</p>
-                )}
-              </div>
-            </Modal>
-            {/**           */
-            /**            */
-            /**            */
-            /**            */
-            /**            */
-            /** MODAL AREA */
-            /**            */
-            /**            */
-            /**            */
-            /**            */
-            /**            */}
           </Col>
           <Col className="pd-l-20" xs={0} sm={0} md={0} lg={0} xl={5} xxl={4}>
             <Menu
