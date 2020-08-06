@@ -1,4 +1,4 @@
-import { Dropdown, Typography, message } from "antd";
+import { Dropdown, Typography, message, Menu, Popover } from "antd";
 import styled from "styled-components";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 
@@ -49,19 +49,13 @@ const deleteReactionQuery = gql`
 
 const ReactionsOverlay = styled.div`
   display: flex;
-  border-radius: 30px;
-  padding: 5px 20px;
-  background: rgb(255, 255, 255, 1);
-  box-shadow: 0px 0px 6px 1px #cfcfcf;
+
   i {
     :hover {
       transition: all 400ms cubic-bezier(0.47, 1.64, 0.41, 0.8);
       transform: scale3d(5);
       -webkit-transform: scale3d(2, 2, 2);
     }
-  }
-  :first-child {
-    margin-left: 20px;
   }
 `;
 
@@ -86,69 +80,72 @@ const ReactionDropdown = (props) => {
   });
   return (
     <a className="d-flex">
-      <Dropdown
-        placement="topLeft"
-        overlay={
+      <Popover
+        trigger="click"
+        arrowPointAtCenter
+        placement="topRight"
+        autoAdjustOverflow={true}
+        content={
           <ReactionsOverlay>
             {props.reactions.map((reaction) => {
               return (
-                <Dropdown
+                // <Dropdown
+                //   key={reaction.id}
+                //   trigger={["click", "hover"]}
+                //   overlay={
+                //     <div
+                //       className="ta-center"
+                //       style={{
+                //         background: "rgb(0,0,0,0.8)",
+                //         borderRadius: 10,
+                //         width: 80,
+                //         color: "white",
+                //       }}
+                //     >
+                //       <Text
+                //         key={reaction.id}
+                //         className="t-transform-cpt mt-10 ta-center fs-14"
+                //         style={{
+                //           color: "rgb(255,255,255,0.8)",
+                //         }}
+                //         strong
+                //       >
+                //         {reaction.name}
+                //       </Text>
+                //     </div>
+                //   }
+                //   placement="topLeft"
+                // >
+                <i
                   key={reaction.id}
-                  trigger={["click", "hover"]}
-                  overlay={
-                    <div
-                      className="ta-center"
-                      style={{
-                        background: "rgb(0,0,0,0.8)",
-                        borderRadius: 10,
-                        width: 80,
-                        color: "white",
-                      }}
-                    >
-                      <Text
-                        key={reaction.id}
-                        className="t-transform-cpt mt-10 ta-center fs-14"
-                        style={{
-                          color: "rgb(255,255,255,0.8)",
-                        }}
-                        strong
-                      >
-                        {reaction.name}
-                      </Text>
-                    </div>
-                  }
-                  placement="topLeft"
-                >
-                  <i
-                    key={reaction.id}
-                    className={`${reaction.code} enable-text-gradient va-minus-6 fs-28 mg-x-15`}
-                    style={reaction.gradient}
-                    key={reaction.id}
-                    onClick={() => {
-                      if (props.user && props.user.id.length > 0) {
-                        if (props.reacted) {
-                          updateReaction({
-                            variables: {
-                              userId: props.id,
-                              articleId: props.articleId,
-                              reactionId: reaction.id,
-                            },
-                          });
-                        } else {
-                          addReaction({
-                            variables: {
-                              userId: props.id,
-                              articleId: props.articleId,
-                              reactionId: reaction.id,
-                            },
-                          });
-                        }
+                  className={`${reaction.code} enable-text-gradient va-minus-6 fs-28 mg-x-15`}
+                  style={reaction.gradient}
+                  key={reaction.id}
+                  onClick={() => {
+                    if (props.user && props.user.id.length > 0) {
+                      if (props.reacted) {
+                        updateReaction({
+                          variables: {
+                            userId: props.id,
+                            articleId: props.articleId,
+                            reactionId: reaction.id,
+                          },
+                        });
                       } else {
-                        props.login(true);
+                        addReaction({
+                          variables: {
+                            userId: props.id,
+                            articleId: props.articleId,
+                            reactionId: reaction.id,
+                          },
+                        });
                       }
-                    }}
-                  />
-                </Dropdown>
+                    } else {
+                      props.login(true);
+                    }
+                  }}
+                />
+                // </Dropdown>
               );
             })}
           </ReactionsOverlay>
@@ -179,7 +176,7 @@ const ReactionDropdown = (props) => {
             }}
           ></i>
         )}
-      </Dropdown>
+      </Popover>
       {props.reacted ? (
         <div
           onClick={() => {

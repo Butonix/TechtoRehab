@@ -403,7 +403,10 @@ const Article = (props) => {
               getArticleData.articles[0].featured_image,
             width: 800,
             height: 600,
-            alt: "Featured Image",
+            alt:
+              "Featured image for " +
+              getArticleData.articles[0].title +
+              " on TechtoRehab",
           },
         ],
       }}
@@ -960,25 +963,25 @@ const Article = (props) => {
               <Divider orientation="left" className="mobile-bottom-bar-heading">
                 React To This
               </Divider>
-              <Card className="mobile-bottom-bar">
-                <Row justify="space-between">
-                  <Reactions
-                    data={getArticleData.articles[0].reactions_to_articles}
-                    reactions={getArticleData.reactions}
-                  />
-                  <ReactionsOverlay
-                    id={props.user ? props.user.id : null}
-                    data={getArticleData.articles[0].reactions_to_articles}
-                    reactions={getArticleData.reactions}
-                    articleId={getArticleData.articles[0].id}
-                    reacted={reacted}
-                    refetch={getArticleRefetch}
-                    setReacted={setReacted}
-                    user={props.user}
-                    login={setLoginModal}
-                  />
-                </Row>
-              </Card>
+              {/* <Card className="mobile-bottom-bar"> */}
+              <Row justify="space-between" className="mobile-bottom-bar">
+                <Reactions
+                  data={getArticleData.articles[0].reactions_to_articles}
+                  reactions={getArticleData.reactions}
+                />
+                <ReactionsOverlay
+                  id={props.user ? props.user.id : null}
+                  data={getArticleData.articles[0].reactions_to_articles}
+                  reactions={getArticleData.reactions}
+                  articleId={getArticleData.articles[0].id}
+                  reacted={reacted}
+                  refetch={getArticleRefetch}
+                  setReacted={setReacted}
+                  user={props.user}
+                  login={setLoginModal}
+                />
+              </Row>
+              {/* </Card> */}
               <Divider orientation="center">Meta Information</Divider>
               <Card>
                 <Row>
