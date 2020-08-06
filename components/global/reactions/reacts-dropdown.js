@@ -81,7 +81,7 @@ const ReactionDropdown = (props) => {
   return (
     <a className="d-flex">
       <Popover
-        trigger="click"
+        trigger="hover"
         arrowPointAtCenter
         placement="topRight"
         autoAdjustOverflow={true}
@@ -89,63 +89,63 @@ const ReactionDropdown = (props) => {
           <ReactionsOverlay>
             {props.reactions.map((reaction) => {
               return (
-                // <Dropdown
-                //   key={reaction.id}
-                //   trigger={["click", "hover"]}
-                //   overlay={
-                //     <div
-                //       className="ta-center"
-                //       style={{
-                //         background: "rgb(0,0,0,0.8)",
-                //         borderRadius: 10,
-                //         width: 80,
-                //         color: "white",
-                //       }}
-                //     >
-                //       <Text
-                //         key={reaction.id}
-                //         className="t-transform-cpt mt-10 ta-center fs-14"
-                //         style={{
-                //           color: "rgb(255,255,255,0.8)",
-                //         }}
-                //         strong
-                //       >
-                //         {reaction.name}
-                //       </Text>
-                //     </div>
-                //   }
-                //   placement="topLeft"
-                // >
-                <i
+                <Dropdown
                   key={reaction.id}
-                  className={`${reaction.code} enable-text-gradient va-minus-6 fs-28 mg-x-15`}
-                  style={reaction.gradient}
-                  key={reaction.id}
-                  onClick={() => {
-                    if (props.user && props.user.id.length > 0) {
-                      if (props.reacted) {
-                        updateReaction({
-                          variables: {
-                            userId: props.id,
-                            articleId: props.articleId,
-                            reactionId: reaction.id,
-                          },
-                        });
+                  trigger={["click", "hover"]}
+                  overlay={
+                    <div
+                      className="ta-center"
+                      style={{
+                        background: "rgb(0,0,0,0.8)",
+                        borderRadius: 10,
+                        width: 80,
+                        color: "white",
+                      }}
+                    >
+                      <Text
+                        key={reaction.id}
+                        className="t-transform-cpt mt-10 ta-center fs-14"
+                        style={{
+                          color: "rgb(255,255,255,0.8)",
+                        }}
+                        strong
+                      >
+                        {reaction.name}
+                      </Text>
+                    </div>
+                  }
+                  placement="topRight"
+                >
+                  <i
+                    key={reaction.id}
+                    className={`${reaction.code} enable-text-gradient va-minus-6 fs-28 mg-x-15`}
+                    style={reaction.gradient}
+                    key={reaction.id}
+                    onClick={() => {
+                      if (props.user && props.user.id.length > 0) {
+                        if (props.reacted) {
+                          updateReaction({
+                            variables: {
+                              userId: props.id,
+                              articleId: props.articleId,
+                              reactionId: reaction.id,
+                            },
+                          });
+                        } else {
+                          addReaction({
+                            variables: {
+                              userId: props.id,
+                              articleId: props.articleId,
+                              reactionId: reaction.id,
+                            },
+                          });
+                        }
                       } else {
-                        addReaction({
-                          variables: {
-                            userId: props.id,
-                            articleId: props.articleId,
-                            reactionId: reaction.id,
-                          },
-                        });
+                        props.login(true);
                       }
-                    } else {
-                      props.login(true);
-                    }
-                  }}
-                />
-                // </Dropdown>
+                    }}
+                  />
+                </Dropdown>
               );
             })}
           </ReactionsOverlay>

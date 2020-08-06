@@ -1402,11 +1402,12 @@ img {
 }
 
 .mobile-bottom-bar {
+  padding: 0px 25px;
+
   @include mobile {
     position: fixed;
     bottom: 0;
     background: white;
-    padding: 0px 25px;
     left: 0;
     right: 0;
     z-index: 100;
