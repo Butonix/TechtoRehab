@@ -12,6 +12,7 @@ import {
   Space,
   Avatar,
   Form,
+  Tag,
   Result,
   Button,
   message,
@@ -57,6 +58,7 @@ import {
   RedditShareButton,
 } from "react-share";
 import Moment from "react-moment";
+import styled from "styled-components";
 //
 //
 //
@@ -82,7 +84,33 @@ const { Title, Paragraph, Text } = Typography;
 //
 //
 //
+const FeaturedTag = styled.div`
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  cursor: pointer;
+  background-color: #7f53ac;
+  background-image: linear-gradient(315deg, #7f53ac 0%, #647dee 74%);
+  border-radius: 7px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  margin-left: 10px;
+  font-size: 26px;
+  vertical-align: -4px;
+`;
 
+const AuthorTag = styled.div`
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  cursor: pointer;
+  background-color: #08e1ae;
+  background-image: linear-gradient(315deg, #08e1ae 0%, #98de5b 74%);
+  border-radius: 7px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  margin-left: 10px;
+  font-size: 26px;
+  vertical-align: -4px;
+`;
 const Article = (props) => {
   //
   //
@@ -515,7 +543,7 @@ const Article = (props) => {
                       </Text>
                       <Moment fromNow>
                         {getArticleData.articles[0].updated_at}
-                      </Moment>{" "}
+                      </Moment>
                     </div>
                   ) : (
                     <div className="d-flex mr-10">
@@ -524,21 +552,10 @@ const Article = (props) => {
                       </Text>
                       <Moment fromNow>
                         {getArticleData.articles[0].created_at}
-                      </Moment>{" "}
+                      </Moment>
                     </div>
                   )}
                 </div>
-                {/* {getArticleData.articles[0].created_at <
-                getArticleData.articles[0].updated_at ? (
-                  <div className="d-flex va-middle lh-2-5 ">
-                    <Text className="mr-10" strong>
-                      & Updated
-                    </Text>
-                    <Moment fromNow>
-                      {getArticleData.articles[0].updated_at}
-                    </Moment>
-                  </div>
-                ) : null} */}
               </div>
             </Col>
           </Row>
@@ -580,7 +597,7 @@ const Article = (props) => {
                   getArticleData.articles[0].users_to_articles[0].authors.id ? (
                   <a href={`/article/edit/${getArticleData.articles[0].id}`}>
                     <Button
-                      className="compose-button2 mr-20 fw-bold"
+                      className="compose-button2 mr-10 fw-bold"
                       type="primary"
                     >
                       Edit article
@@ -602,7 +619,7 @@ const Article = (props) => {
                   <TwitterIcon size={32} round />
                 </TwitterShareButton>
 
-                <PinterestShareButton
+                {/* <PinterestShareButton
                   className="mg-x-10"
                   quote={getArticleData.articles[0].title}
                   url={props.url}
@@ -613,7 +630,7 @@ const Article = (props) => {
                   description={getArticleData.articles[0].excerpt}
                 >
                   <PinterestIcon size={32} round />
-                </PinterestShareButton>
+                </PinterestShareButton> */}
 
                 <RedditShareButton
                   className="mg-x-10"
@@ -623,6 +640,12 @@ const Article = (props) => {
                 >
                   <RedditIcon size={32} round />
                 </RedditShareButton>
+                <FeaturedTag>
+                  <i class="ri-shield-star-fill"></i>
+                </FeaturedTag>
+                <AuthorTag>
+                  <i class="ri-thumb-up-fill"></i>
+                </AuthorTag>
               </Row>
             </Col>
           </Row>
@@ -1104,11 +1127,7 @@ const Article = (props) => {
                           <Comment
                             key={comment.id}
                             datetime={
-                              new Date(
-                                comment.updated_at
-                              ).toLocaleDateString() +
-                              " at " +
-                              new Date(comment.updated_at).toLocaleTimeString()
+                              <Moment fromNow>{comment.updated_at}</Moment>
                             }
                             className="pd-10"
                             avatar={
@@ -1174,13 +1193,9 @@ const Article = (props) => {
                                       <Comment
                                         className="pd-10"
                                         datetime={
-                                          new Date(
-                                            replies.updated_at
-                                          ).toLocaleDateString() +
-                                          " at " +
-                                          new Date(
-                                            replies.updated_at
-                                          ).toLocaleTimeString()
+                                          <Moment fromNow>
+                                            {replies.updated_at}
+                                          </Moment>
                                         }
                                         content={replies.content}
                                         key={replies.id}
@@ -1263,13 +1278,11 @@ const Article = (props) => {
                                                     <Comment
                                                       key={repliesToReply.id}
                                                       datetime={
-                                                        new Date(
-                                                          repliesToReply.updated_at
-                                                        ).toLocaleDateString() +
-                                                        " at " +
-                                                        new Date(
-                                                          repliesToReply.updated_at
-                                                        ).toLocaleTimeString()
+                                                        <Moment fromNow>
+                                                          {
+                                                            repliesToReply.updated_at
+                                                          }
+                                                        </Moment>
                                                       }
                                                       className="pd-10"
                                                       avatar={

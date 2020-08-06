@@ -5,7 +5,7 @@ export default async (req, res) => {
   const form = formidable({ multiples: true });
   await form.parse(req, async (err, fields, files) => {
     var name = files.imageUpload.name.replace(/ /g, "");
-
+    console.log(files.imageUpload.path);
     await storage.bucket("tech-to-rehab").upload(files.imageUpload.path, {
       destination: name,
       resumable: true,
