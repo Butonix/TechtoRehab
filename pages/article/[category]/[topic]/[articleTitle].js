@@ -768,7 +768,7 @@ const Article = (props) => {
                                         className="shine"
                                         style={{
                                           width: "100%",
-                                          height: 400,
+                                          height: 250,
                                         }}
                                       />
                                     ) : (

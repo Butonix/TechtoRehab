@@ -1003,8 +1003,7 @@ export default function Home(props) {
                                 " More "
                               : item.users_to_articles[0].authors.username}
                           </Text>
-                          {/* </a>,
-                           */}
+                    
                         </Popover>,
                         <Tooltip
                           title={

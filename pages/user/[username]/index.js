@@ -16,6 +16,7 @@ import {
   Typography,
   Avatar,
   Badge,
+  message,
 } from "antd";
 import { useState } from "react";
 import Error404 from "components/global/404";
@@ -47,6 +48,16 @@ const getUserQuery = gql`
         role
         status
       }
+    }
+  }
+`;
+
+const deleteBookmarkQuery = gql`
+  mutation deleteBookmark($id: uuid!, $article: uuid!) {
+    delete_articles_and_bookmarks(
+      where: { userId: { _eq: $id }, articleId: { _eq: $article } }
+    ) {
+      affected_rows
     }
   }
 `;
@@ -177,8 +188,19 @@ const User = (props) => {
 
   const [
     getUserBookmarks,
-    { loading: getUserBookmarksLoading, data: getUserBookmarksData },
+    {
+      loading: getUserBookmarksLoading,
+      data: getUserBookmarksData,
+      refetch: getUserBookmarksRefetch,
+    },
   ] = useLazyQuery(getUserBookmarksQuery);
+
+  const [deleteBookmark] = useMutation(deleteBookmarkQuery, {
+    onCompleted: () => {
+      getUserBookmarksRefetch();
+      message.success("Removed from bookmarks");
+    },
+  });
 
   return (
     <Wrapper
@@ -690,6 +712,43 @@ const User = (props) => {
                                   <Moment fromNow className=" lh-2 ml-5">
                                     {item.bookmarkedArticle.updated_at}
                                   </Moment>,
+                                  <Tooltip
+                                    title={
+                                      props.user &&
+                                      getUserData.users[0].id == props.user.id
+                                        ? "Remove From Bookmarks"
+                                        : null
+                                    }
+                                  >
+                                    <a>
+                                      <i
+                                        className={
+                                          props.user &&
+                                          getUserData.users[0].id ==
+                                            props.user.id
+                                            ? "ri-bookmark-fill fs-20 " +
+                                              "ri-lg va-minus-6"
+                                            : null
+                                        }
+                                        onClick={() =>
+                                          props.user &&
+                                          getUserData.users[0].id ==
+                                            props.user.id
+                                            ? deleteBookmark({
+                                                variables: {
+                                                  id: props.user.id,
+                                                  article:
+                                                    item.bookmarkedArticle.id,
+                                                },
+                                              })
+                                            : setLoginModal(true)
+                                        }
+                                        style={{
+                                          color: "rgba(86, 85, 85, 0.65)",
+                                        }}
+                                      />
+                                    </a>
+                                  </Tooltip>,
                                 ]}
                               >
                                 <List.Item.Meta
