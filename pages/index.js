@@ -401,6 +401,7 @@ export default function Home(props) {
                               className="t-transform-cpt"
                               style={{
                                 color: "rgba(0,0,0,.45)",
+                                cursor: "pointer",
                               }}
                             >
                               {getFeaturedData.articles[0].users_to_articles
@@ -553,6 +554,7 @@ export default function Home(props) {
                                     className="t-transform-cpt"
                                     style={{
                                       color: "rgba(0,0,0,.45)",
+                                      cursor: "pointer",
                                     }}
                                   >
                                     {item.users_to_articles.length > 1
@@ -672,6 +674,7 @@ export default function Home(props) {
                               className="t-transform-cpt"
                               style={{
                                 color: "rgba(0,0,0,.45)",
+                                cursor: "pointer",
                               }}
                             >
                               {getFeaturedData.articles[
