@@ -411,7 +411,7 @@ const Register = () => {
                   if (result.response == "ok") {
                     setRecaptcha(true);
                   } else {
-                    window.hcaptcha.reset();
+                    HCaptcha.reset();
                   }
                 })
               )
