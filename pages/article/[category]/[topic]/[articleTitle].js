@@ -511,7 +511,12 @@ const Article = (props) => {
                 {getArticleData.articles[0].excerpt}
               </Paragraph>
               <div className="d-flex pd-x-20">
-                <Space>
+                <div
+                  className="d-flex"
+                  style={{
+                    marginTop: 7,
+                  }}
+                >
                   {getArticleData.articles[0].content.blocks.map(
                     (blocks, index) => {
                       if (
@@ -543,7 +548,7 @@ const Article = (props) => {
                       }
                     }
                   )}
-                </Space>
+                </div>
                 <div className="ml-auto va-middle d-flex">
                   {getArticleData.articles[0].created_at <
                   getArticleData.articles[0].updated_at ? (
@@ -620,6 +625,7 @@ const Article = (props) => {
                     <Button
                       className="compose-button2 mr-15 fw-bold"
                       type="primary"
+                      icon={<i class="ri-edit-line fs-16 va-middle mr-10"></i>}
                       style={{
                         color: "#2f3545",
                       }}
@@ -631,10 +637,11 @@ const Article = (props) => {
 
                 <Button
                   className="fw-bold share-button"
-                  type="link"
+                  type="primary"
                   onClick={() => setShareModal(true)}
+                  icon={<i class="ri-share-line fs-18 va-minus-4 mr-10"></i>}
                 >
-                  Share This Article
+                  <Text>Share This Article</Text>
                 </Button>
 
                 <Modal
