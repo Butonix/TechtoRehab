@@ -101,15 +101,17 @@ const FeaturedTag = styled.div`
 const AuthorTag = styled.div`
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   cursor: pointer;
-  background-color: #08e1ae;
-  background-image: linear-gradient(315deg, #08e1ae 0%, #98de5b 74%);
-  border-radius: 7px;
+  box-shadow: 6px 4px 0 #7f53ac;
+  display: inline-block;
+  /* border-radius: 5px; */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-weight: 700;
+  background-color: #7f53ac;
+  background-image: linear-gradient(315deg, #7f53ac 0%, #647dee 74%);
+  font-weight: bold;
   margin-left: 10px;
   font-size: 26px;
-  vertical-align: -4px;
+  padding-right: 15px;
 `;
 const Article = (props) => {
   //
@@ -644,7 +646,7 @@ const Article = (props) => {
                   <i class="ri-shield-star-fill"></i>
                 </FeaturedTag>
                 <AuthorTag>
-                  <i class="ri-thumb-up-fill"></i>
+                  <i class="ri-shield-star-fill"></i>
                 </AuthorTag>
               </Row>
             </Col>

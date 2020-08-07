@@ -17,6 +17,7 @@
     "@editorjs/underline": "^1.0.0",
     "@emotion/core": "^10.0.28",
     "@google-cloud/storage": "^5.1.2",
+    "@hcaptcha/react-hcaptcha": "^0.2.1",
     "@nejcm/react-skeleton": "^2.0.1",
     "@next/bundle-analyzer": "^9.1.4",
     "@sls-next/serverless-component": "^1.16.0",

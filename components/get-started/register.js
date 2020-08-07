@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { gql, useMutation, useLazyQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
-import { loadReCaptcha, ReCaptcha } from "react-recaptcha-v3";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const { Text, Title } = Typography;
 
@@ -146,35 +146,6 @@ const Register = () => {
       }
     }
   });
-
-  useEffect(() => {
-    loadReCaptcha("6LcJ9bYZAAAAAECa36w3pftOs0j8OlXl0Eer2tjH", () => {});
-  }, []);
-
-  const verifyCallback = (recaptchaToken) => {
-    console.log(recaptchaToken);
-    fetch("/api/recaptcha", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        accept: "application/json",
-      },
-      body: JSON.stringify({
-        token: recaptchaToken,
-      }),
-    }).then((res) =>
-      res.json().then((result) => {
-        if (result.response == "ok") {
-          setRecaptcha(true);
-        }
-      })
-    );
-  };
-
-  const updateToken = () => {
-    // you will get a new token in verifyCallback
-    this.recaptcha.execute();
-  };
 
   return (
     <>
@@ -421,36 +392,55 @@ const Register = () => {
         >
           <Input.Password placeholder="Repeat the above password" />
         </Form.Item>
-        <ReCaptcha
-          sitekey="6LcJ9bYZAAAAAECa36w3pftOs0j8OlXl0Eer2tjH"
-          action="challengeBot"
-          verifyCallback={verifyCallback}
-        />
-        <Form.Item className="mt-20">
-          {recaptcha ? (
-            <Button htmlType="submit" type="primary" className="mr-20">
-              Submit
-            </Button>
-          ) : (
-            <Text type="danger" className="mr-20" strong>
-              Please Solve Recaptcha
-            </Text>
-          )}
 
-          <Button
-            type="Reset"
-            onClick={() => {
-              checkUsername({
-                variables: { username: undefined },
-              });
-              checkEmail({
-                variables: { email: undefined },
-              });
-              form2.resetFields();
-            }}
-          >
-            Reset Form
-          </Button>
+        <Form.Item className="mt-20">
+          <HCaptcha
+            sitekey="030880bf-dcb6-4c11-96d5-4fde25feb92e"
+            onVerify={(token) =>
+              fetch("/api/captcha", {
+                method: "POST",
+                headers: {
+                  accept: "application/json",
+                  "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                  token: token,
+                }),
+              }).then((res) =>
+                res.json().then((result) => {
+                  if (result.response == "ok") {
+                    setRecaptcha(true);
+                  }
+                })
+              )
+            }
+          />
+          <span className="lh-4">
+            {recaptcha ? (
+              <Button type="primary" htmlType="submit" className="mr-10">
+                Submit
+              </Button>
+            ) : (
+              <Text type="danger" className="mr-10" strong>
+                Please solve recaptcha
+              </Text>
+            )}
+
+            <Button
+              type="Reset"
+              onClick={() => {
+                checkUsername({
+                  variables: { username: undefined },
+                });
+                checkEmail({
+                  variables: { email: undefined },
+                });
+                form2.resetFields();
+              }}
+            >
+              Reset Form
+            </Button>
+          </span>
         </Form.Item>
       </Form>
     </>

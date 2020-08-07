@@ -3,9 +3,10 @@ const axios = require("axios");
 export default (req, res) => {
   const { token } = req.body;
   axios
-    .get(
-      `https://www.google.com/recaptcha/api/siteverify?secret=6LcJ9bYZAAAAAFSCttCzd0Fx7dakjpc4o3bPIj80&response=${token}`
-    )
+    .post(`https://hcaptcha.com/siteverify`, {
+      secret: "0x91043d30b19014D57D620FbED548bd5BE92d63E6",
+      response: token,
+    })
     .then(function (response) {
       if (response.data.success == true) {
         res.end(
