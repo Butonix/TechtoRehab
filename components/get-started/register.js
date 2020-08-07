@@ -397,7 +397,7 @@ const Register = () => {
           <HCaptcha
             sitekey="030880bf-dcb6-4c11-96d5-4fde25feb92e"
             onVerify={(token) =>
-              fetch("/api/captcha", {
+              fetch("/api/recaptcha", {
                 method: "POST",
                 headers: {
                   accept: "application/json",
