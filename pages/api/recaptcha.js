@@ -8,6 +8,7 @@ export default (req, res) => {
       response: token,
     })
     .then(function (response) {
+      console.log(response);
       if (response.data.success == true) {
         res.end(
           JSON.stringify({
