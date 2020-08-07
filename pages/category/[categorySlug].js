@@ -80,8 +80,12 @@ const getCategoryQuery = gql`
 `;
 
 const getTopArticlesQuery = gql`
-  query getTopArticles {
-    articles(order_by: { views_aggregate: { count: desc } }) {
+  query getTopArticles($slug: String!) {
+    articles(
+      order_by: { views_aggregate: { count: desc } }
+      where: { article_category: { slug: { _eq: $slug } } }
+      limit: 5
+    ) {
       title
       featured_image
       article_category {
@@ -103,8 +107,13 @@ const getTopArticlesQuery = gql`
 `;
 
 const getFeaturedArticlesQuery = gql`
-  query getFeaturedArticles {
-    articles(where: { featured: { _eq: true } }) {
+  query getFeaturedArticles($slug: String!) {
+    articles(
+      where: {
+        featured: { _eq: true }
+        article_category: { slug: { _eq: $slug } }
+      }
+    ) {
       title
       article_topic {
         title
@@ -150,16 +159,26 @@ const Categories = (props) => {
   });
 
   const { data: getTopArticlesData, loading: getTopArticlesLoading } = useQuery(
-    getTopArticlesQuery
+    getTopArticlesQuery,
+    {
+      variables: {
+        slug: props.slug,
+      },
+    }
   );
 
   const {
     data: getFeaturedArticlesData,
     loading: getFeaturedArticlesLoading,
-  } = useQuery(getFeaturedArticlesQuery);
+  } = useQuery(getFeaturedArticlesQuery, {
+    variables: {
+      slug: props.slug,
+    },
+  });
 
   return (
     <>
+      {console.log(props.slug)}
       <Wrapper
         seo={{
           title: getCategory2Data.category[0].title,
@@ -394,9 +413,10 @@ const Categories = (props) => {
                     ) : (
                       <List
                         dataSource={
-                          getFeaturedArticlesData
+                          getFeaturedArticlesData &&
+                          getFeaturedArticlesData.articles.length > 0
                             ? getFeaturedArticlesData.articles
-                            : null
+                            : []
                         }
                         renderItem={(item) => (
                           <List.Item>
@@ -455,7 +475,7 @@ const Categories = (props) => {
                             marginTop: 2,
                           }}
                         >
-                          Top
+                          Top 5
                         </Text>
                       </div>
                     }
@@ -473,9 +493,10 @@ const Categories = (props) => {
                     ) : (
                       <List
                         dataSource={
-                          getTopArticlesData
+                          getTopArticlesData &&
+                          getTopArticlesData.articles.length > 0
                             ? getTopArticlesData.articles
-                            : null
+                            : []
                         }
                         renderItem={(item) => (
                           <List.Item>

@@ -939,10 +939,27 @@ h6 {
 .cursor-pointer {
   cursor: pointer !important;
 }
-
+@mixin afterBg {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border-radius: 10%;
+  width: 140px;
+}
 :target {
-  border: 1px solid #1890ff;
-  padding: 10px;
+  border-bottom: 4px solid #1890ff;
+}
+
+:target:before {
+  font-size: 20px;
+  content: "👉";
+}
+:target:after {
+  font-size: 20px;
+  content: "👈";
 }
 
 .anchor-heading::before {
@@ -1404,6 +1421,8 @@ img {
 
 .mobile-bottom-bar {
   padding: 0px 25px;
+  display: flex;
+  align-items: center;
 
   @include mobile {
     position: fixed;
@@ -1411,6 +1430,7 @@ img {
     background: white;
     left: 0;
     right: 0;
+    box-shadow: 0px 0px 6px 1px #cecece;
     z-index: 100;
     height: 60px;
     display: flex;

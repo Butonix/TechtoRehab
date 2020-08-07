@@ -634,15 +634,16 @@ const Article = (props) => {
                     </Button>
                   </a>
                 ) : null}
-
-                <Button
-                  className="fw-bold share-button"
-                  type="primary"
-                  onClick={() => setShareModal(true)}
-                  icon={<i class="ri-share-line fs-18 va-minus-4 mr-10"></i>}
-                >
-                  <Text>Share This Article</Text>
-                </Button>
+                <a id="share">
+                  <Button
+                    className="fw-bold share-button"
+                    type="primary"
+                    onClick={() => setShareModal(true)}
+                    icon={<i class="ri-share-line fs-18 va-minus-4 mr-10"></i>}
+                  >
+                    <Text>Share This Article</Text>
+                  </Button>
+                </a>
 
                 <Modal
                   visible={shareModal}
@@ -677,7 +678,11 @@ const Article = (props) => {
                         url={props.url}
                       >
                         <div className="d-flex flex-column jc-center">
-                          <FacebookIcon className="mr-10" size={32} round />
+                          <FacebookIcon
+                            className="mr-10 ml-5"
+                            size={32}
+                            round
+                          />
                           <Text className="ta-center mt-5" strong>
                             Share
                           </Text>
@@ -694,7 +699,7 @@ const Article = (props) => {
                         hashtags={["techtorehab", "ttr", "article"]}
                       >
                         <div className="d-flex flex-column jc-center">
-                          <TwitterIcon size={32} round />
+                          <TwitterIcon size={32} className="ml-5" round />
                           <Text className="ta-center mt-5" strong>
                             Share
                           </Text>
@@ -710,7 +715,7 @@ const Article = (props) => {
                         url={props.url}
                       >
                         <div className="d-flex flex-column jc-center">
-                          <InstapaperIcon size={32} round />
+                          <InstapaperIcon size={32} className="ml-5" round />
                           <Text className="ta-center mt-5" strong>
                             Share
                           </Text>
@@ -726,7 +731,7 @@ const Article = (props) => {
                         url={props.url}
                       >
                         <div className="d-flex flex-column jc-center">
-                          <LivejournalIcon size={32} round />
+                          <LivejournalIcon size={32} className="ml-5" round />
                           <Text className="ta-center mt-5" strong>
                             Share
                           </Text>
@@ -741,7 +746,7 @@ const Article = (props) => {
                         title={getArticleData.articles[0].title}
                       >
                         <div className="d-flex flex-column jc-center">
-                          <RedditIcon size={32} round />
+                          <RedditIcon size={32} className="ml-5" round />
                           <Text className="ta-center mt-5" strong>
                             Share
                           </Text>
@@ -756,7 +761,7 @@ const Article = (props) => {
                         title={getArticleData.articles[0].title}
                       >
                         <div className="d-flex flex-column jc-center">
-                          <WhatsappIcon size={32} round />
+                          <WhatsappIcon size={32} className="ml-5" round />
                           <Text className="ta-center mt-5" strong>
                             Share
                           </Text>
@@ -780,7 +785,11 @@ const Article = (props) => {
                         title={getArticleData.articles[0].title}
                       >
                         <div className="d-flex flex-column jc-center">
-                          <FacebookMessengerIcon size={32} round />
+                          <FacebookMessengerIcon
+                            className="ml-5"
+                            size={32}
+                            round
+                          />
                           <Text className="ta-center mt-5" strong>
                             Share
                           </Text>
@@ -796,7 +805,7 @@ const Article = (props) => {
                         title={getArticleData.articles[0].title}
                       >
                         <div className="d-flex flex-column jc-center">
-                          <LinkedinIcon size={32} round />
+                          <LinkedinIcon className="ml-5" size={32} round />
                           <Text className="ta-center mt-5" strong>
                             Share
                           </Text>
@@ -1146,11 +1155,71 @@ const Article = (props) => {
                 React To This
               </Divider>
               {/* <Card className="mobile-bottom-bar"> */}
-              <Row justify="space-between" className="mobile-bottom-bar">
+              <Row className="mobile-bottom-bar">
                 <Reactions
                   data={getArticleData.articles[0].reactions_to_articles}
                   reactions={getArticleData.reactions}
                 />
+
+                <a
+                  class="ml-auto mr-30"
+                  style={{
+                    marginTop: 3,
+                  }}
+                  href="#share"
+                >
+                  <Popover
+                    overlayInnerStyle={{
+                      width: "100%",
+                      display: "inline-block",
+                    }}
+                    overlayStyle={{
+                      width: "130px",
+                    }}
+                    content={
+                      <div className="d-flex">
+                        <FacebookShareButton
+                          className="mg-x-5"
+                          quote={getArticleData.articles[0].title}
+                          url={props.url}
+                        >
+                          <div className="d-flex flex-column jc-center">
+                            <FacebookIcon className="ml-5" size={25} round />
+                            <Text className="ta-center mt-5" strong>
+                              Share
+                            </Text>
+                          </div>
+                        </FacebookShareButton>
+
+                        <div className="d-flex pd-10">
+                          <TwitterShareButton
+                            className="mg-x-5"
+                            title={getArticleData.articles[0].title}
+                            via="TechtoRehab -- The Open Source Publishing Platform"
+                            url={props.url}
+                            hashtags={["techtorehab", "ttr", "article"]}
+                          >
+                            <div className="d-flex flex-column jc-center">
+                              <TwitterIcon className="ml-5" size={25} round />
+                              <Text className="ta-center mt-5" strong>
+                                Share
+                              </Text>
+                            </div>
+                          </TwitterShareButton>
+                        </div>
+                      </div>
+                    }
+                    title="Quick share"
+                  >
+                    <Text className="ml-10 lh-2" strong>
+                      <i class="ri-share-line fs-22 va-middle"></i>
+                    </Text>
+                    <Text className="ml-10 lh-2" strong>
+                      Share
+                    </Text>
+                  </Popover>
+                </a>
+
                 <ReactionsOverlay
                   id={props.user ? props.user.id : null}
                   data={getArticleData.articles[0].reactions_to_articles}

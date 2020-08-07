@@ -40,7 +40,7 @@ const Reactions = (props) => {
     <div
       className="d-flex"
       style={{
-        marginTop: -1,
+        marginTop: 3,
       }}
     >
       <ReactionsContainer>
