@@ -410,10 +410,13 @@ const Register = () => {
                 res.json().then((result) => {
                   if (result.response == "ok") {
                     setRecaptcha(true);
+                  } else {
+                    window.hcaptcha.reset();
                   }
                 })
               )
             }
+            onError={(err) => message.error("Recaptcha Invalid")}
           />
           <span className="lh-4">
             {recaptcha ? (
