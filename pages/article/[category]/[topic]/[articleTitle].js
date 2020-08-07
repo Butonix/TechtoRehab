@@ -16,9 +16,11 @@ import {
   Result,
   Button,
   message,
+  Modal,
   Menu,
-  Dropdown,
   Checkbox,
+  Tooltip,
+  Popover,
 } from "antd";
 import { useRouter } from "next/router";
 import { useQuery, useMutation } from "@apollo/client";
@@ -52,10 +54,18 @@ import {
   FacebookIcon,
   TwitterShareButton,
   TwitterIcon,
-  PinterestIcon,
-  PinterestShareButton,
   RedditIcon,
   RedditShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  FacebookMessengerIcon,
+  FacebookMessengerShareButton,
+  InstapaperIcon,
+  InstapaperShareButton,
+  LivejournalIcon,
+  LivejournalShareButton,
 } from "react-share";
 import Moment from "react-moment";
 import styled from "styled-components";
@@ -87,8 +97,8 @@ const { Title, Paragraph, Text } = Typography;
 const FeaturedTag = styled.div`
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   cursor: pointer;
-  background-color: #7f53ac;
-  background-image: linear-gradient(315deg, #7f53ac 0%, #647dee 74%);
+  background-color: #6617cb;
+  background-image: linear-gradient(315deg, #6617cb 0%, #cb218e 74%);
   border-radius: 7px;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -101,17 +111,14 @@ const FeaturedTag = styled.div`
 const AuthorTag = styled.div`
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   cursor: pointer;
-  box-shadow: 6px 4px 0 #7f53ac;
-  display: inline-block;
-  /* border-radius: 5px; */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-color: #7f53ac;
-  background-image: linear-gradient(315deg, #7f53ac 0%, #647dee 74%);
+  display: flex;
   font-weight: bold;
   margin-left: 10px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-color: #f9484a;
+  background-image: linear-gradient(315deg, #f9484a 0%, #fbd72b 74%);
   font-size: 26px;
-  padding-right: 15px;
 `;
 const Article = (props) => {
   //
@@ -136,6 +143,7 @@ const Article = (props) => {
   );
   const [reactionsModal, setReactionsModal] = useState(false);
   const [reacted, setReacted] = useState(false);
+  const [shareModal, setShareModal] = useState(false);
   var time = 0;
   var count = 0;
 
@@ -519,14 +527,14 @@ const Article = (props) => {
                       ) {
                         return count < 200 ? (
                           <div key={index}>
-                            <Text className="lh-2-5" strong>
+                            <Text className="" strong>
                               {"< 1 "}
                             </Text>
-                            <Text className="lh-2-5">{"Minute Read"}</Text>
+                            <Text className="">{"Minute Read"}</Text>
                           </div>
                         ) : (
                           <div key={index}>
-                            <Text className="lh-2-5 mr-5" strong>
+                            <Text className="mr-5" strong>
                               {Math.round(count / 200)}
                             </Text>
                             <Text className="lh-2-5">{"Minute read"}</Text>
@@ -536,10 +544,10 @@ const Article = (props) => {
                     }
                   )}
                 </Space>
-                <div className="ml-auto va-middle lh-2-5 d-flex">
+                <div className="ml-auto va-middle d-flex">
                   {getArticleData.articles[0].created_at <
                   getArticleData.articles[0].updated_at ? (
-                    <div className="d-flex mr-10">
+                    <div className="d-flex mr-10 mt-10">
                       <Text className="mr-10" strong>
                         Updated
                       </Text>
@@ -557,8 +565,19 @@ const Article = (props) => {
                       </Moment>
                     </div>
                   )}
+                  <Tooltip title="Featured">
+                    <FeaturedTag>
+                      <i class="ri-shield-star-fill"></i>
+                    </FeaturedTag>
+                  </Tooltip>
+                  <Tooltip title="Editor's Choice">
+                    <AuthorTag>
+                      <i class="ri-quill-pen-fill"></i>
+                    </AuthorTag>
+                  </Tooltip>
                 </div>
               </div>
+              <Row justify="center" className="mt-30 article-actions"></Row>
             </Col>
           </Row>
           <Row justify="center">
@@ -599,55 +618,186 @@ const Article = (props) => {
                   getArticleData.articles[0].users_to_articles[0].authors.id ? (
                   <a href={`/article/edit/${getArticleData.articles[0].id}`}>
                     <Button
-                      className="compose-button2 mr-10 fw-bold"
+                      className="compose-button2 mr-15 fw-bold"
                       type="primary"
+                      style={{
+                        color: "#2f3545",
+                      }}
                     >
                       Edit article
                     </Button>
                   </a>
                 ) : null}
-                <FacebookShareButton
-                  className="mg-x-10"
-                  quote={getArticleData.articles[0].title}
-                  url={props.url}
-                >
-                  <FacebookIcon size={32} round />
-                </FacebookShareButton>
-                <TwitterShareButton
-                  className="mg-x-10"
-                  quote={getArticleData.articles[0].title}
-                  url={props.url}
-                >
-                  <TwitterIcon size={32} round />
-                </TwitterShareButton>
 
-                {/* <PinterestShareButton
-                  className="mg-x-10"
-                  quote={getArticleData.articles[0].title}
-                  url={props.url}
-                  media={
-                    "https://ik.imagekit.io/ttr/tr:n-high/" +
-                    getArticleData.articles[0].featured_image
-                  }
-                  description={getArticleData.articles[0].excerpt}
+                <Button
+                  className="fw-bold share-button"
+                  type="link"
+                  onClick={() => setShareModal(true)}
                 >
-                  <PinterestIcon size={32} round />
-                </PinterestShareButton> */}
+                  Share This Article
+                </Button>
 
-                <RedditShareButton
-                  className="mg-x-10"
-                  quote={props.title}
-                  url={props.url}
-                  title={getArticleData.articles[0].title}
+                <Modal
+                  visible={shareModal}
+                  onCancel={() => setShareModal(false)}
+                  footer={false}
+                  closable={false}
+                  width={400}
+                  title="Share"
                 >
-                  <RedditIcon size={32} round />
-                </RedditShareButton>
-                <FeaturedTag>
-                  <i class="ri-shield-star-fill"></i>
-                </FeaturedTag>
-                <AuthorTag>
-                  <i class="ri-shield-star-fill"></i>
-                </AuthorTag>
+                  <Row>
+                    <Col>
+                      <img
+                        src={
+                          "https://ik.imagekit.io/ttr/tr:n-med/" +
+                          getArticleData.articles[0].featured_image
+                        }
+                        width="100%"
+                      />
+                      <Text className="line-clamp mt-10 fs-16 pd-x-10" strong>
+                        {getArticleData.articles[0].title}
+                      </Text>
+                      <Paragraph className="line-clamp mt-10 pd-x-10">
+                        {getArticleData.articles[0].excerpt}
+                      </Paragraph>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <div className="d-flex pd-10">
+                      <FacebookShareButton
+                        className="mg-x-5"
+                        quote={getArticleData.articles[0].title}
+                        url={props.url}
+                      >
+                        <div className="d-flex flex-column jc-center">
+                          <FacebookIcon className="mr-10" size={32} round />
+                          <Text className="ta-center mt-5" strong>
+                            Share
+                          </Text>
+                        </div>
+                      </FacebookShareButton>
+                    </div>
+
+                    <div className="d-flex pd-10">
+                      <TwitterShareButton
+                        className="mg-x-5"
+                        title={getArticleData.articles[0].title}
+                        via="TechtoRehab -- The Open Source Publishing Platform"
+                        url={props.url}
+                        hashtags={["techtorehab", "ttr", "article"]}
+                      >
+                        <div className="d-flex flex-column jc-center">
+                          <TwitterIcon size={32} round />
+                          <Text className="ta-center mt-5" strong>
+                            Share
+                          </Text>
+                        </div>
+                      </TwitterShareButton>
+                    </div>
+
+                    <div className="d-flex pd-10">
+                      <InstapaperShareButton
+                        className="mg-x-5"
+                        title={getArticleData.articles[0].title}
+                        description={getArticleData.articles[0].excerpt}
+                        url={props.url}
+                      >
+                        <div className="d-flex flex-column jc-center">
+                          <InstapaperIcon size={32} round />
+                          <Text className="ta-center mt-5" strong>
+                            Share
+                          </Text>
+                        </div>
+                      </InstapaperShareButton>
+                    </div>
+
+                    <div className="d-flex pd-10">
+                      <LivejournalShareButton
+                        className="mg-x-5"
+                        title={getArticleData.articles[0].title}
+                        description={getArticleData.articles[0].excerpt}
+                        url={props.url}
+                      >
+                        <div className="d-flex flex-column jc-center">
+                          <LivejournalIcon size={32} round />
+                          <Text className="ta-center mt-5" strong>
+                            Share
+                          </Text>
+                        </div>
+                      </LivejournalShareButton>
+                    </div>
+
+                    <div className="d-flex pd-10">
+                      <RedditShareButton
+                        className="mg-x-5"
+                        url={props.url}
+                        title={getArticleData.articles[0].title}
+                      >
+                        <div className="d-flex flex-column jc-center">
+                          <RedditIcon size={32} round />
+                          <Text className="ta-center mt-5" strong>
+                            Share
+                          </Text>
+                        </div>
+                      </RedditShareButton>
+                    </div>
+
+                    <div className="d-flex pd-10">
+                      <WhatsappShareButton
+                        className="mg-x-5"
+                        url={props.url}
+                        title={getArticleData.articles[0].title}
+                      >
+                        <div className="d-flex flex-column jc-center">
+                          <WhatsappIcon size={32} round />
+                          <Text className="ta-center mt-5" strong>
+                            Share
+                          </Text>
+                        </div>
+                      </WhatsappShareButton>
+                    </div>
+
+                    <div className="d-flex pd-10">
+                      <FacebookMessengerShareButton
+                        className="mg-x-5"
+                        appId="858231384644584"
+                        redirectUri={
+                          "https://techtorehab.com/article/" +
+                          getArticleData.articles[0].article_category.slug +
+                          "/" +
+                          getArticleData.articles[0].article_topic.slug +
+                          "/" +
+                          getArticleData.articles[0].slug
+                        }
+                        url={props.url}
+                        title={getArticleData.articles[0].title}
+                      >
+                        <div className="d-flex flex-column jc-center">
+                          <FacebookMessengerIcon size={32} round />
+                          <Text className="ta-center mt-5" strong>
+                            Share
+                          </Text>
+                        </div>
+                      </FacebookMessengerShareButton>
+                    </div>
+
+                    <div className="d-flex pd-10">
+                      <LinkedinShareButton
+                        className="mg-x-5"
+                        summary={getArticleData.articles[0].excerpt}
+                        url={props.url}
+                        title={getArticleData.articles[0].title}
+                      >
+                        <div className="d-flex flex-column jc-center">
+                          <LinkedinIcon size={32} round />
+                          <Text className="ta-center mt-5" strong>
+                            Share
+                          </Text>
+                        </div>
+                      </LinkedinShareButton>
+                    </div>
+                  </Row>
+                </Modal>
               </Row>
             </Col>
           </Row>

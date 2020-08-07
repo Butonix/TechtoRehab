@@ -395,7 +395,6 @@ const Register = () => {
 
         <Form.Item className="mt-20">
           <HCaptcha
-            size="invisible"
             sitekey="030880bf-dcb6-4c11-96d5-4fde25feb92e"
             onVerify={(token) =>
               fetch("/api/recaptcha", {
