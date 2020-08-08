@@ -7,6 +7,7 @@ import {
   Divider,
   message,
   Popover,
+  Card,
   Tabs,
   Badge,
   Result,
@@ -19,7 +20,7 @@ import {
 } from "antd";
 import Wrapper from "components/global/wrapper";
 import { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { useStoreActions } from "easy-peasy";
 import InfiniteScroll from "react-infinite-scroller";
 import {
@@ -27,12 +28,17 @@ import {
   getArticlesQuery,
   deleteBookmarkQuery,
   getFeaturedArticlesQuery,
+  getEditorspicksQuery,
 } from "components/home/queries";
 import withSession from "lib/session";
 import Reactions from "components/global/reactions/reacts";
 import ProgressiveImage from "react-progressive-graceful-image";
 import Moment from "react-moment";
 import Link from "next/link";
+import styled from "styled-components";
+import EditorsPick from "components/global/badges/editors_pick";
+import Featured from "components/global/badges/featured";
+import Feed from "components/global/badges/feed";
 //
 //
 //
@@ -40,6 +46,38 @@ import Link from "next/link";
 //
 //
 //
+
+const Widget = styled.div`
+  margin: 10px 10px;
+
+  padding: 15px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  .header {
+    font-size: 18px;
+    align-items: center;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.85);
+    padding: 5px 0px;
+    margin-left: 10px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+  }
+
+  .content {
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+`;
+
+const WidgetContainer = styled.div`
+  height: 100vh;
+  position: sticky;
+  top: 10px;
+  padding: 10px;
+`;
 
 const { Text, Paragraph, Title } = Typography;
 //
@@ -140,6 +178,11 @@ export default function Home(props) {
     refetch: getFeaturedRefetch,
   } = useQuery(getFeaturedArticlesQuery);
 
+  const {
+    loading: getEditorspicksLoading,
+    data: getEditorspicksData,
+  } = useQuery(getEditorspicksQuery);
+
   //
   //
   //
@@ -232,7 +275,7 @@ export default function Home(props) {
         route="home"
       >
         <Row>
-          <Col xs={0} sm={0} md={0} lg={0} xl={5} xxl={4} className="pd-r-20">
+          <Col xs={0} sm={0} md={0} lg={0} xl={4} xxl={3} className="pd-r-20">
             <Text
               className="fs-16 mg-20"
               style={{
@@ -283,7 +326,7 @@ export default function Home(props) {
             xs={24}
             sm={24}
             md={22}
-            lg={20}
+            lg={16}
             xl={14}
             xxl={16}
             className="mg-x-auto pd-x-20"
@@ -361,9 +404,13 @@ export default function Home(props) {
             ) : getFeaturedData.articles.length < 5 ? null : (
               <>
                 <div className="wd-100-pc mt-30">
-                  <Title level={4} className="">
-                    Featured
-                  </Title>
+                  <div className="d-flex jc-center">
+                    <Title level={4} className="mt-5">
+                      Featured
+                    </Title>
+                    <Featured />
+                  </div>
+
                   <Divider />
                 </div>
                 <Row>
@@ -823,9 +870,13 @@ export default function Home(props) {
               </>
             )}
             <div className="wd-100-pc mt-30">
-              <Title level={4} className="">
-                News Feed
-              </Title>
+              <div className="d-flex">
+                <Title level={4} className="mt-5">
+                  News Feed
+                </Title>
+                <Feed />
+              </div>
+
               <Divider />
             </div>
             {loading ? (
@@ -1003,7 +1054,6 @@ export default function Home(props) {
                                 " More "
                               : item.users_to_articles[0].authors.username}
                           </Text>
-                    
                         </Popover>,
                         <Tooltip
                           title={
@@ -1084,20 +1134,99 @@ export default function Home(props) {
               </InfiniteScroll>
             )}
           </Col>
-          <Col className="pd-l-20" xs={0} sm={0} md={0} lg={0} xl={5} xxl={4}>
-            <Menu
-              theme="light"
-              defaultSelectedKeys={["sidebar-2-1"]}
-              mode="vertical-right"
-              className="pd-y-20"
-              style={{
-                height: "100vh",
-                position: "sticky",
-                top: 10,
-              }}
-            >
-              <Menu.Item key="sidebar-2-1">Item 1</Menu.Item>
-            </Menu>
+          <Col className="pd-l-20" xs={0} sm={0} md={0} lg={8} xl={6} xxl={5}>
+            <WidgetContainer>
+              <Widget>
+                <div className="header">
+                  <EditorsPick />
+                  Editor's Choice
+                </div>
+                <Divider />
+                <div className="content">
+                  {getEditorspicksLoading ? (
+                    <>
+                      <Skeleton
+                        className=""
+                        active
+                        round
+                        paragraph={false}
+                        title
+                        avatar={{ shape: "circle" }}
+                      />
+
+                      <Skeleton
+                        className="mt-30"
+                        active
+                        round
+                        paragraph={false}
+                        title
+                        avatar={{ shape: "circle" }}
+                      />
+
+                      <Skeleton
+                        className="mt-30"
+                        active
+                        round
+                        paragraph={false}
+                        title
+                        avatar={{ shape: "circle" }}
+                      />
+
+                      <Skeleton
+                        className="mt-30"
+                        active
+                        round
+                        paragraph={false}
+                        title
+                        avatar={{ shape: "circle" }}
+                      />
+
+                      <Skeleton
+                        className="mt-30"
+                        active
+                        round
+                        paragraph={false}
+                        title
+                        avatar={{ shape: "circle" }}
+                      />
+                    </>
+                  ) : (
+                    <List
+                      itemLayout="vertical"
+                      dataSource={
+                        getEditorspicksData ? getEditorspicksData.articles : []
+                      }
+                      renderItem={(item) => (
+                        <List.Item>
+                          <List.Item.Meta
+                            avatar={
+                              <Avatar
+                                size={45}
+                                src={
+                                  "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                  item.featured_image
+                                }
+                              />
+                            }
+                            title={
+                              <a
+                                href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
+                              >
+                                <Text>
+                                  <p className="fs-14 line-clamp-3 t-transform-cpt">
+                                    {item.title.toLowerCase()}
+                                  </p>
+                                </Text>
+                              </a>
+                            }
+                          />
+                        </List.Item>
+                      )}
+                    ></List>
+                  )}
+                </div>
+              </Widget>
+            </WidgetContainer>
           </Col>
         </Row>
       </Wrapper>

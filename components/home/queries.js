@@ -68,10 +68,33 @@ export const getArticlesQuery = gql`
       type
     }
 
-    articles_aggregate(where: { featured: { _eq: false } }) {
+    articles_aggregate(
+      where: { featured: { _eq: false }, editors_pick: { _eq: false } }
+    ) {
       aggregate {
         count
       }
+    }
+  }
+`;
+
+export const getEditorspicksQuery = gql`
+  query getEditorspicks {
+    articles(where: { editors_pick: { _eq: true } }, limit: 5) {
+      article_category {
+        title
+        slug
+      }
+      article_topic {
+        slug
+        title
+      }
+      excerpt
+      featured_image
+      id
+      slug
+      title
+      updated_at
     }
   }
 `;

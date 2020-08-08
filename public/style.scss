@@ -705,6 +705,13 @@ h6 {
   -webkit-box-orient: vertical;
 }
 
+.line-clamp-3 {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical;
+}
+
 //
 //
 //
