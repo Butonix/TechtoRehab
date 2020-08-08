@@ -12,6 +12,8 @@ export const getArticleQuery = gql`
       excerpt
       updated_at
       created_at
+      featured
+      editors_pick
       slug
       featured_image
       reactions_to_articles {

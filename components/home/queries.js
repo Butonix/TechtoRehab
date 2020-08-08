@@ -6,7 +6,7 @@ export const getArticlesQuery = gql`
       offset: $offset
       limit: $limit
       order_by: { updated_at: desc }
-      where: { featured: { _eq: false } }
+      where: { featured: { _eq: false }, editors_pick: { _eq: false } }
     ) {
       id
       title

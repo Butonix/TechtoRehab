@@ -68,7 +68,8 @@ import {
   LivejournalShareButton,
 } from "react-share";
 import Moment from "react-moment";
-import styled from "styled-components";
+import Featured from "components/global/badges/featured";
+import EditorsPick from "components/global/badges/editors_pick";
 //
 //
 //
@@ -94,32 +95,7 @@ const { Title, Paragraph, Text } = Typography;
 //
 //
 //
-const FeaturedTag = styled.div`
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  cursor: pointer;
-  background-color: #6617cb;
-  background-image: linear-gradient(315deg, #6617cb 0%, #cb218e 74%);
-  border-radius: 7px;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
-  margin-left: 10px;
-  font-size: 26px;
-  vertical-align: -4px;
-`;
 
-const AuthorTag = styled.div`
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  cursor: pointer;
-  display: flex;
-  font-weight: bold;
-  margin-left: 10px;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-color: #f9484a;
-  background-image: linear-gradient(315deg, #f9484a 0%, #fbd72b 74%);
-  font-size: 26px;
-`;
 const Article = (props) => {
   //
   //
@@ -570,16 +546,11 @@ const Article = (props) => {
                       </Moment>
                     </div>
                   )}
-                  <Tooltip title="Featured">
-                    <FeaturedTag>
-                      <i class="ri-shield-star-fill"></i>
-                    </FeaturedTag>
-                  </Tooltip>
-                  <Tooltip title="Editor's Choice">
-                    <AuthorTag>
-                      <i class="ri-quill-pen-fill"></i>
-                    </AuthorTag>
-                  </Tooltip>
+                  {getArticleData.articles[0].featured ? <Featured /> : null}
+
+                  {getArticleData.articles[0].editors_pick ? (
+                    <EditorsPick />
+                  ) : null}
                 </div>
               </div>
               <Row justify="center" className="mt-30 article-actions"></Row>
