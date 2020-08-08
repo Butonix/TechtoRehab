@@ -11,7 +11,8 @@ const FeedTag = styled.div`
   -webkit-text-fill-color: transparent;
   font-weight: 700;
   margin-left: 10px;
-  font-size: 26px;
+  font-size: 22px;
+  margin-top: 1px;
   vertical-align: -4px;
 `;
 
