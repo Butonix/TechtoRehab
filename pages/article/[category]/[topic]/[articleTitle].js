@@ -661,6 +661,7 @@ const Article = (props) => {
                           getArticleData.articles[0].featured_image
                         }
                         width="100%"
+                        height={200}
                       />
                       <Text className="line-clamp mt-10 fs-16 pd-x-10" strong>
                         {getArticleData.articles[0].title}
@@ -1168,7 +1169,7 @@ const Article = (props) => {
                   }}
                   href="#share"
                 >
-                  <Popover
+                  {/* <Popover
                     overlayInnerStyle={{
                       width: "100%",
                       display: "inline-block",
@@ -1210,14 +1211,14 @@ const Article = (props) => {
                       </div>
                     }
                     title="Quick share"
-                  >
-                    <Text className="ml-10 lh-2" strong>
-                      <i class="ri-share-line fs-22 va-middle"></i>
-                    </Text>
-                    <Text className="ml-10 lh-2" strong>
-                      Share
-                    </Text>
-                  </Popover>
+                  > */}
+                  <Text className="ml-10 lh-2" strong>
+                    <i class="ri-share-line fs-22 va-middle"></i>
+                  </Text>
+                  <Text className="ml-10 lh-2" strong>
+                    Share
+                  </Text>
+                  {/* </Popover> */}
                 </a>
 
                 <ReactionsOverlay
