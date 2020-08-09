@@ -372,6 +372,15 @@ const Topic = (props) => {
                           variables: {
                             offset: getArticleData.articles.length,
                           },
+                          updateQuery: (previous, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return previous;
+                            return Object.assign({}, previous, {
+                              articles: [
+                                ...previous.articles,
+                                ...fetchMoreResult.articles,
+                              ],
+                            });
+                          },
                         })
                       }
                       loader={

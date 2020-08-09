@@ -27,7 +27,7 @@ const Nav = styled.div`
   z-index: 2;
 
   @media ${breakPoints.mobile} {
-    padding: 13px 15px 5px 15px;
+    padding: 13px 0px 5px 15px;
   }
   @media ${breakPoints.smallMobile} {
     font-size: 11px !important;
@@ -80,6 +80,10 @@ const Nav = styled.div`
     line-height: 2.8;
     @media ${breakPoints.smallMobile} {
       line-height: 2.9;
+    }
+
+    a {
+      line-height: 2.3;
     }
   }
   .desktop-link {
@@ -384,6 +388,19 @@ const Navigation = (props) => {
           />
         </a>
       </div>
+      <div className="navigation">
+        <a href="/search">
+          <Text>
+            <i
+              class="ri-search-line fs-20 lh-1 mr-10"
+              style={{
+                verticalAlign: -5,
+              }}
+            ></i>
+          </Text>
+        </a>
+      </div>
+
       <div className="navigation desktop-link">
         <a href="/categories">
           <Text>Categories</Text>
