@@ -708,7 +708,7 @@ h6 {
 .line-clamp-3 {
   display: -webkit-box;
   overflow: hidden;
-  -webkit-line-clamp-2: 3 !important;
+  -webkit-line-clamp: 3 !important;
   -webkit-box-orient: vertical;
 }
 

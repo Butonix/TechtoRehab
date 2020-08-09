@@ -3,12 +3,9 @@ import { useApollo } from "lib/apolloClient";
 import { DefaultSeo } from "next-seo";
 import { storage } from "../store/store";
 import { createStore, StoreProvider } from "easy-peasy";
-// import "public/light.scss";
 import "antd/dist/antd.min.css";
 import "public/style.scss";
 import "remixicon/fonts/remixicon.css";
-// import "public/dark.scss";
-import "../public/blur.css";
 
 const store = createStore(storage);
 

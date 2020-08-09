@@ -339,43 +339,51 @@ const Navigation = (props) => {
         maskClosable
         onCancel={() => setLoginModal(false)}
         visible={loginModal}
+        bodyStyle={{
+          padding: 0,
+        }}
+        width={400}
       >
         <Row justify="center">
-          <Col span={18}>
-            <img src="/login-2.svg" width={350} height={250} />
-            <Title level={4} className="mg-y-20 fs-18 ta-center">
+          <Col>
+            <img src="/login-rectangle.svg" width="100%" height={250} />
+            <Title level={4} className="mg-y-20 fs-14 ta-center">
               Please Sign In to continue
             </Title>
-            <Form
-              layout="vertical"
-              onFinish={(obj) => {
-                login({
-                  variables: {
-                    username: obj.username,
-                  },
-                });
-              }}
-            >
-              <Form.Item label="Username" name="username">
-                <Input placeholder="Your Username" />
-              </Form.Item>
-              <Form.Item label="Password" name="password">
-                <Input.Password
-                  placeholder="Your Password"
-                  name="password"
-                  autoComplete="new-password"
-                  onChange={(val) => {
-                    setPassword(val.target.value);
+            <Row justify="center">
+              <Col span={16} className="mb-30">
+                <Form
+                  layout="vertical"
+                  onFinish={(obj) => {
+                    login({
+                      variables: {
+                        username: obj.username,
+                      },
+                    });
                   }}
-                />
-              </Form.Item>
-              <Form.Item className="mt-30 mb-20">
-                <Button type="primary" htmlType="submit">
-                  Sign In
-                </Button>
-                <Button type="link">Forgot Password ?</Button>
-              </Form.Item>
-            </Form>
+                >
+                  <Form.Item label="Username" name="username">
+                    <Input placeholder="Your Username" />
+                  </Form.Item>
+                  <Form.Item label="Password" name="password">
+                    <Input.Password
+                      placeholder="Your Password"
+                      name="password"
+                      autoComplete="new-password"
+                      onChange={(val) => {
+                        setPassword(val.target.value);
+                      }}
+                    />
+                  </Form.Item>
+                  <Form.Item className="mt-30 mb-30">
+                    <Button type="primary" htmlType="submit">
+                      Sign In
+                    </Button>
+                    <Button type="link">Forgot Password ?</Button>
+                  </Form.Item>
+                </Form>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Modal>
