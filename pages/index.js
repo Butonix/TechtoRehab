@@ -404,8 +404,8 @@ export default function Home(props) {
             ) : getFeaturedData.articles.length < 5 ? null : (
               <>
                 <div className="wd-100-pc mt-30">
-                  <div className="d-flex jc-center">
-                    <Title level={4} className="mt-5">
+                  <div className="d-flex">
+                    <Title level={4} className="mt-5 mr-auto">
                       Featured
                     </Title>
                     <Featured />
@@ -871,10 +871,14 @@ export default function Home(props) {
             )}
             <div className="wd-100-pc mt-30">
               <div className="d-flex">
-                <Title level={4} className="mt-5">
+                <Title level={4} className="mt-5 mr-auto">
                   News Feed
                 </Title>
-                <Feed />
+                <Feed
+                  style={{
+                    marginTop: 3,
+                  }}
+                />
               </div>
 
               <Divider />

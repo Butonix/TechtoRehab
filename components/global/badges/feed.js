@@ -11,15 +11,14 @@ const FeedTag = styled.div`
   -webkit-text-fill-color: transparent;
   font-weight: 700;
   margin-left: 10px;
-  font-size: 22px;
-  margin-top: 1px;
+  font-size: 26px;
   vertical-align: -4px;
 `;
 
-const Feed = () => (
+const Feed = (props) => (
   <Tooltip title="Feed">
-    <FeedTag>
-      <i class="ri-rss-fill"></i>
+    <FeedTag style={props.style}>
+      <i class="ri-list-check-2"></i>
     </FeedTag>
   </Tooltip>
 );
