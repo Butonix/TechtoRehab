@@ -490,7 +490,7 @@ const Article = (props) => {
                 <div
                   className="d-flex"
                   style={{
-                    marginTop: 7,
+                    marginTop: 12,
                   }}
                 >
                   {getArticleData.articles[0].content.blocks.map(
