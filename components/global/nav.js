@@ -409,11 +409,11 @@ const Navigation = (props) => {
         </a>
       </div>
 
-      <div className="navigation desktop-link">
+      {/* <div className="navigation desktop-link">
         <a href="/categories">
           <Text>Categories</Text>
         </a>
-      </div>
+      </div> */}
 
       {props.user && props.user.id ? (
         <div className="navigation dropDown">

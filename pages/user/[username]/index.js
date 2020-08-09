@@ -292,14 +292,14 @@ const User = (props) => {
                         src={
                           cover
                             ? "https://ik.imagekit.io/ttr/tr:n-high/" + cover
-                            : "/cover-placeholder.svg"
+                            : "https://de23g11v4qrwk.cloudfront.net/cover-placeholder.svg"
                         }
                         threshold={1}
                         placeholder={
                           cover
                             ? "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
                               cover
-                            : "/cover-placeholder.svg"
+                            : "https://de23g11v4qrwk.cloudfront.net/cover-placeholder.svg"
                         }
                       >
                         {(src) => (
@@ -346,13 +346,13 @@ const User = (props) => {
                       src={
                         cover
                           ? "https://ik.imagekit.io/ttr/tr:n-high/" + cover
-                          : "/cover-placeholder.svg"
+                          : "https://de23g11v4qrwk.cloudfront.net/cover-placeholder.svg"
                       }
                       placeholder={
                         cover
                           ? "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
                             cover
-                          : "/cover-placeholder.svg"
+                          : "https://de23g11v4qrwk.cloudfront.net/cover-placeholder.svg"
                       }
                     >
                       {(src) => (
@@ -374,13 +374,13 @@ const User = (props) => {
                     src={
                       cover
                         ? "https://ik.imagekit.io/ttr/tr:n-high/" + cover
-                        : "/cover-placeholder.svg"
+                        : "https://de23g11v4qrwk.cloudfront.net/cover-placeholder.svg"
                     }
                     placeholder={
                       cover
                         ? "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
                           cover
-                        : "/cover-placeholder.svg"
+                        : "https://de23g11v4qrwk.cloudfront.net/cover-placeholder.svg"
                     }
                   >
                     {(src) => (
@@ -432,7 +432,7 @@ const User = (props) => {
                               ) || dp.includes("google")
                               ? dp
                               : "https://ik.imagekit.io/ttr/tr:n-med/" + dp
-                            : "/avatar-placeholder.svg"
+                            : "https://de23g11v4qrwk.cloudfront.net/avatar-placeholder.svg"
                         }
                         style={{
                           margin: "auto",
@@ -452,7 +452,7 @@ const User = (props) => {
                             ) || dp.includes("google")
                             ? dp
                             : "https://ik.imagekit.io/ttr/tr:n-med/" + dp
-                          : "/avatar-placeholder.svg"
+                          : "https://de23g11v4qrwk.cloudfront.net/avatar-placeholder.svg"
                       }
                       style={{
                         margin: "auto",
@@ -472,7 +472,7 @@ const User = (props) => {
                           ) || dp.includes("google")
                           ? dp
                           : "https://ik.imagekit.io/ttr/tr:n-med/" + dp
-                        : "/avatar-placeholder.svg"
+                        : "https://de23g11v4qrwk.cloudfront.net/avatar-placeholder.svg"
                     }
                     style={{
                       margin: "auto",
@@ -685,7 +685,11 @@ const User = (props) => {
                             <Text className="fs-16 mg-y-20" strong>
                               No bookmarks yet
                             </Text>
-                            <img src="/empty.svg" width="100%" height={250} />
+                            <img
+                              src="https://de23g11v4qrwk.cloudfront.net/empty.svg"
+                              width="100%"
+                              height={250}
+                            />
                           </div>
                         ) : (
                           <List

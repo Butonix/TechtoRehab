@@ -17,7 +17,7 @@ const Error404 = () => {
           description: "Page not Found",
           images: [
             {
-              url: "/404.jpg",
+              url: "https://de23g11v4qrwk.cloudfront.net/404.jpg",
               width: 800,
               height: 600,
               alt: "404 Page not found",

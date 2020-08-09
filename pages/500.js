@@ -17,7 +17,7 @@ const Error500 = () => {
           description: "Internal Server Error. Please Try Again Later",
           images: [
             {
-              url: "/500.jpg",
+              url: "https://de23g11v4qrwk.cloudfront.net/500.jpg",
               width: 800,
               height: 600,
               alt: "500 Internal Server Error",

@@ -18,17 +18,16 @@ const PublishedArticle = (props) => {
             {props.id ? (
               <>
                 <Title
-                  className=" ta-center mt-10 fs-20 mt-30 mb-30 lh-2 fw-400 pd-x-10"
+                  className=" ta-center mt-10 fs-22 mt-30 mb-30 lh-2 fw-400 pd-x-10"
                   level={4}
                 >
-                  Awsum 😁😁💯 Your article has been published 👍👍
+                  Awsum 😁😁💯 How 'bout another one then ehh ? 😎😋
                 </Title>
 
                 <img
-                  src="/create-done.svg"
+                  src="https://de23g11v4qrwk.cloudfront.net/published.svg"
                   width="100%"
-                  height={500}
-                  className="o-fit-cover"
+                  className="o-fit-cover published-page-image"
                 />
                 <Row justify="center" className="mt-30 mb-30">
                   <Button className="mr-20" type="primary">

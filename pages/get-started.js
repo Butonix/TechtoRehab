@@ -32,7 +32,7 @@ const SignIn = () => {
                   width="100%"
                   height={600}
                   className="o-fit-cover"
-                  src="/login-cover.svg"
+                  src="https://de23g11v4qrwk.cloudfront.net/login-cover.svg"
                 />
               </Col>
               <Col

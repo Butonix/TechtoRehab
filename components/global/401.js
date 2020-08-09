@@ -17,7 +17,12 @@ const error = () => {
         subTitle={
           <Text strong>You need to be logged in to access this page</Text>
         }
-        icon={<img src="/401.svg" height={300} />}
+        icon={
+          <img
+            src="https://de23g11v4qrwk.cloudfront.net/401.svg"
+            height={300}
+          />
+        }
         style={{ margin: "10%" }}
         extra={[
           <Button type="primary">

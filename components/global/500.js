@@ -15,7 +15,12 @@ const Error500 = () => {
         status="error"
         title="500 Internal Server Error"
         subTitle={<Text strong>Error Fetching Data From Server</Text>}
-        icon={<img src="/500.svg" height={300} />}
+        icon={
+          <img
+            src="https://de23g11v4qrwk.cloudfront.net/500.svg"
+            height={300}
+          />
+        }
         style={{ margin: "10%" }}
         extra={[
           <Button type="primary" onClick={() => router.reload()}>

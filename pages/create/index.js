@@ -21,7 +21,7 @@ const Create = (props) => {
                     <a href="/create/article">
                       <img
                         className="o-fit-cover"
-                        src="article.svg"
+                        src="https://de23g11v4qrwk.cloudfront.net/article.svg"
                         width={150}
                       />
                     </a>
@@ -41,7 +41,14 @@ const Create = (props) => {
                   />
                 </List.Item>
 
-                <List.Item extra={<img src="comingSoon.svg" width={150} />}>
+                <List.Item
+                  extra={
+                    <img
+                      src="https://de23g11v4qrwk.cloudfront.net/coming-soon.svg"
+                      width={150}
+                    />
+                  }
+                >
                   <List.Item.Meta
                     title={
                       <Text strong className="fs-18">

@@ -1579,3 +1579,15 @@ img {
   color: #2f3545 !important;
   box-shadow: 7px 5px 0 #2f3545 !important;
 }
+
+.published-page-image {
+  height: 490px;
+
+  @include mobile {
+    height: 300px;
+  }
+
+  @include smallMobile {
+    height: 300px;
+  }
+}

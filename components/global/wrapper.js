@@ -207,7 +207,7 @@ const wrapper = (props) => {
               ? props.seo.images
               : [
                   {
-                    url: "https://techtorehab.com/logo-square.jpg",
+                    url: "https://de23g11v4qrwk.cloudfront.net/logo-square.jpg",
                     width: 650,
                     height: 450,
                     alt: "OG Tech To Rehab Logo",
@@ -377,6 +377,54 @@ const wrapper = (props) => {
                     }}
                   >
                     Categories
+                  </Text>
+                </Menu.Item>
+
+                <Menu.Item
+                  key="topics"
+                  onClick={() => (location.href = "/topics")}
+                  icon={<i class="ri-node-tree  fs-22 va-minus-6 mr-10"></i>}
+                >
+                  <Text
+                    style={{
+                      color: "inherit",
+                    }}
+                  >
+                    Topics
+                  </Text>
+                </Menu.Item>
+                <Text className="mg-20 lh-3 fs-16" strong>
+                  Legal
+                </Text>
+                <Menu.Item
+                  key="terms"
+                  onClick={() => (location.href = "/legal/terms")}
+                  icon={
+                    <i className="ri-scales-3-line fs-22 va-minus-6 mr-10"></i>
+                  }
+                >
+                  <Text
+                    style={{
+                      color: "inherit",
+                    }}
+                  >
+                    Terms
+                  </Text>
+                </Menu.Item>
+
+                <Menu.Item
+                  key="terms"
+                  onClick={() => (location.href = "/legal/privacy-policy")}
+                  icon={
+                    <i className="ri-shield-user-fill fs-22 va-minus-6 mr-10"></i>
+                  }
+                >
+                  <Text
+                    style={{
+                      color: "inherit",
+                    }}
+                  >
+                    Privacy
                   </Text>
                 </Menu.Item>
               </Menu>

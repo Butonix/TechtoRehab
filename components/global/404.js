@@ -20,7 +20,12 @@ const Error404 = () => {
             Removed
           </Text>
         }
-        icon={<img src="/404.svg" height={500} />}
+        icon={
+          <img
+            src="https://de23g11v4qrwk.cloudfront.net/404.svg"
+            height={500}
+          />
+        }
         style={{ margin: "10%" }}
         extra={[
           <Button type="primary" onClick={() => router.push("/")}>
