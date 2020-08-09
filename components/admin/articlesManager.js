@@ -39,9 +39,11 @@ const getArticlesQuery = gql`
         }
       }
       article_category {
+        slug
         title
       }
       article_topic {
+        slug
         title
       }
 
@@ -438,6 +440,26 @@ const ArticlesManager = () => {
               return refetch();
             }
           }}
+          tabBarExtraContent={
+            <Button
+              onClick={() => {
+                fetch("/api/generateSitemap", {
+                  headers: {
+                    "content-type": "application/json",
+                    accept: "application/json",
+                  },
+                  method: "POST",
+                  body: JSON.stringify({
+                    posts: getArticleData.articles,
+                  }),
+                }).then((res) =>
+                  res.json().then((result) => console.log(result))
+                );
+              }}
+            >
+              Generate Sitemap
+            </Button>
+          }
           activeKey={managerTabState}
         >
           <Tabs.TabPane tab="Default" key="default">
