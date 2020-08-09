@@ -69,7 +69,16 @@ const Search = () => {
                   >
                     <List.Item.Meta
                       title={
-                        <Text className="fs-14 line-clamp-3">{item.title}</Text>
+                        <a
+                          href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
+                        >
+                          <Text className="fs-14 line-clamp-3">
+                            {item.title}
+                          </Text>
+                        </a>
+                      }
+                      description={
+                        <Text className="line-clamp">{item.excerpt}</Text>
                       }
                       avatar={
                         <ProgressiveImage
