@@ -730,7 +730,10 @@ const Article = (props) => {
                       <WhatsappShareButton
                         className="mg-x-5"
                         url={props.url}
-                        title={getArticleData.articles[0].title}
+                        title={
+                          getArticleData.articles[0].title +
+                          " -- Check it out right here @"
+                        }
                       >
                         <div className="d-flex flex-column jc-center">
                           <WhatsappIcon size={32} className="ml-5" round />
