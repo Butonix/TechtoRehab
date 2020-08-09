@@ -483,7 +483,7 @@ const Article = (props) => {
                 {getArticleData.articles[0].title}
               </Title>
 
-              <Paragraph className="pd-x-20 lh-2 mt-10 fs-14 line-clamp">
+              <Paragraph className="pd-x-20 lh-2 mt-10 fs-14 line-clamp-2">
                 {getArticleData.articles[0].excerpt}
               </Paragraph>
               <div className="d-flex pd-x-20">
@@ -634,10 +634,10 @@ const Article = (props) => {
                         width="100%"
                         height={200}
                       />
-                      <Text className="line-clamp mt-10 fs-16 pd-x-10" strong>
+                      <Text className="line-clamp-2 mt-10 fs-16 pd-x-10" strong>
                         {getArticleData.articles[0].title}
                       </Text>
-                      <Paragraph className="line-clamp mt-10 pd-x-10">
+                      <Paragraph className="line-clamp-2 mt-10 pd-x-10">
                         {getArticleData.articles[0].excerpt}
                       </Paragraph>
                     </Col>

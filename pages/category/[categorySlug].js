@@ -220,7 +220,7 @@ const Categories = (props) => {
           ]}
         />
         <Row justify="center" className="mg-y-20">
-          <Col xs={24} sm={24} md={24} lg={24} xl={20} xxl={16}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={22}>
             <Card
               bodyStyle={{
                 padding: 10,
@@ -270,7 +270,7 @@ const Categories = (props) => {
                       }}
                     />
                     <Paragraph
-                      className="ta-center fs-26 fw-bold t-transform-cpt line-clamp"
+                      className="ta-center fs-26 fw-bold t-transform-cpt line-clamp-2"
                       style={{
                         position: "absolute",
                         zIndex: 2,
@@ -368,13 +368,13 @@ const Categories = (props) => {
                               <a
                                 href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
                               >
-                                <Paragraph className="mr-20 ml-10 fs-16 line-clamp">
+                                <Paragraph className="mr-20 ml-10 fs-16 line-clamp-2">
                                   {item.title}
                                 </Paragraph>
                               </a>
                             }
                             description={
-                              <Paragraph className="mr-20 ml-10 line-clamp">
+                              <Paragraph className="mr-20 ml-10 line-clamp-2">
                                 {item.excerpt}
                               </Paragraph>
                             }
@@ -422,7 +422,7 @@ const Categories = (props) => {
                           <List.Item>
                             <List.Item.Meta
                               title={
-                                <Paragraph className="fs-14 line-clamp">
+                                <Paragraph className="fs-14 line-clamp-2">
                                   <a
                                     href={`/article/${item.article_category.title}/${item.article_topic.title}/${item.slug}`}
                                     style={{
@@ -451,8 +451,8 @@ const Categories = (props) => {
                                       src={src}
                                       alt={`Featured image for ${item.title} on TechtoRehab`}
                                       style={{
-                                        height: 35,
-                                        width: 35,
+                                        height: 45,
+                                        width: 45,
                                         borderRadius: "50%",
                                       }}
                                     />
@@ -502,7 +502,7 @@ const Categories = (props) => {
                           <List.Item>
                             <List.Item.Meta
                               title={
-                                <Paragraph className="fs-14 line-clamp">
+                                <Paragraph className="fs-14 line-clamp-2">
                                   <a
                                     href={`/article/${item.article_category.title}/${item.article_topic.title}/${item.slug}`}
                                     style={{
@@ -531,8 +531,8 @@ const Categories = (props) => {
                                       src={src}
                                       alt={`Featured Image for ${item.title} on TechtoRehab`}
                                       style={{
-                                        height: 35,
-                                        width: 35,
+                                        height: 45,
+                                        width: 45,
                                         borderRadius: "50%",
                                       }}
                                     />

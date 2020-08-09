@@ -652,13 +652,13 @@ const User = (props) => {
                                     <a
                                       href={`/article/${item.article.article_category.slug}/${item.article.article_topic.slug}/${item.article.slug}`}
                                     >
-                                      <Paragraph className="fs-14 line-clamp">
+                                      <Paragraph className="fs-14 line-clamp-2">
                                         {item.article.title}
                                       </Paragraph>
                                     </a>
                                   }
                                   description={
-                                    <Paragraph className="fs-14 line-clamp">
+                                    <Paragraph className="fs-14 line-clamp-2">
                                       {item.article.excerpt}
                                     </Paragraph>
                                   }
@@ -756,13 +756,13 @@ const User = (props) => {
                                     <a
                                       href={`/article/${item.bookmarkedArticle.article_category.slug}/${item.bookmarkedArticle.article_topic.slug}/${item.bookmarkedArticle.slug}`}
                                     >
-                                      <Paragraph className="fs-14 line-clamp">
+                                      <Paragraph className="fs-14 line-clamp-2">
                                         {item.bookmarkedArticle.title}
                                       </Paragraph>
                                     </a>
                                   }
                                   description={
-                                    <Paragraph className="fs-14 line-clamp">
+                                    <Paragraph className="fs-14 line-clamp-2">
                                       {item.bookmarkedArticle.excerpt}
                                     </Paragraph>
                                   }

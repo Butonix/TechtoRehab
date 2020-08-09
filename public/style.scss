@@ -691,14 +691,14 @@ h6 {
   line-height: 6 !important;
 }
 
-.line-clamp {
+.line-clamp-2 {
   display: -webkit-box;
   overflow: hidden;
   -webkit-line-clamp: 2 !important;
   -webkit-box-orient: vertical;
 }
 
-.line-clamp-1 {
+.line-clamp {
   display: -webkit-box;
   overflow: hidden;
   -webkit-line-clamp: 1 !important;
@@ -708,7 +708,7 @@ h6 {
 .line-clamp-3 {
   display: -webkit-box;
   overflow: hidden;
-  -webkit-line-clamp: 3 !important;
+  -webkit-line-clamp-2: 3 !important;
   -webkit-box-orient: vertical;
 }
 
@@ -1005,7 +1005,7 @@ h6 {
 
     .ant-list-item-action {
       @include mobile {
-        width: calc(100vw - 30px) !important;
+        width: calc(100vw - 100px) !important;
       }
     }
   }

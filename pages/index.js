@@ -106,6 +106,7 @@ export default function Home(props) {
         offset: 0,
         limit: 5,
       },
+      onCompleted: (data) => console.log(data),
       onError: (err) => {
         return (
           <Result
@@ -538,14 +539,14 @@ export default function Home(props) {
                               href={`/article/${getFeaturedData.articles[0].article_category.slug}/${getFeaturedData.articles[0].article_topic.slug}/${getFeaturedData.articles[0].slug}`}
                             >
                               <a>
-                                <Text className="fs-14 line-clamp">
+                                <Text className="fs-14 line-clamp-2">
                                   {getFeaturedData.articles[0].title}
                                 </Text>
                               </a>
                             </Link>
                           }
                           description={
-                            <Text className="fs-14 line-clamp">
+                            <Text className="fs-14 line-clamp-2">
                               {getFeaturedData.articles[0].excerpt}
                             </Text>
                           }
@@ -666,14 +667,14 @@ export default function Home(props) {
                                     href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
                                   >
                                     <a>
-                                      <Text className="fs-14 line-clamp mr-20">
+                                      <Text className="fs-14 line-clamp-2 mr-20">
                                         {item.title}
                                       </Text>
                                     </a>
                                   </Link>
                                 }
                                 description={
-                                  <Text className="fs-14 line-clamp mr-20">
+                                  <Text className="fs-14 line-clamp-2 mr-20">
                                     {item.excerpt}
                                   </Text>
                                 }
@@ -843,7 +844,7 @@ export default function Home(props) {
                               }`}
                             >
                               <a>
-                                <Text className="fs-14 line-clamp">
+                                <Text className="fs-14 line-clamp-2">
                                   {
                                     getFeaturedData.articles[
                                       getFeaturedData.articles.length - 1
@@ -854,7 +855,7 @@ export default function Home(props) {
                             </Link>
                           }
                           description={
-                            <Text className="fs-14 line-clamp">
+                            <Text className="fs-14 line-clamp-2">
                               {
                                 getFeaturedData.articles[
                                   getFeaturedData.articles.length - 1
@@ -920,15 +921,6 @@ export default function Home(props) {
                   fetchMore({
                     variables: {
                       offset: data.articles.length,
-                    },
-                    updateQuery: (previous, { fetchMoreResult }) => {
-                      if (!fetchMoreResult) return previous;
-                      return Object.assign({}, previous, {
-                        articles: [
-                          ...previous.articles,
-                          ...fetchMoreResult.articles,
-                        ],
-                      });
                     },
                   })
                 }
@@ -1121,13 +1113,16 @@ export default function Home(props) {
                               item.slug
                             }
                           >
-                            <Paragraph className="mr-20 article-list-item-title line-clamp">
+                            <Paragraph className="mr-20 article-list-item-title line-clamp-2">
                               {item.title}
                             </Paragraph>
                           </a>
                         }
                         description={
-                          <Paragraph className="mr-20 line-clamp" key={item.id}>
+                          <Paragraph
+                            className="mr-20 line-clamp-2"
+                            key={item.id}
+                          >
                             {item.excerpt}
                           </Paragraph>
                         }
@@ -1217,7 +1212,7 @@ export default function Home(props) {
                                 href={`/article/${item.article_category.slug}/${item.article_topic.slug}/${item.slug}`}
                               >
                                 <Text>
-                                  <p className="fs-14 line-clamp-3 t-transform-cpt">
+                                  <p className="fs-14 line-clamp-2-3 t-transform-cpt">
                                     {item.title.toLowerCase()}
                                   </p>
                                 </Text>
