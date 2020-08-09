@@ -1084,7 +1084,7 @@ const Article = (props) => {
                                     ? item.authors.profile_picture
                                     : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                                       item.authors.profile_picture
-                                  : "/blank.svg"
+                                  : "/avatar-placeholder.svg"
                               }
                               placeholder={
                                 item.authors.profile_picture &&
@@ -1098,7 +1098,7 @@ const Article = (props) => {
                                     ? item.authors.profile_picture
                                     : "https://ik.imagekit.io/ttr/tr:n-avatar_placeholder/" +
                                       item.authors.profile_picture
-                                  : "/blank.svg"
+                                  : "/avatar-placeholder.svg"
                               }
                               threshold={1}
                             >
@@ -1336,15 +1336,17 @@ const Article = (props) => {
                             avatar={
                               <Avatar
                                 src={
-                                  comment.author.profile_picture.includes(
-                                    "https://platform-lookaside.fbsbx.com/"
-                                  ) ||
-                                  comment.author.profile_picture.includes(
-                                    "google"
-                                  )
-                                    ? comment.author.profile_picture
-                                    : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                      comment.author.profile_picture
+                                  comment.author.profile_picture
+                                    ? comment.author.profile_picture.includes(
+                                        "https://platform-lookaside.fbsbx.com/"
+                                      ) ||
+                                      comment.author.profile_picture.includes(
+                                        "google"
+                                      )
+                                      ? comment.author.profile_picture
+                                      : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                        comment.author.profile_picture
+                                    : "/avatar-placeholder.svg"
                                 }
                               />
                             }
@@ -1405,17 +1407,20 @@ const Article = (props) => {
                                         avatar={
                                           <Avatar
                                             src={
-                                              replies.replyAuthor.profile_picture.includes(
-                                                "https://platform-lookaside.fbsbx.com/"
-                                              ) ||
-                                              replies.replyAuthor.profile_picture.includes(
-                                                "google"
-                                              )
-                                                ? replies.replyAuthor
-                                                    .profile_picture
-                                                : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                                  replies.replyAuthor
-                                                    .profile_picture
+                                              replies.replyAuthor
+                                                .profile_picture
+                                                ? replies.replyAuthor.profile_picture.includes(
+                                                    "https://platform-lookaside.fbsbx.com/"
+                                                  ) ||
+                                                  replies.replyAuthor.profile_picture.includes(
+                                                    "google"
+                                                  )
+                                                  ? replies.replyAuthor
+                                                      .profile_picture
+                                                  : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                                    replies.replyAuthor
+                                                      .profile_picture
+                                                : "/avatar-placeholer.svg"
                                             }
                                           />
                                         }
@@ -1440,14 +1445,6 @@ const Article = (props) => {
                                                       setShowReply(true));
                                                 }}
                                               >
-                                                {/* <Text strong>
-                                                  {replies.replyAuthor
-                                                    .username ==
-                                                  props.user.username
-                                                    ? "Self"
-                                                    : replies.replyAuthor
-                                                        .username}
-                                                </Text> */}
                                                 Reply
                                               </a>
                                               <a
@@ -1491,19 +1488,23 @@ const Article = (props) => {
                                                       avatar={
                                                         <Avatar
                                                           src={
-                                                            repliesToReply.author.profile_picture.includes(
-                                                              "https://platform-lookaside.fbsbx.com/"
-                                                            ) ||
-                                                            repliesToReply.author.profile_picture.includes(
-                                                              "google"
-                                                            )
-                                                              ? repliesToReply
-                                                                  .author
-                                                                  .profile_picture
-                                                              : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
-                                                                repliesToReply
-                                                                  .author
-                                                                  .profile_picture
+                                                            repliesToReply
+                                                              .author
+                                                              .profile_picture
+                                                              ? repliesToReply.author.profile_picture.includes(
+                                                                  "https://platform-lookaside.fbsbx.com/"
+                                                                ) ||
+                                                                repliesToReply.author.profile_picture.includes(
+                                                                  "google"
+                                                                )
+                                                                ? repliesToReply
+                                                                    .author
+                                                                    .profile_picture
+                                                                : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
+                                                                  repliesToReply
+                                                                    .author
+                                                                    .profile_picture
+                                                              : "/avatar-placeholder.svg"
                                                           }
                                                         />
                                                       }

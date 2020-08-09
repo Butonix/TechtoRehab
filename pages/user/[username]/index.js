@@ -292,14 +292,14 @@ const User = (props) => {
                         src={
                           cover
                             ? "https://ik.imagekit.io/ttr/tr:n-high/" + cover
-                            : "/image-placeholder.png"
+                            : "/cover-placeholder.svg"
                         }
                         threshold={1}
                         placeholder={
                           cover
                             ? "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
                               cover
-                            : "/image-placeholder.png"
+                            : "/cover-placeholder.svg"
                         }
                       >
                         {(src) => (
@@ -346,13 +346,13 @@ const User = (props) => {
                       src={
                         cover
                           ? "https://ik.imagekit.io/ttr/tr:n-high/" + cover
-                          : "/image-placeholder.png"
+                          : "/cover-placeholder.svg"
                       }
                       placeholder={
                         cover
                           ? "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
                             cover
-                          : "/image-placeholder.png"
+                          : "/cover-placeholder.svg"
                       }
                     >
                       {(src) => (
@@ -374,13 +374,13 @@ const User = (props) => {
                     src={
                       cover
                         ? "https://ik.imagekit.io/ttr/tr:n-high/" + cover
-                        : "/image-placeholder.png"
+                        : "/cover-placeholder.svg"
                     }
                     placeholder={
                       cover
                         ? "https://ik.imagekit.io/ttr/tr:n-high_placeholder/" +
                           cover
-                        : "/image-placeholder.png"
+                        : "/cover-placeholder.svg"
                     }
                   >
                     {(src) => (
@@ -432,7 +432,7 @@ const User = (props) => {
                               ) || dp.includes("google")
                               ? dp
                               : "https://ik.imagekit.io/ttr/tr:n-med/" + dp
-                            : "/avatar-placeholder.jpeg"
+                            : "/avatar-placeholder.svg"
                         }
                         style={{
                           margin: "auto",
@@ -452,7 +452,7 @@ const User = (props) => {
                             ) || dp.includes("google")
                             ? dp
                             : "https://ik.imagekit.io/ttr/tr:n-med/" + dp
-                          : "/avatar-placeholder.jpeg"
+                          : "/avatar-placeholder.svg"
                       }
                       style={{
                         margin: "auto",
@@ -472,7 +472,7 @@ const User = (props) => {
                           ) || dp.includes("google")
                           ? dp
                           : "https://ik.imagekit.io/ttr/tr:n-med/" + dp
-                        : "/avatar-placeholder.jpeg"
+                        : "/avatar-placeholder.svg"
                     }
                     style={{
                       margin: "auto",
@@ -547,7 +547,7 @@ const User = (props) => {
             </Row>
             <Card className="mg-y-20">
               <Row justify="center">
-                <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={24}>
+                <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
                   <Tabs
                     defaultActiveKey={tab ? tab : "profile"}
                     className="fs-14"
@@ -685,7 +685,7 @@ const User = (props) => {
                             <Text className="fs-16 mg-y-20" strong>
                               No bookmarks yet
                             </Text>
-                            <img src="/empty.svg" width={250} height={250} />
+                            <img src="/empty.svg" width="100%" height={250} />
                           </div>
                         ) : (
                           <List

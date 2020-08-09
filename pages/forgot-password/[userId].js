@@ -84,7 +84,11 @@ const forgotPassword = (props) => {
     <Wrapper>
       <Row justify="center" className="pd-20">
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
-          <Card>
+          <Card
+            bodyStyle={{
+              padding: 0,
+            }}
+          >
             {props.userId && props.token ? (
               checktokenLoading ? (
                 <Skeleton round title active />
@@ -100,13 +104,10 @@ const forgotPassword = (props) => {
                     <>
                       <img
                         src="/forgot-password.svg"
-                        height={400}
+                        height={500}
                         width="100%"
                       />
 
-                      <Title level={4} className="fs-18 mg-y-20">
-                        Enter The New Password
-                      </Title>
                       {passwordSuccess ? (
                         <Alert
                           className="mg-y-20"
@@ -116,74 +117,79 @@ const forgotPassword = (props) => {
                           showIcon
                         />
                       ) : null}
-                      <Form
-                        layout="vertical"
-                        onFinish={(obj) => {
-                          fetch("/api/encryptPass", {
-                            method: "POST",
-                            headers: {
-                              Accept: "application/json",
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                              password: obj.password,
-                            }),
-                          })
-                            .then((res) => res.json())
-                            .then((result) => {
-                              newPassword({
-                                variables: {
-                                  userId: props.userId,
-                                  password: result.hash,
-                                  token: undefined,
-                                },
-                              });
-                            });
-                        }}
-                      >
-                        <Form.Item
-                          label="Password"
-                          name="password"
-                          rules={[
-                            {
-                              required: true,
-                            },
-                            {
-                              pattern: /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$£¥%^&*])[\w!@#$£¥%^&*]{12,}$/,
-                              message:
-                                "Password - Atleast - 12 - Characters - 1 Capital Letter - 1 Special Character - One Number",
-                            },
-                          ]}
-                        >
-                          <Input.Password
-                            palceholder="Enter Password"
-                            autoComplete="new-password"
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="Reapeat-Password"
-                          name="rPassword"
-                          rules={[
-                            ({ getFieldValue }) => ({
-                              validator: (rule, val) => {
-                                if (val !== getFieldValue("password")) {
-                                  return Promise.reject(
-                                    "Passwords must be same"
-                                  );
-                                }
-                                return Promise.resolve();
+                      <div className="pd-20">
+                        <Title level={4} className="fs-18 mg-y-20">
+                          Enter The New Password
+                        </Title>
+                        <Form
+                          layout="vertical"
+                          onFinish={(obj) => {
+                            fetch("/api/encryptPass", {
+                              method: "POST",
+                              headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/json",
                               },
-                            }),
-                          ]}
+                              body: JSON.stringify({
+                                password: obj.password,
+                              }),
+                            })
+                              .then((res) => res.json())
+                              .then((result) => {
+                                newPassword({
+                                  variables: {
+                                    userId: props.userId,
+                                    password: result.hash,
+                                    token: undefined,
+                                  },
+                                });
+                              });
+                          }}
                         >
-                          <Input.Password palceholder="Repeat The Password" />
-                        </Form.Item>
-                        <Form.Item>
-                          <Button type="primary" htmlType="submit">
-                            Submit
-                          </Button>
-                        </Form.Item>
-                      </Form>
+                          <Form.Item
+                            label="Password"
+                            name="password"
+                            rules={[
+                              {
+                                required: true,
+                              },
+                              {
+                                pattern: /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$£¥%^&*])[\w!@#$£¥%^&*]{12,}$/,
+                                message:
+                                  "Password - Atleast - 12 - Characters - 1 Capital Letter - 1 Special Character - One Number",
+                              },
+                            ]}
+                          >
+                            <Input.Password
+                              palceholder="Enter Password"
+                              autoComplete="new-password"
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            label="Reapeat-Password"
+                            name="rPassword"
+                            rules={[
+                              ({ getFieldValue }) => ({
+                                validator: (rule, val) => {
+                                  if (val !== getFieldValue("password")) {
+                                    return Promise.reject(
+                                      "Passwords must be same"
+                                    );
+                                  }
+                                  return Promise.resolve();
+                                },
+                              }),
+                            ]}
+                          >
+                            <Input.Password palceholder="Repeat The Password" />
+                          </Form.Item>
+                          <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                              Submit
+                            </Button>
+                          </Form.Item>
+                        </Form>
+                      </div>
                     </>
                   ) : (
                     <Result

@@ -346,12 +346,12 @@ const Navigation = (props) => {
       >
         <Row justify="center">
           <Col>
-            <img src="/login-rectangle.svg" width="100%" height={250} />
+            <img src="/login-rectangle.svg" width="100%" height={268} />
             <Title level={4} className="mg-y-20 fs-14 ta-center">
               Please Sign In to continue
             </Title>
             <Row justify="center">
-              <Col span={16} className="mb-30">
+              <Col span={20} className="mb-30">
                 <Form
                   layout="vertical"
                   onFinish={(obj) => {
@@ -435,7 +435,7 @@ const Navigation = (props) => {
                         ? getUserProfilePictureData.users[0].profile_picture
                         : "https://ik.imagekit.io/ttr/tr:n-avatar/" +
                           getUserProfilePictureData.users[0].profile_picture
-                      : null
+                      : "/avatar-placeholder.svg"
                   }
                   size={26}
                   className="mr-10"
@@ -461,6 +461,7 @@ const Navigation = (props) => {
         <div className="navigation">
           <Button type="primary" className="compose-button2">
             <a
+              className="lh-1"
               href="/get-started"
               style={{
                 color: "inherit",
